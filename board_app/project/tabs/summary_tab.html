@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 <body>
 <style>
@@ -26,6 +26,10 @@
     .graph_img {
         height: 100%;
         width: 250px;
+    }
+
+    div#body > div {
+        font-size: 14px;
     }
 
 </style>
@@ -134,45 +138,108 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Not home</li>
+        <li class="breadcrumb-item" aria-current="page"><a href="#">Projects</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="#">Project Name</a></li>
     </ol>
 </nav>
+<div id="body">
+    <nav class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Summary</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Indicators</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Information</a>
+            </li>
+        </ul>
+    </nav>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col rounded border border-dark m-1">
-            <img class="graph_img mx-auto d-block" src="img/1%20cU6iTKKs84hEeGsP22MDtw.png" alt="chart">
-        </div>
-        <div class="col rounded border border-dark m-1">
-            <img class="graph_img mx-auto d-block" src="img/react-chartjs2.png" alt="chart">
-        </div>
-        <div class="col rounded border border-dark m-1 mx-auto">
-            <img class="graph_img mx-auto d-block" src="img/react-easy-chart.png" alt="chart">
+    <div class="container border my-2 rounded" style="height: 800px;">
+        <div style="height: 200px; width: 100%" class="border bg-secondary"></div>
+        <div class="row">
+            <div class="col-6">
+                <div class="row pt-1">
+                    <div class="col-4">Project Name:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">Project Description:</div>
+                    <div class="col-8">Test ProjectTest ProjectTest ProjectTest ProjectTest ProjectTest ProjectTest
+                        ProjectTest Project
+                    </div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">Project Manager:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">Business Line Manager:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">Product Line Manager:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">Project State:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">Project Rigor:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">Charter:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">OR Business Plan:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">Updated Business Plan:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">Tailored DR-checklist:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">Lessons learned:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+                <div class="row pt-1">
+                    <div class="col-4">Sponsor:</div>
+                    <div class="col-8">Test Project</div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
-
 <footer class="footer fixed-bottom text-secondary">
     <div class="container-fluid">
         <div class="row">
             <div class="col-3 mx-auto">
-                <img src="img/Alcatel-Lucent_logo.png" class="img-thumbnail logo mx-auto d-block my-2">
+                <img src="/board_app/img/Alcatel-Lucent_logo.png" class="img-thumbnail logo mx-auto d-block my-2">
             </div>
             <div class="text-center my-auto font-weight-normal small col-6">
                 © 2019 Copyright: Alcatel Lucent Enterprise
             </div>
             <div class="col-3">
-                <img src="img/pmboard.png" class="img-thumbnail logo mx-auto d-block my-2">
+                <img src="/board_app/img/pmboard.png" class="img-thumbnail logo mx-auto d-block my-2">
             </div>
         </div>
     </div>
 </footer>
 
-
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="js/jquery.slim.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="../../js/jquery.slim.min.js"></script>
+<script src="../../js/popper.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
 </body>
 </html>
