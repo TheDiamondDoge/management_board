@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<style>
+    .logo {
+        height: 40px;
+        width: 140px;
+        margin-left: auto;
+        margin-right: 10px;
+    }
+
+    .footer {
+        height: 60px;
+        background-color: #1d2124;
+    }
+
+    div#body > div {
+        font-size: 14px;
+    }
+
+    .caption_top {
+        caption-side: top !important;
+    }
+
+    .grey {
+        background-color: #b8daff;
+    }
+</style>
+
+<header>
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark small">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Admin
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
+                        <a class="dropdown-item" href="#">Create PWS</a>
+                        <a class="dropdown-item" href="#">User list</a>
+                        <a class="dropdown-item" href="#">KPI Settings</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProjects" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Projects
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownProjects">
+                        <a class="dropdown-item" href="#">List of Offers</a>
+                        <a class="dropdown-item" href="#">List of Products</a>
+                        <a class="dropdown-item" href="#">List of R&D Projects</a>
+                        <a class="dropdown-item" href="#">Metrics & Dashboard</a>
+                        <a class="dropdown-item" href="#">Report Center</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownQuality" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Quality
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownQuality">
+                        <a class="dropdown-item" href="#">Global Project KPI</a>
+                        <a class="dropdown-item" href="#">NPR</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRDInternals" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        R&D Internals
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownRDInternals">
+                        <a class="dropdown-item" href="#">Plan of Resources</a>
+                        <a class="dropdown-item" href="#">Usage Statistics</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Portfolio Management
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownPortfolio">
+                        <a class="dropdown-item" href="#">Opportunity Reviews</a>
+                        <a class="dropdown-item" href="#">Action Points</a>
+                        <a class="dropdown-item" href="#">Summary</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBP" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Business Plan Management
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownBP">
+                        <a class="dropdown-item" href="#">Business Plan</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBLC" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        BLC Dashboard
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownBLC">
+                        <a class="dropdown-item" href="#">BLC Dashboard</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNav" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Navigation
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownNav">
+                        <a class="dropdown-item" href="#">InfoNav Table</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="text-white mt-1">
+            Welcome, Aleksandr Iksanov
+        </div>
+    </nav>
+</header>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="#">Projects</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="#">Project Name</a></li>
+    </ol>
+</nav>
+
+<div id="body" style="margin-bottom: 80px">
+    <nav class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Summary</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Indicators</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Information</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Actions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Risks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Cost</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Report</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Requirements</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Backlog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">BLC Dashboard</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- Container -->
+    <div class="container border my-2 rounded shadow">
+        <div style="height: 200px; width: 100%" class="border bg-secondary"></div>
+        <!-- Health table -->
+        <div id="health_wrapper">
+            <table class="table">
+                <caption class="caption_top h5">Health</caption>
+                <thead>
+                <tr class="text-center font-italic table-primary">
+                    <th width="15%">Status</th>
+                    <th width="5%">Previous</th>
+                    <th width="5%">Current</th>
+                    <th width="75%">Comments</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="font-italic text-secondary">Overall Project Status</td>
+                    <td class="text-center">Y</td>
+                    <td class="text-center">G</td>
+                    <td class="text-center">Hi! This is our first comment on new layout!</td>
+                </tr>
+                <tr>
+                    <td class="font-italic text-secondary">Schedule</td>
+                    <td class="text-center">Y</td>
+                    <td class="text-center">G</td>
+                    <td class="text-center">Hi! This is our first comment on new layout!</td>
+                </tr>
+                <tr>
+                    <td class="font-italic text-secondary">Scope</td>
+                    <td class="text-center">Y</td>
+                    <td class="text-center">G</td>
+                    <td class="text-center">Hi! This is our first comment on new layout!</td>
+                </tr>
+                <tr>
+                    <td class="font-italic text-secondary">Quality</td>
+                    <td class="text-center">Y</td>
+                    <td class="text-center">G</td>
+                    <td class="text-center">Hi! This is our first comment on new layout!</td>
+                </tr>
+                <tr>
+                    <td class="font-italic text-secondary">Cost</td>
+                    <td class="text-center">Y</td>
+                    <td class="text-center">G</td>
+                    <td class="text-center">Hi! This is our first comment on new layout!</td>
+                </tr>
+                </tbody>
+            </table>
+        </div><!--End of health table-->
+        <hr/>
+        <br/>
+        <div class="row">
+            <div class="col-xl-4">
+                <table class="table">
+                    <caption class="caption_top h5">Requirements</caption>
+                    <thead>
+                    <tr>
+                        <th colspan="2" class="text-right">*edit*</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td width="65%" class="grey">DR1 date (actual)</td>
+                        <td width="35%" class="text-center">30-Aug-19</td>
+                    </tr>
+                    <tr>
+                        <td class="grey"># Requirements committed (baseline) at DR1</td>
+                        <td class="text-center">100</td>
+                    </tr>
+                    <tr>
+                        <td class="grey">Current # of requirements added after DR1</td>
+                        <td class="text-center">20</td>
+                    </tr>
+                    <tr>
+                        <td class="grey">Current # of baselined requirements removed after DR1</td>
+                        <td class="text-center">30</td>
+                    </tr>
+                    <tr>
+                        <td class="grey">Current # of baselined requirements modified after DR1</td>
+                        <td class="text-center">30</td>
+                    </tr>
+                    <tr>
+                        <td class="grey">Current # of scoped requirements</td>
+                        <td class="text-center">90</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xl-4">
+                <table class="table">
+                    <caption class="caption_top h5">Milestones</caption>
+                    <thead>
+                    <tr class="table-primary">
+                        <th></th>
+                        <th colspan="2" class="text-center font-italic">COMMITTED versus ACTUAL</th>
+                        <th></th>
+                    </tr>
+                    <tr class="text-center table-primary font-italic">
+                        <th width="20%" class="align-middle font-italic">Milestone</th>
+                        <th width="25%" class="align-middle font-italic">Schedule Adherence</th>
+                        <th width="35%" class="align-middle font-italic">Delay<br/>(in days)</th>
+                        <th width="20%" class="align-middle font-italic">Project Duration from DR1</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="text-secondary">TR</td>
+                        <td class="text-center">47%</td>
+                        <td class="text-center">-102</td>
+                        <td class="text-center">91 days</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary">DR4</td>
+                        <td class="text-center">108%</td>
+                        <td class="text-center">17</td>
+                        <td class="text-center">239 days</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary">DR5</td>
+                        <td class="text-center">106%</td>
+                        <td class="text-center">14</td>
+                        <td class="text-center">266 days</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary">CI</td>
+                        <td class="text-center">125%</td>
+                        <td class="text-center">36</td>
+                        <td class="text-center">181 days</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xl-4">
+                <table class="table">
+                    <caption class="caption_top h5">Project DR4 KPI</caption>
+                    <thead>
+                    <tr class="table-primary font-italic">
+                        <th>Year (based on DR1 date)</th>
+                        <th class="text-center align-middle">2018</th>
+                    </tr>
+                    <tr class="text-center table-primary font-italic">
+                        <th></th>
+                        <th>COMMITTED versus ACTUAL</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="text-secondary">Schedule Adherence</td>
+                        <td class="text-center">108%</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary">Content Adherence</td>
+                        <td class="text-center">40%</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary">Requirements Adherence</td>
+                        <td class="text-center">80%</td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary">Cost Adherence</td>
+                        <td class="text-center">103%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr/>
+        <br>
+        <div>
+            <table class="table">
+                <caption class="caption_top h5">Quality</caption>
+                <thead>
+                <tr>
+                    <td colspan="4">*controls*</td>
+                </tr>
+                <tr class="table-primary text-center">
+                    <td width="15%"></td>
+                    <td width="10%">Objective</td>
+                    <td width="10%">Actual value</td>
+                    <td>Comment</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Quality KPI</td>
+                    <td class="text-center">10</td>
+                    <td class="text-center">10</td>
+                    <td class="text-center">Comment on new layout</td>
+                </tr>
+                <tr>
+                    <td>New Open Defects</td>
+                    <td class="text-center">20</td>
+                    <td class="text-center">20</td>
+                    <td class="text-center">Comment on new layout</td>
+                </tr>
+                <tr>
+                    <td>Backlog Reduction</td>
+                    <td class="text-center">30</td>
+                    <td class="text-center">30</td>
+                    <td class="text-center">Comment on new layout</td>
+                </tr>
+                <tr>
+                    <td>Test execution (rate or number)</td>
+                    <td class="text-center">40</td>
+                    <td class="text-center">40</td>
+                    <td class="text-center">Comment on new layout</td>
+                </tr>
+                <tr>
+                    <td>Test pass (rate or number)</td>
+                    <td class="text-center">50</td>
+                    <td class="text-center">50</td>
+                    <td class="text-center">Comment on new layout</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div><!--End of container-->
+</div>
+
+<footer class="footer fixed-bottom text-secondary">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3 mx-auto">
+                <img src="/board_app/img/Alcatel-Lucent_logo.png" class="img-thumbnail logo mx-auto d-block my-2">
+            </div>
+            <div class="text-center my-auto font-weight-normal small col-6">
+                © 2019 Copyright: Alcatel Lucent Enterprise
+            </div>
+            <div class="col-3">
+                <img src="/board_app/img/pmboard.png" class="img-thumbnail logo mx-auto d-block my-2">
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../../js/jquery.slim.min.js"></script>
+<script src="../../js/popper.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+</body>
+</html>
