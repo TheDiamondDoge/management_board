@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
-<body class="bg-light">
+
 <style>
     .logo {
         height: 40px;
@@ -34,7 +34,14 @@
     .grey {
         background-color: #b8daff;
     }
+
+    .shadow {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Параметры тени */
+    }
+
 </style>
+
+<body class="bg-light">
 
 <header>
     <nav class="navbar navbar-expand-xl navbar-dark bg-dark small">
@@ -181,58 +188,63 @@
         </ul>
     </nav>
     <!-- Container -->
-    <div class="container border my-2 rounded shadow">
-        <div style="height: 200px; width: 100%" class="border bg-secondary"></div>
+    <div class="container my-2 rounded">
+        <div class="row">
+            <div style="height: 200px; width: 100%" class="border bg-secondary"></div>
+        </div>
+        <br/>
         <!-- Health table -->
-        <div id="health_wrapper">
-            <table class="table">
-                <caption class="caption_top h5">Health</caption>
-                <thead>
-                <tr class="text-center font-italic table-primary">
-                    <th width="15%">Status</th>
-                    <th width="5%">Previous</th>
-                    <th width="5%">Current</th>
-                    <th width="75%">Comments</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="font-italic text-secondary">Overall Project Status</td>
-                    <td class="text-center">Y</td>
-                    <td class="text-center">G</td>
-                    <td class="text-center">Hi! This is our first comment on new layout!</td>
-                </tr>
-                <tr>
-                    <td class="font-italic text-secondary">Schedule</td>
-                    <td class="text-center">Y</td>
-                    <td class="text-center">G</td>
-                    <td class="text-center">Hi! This is our first comment on new layout!</td>
-                </tr>
-                <tr>
-                    <td class="font-italic text-secondary">Scope</td>
-                    <td class="text-center">Y</td>
-                    <td class="text-center">G</td>
-                    <td class="text-center">Hi! This is our first comment on new layout!</td>
-                </tr>
-                <tr>
-                    <td class="font-italic text-secondary">Quality</td>
-                    <td class="text-center">Y</td>
-                    <td class="text-center">G</td>
-                    <td class="text-center">Hi! This is our first comment on new layout!</td>
-                </tr>
-                <tr>
-                    <td class="font-italic text-secondary">Cost</td>
-                    <td class="text-center">Y</td>
-                    <td class="text-center">G</td>
-                    <td class="text-center">Hi! This is our first comment on new layout!</td>
-                </tr>
-                </tbody>
-            </table>
-        </div><!--End of health table-->
+        <div class="row">
+            <div id="health_wrapper" class="col-12 g-white rounded p-3 shadow">
+                <table class="table">
+                    <caption class="caption_top h5">Health</caption>
+                    <thead>
+                    <tr class="text-center font-italic table-primary">
+                        <th width="15%">Status</th>
+                        <th width="5%">Previous</th>
+                        <th width="5%">Current</th>
+                        <th width="75%">Comments</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="font-italic text-secondary">Overall Project Status</td>
+                        <td class="text-center">Y</td>
+                        <td class="text-center">G</td>
+                        <td class="text-center">Hi! This is our first comment on new layout!</td>
+                    </tr>
+                    <tr>
+                        <td class="font-italic text-secondary">Schedule</td>
+                        <td class="text-center">Y</td>
+                        <td class="text-center">G</td>
+                        <td class="text-center">Hi! This is our first comment on new layout!</td>
+                    </tr>
+                    <tr>
+                        <td class="font-italic text-secondary">Scope</td>
+                        <td class="text-center">Y</td>
+                        <td class="text-center">G</td>
+                        <td class="text-center">Hi! This is our first comment on new layout!</td>
+                    </tr>
+                    <tr>
+                        <td class="font-italic text-secondary">Quality</td>
+                        <td class="text-center">Y</td>
+                        <td class="text-center">G</td>
+                        <td class="text-center">Hi! This is our first comment on new layout!</td>
+                    </tr>
+                    <tr>
+                        <td class="font-italic text-secondary">Cost</td>
+                        <td class="text-center">Y</td>
+                        <td class="text-center">G</td>
+                        <td class="text-center">Hi! This is our first comment on new layout!</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!--End of health table-->
+        </div>
         <hr/>
         <br/>
         <div class="row">
-            <div class="col-xl-4">
+            <div class="col-xl-4 p-3 mb-md-3 shadow">
                 <table class="table">
                     <caption class="caption_top h5">Requirements</caption>
                     <thead>
@@ -268,7 +280,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-xl-4">
+            <div class="col-xl-4 p-3 mb-md-3 shadow">
                 <table class="table">
                     <caption class="caption_top h5">Milestones</caption>
                     <thead>
@@ -312,7 +324,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-xl-4">
+            <div class="col-xl-4 p-3 mb-md-3 shadow">
                 <table class="table">
                     <caption class="caption_top h5">Project DR4 KPI</caption>
                     <thead>
@@ -348,53 +360,55 @@
         </div>
         <hr/>
         <br>
-        <div>
-            <table class="table">
-                <caption class="caption_top h5">Quality</caption>
-                <thead>
-                <tr>
-                    <td colspan="4">*controls*</td>
-                </tr>
-                <tr class="table-primary text-center">
-                    <td width="15%"></td>
-                    <td width="10%">Objective</td>
-                    <td width="10%">Actual value</td>
-                    <td>Comment</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Quality KPI</td>
-                    <td class="text-center">10</td>
-                    <td class="text-center">10</td>
-                    <td class="text-center">Comment on new layout</td>
-                </tr>
-                <tr>
-                    <td>New Open Defects</td>
-                    <td class="text-center">20</td>
-                    <td class="text-center">20</td>
-                    <td class="text-center">Comment on new layout</td>
-                </tr>
-                <tr>
-                    <td>Backlog Reduction</td>
-                    <td class="text-center">30</td>
-                    <td class="text-center">30</td>
-                    <td class="text-center">Comment on new layout</td>
-                </tr>
-                <tr>
-                    <td>Test execution (rate or number)</td>
-                    <td class="text-center">40</td>
-                    <td class="text-center">40</td>
-                    <td class="text-center">Comment on new layout</td>
-                </tr>
-                <tr>
-                    <td>Test pass (rate or number)</td>
-                    <td class="text-center">50</td>
-                    <td class="text-center">50</td>
-                    <td class="text-center">Comment on new layout</td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-12 shadow p-3 rounded">
+                <table class="table">
+                    <caption class="caption_top h5">Quality</caption>
+                    <thead>
+                    <tr>
+                        <td colspan="4">*controls*</td>
+                    </tr>
+                    <tr class="table-primary text-center">
+                        <td width="15%"></td>
+                        <td width="10%">Objective</td>
+                        <td width="10%">Actual value</td>
+                        <td>Comment</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Quality KPI</td>
+                        <td class="text-center">10</td>
+                        <td class="text-center">10</td>
+                        <td class="text-center">Comment on new layout</td>
+                    </tr>
+                    <tr>
+                        <td>New Open Defects</td>
+                        <td class="text-center">20</td>
+                        <td class="text-center">20</td>
+                        <td class="text-center">Comment on new layout</td>
+                    </tr>
+                    <tr>
+                        <td>Backlog Reduction</td>
+                        <td class="text-center">30</td>
+                        <td class="text-center">30</td>
+                        <td class="text-center">Comment on new layout</td>
+                    </tr>
+                    <tr>
+                        <td>Test execution (rate or number)</td>
+                        <td class="text-center">40</td>
+                        <td class="text-center">40</td>
+                        <td class="text-center">Comment on new layout</td>
+                    </tr>
+                    <tr>
+                        <td>Test pass (rate or number)</td>
+                        <td class="text-center">50</td>
+                        <td class="text-center">50</td>
+                        <td class="text-center">Comment on new layout</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div><!--End of container-->
 </div>
