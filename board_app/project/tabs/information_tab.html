@@ -11,6 +11,20 @@
 </head>
 <body class="bg-light">
 <style>
+    .shadow {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Параметры тени */
+    }
+
+    body {
+        background-color: #f8f9fc;
+
+        /*background-color: #1d2124;*/
+    }
+
+    .left-border-primary {
+        border-left: 3px solid var(--primary) !important;
+    }
+
     .logo {
         height: 40px;
         width: 140px;
@@ -137,7 +151,7 @@
     </ol>
 </nav>
 
-<div id="body" style="margin-bottom: 80px">
+<div id="body" class="px-5" style="margin-bottom: 80px;">
     <nav class="container">
         <ul class="nav nav-tabs">
             <li class="nav-item">
@@ -173,7 +187,7 @@
         </ul>
     </nav>
 
-    <div class="container border my-2 rounded shadow">
+    <div class="container left-border-primary my-2 rounded shadow pb-3">
         <div class="row"><!-- Main info -->
             <div class="col-6"><!-- Left half -->
                 <div class="row pt-4">
@@ -294,7 +308,7 @@
                 </div>
             </div><!-- End of left half -->
         </div><!-- End row Main info -->
-
+        <br/>
         <div class="mt-4"><!-- Milestones table -->
             <table class="table" cellspacing="20">
                 <thead class="text-center text-secondary">
@@ -359,7 +373,7 @@
                 </tbody>
             </table>
         </div><!-- End of milestones table -->
-
+        <hr/>
         <div class="row"><!-- Bottom links -->
             <div class="col-12">
                 <div class="row pt-3">
