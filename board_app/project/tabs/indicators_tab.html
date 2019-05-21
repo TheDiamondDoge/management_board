@@ -9,13 +9,31 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
-
 <style>
-    .logo {
-        height: 40px;
-        width: 140px;
-        margin-left: auto;
-        margin-right: 10px;
+    body {
+        background-color: #f8f9fc;
+        /*background-color: #1d2124;*/
+    }
+
+    .left-border-primary {
+        border-left: 3px solid var(--primary) !important;
+    }
+
+    .shadow {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Параметры тени */
+    }
+
+    caption {
+        caption-side: top;
+    }
+
+    .grey {
+        background-color: #b8daff;
+    }
+
+    .status-icon {
+        width: 25px;
+        height: 25px;
     }
 
     .footer {
@@ -23,28 +41,17 @@
         background-color: #1d2124;
     }
 
-    div#body > div {
-        font-size: 14px;
+    .logo {
+        height: 40px;
+        width: 140px;
+        margin-left: auto;
+        margin-right: 10px;
     }
-
-    .caption_top {
-        caption-side: top !important;
-    }
-
-    .grey {
-        background-color: #b8daff;
-    }
-
-    .shadow {
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Параметры тени */
-    }
-
 </style>
-
 <body class="bg-light">
-
+<!--Nav bar-->
 <header>
-    <nav class="navbar navbar-expand-xl navbar-dark bg-dark small">
+    <nav class="navbar navbar-expand-xl navbar-dark navbar-fixed-left bg-dark small fixed-top shadow">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -143,16 +150,9 @@
         </div>
     </nav>
 </header>
-
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item" aria-current="page"><a href="/">Home</a></li>
-        <li class="breadcrumb-item" aria-current="page"><a href="#">Projects</a></li>
-        <li class="breadcrumb-item active" aria-current="page"><a href="#">Project Name</a></li>
-    </ol>
-</nav>
-
-<div id="body" style="margin-bottom: 80px">
+<!--Page wrapper-->
+<div class="px-5" style="padding-top: 60px;padding-bottom: 60px;">
+    <!--Tabs-->
     <nav class="container">
         <ul class="nav nav-tabs">
             <li class="nav-item">
@@ -187,231 +187,261 @@
             </li>
         </ul>
     </nav>
-    <!-- Container -->
-    <div class="container my-2 rounded">
-        <div class="row">
-            <div style="height: 200px; width: 100%" class="border bg-secondary"></div>
-        </div>
-        <br/>
-        <!-- Health table -->
-        <div class="row">
-            <div id="health_wrapper" class="col-12 g-white rounded p-3 shadow">
-                <table class="table">
-                    <caption class="caption_top h5">Health</caption>
-                    <thead>
-                    <tr class="text-center font-italic table-primary">
-                        <th width="15%">Status</th>
-                        <th width="5%">Previous</th>
-                        <th width="5%">Current</th>
-                        <th width="75%">Comments</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="font-italic text-secondary">Overall Project Status</td>
-                        <td class="text-center">Y</td>
-                        <td class="text-center">G</td>
-                        <td class="text-center">Hi! This is our first comment on new layout!</td>
-                    </tr>
-                    <tr>
-                        <td class="font-italic text-secondary">Schedule</td>
-                        <td class="text-center">Y</td>
-                        <td class="text-center">G</td>
-                        <td class="text-center">Hi! This is our first comment on new layout!</td>
-                    </tr>
-                    <tr>
-                        <td class="font-italic text-secondary">Scope</td>
-                        <td class="text-center">Y</td>
-                        <td class="text-center">G</td>
-                        <td class="text-center">Hi! This is our first comment on new layout!</td>
-                    </tr>
-                    <tr>
-                        <td class="font-italic text-secondary">Quality</td>
-                        <td class="text-center">Y</td>
-                        <td class="text-center">G</td>
-                        <td class="text-center">Hi! This is our first comment on new layout!</td>
-                    </tr>
-                    <tr>
-                        <td class="font-italic text-secondary">Cost</td>
-                        <td class="text-center">Y</td>
-                        <td class="text-center">G</td>
-                        <td class="text-center">Hi! This is our first comment on new layout!</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div><!--End of health table-->
-        </div>
-        <hr/>
-        <br/>
-        <div class="row">
-            <div class="col-xl-4 p-3 mb-md-3 shadow">
-                <table class="table">
-                    <caption class="caption_top h5">Requirements</caption>
-                    <thead>
-                    <tr>
-                        <th colspan="2" class="text-right">*edit*</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td width="65%" class="grey">DR1 date (actual)</td>
-                        <td width="35%" class="text-center">30-Aug-19</td>
-                    </tr>
-                    <tr>
-                        <td class="grey"># Requirements committed (baseline) at DR1</td>
-                        <td class="text-center">100</td>
-                    </tr>
-                    <tr>
-                        <td class="grey">Current # of requirements added after DR1</td>
-                        <td class="text-center">20</td>
-                    </tr>
-                    <tr>
-                        <td class="grey">Current # of baselined requirements removed after DR1</td>
-                        <td class="text-center">30</td>
-                    </tr>
-                    <tr>
-                        <td class="grey">Current # of baselined requirements modified after DR1</td>
-                        <td class="text-center">30</td>
-                    </tr>
-                    <tr>
-                        <td class="grey">Current # of scoped requirements</td>
-                        <td class="text-center">90</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-xl-4 p-3 mb-md-3 shadow">
-                <table class="table">
-                    <caption class="caption_top h5">Milestones</caption>
-                    <thead>
-                    <tr class="table-primary">
-                        <th></th>
-                        <th colspan="2" class="text-center font-italic">COMMITTED versus ACTUAL</th>
-                        <th></th>
-                    </tr>
-                    <tr class="text-center table-primary font-italic">
-                        <th width="20%" class="align-middle font-italic">Milestone</th>
-                        <th width="25%" class="align-middle font-italic">Schedule Adherence</th>
-                        <th width="35%" class="align-middle font-italic">Delay<br/>(in days)</th>
-                        <th width="20%" class="align-middle font-italic">Project Duration from DR1</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="text-secondary">TR</td>
-                        <td class="text-center">47%</td>
-                        <td class="text-center">-102</td>
-                        <td class="text-center">91 days</td>
-                    </tr>
-                    <tr>
-                        <td class="text-secondary">DR4</td>
-                        <td class="text-center">108%</td>
-                        <td class="text-center">17</td>
-                        <td class="text-center">239 days</td>
-                    </tr>
-                    <tr>
-                        <td class="text-secondary">DR5</td>
-                        <td class="text-center">106%</td>
-                        <td class="text-center">14</td>
-                        <td class="text-center">266 days</td>
-                    </tr>
-                    <tr>
-                        <td class="text-secondary">CI</td>
-                        <td class="text-center">125%</td>
-                        <td class="text-center">36</td>
-                        <td class="text-center">181 days</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-xl-4 p-3 mb-md-3 shadow">
-                <table class="table">
-                    <caption class="caption_top h5">Project DR4 KPI</caption>
-                    <thead>
-                    <tr class="table-primary font-italic">
-                        <th>Year (based on DR1 date)</th>
-                        <th class="text-center align-middle">2018</th>
-                    </tr>
-                    <tr class="text-center table-primary font-italic">
-                        <th></th>
-                        <th>COMMITTED versus ACTUAL</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="text-secondary">Schedule Adherence</td>
-                        <td class="text-center">108%</td>
-                    </tr>
-                    <tr>
-                        <td class="text-secondary">Content Adherence</td>
-                        <td class="text-center">40%</td>
-                    </tr>
-                    <tr>
-                        <td class="text-secondary">Requirements Adherence</td>
-                        <td class="text-center">80%</td>
-                    </tr>
-                    <tr>
-                        <td class="text-secondary">Cost Adherence</td>
-                        <td class="text-center">103%</td>
-                    </tr>
-                    </tbody>
-                </table>
+
+    <!--Indicators workspace-->
+    <div class="align-items-center mx-auto mt-3" style="max-width: 1500px">
+        <!--Health card-->
+        <div class="row no-gutters my-3">
+            <div class="col-12 card border-left left-border-primary shadow">
+                <div class="card-body">
+                    <div class="card-title">Health</div>
+                    <table class="table">
+                        <thead>
+                        <tr class="text-center font-italic table-primary">
+                            <th width="15%">Status</th>
+                            <th width="5%">Previous</th>
+                            <th width="5%">Current</th>
+                            <th width="75%">Comments</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="font-italic text-secondary">Overall Project Status</td>
+                            <td class="align-middle">
+                                <div class="mx-auto text-center bg-warning status-icon rounded">Y</div>
+                            <td class="align-middle">
+                                <div class="mx-auto text-center bg-success status-icon rounded">G</div>
+                            </td>
+                            <td class="text-center">Hi! This is our first comment on new layout!</td>
+                        </tr>
+                        <tr>
+                            <td class="font-italic text-secondary">Schedule</td>
+                            <td class="align-middle">
+                                <div class="mx-auto text-center bg-warning status-icon rounded">Y</div>
+                            </td>
+                            <td class="align-middle">
+                                <div class="mx-auto text-center bg-success status-icon rounded">G</div>
+                            </td>
+                            <td class="text-center">Hi! This is our first comment on new layout!</td>
+                        </tr>
+                        <tr>
+                            <td class="font-italic text-secondary">Scope</td>
+                            <td class="align-middle">
+                                <div class="mx-auto text-center bg-warning status-icon rounded">Y</div>
+                            </td>
+                            <td class="align-middle">
+                                <div class="mx-auto text-center bg-success status-icon rounded">G</div>
+                            </td>
+                            <td class="text-center">Hi! This is our first comment on new layout!</td>
+                        </tr>
+                        <tr>
+                            <td class="font-italic text-secondary">Quality</td>
+                            <td class="align-middle">
+                                <div class="mx-auto text-center bg-warning status-icon rounded">Y</div>
+                            </td>
+                            <td class="align-middle">
+                                <div class="mx-auto text-center bg-success status-icon rounded">G</div>
+                            </td>
+                            <td class="text-center">Hi! This is our first comment on new layout!</td>
+                        </tr>
+                        <tr>
+                            <td class="font-italic text-secondary">Cost</td>
+                            <td class="align-middle">
+                                <div class="mx-auto text-center bg-warning status-icon rounded">Y</div>
+                            </td>
+                            <td class="align-middle">
+                                <div class="mx-auto text-center bg-success status-icon rounded">G</div>
+                            </td>
+                            <td class="text-center">Hi! This is our first comment on new layout!</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <hr/>
-        <br>
-        <div class="row">
-            <div class="col-12 shadow p-3 rounded">
-                <table class="table">
-                    <caption class="caption_top h5">Quality</caption>
-                    <thead>
-                    <tr>
-                        <td colspan="4">*controls*</td>
-                    </tr>
-                    <tr class="table-primary text-center">
-                        <td width="15%"></td>
-                        <td width="10%">Objective</td>
-                        <td width="10%">Actual value</td>
-                        <td>Comment</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Quality KPI</td>
-                        <td class="text-center">10</td>
-                        <td class="text-center">10</td>
-                        <td class="text-center">Comment on new layout</td>
-                    </tr>
-                    <tr>
-                        <td>New Open Defects</td>
-                        <td class="text-center">20</td>
-                        <td class="text-center">20</td>
-                        <td class="text-center">Comment on new layout</td>
-                    </tr>
-                    <tr>
-                        <td>Backlog Reduction</td>
-                        <td class="text-center">30</td>
-                        <td class="text-center">30</td>
-                        <td class="text-center">Comment on new layout</td>
-                    </tr>
-                    <tr>
-                        <td>Test execution (rate or number)</td>
-                        <td class="text-center">40</td>
-                        <td class="text-center">40</td>
-                        <td class="text-center">Comment on new layout</td>
-                    </tr>
-                    <tr>
-                        <td>Test pass (rate or number)</td>
-                        <td class="text-center">50</td>
-                        <td class="text-center">50</td>
-                        <td class="text-center">Comment on new layout</td>
-                    </tr>
-                    </tbody>
-                </table>
+
+        <!--Requiremens-Milestones-KPI cards-->
+        <div class="row no-gutters my-3">
+            <!--Requiremens card-->
+            <div class="col-xl-4 card border-left left-border-primary shadow d-inline-block" style="width: 450px;">
+                <div class="card-body">
+                    <table class="table">
+                        <caption class="caption_top h5">Requirements</caption>
+                        <thead>
+                        <tr>
+                            <th colspan="2" class="text-right">*edit*</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td width="65%" class="grey">DR1 date (actual)</td>
+                            <td width="35%" class="text-center">30-Aug-19</td>
+                        </tr>
+                        <tr>
+                            <td class="grey"># Requirements committed (baseline) at DR1</td>
+                            <td class="text-center">100</td>
+                        </tr>
+                        <tr>
+                            <td class="grey">Current # of requirements added after DR1</td>
+                            <td class="text-center">20</td>
+                        </tr>
+                        <tr>
+                            <td class="grey">Current # of baselined requirements removed after DR1</td>
+                            <td class="text-center">30</td>
+                        </tr>
+                        <tr>
+                            <td class="grey">Current # of baselined requirements modified after DR1</td>
+                            <td class="text-center">30</td>
+                        </tr>
+                        <tr>
+                            <td class="grey">Current # of scoped requirements</td>
+                            <td class="text-center">90</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!--Milestone card-->
+            <div class="col-xl-4 card border-left left-border-primary shadow d-inline-block" style="width: 450px;">
+                <div class="card-body">
+                    <table class="table">
+                        <caption class="caption_top h5">Milestones</caption>
+                        <thead>
+                        <tr class="table-primary">
+                            <th></th>
+                            <th colspan="2" class="text-center font-italic">COMMITTED versus ACTUAL</th>
+                            <th></th>
+                        </tr>
+                        <tr class="text-center table-primary font-italic">
+                            <th width="20%" class="align-middle font-italic">Milestone</th>
+                            <th width="20%" class="align-middle font-italic">Schedule Adherence</th>
+                            <th width="40%" class="align-middle font-italic">Delay<br/>(in days)</th>
+                            <th width="20%" class="align-middle font-italic">Project Duration from DR1</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-secondary">TR</td>
+                            <td class="text-center">47%</td>
+                            <td class="text-center">-102</td>
+                            <td class="text-center">91 days</td>
+                        </tr>
+                        <tr>
+                            <td class="text-secondary">DR4</td>
+                            <td class="text-center">108%</td>
+                            <td class="text-center">17</td>
+                            <td class="text-center">239 days</td>
+                        </tr>
+                        <tr>
+                            <td class="text-secondary">DR5</td>
+                            <td class="text-center">106%</td>
+                            <td class="text-center">14</td>
+                            <td class="text-center">266 days</td>
+                        </tr>
+                        <tr>
+                            <td class="text-secondary">CI</td>
+                            <td class="text-center">125%</td>
+                            <td class="text-center">36</td>
+                            <td class="text-center">181 days</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!--KPI card-->
+            <div class="col-xl-4 card border-left left-border-primary shadow d-inline-block" style="width: 450px;">
+                <div class="card-body">
+                    <table class="table">
+                        <caption class="caption_top h5">Project DR4 KPI</caption>
+                        <thead>
+                        <tr class="table-primary font-italic">
+                            <th>Year (based on DR1 date)</th>
+                            <th class="text-center align-middle">2018</th>
+                        </tr>
+                        <tr class="text-center table-primary font-italic">
+                            <th></th>
+                            <th>COMMITTED versus ACTUAL</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-secondary">Schedule Adherence</td>
+                            <td class="text-center">108%</td>
+                        </tr>
+                        <tr>
+                            <td class="text-secondary">Content Adherence</td>
+                            <td class="text-center">40%</td>
+                        </tr>
+                        <tr>
+                            <td class="text-secondary">Requirements Adherence</td>
+                            <td class="text-center">80%</td>
+                        </tr>
+                        <tr>
+                            <td class="text-secondary">Cost Adherence</td>
+                            <td class="text-center">103%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div><!--End of container-->
+        <div class="row no-gutters my-3">
+            <div class="col-12 card border-left left-border-primary shadow">
+                <div class="card-body">
+                    <table class="table">
+                        <caption class="caption_top h5">Quality</caption>
+                        <thead>
+                        <tr>
+                            <td colspan="4">*controls*</td>
+                        </tr>
+                        <tr class="table-primary text-center">
+                            <td width="15%"></td>
+                            <td width="10%">Objective</td>
+                            <td width="10%">Actual value</td>
+                            <td>Comment</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Quality KPI</td>
+                            <td class="text-center">10</td>
+                            <td class="text-center">10</td>
+                            <td class="text-center">Comment on new layout</td>
+                        </tr>
+                        <tr>
+                            <td>New Open Defects</td>
+                            <td class="text-center">20</td>
+                            <td class="text-center">20</td>
+                            <td class="text-center">Comment on new layout</td>
+                        </tr>
+                        <tr>
+                            <td>Backlog Reduction</td>
+                            <td class="text-center">30</td>
+                            <td class="text-center">30</td>
+                            <td class="text-center">Comment on new layout</td>
+                        </tr>
+                        <tr>
+                            <td>Test execution (rate or number)</td>
+                            <td class="text-center">40</td>
+                            <td class="text-center">40</td>
+                            <td class="text-center">Comment on new layout</td>
+                        </tr>
+                        <tr>
+                            <td>Test pass (rate or number)</td>
+                            <td class="text-center">50</td>
+                            <td class="text-center">50</td>
+                            <td class="text-center">Comment on new layout</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <footer class="footer fixed-bottom text-secondary">
     <div class="container-fluid">
@@ -431,8 +461,8 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="../../js/jquery.slim.min.js"></script>
-<script src="../../js/popper.min.js"></script>
-<script src="../../js/bootstrap.min.js"></script>
+<script src="js/jquery.slim.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
