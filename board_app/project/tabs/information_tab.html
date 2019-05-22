@@ -8,42 +8,13 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/board.css">
 </head>
+
 <body class="bg-light">
-<style>
-    .shadow {
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Параметры тени */
-    }
-
-    body {
-        background-color: #f8f9fc;
-
-        /*background-color: #1d2124;*/
-    }
-
-    .left-border-primary {
-        border-left: 3px solid var(--primary) !important;
-    }
-
-    .logo {
-        height: 40px;
-        width: 140px;
-        margin-left: auto;
-        margin-right: 10px;
-    }
-
-    .footer {
-        height: 60px;
-        background-color: #1d2124;
-    }
-
-    div#body > div {
-        font-size: 14px;
-    }
-</style>
-
+<!--Nav bar-->
 <header>
-    <nav class="navbar navbar-expand-xl navbar-dark bg-dark small">
+    <nav class="navbar navbar-expand-xl navbar-dark navbar-fixed-left bg-dark small fixed-top shadow">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -150,7 +121,7 @@
         <li class="breadcrumb-item active" aria-current="page"><a href="#">Project Name</a></li>
     </ol>
 </nav>
-
+<!--Page wrapper-->
 <div id="body" class="px-5" style="margin-bottom: 80px;">
     <nav class="container">
         <ul class="nav nav-tabs">
@@ -162,9 +133,6 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="#">Information</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Actions</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Risks</a>
@@ -186,218 +154,220 @@
             </li>
         </ul>
     </nav>
-
-    <div class="container left-border-primary my-2 rounded shadow pb-3">
-        <div class="row"><!-- Main info -->
-            <div class="col-6"><!-- Left half -->
-                <div class="row pt-4">
-                    <div class="col-4 font-italic text-secondary">Project Description:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">OEM Partner:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <br/>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Product Release:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Project Type:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Project Rigor:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Project State:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <br/>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Business Division:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Business Unit:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Product Line:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Product Name:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Sponsor:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <br/>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Business Line Manager:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Product Line Manager:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Project Manager:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <br/>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Charter:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">OR Business Plan:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Updated Business Plan:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Tailored DR-checklist:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Lessons Learned:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Metrics Scope:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">RQ Release Name (JIRA):</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">ECMA Backlog Target:</div>
-                    <div class="col-8">
-                        <div class="row">
-                            <div class="col-5 font-italic">
-                                <span class="text-secondary">Milestone:</span>
-                                &nbsp<span>DR1</span>
+    <!--Indicators workspace-->
+    <div class="align-items-center mx-auto mt-3" style="max-width: 1500px">
+        <div class="container left-border-primary my-2 rounded shadow pb-3">
+            <div class="row"><!-- Main info -->
+                <div class="col-6"><!-- Left half -->
+                    <div class="row pt-4">
+                        <div class="col-4 font-italic text-secondary">Project Description:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">OEM Partner:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <br/>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Product Release:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Project Type:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Project Rigor:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Project State:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <br/>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Business Division:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Business Unit:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Product Line:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Product Name:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Sponsor:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <br/>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Business Line Manager:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Product Line Manager:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Project Manager:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <br/>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Charter:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">OR Business Plan:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Updated Business Plan:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Tailored DR-checklist:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Lessons Learned:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Metrics Scope:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">RQ Release Name (JIRA):</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">ECMA Backlog Target:</div>
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col-5 font-italic">
+                                    <span class="text-secondary">Milestone:</span>
+                                    &nbsp<span>DR1</span>
+                                </div>
+                                <div class="col-4 font-italic"><span class="text-secondary">Value:</span>
+                                    &nbsp<span>9</span>
+                                </div>
                             </div>
-                            <div class="col-4 font-italic"><span class="text-secondary">Value:</span>
-                                &nbsp<span>9</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-5 font-italic">
-                                <span class="text-secondary">Milestone:</span>
-                                &nbsp<span>TR</span>
-                            </div>
-                            <div class="col-4 font-italic">
-                                <span class="text-secondary">Value:</span>
-                                &nbsp<span>10</span>
+                            <div class="row">
+                                <div class="col-5 font-italic">
+                                    <span class="text-secondary">Milestone:</span>
+                                    &nbsp<span>TR</span>
+                                </div>
+                                <div class="col-4 font-italic">
+                                    <span class="text-secondary">Value:</span>
+                                    &nbsp<span>10</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="row pt-1">
+                        <div class="col-4 font-italic text-secondary">Composite Project:</div>
+                        <div class="col-8">Test Project</div>
+                    </div>
+                </div><!-- End of left half -->
+            </div><!-- End row Main info -->
+            <br/>
+            <div class="mt-4"><!-- Milestones table -->
+                <table class="table" cellspacing="20">
+                    <thead class="text-center text-secondary">
+                    <tr>
+                        <th>Project Milestone<br/> Label</th>
+                        <th>Actual/Forecast<br/> Date</th>
+                        <th class="pb-4">Baseline Date</th>
+                        <th class="pb-4">Milestone Completion</th>
+                        <th class="pb-4">Shown In Timeline</th>
+                        <th class="pb-4">Milestone meeting minutes</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-center">
+                    <tr>
+                        <td>OR</td>
+                        <td>20-May-2019</td>
+                        <td>23-May-2019</td>
+                        <td>100%</td>
+                        <td>Y</td>
+                        <td><a class="text-info" href="#">Click here</a></td>
+                    </tr>
+                    <tr>
+                        <td>DR1</td>
+                        <td>20-May-2019</td>
+                        <td>23-May-2019</td>
+                        <td>100%</td>
+                        <td>Y</td>
+                        <td><a class="text-info" href="#">Click here</a></td>
+                    </tr>
+                    <tr>
+                        <td>DR2</td>
+                        <td>20-May-2019</td>
+                        <td>23-May-2019</td>
+                        <td>100%</td>
+                        <td>Y</td>
+                        <td><a class="text-info" href="#">Click here</a></td>
+                    </tr>
+                    <tr>
+                        <td>DR3</td>
+                        <td>20-May-2019</td>
+                        <td>23-May-2019</td>
+                        <td>100%</td>
+                        <td>Y</td>
+                        <td><a class="text-info" href="#">Click here</a></td>
+                    </tr>
+                    <tr>
+                        <td>DR4</td>
+                        <td>20-May-2019</td>
+                        <td>23-May-2019</td>
+                        <td>100%</td>
+                        <td>Y</td>
+                        <td><a class="text-info" href="#">Click here</a></td>
+                    </tr>
+                    <tr>
+                        <td>DR5</td>
+                        <td>20-May-2019</td>
+                        <td>23-May-2019</td>
+                        <td>100%</td>
+                        <td>Y</td>
+                        <td><a class="text-info" href="#">Click here</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!-- End of milestones table -->
+            <hr/>
+            <div class="row"><!-- Bottom links -->
+                <div class="col-12">
+                    <div class="row pt-3">
+                        <div class="col-3 font-italic text-secondary">Project Collaboration Site:</div>
+                        <div>Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-3 font-italic text-secondary">Project Documentation Repository:</div>
+                        <div>Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-3 font-italic text-secondary">Defects (JIRA):</div>
+                        <div>Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-3 font-italic text-secondary">Requirements (JIRA):</div>
+                        <div>Test Project</div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-3 font-italic text-secondary">Continuous Integration Site:</div>
+                        <div>Test Project</div>
+                    </div>
                 </div>
-                <div class="row pt-1">
-                    <div class="col-4 font-italic text-secondary">Composite Project:</div>
-                    <div class="col-8">Test Project</div>
-                </div>
-            </div><!-- End of left half -->
-        </div><!-- End row Main info -->
-        <br/>
-        <div class="mt-4"><!-- Milestones table -->
-            <table class="table" cellspacing="20">
-                <thead class="text-center text-secondary">
-                <tr>
-                    <th>Project Milestone<br/> Label</th>
-                    <th>Actual/Forecast<br/> Date</th>
-                    <th class="pb-4">Baseline Date</th>
-                    <th class="pb-4">Milestone Completion</th>
-                    <th class="pb-4">Shown In Timeline</th>
-                    <th class="pb-4">Milestone meeting minutes</th>
-                </tr>
-                </thead>
-                <tbody class="text-center">
-                <tr>
-                    <td>OR</td>
-                    <td>20-May-2019</td>
-                    <td>23-May-2019</td>
-                    <td>100%</td>
-                    <td>Y</td>
-                    <td><a class="text-info" href="#">Click here</a></td>
-                </tr>
-                <tr>
-                    <td>DR1</td>
-                    <td>20-May-2019</td>
-                    <td>23-May-2019</td>
-                    <td>100%</td>
-                    <td>Y</td>
-                    <td><a class="text-info" href="#">Click here</a></td>
-                </tr>
-                <tr>
-                    <td>DR2</td>
-                    <td>20-May-2019</td>
-                    <td>23-May-2019</td>
-                    <td>100%</td>
-                    <td>Y</td>
-                    <td><a class="text-info" href="#">Click here</a></td>
-                </tr>
-                <tr>
-                    <td>DR3</td>
-                    <td>20-May-2019</td>
-                    <td>23-May-2019</td>
-                    <td>100%</td>
-                    <td>Y</td>
-                    <td><a class="text-info" href="#">Click here</a></td>
-                </tr>
-                <tr>
-                    <td>DR4</td>
-                    <td>20-May-2019</td>
-                    <td>23-May-2019</td>
-                    <td>100%</td>
-                    <td>Y</td>
-                    <td><a class="text-info" href="#">Click here</a></td>
-                </tr>
-                <tr>
-                    <td>DR5</td>
-                    <td>20-May-2019</td>
-                    <td>23-May-2019</td>
-                    <td>100%</td>
-                    <td>Y</td>
-                    <td><a class="text-info" href="#">Click here</a></td>
-                </tr>
-                </tbody>
-            </table>
-        </div><!-- End of milestones table -->
-        <hr/>
-        <div class="row"><!-- Bottom links -->
-            <div class="col-12">
-                <div class="row pt-3">
-                    <div class="col-3 font-italic text-secondary">Project Collaboration Site:</div>
-                    <div>Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-3 font-italic text-secondary">Project Documentation Repository:</div>
-                    <div>Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-3 font-italic text-secondary">Defects (JIRA):</div>
-                    <div>Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-3 font-italic text-secondary">Requirements (JIRA):</div>
-                    <div>Test Project</div>
-                </div>
-                <div class="row pt-1">
-                    <div class="col-3 font-italic text-secondary">Continuous Integration Site:</div>
-                    <div>Test Project</div>
-                </div>
-            </div>
-        </div><!-- End of bottom links -->
+            </div><!-- End of bottom links -->
+        </div>
     </div>
 </div>
 
@@ -419,8 +389,8 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="../../js/jquery.slim.min.js"></script>
-<script src="../../js/popper.min.js"></script>
-<script src="../../js/bootstrap.min.js"></script>
+<script src="js/jquery.slim.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

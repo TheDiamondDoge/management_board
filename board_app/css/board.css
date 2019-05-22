@@ -1,0 +1,41 @@
+body {
+    background-color: #f8f9fc;
+    padding-top: 51px;
+}
+
+.left-border-primary {
+    border-left: 3px solid var(--primary) !important;
+}
+
+.shadow {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Параметры тени */
+}
+
+caption {
+    caption-side: top;
+}
+
+.grey {
+    background-color: #b8daff;
+}
+
+.status-icon {
+    width: 25px;
+    height: 25px;
+}
+
+.footer {
+    height: 60px;
+    background-color: #1d2124;
+}
+
+.logo {
+    height: 40px;
+    width: 140px;
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+div#body > div {
+    font-size: 14px;
+}
