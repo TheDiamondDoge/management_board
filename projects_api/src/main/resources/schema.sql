@@ -92,3 +92,12 @@ CREATE TABLE IF NOT EXISTS `prj_urls` (
   PRIMARY KEY (`project_id`)
 );
 ALTER TABLE `prj_urls` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
+
+DROP TABLE IF EXISTS prj_status_report;
+CREATE TABLE IF NOT EXISTS `prj_status_report` (
+    `project_id` int(5) NOT NULL,
+    `executive_summary` text,
+    `actions_needed` text,
+    PRIMARY KEY (`project_id`)
+);
+ALTER TABLE `prj_status_report` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);

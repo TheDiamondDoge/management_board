@@ -3,6 +3,7 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.ProjectURLsRepository;
+import com.aiksanov.api.project.data.repository.StatusReportRepository;
 import com.aiksanov.api.project.web.DTO.SummaryDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +27,9 @@ public class SummaryTabServiceTest {
     @Mock
     private ProjectURLsRepository urlsRepository;
 
+    @Mock
+    private StatusReportRepository statusReportRepository;
+
     @InjectMocks
     private SummaryTabService summaryTabService;
 
@@ -33,15 +37,16 @@ public class SummaryTabServiceTest {
     public void getSummaryDTO() {
         Project dummyProject = getProject();
         ProjectURLs dummyUrls = getUrls();
+        StatusReport dummyStatus = getStatus();
 
         when(this.generalRepository.existsById(0)).thenReturn(true);
         when(this.generalRepository.findById(0)).thenReturn(Optional.of(dummyProject));
         when(this.urlsRepository.findById(0)).thenReturn(Optional.of(dummyUrls));
+        when(this.statusReportRepository.findById(0)).thenReturn(Optional.of(dummyStatus));
 
         SummaryDTO summaryDTO = this.summaryTabService.getSummaryDTO(0);
 
         assertEquals(summaryDTO.getProjectName(), dummyProject.getName());
-        assertEquals(summaryDTO.getProductName(), dummyProject.getProduct().getName());
         assertEquals(summaryDTO.getProjectDescription(), dummyProject.getAdditionalInfo().getDescription());
         assertEquals(summaryDTO.getProjectManager(), dummyProject.getManager());
         assertEquals(summaryDTO.getBusinessLineManager(), dummyProject.getAdditionalInfo().getBusinessLineManager());
@@ -118,5 +123,13 @@ public class SummaryTabServiceTest {
         urls.setDefectsUrl("Defects url");
 
         return urls;
+    }
+
+    private StatusReport getStatus(){
+        StatusReport report = new StatusReport();
+        report.setExecutiveSummary("Dummy Summary right here!");
+        report.setActionsNeeded("Dummy Actions right here!");
+
+        return report;
     }
 }

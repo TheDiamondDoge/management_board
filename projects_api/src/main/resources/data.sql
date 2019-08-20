@@ -23,3 +23,9 @@ INSERT INTO prj_indicators_health VALUES (1, 'cost', 2, '2019-05-20');
 INSERT INTO prj_urls VALUES (1, 'www.charter.url', 'or.bplan.url', 'upd.bplan.url', 'www.tailored.ru', 'www.lessons.learned', 'project.collab.url', 'pwa.url', 'repo.url', 'defects.url', 'req.url', 'cis.url');
 
 INSERT INTO prj_additional_info VALUES (1, 'Super nice project', 'Awesome BL Manager', 'Awesome Sponsor', 'OEM Partner');
+
+INSERT INTO prj_status_report
+    VALUES (1,
+            'This is huge summary for project one. There is a lot of text. It includes Red Yellow and Green bullets. Most probably should be separated from summary report',
+            'And this is actions. There are a lot of actions for each project.'
+);

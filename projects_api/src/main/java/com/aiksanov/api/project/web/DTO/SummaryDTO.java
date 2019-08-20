@@ -7,7 +7,6 @@ import java.util.Objects;
 
 public class SummaryDTO {
     private String projectName;
-    private String productName;
     private String projectDescription;
     private String projectManager;
     private String businessLineManager;
@@ -26,17 +25,30 @@ public class SummaryDTO {
     private String workspaceState;
     private String projectType;
     private String oemPartner;
+    private Date disabledTime;
+    private String executiveSummary;
+    private String executiveActions;
+    private String collabSite;
+    private String epmPwaSite;
+    private String documentationRepo;
+    private String defectsReportSite;
+    private int activeRisks;
     private Date epmLastSavedDate;
     private Date pwsLastUpdatedDate;
     private String pwsLastUpdatedBy;
 
-    public SummaryDTO(Project projectInfo, ProjectURLs urls) {
+
+    public SummaryDTO(Project projectInfo, ProjectURLs urls, StatusReport report) {
         if (Objects.nonNull(projectInfo)) {
             projectInfoMapping(projectInfo);
         }
 
         if (Objects.nonNull(urls)) {
             urlsMapping(urls);
+        }
+
+        if (Objects.nonNull(report)) {
+            reportMapping(report);
         }
     }
 
@@ -63,8 +75,7 @@ public class SummaryDTO {
         }
     }
 
-    private void productMapping(Product product){
-        this.productName = product.getName();
+    private void productMapping(Product product) {
         this.productLineManager = product.getManager();
         this.businessDivision = product.getDivision();
         this.businessUnit = product.getBusinessUnit();
@@ -84,20 +95,25 @@ public class SummaryDTO {
         this.updatedBusinessPlan = urls.getUpdatedBusinessPlan();
         this.drChecklist = urls.getTailoredChecklist();
         this.lessonsLearned = urls.getLessonsLearned();
+        this.collabSite = urls.getCollabUrl();
+        this.epmPwaSite = urls.getPwaUrl();
+        this.documentationRepo = urls.getDocumentsRepoUrl();
+        this.defectsReportSite = urls.getDefectsUrl();
     }
 
-    private void workspaceInfoMapping(WorkspaceInfo workspaceInfo){
+    private void workspaceInfoMapping(WorkspaceInfo workspaceInfo) {
         this.workspaceState = workspaceInfo.getStatus();
         this.pwsLastUpdatedBy = workspaceInfo.getModifiedBy();
         this.pwsLastUpdatedDate = workspaceInfo.getModified();
     }
 
-    public String getProjectName() {
-        return projectName;
+    private void reportMapping(StatusReport report) {
+        this.executiveSummary = report.getExecutiveSummary();
+        this.executiveActions = report.getActionsNeeded();
     }
 
-    public String getProductName() {
-        return productName;
+    public String getProjectName() {
+        return projectName;
     }
 
     public String getProjectDescription() {
@@ -170,6 +186,38 @@ public class SummaryDTO {
 
     public String getOemPartner() {
         return oemPartner;
+    }
+
+    public Date getDisabledTime() {
+        return disabledTime;
+    }
+
+    public String getExecutiveSummary() {
+        return executiveSummary;
+    }
+
+    public String getExecutiveActions() {
+        return executiveActions;
+    }
+
+    public String getCollabSite() {
+        return collabSite;
+    }
+
+    public String getEpmPwaSite() {
+        return epmPwaSite;
+    }
+
+    public String getDocumentationRepo() {
+        return documentationRepo;
+    }
+
+    public String getDefectsReportSite() {
+        return defectsReportSite;
+    }
+
+    public int getActiveRisks() {
+        return activeRisks;
     }
 
     public Date getEpmLastSavedDate() {
