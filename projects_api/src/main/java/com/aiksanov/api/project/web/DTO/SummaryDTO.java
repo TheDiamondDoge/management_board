@@ -36,6 +36,7 @@ public class SummaryDTO {
     private Date epmLastSavedDate;
     private Date pwsLastUpdatedDate;
     private String pwsLastUpdatedBy;
+    private boolean isEpm;
 
 
     public SummaryDTO(Project projectInfo, ProjectURLs urls, StatusReport report) {
@@ -58,6 +59,7 @@ public class SummaryDTO {
         this.projectState = projectInfo.getState();
         this.projectRigor = projectInfo.getRigor();
         this.projectType = projectInfo.getType();
+        this.isEpm = projectInfo.isEpm();
 
         Product product = projectInfo.getProduct();
         if (Objects.nonNull(product)) {
@@ -230,5 +232,9 @@ public class SummaryDTO {
 
     public String getPwsLastUpdatedBy() {
         return pwsLastUpdatedBy;
+    }
+
+    public boolean isEpm() {
+        return isEpm;
     }
 }
