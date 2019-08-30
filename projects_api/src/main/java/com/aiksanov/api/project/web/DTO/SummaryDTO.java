@@ -3,6 +3,7 @@ package com.aiksanov.api.project.web.DTO;
 import com.aiksanov.api.project.data.entity.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class SummaryDTO {
@@ -37,9 +38,12 @@ public class SummaryDTO {
     private Date pwsLastUpdatedDate;
     private String pwsLastUpdatedBy;
     private boolean isEpm;
+    private List<MilestoneDTO> milestones;
+    private HealthIndicatorsDTO healthIndicators;
 
 
-    public SummaryDTO(Project projectInfo, ProjectURLs urls, StatusReport report) {
+    public SummaryDTO(Project projectInfo, ProjectURLs urls, StatusReport report, List<MilestoneDTO> milestones,
+                      HealthIndicatorsDTO healthIndicators) {
         if (Objects.nonNull(projectInfo)) {
             projectInfoMapping(projectInfo);
         }
@@ -51,6 +55,9 @@ public class SummaryDTO {
         if (Objects.nonNull(report)) {
             reportMapping(report);
         }
+
+        this.milestones = milestones;
+        this.healthIndicators = healthIndicators;
     }
 
     private void projectInfoMapping(Project projectInfo) {
@@ -236,5 +243,21 @@ public class SummaryDTO {
 
     public boolean isEpm() {
         return isEpm;
+    }
+
+    public List<MilestoneDTO> getMilestones() {
+        return milestones;
+    }
+
+    public void setMilestones(List<MilestoneDTO> milestones) {
+        this.milestones = milestones;
+    }
+
+    public HealthIndicatorsDTO getHealthIndicators() {
+        return healthIndicators;
+    }
+
+    public void setHealthIndicators(HealthIndicatorsDTO healthIndicators) {
+        this.healthIndicators = healthIndicators;
     }
 }
