@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,8 +46,8 @@ public class MilestoneService {
                         dto.getBaselineDate(),
                         dto.getActualDate(),
                         dto.getCompletion(),
-                        dto.getUrl(),
-                        dto.isShownInTimeline()
+                        dto.getMeetingMinutes(),
+                        dto.isShown()
                     )
                 ).collect(Collectors.toList());
 

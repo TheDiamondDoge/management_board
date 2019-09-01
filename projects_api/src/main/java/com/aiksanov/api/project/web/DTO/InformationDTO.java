@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class InformationDTO {
-    private String projectName;
     private String projectDescription;
     private String oemPartner;
     private String productRelease;
@@ -52,7 +51,6 @@ public class InformationDTO {
     }
 
     private void projectInfoMapping(Project projectInfo) {
-        this.projectName = projectInfo.getName();
         this.projectManager = projectInfo.getManager();
         this.projectRigor = projectInfo.getRigor();
         this.projectState = projectInfo.getState();
@@ -99,11 +97,6 @@ public class InformationDTO {
         this.cisUrl = urls.getCisUrl();
     }
 
-    
-
-    public String getProjectName() {
-        return projectName;
-    }
 
     public String getProjectDescription() {
         return projectDescription;

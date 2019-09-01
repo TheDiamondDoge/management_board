@@ -1,7 +1,6 @@
 package com.aiksanov.api.project.web.DTO;
 
 import com.aiksanov.api.project.data.entity.Milestone;
-import com.aiksanov.api.project.data.entity.MilestonePK;
 
 import java.sql.Date;
 
@@ -11,8 +10,8 @@ public class MilestoneDTO {
     private Date baselineDate;
     private Date actualDate;
     private int completion;
-    private String url;
-    private boolean isShownInTimeline;
+    private String meetingMinutes;
+    private boolean isShown;
 
     public MilestoneDTO() {
     }
@@ -23,8 +22,8 @@ public class MilestoneDTO {
         this.baselineDate = milestone.getBaselineDate();
         this.actualDate = milestone.getActualDate();
         this.completion = milestone.getCompletion();
-        this.url = milestone.getUrl();
-        this.isShownInTimeline = milestone.isShownInTimeline();
+        this.meetingMinutes = milestone.getMeetingMinutes();
+        this.isShown = milestone.isShown();
     }
 
     public int getProjectID() {
@@ -47,11 +46,11 @@ public class MilestoneDTO {
         return completion;
     }
 
-    public String getUrl() {
-        return url;
+    public String getMeetingMinutes() {
+        return meetingMinutes;
     }
 
-    public boolean isShownInTimeline() {
-        return isShownInTimeline;
+    public boolean isShown() {
+        return isShown;
     }
 }

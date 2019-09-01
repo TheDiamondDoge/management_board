@@ -30,7 +30,7 @@ public class ProjectTableViewServiceTest {
     private ProjectTableViewService projectTableViewService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -80,8 +80,8 @@ public class ProjectTableViewServiceTest {
         dummyMilestoneOR.setBaselineDate(Date.valueOf("2018-11-23"));
         dummyMilestoneOR.setActualDate(null);
         dummyMilestoneOR.setCompletion(75);
-        dummyMilestoneOR.setUrl("dummyUrl.com");
-        dummyMilestoneOR.setShownInTimeline(true);
+        dummyMilestoneOR.setMeetingMinutes("dummyUrl.com");
+        dummyMilestoneOR.setShown(true);
 
         List<Milestone> dummyMilestoneList = new ArrayList<>();
         dummyMilestoneList.add(dummyMilestoneOR);

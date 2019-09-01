@@ -7,7 +7,7 @@ import java.sql.Date;
 @Table(name = "prj_milestones")
 public class Milestone {
     @EmbeddedId
-    MilestonePK milestonePK;
+    private MilestonePK milestonePK;
 
     @Column(name = "baseline_date")
     private Date baselineDate;
@@ -19,21 +19,21 @@ public class Milestone {
     private int completion;
 
     @Column(name = "url")
-    private String url;
+    private String meetingMinutes;
 
     @Column(name = "show_in_timeline")
-    private boolean isShownInTimeline;
+    private boolean isShown;
 
     public Milestone() {
     }
 
-    public Milestone(MilestonePK milestonePK, Date baselineDate, Date actualDate, int completion, String url, boolean isShownInTimeline) {
+    public Milestone(MilestonePK milestonePK, Date baselineDate, Date actualDate, int completion, String meetingMinutes, boolean isShown) {
         this.milestonePK = milestonePK;
         this.baselineDate = baselineDate;
         this.actualDate = actualDate;
         this.completion = completion;
-        this.url = url;
-        this.isShownInTimeline = isShownInTimeline;
+        this.meetingMinutes = meetingMinutes;
+        this.isShown = isShown;
     }
 
     public MilestonePK getMilestonePK() {
@@ -68,20 +68,20 @@ public class Milestone {
         this.completion = completion;
     }
 
-    public String getUrl() {
-        return url;
+    public String getMeetingMinutes() {
+        return meetingMinutes;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setMeetingMinutes(String meetingMinutes) {
+        this.meetingMinutes = meetingMinutes;
     }
 
-    public boolean isShownInTimeline() {
-        return isShownInTimeline;
+    public boolean isShown() {
+        return isShown;
     }
 
-    public void setShownInTimeline(boolean shownInTimeline) {
-        isShownInTimeline = shownInTimeline;
+    public void setShown(boolean shown) {
+        isShown = shown;
     }
 }
 

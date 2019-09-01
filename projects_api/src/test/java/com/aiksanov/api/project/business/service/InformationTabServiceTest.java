@@ -39,7 +39,6 @@ public class InformationTabServiceTest {
 
         InformationDTO informationDTO = this.informationTabService.getInfoTabData(0);
 
-        assertEquals(informationDTO.getProjectName(), dummyProject.getName());
         assertEquals(informationDTO.getProjectDescription(), dummyProject.getAdditionalInfo().getDescription());
         assertEquals(informationDTO.getOemPartner(), dummyProject.getAdditionalInfo().getOemPartner());
         assertEquals(informationDTO.getProductRelease(), dummyProject.getProduct().getRelease());
