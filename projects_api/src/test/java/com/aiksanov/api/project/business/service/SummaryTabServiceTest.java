@@ -100,7 +100,7 @@ public class SummaryTabServiceTest {
         project.setRigor("Rigor");
         project.setState("State");
         project.setManager("Manager");
-        project.setPercentOfComplition(100);
+        project.setPercentOfCompletion(100);
         project.setEpm(false);
         project.setTemplate("Template");
         project.setProduct(dummyProduct);

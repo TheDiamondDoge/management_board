@@ -4,25 +4,29 @@ INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, proj
 INSERT INTO prj_products(product_line, product_name, product_manager, product_group, product_division, product_bu, product_unit, product_team, product_release, project_id) VALUES ('Awesome line', 'Awesome name', 'Awesome manager', 'Awesome group', 'Awesome', 'Awesome', 'Awesome unit', 'Awesome team', 'Awesome release', 1);
 
 INSERT INTO prj_milestones VALUES (1, 'OR', '2019-04-09', '2019-04-10', 100, 'www.google.com', 1);
-INSERT INTO prj_milestones VALUES (1, 'DR0', '2019-05-22', '2019-05-23', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (1, 'DR0', '2019-09-22', '2019-09-23', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (1, 'DR1', '2019-12-22', '2019-12-23', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (1, 'DR2', '2019-12-22', '2019-12-23', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (1, 'DR3', '2019-12-24', '2019-12-23', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (1, 'DR4', '2019-12-25', '2019-12-23', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (1, 'DR5', '2019-12-26', '2019-12-23', 50, 'www.google.com', 1);
 
 INSERT INTO prj_workspace_info VALUES (1, 'ENABLED', '2019-04-11', '2019-04-11', 'aiksanov');
 INSERT INTO prj_workspace_info VALUES (2, 'DISABLED', '2019-04-11', '2019-04-11', 'aiksanov');
 
-INSERT INTO prj_indicators_health VALUES (1, 'overall', 1, '2019-04-11');
-INSERT INTO prj_indicators_health VALUES (1, 'overall', 2, '2019-04-12');
-INSERT INTO prj_indicators_health VALUES (1, 'overall', 3, '2018-02-13');
-INSERT INTO prj_indicators_health VALUES (1, 'cost', 3, '2019-04-14');
-INSERT INTO prj_indicators_health VALUES (1, 'cost', 1, '2017-04-15');
-INSERT INTO prj_indicators_health VALUES (1, 'cost', 2, '2014-04-16');
-INSERT INTO prj_indicators_health VALUES (1, 'cost', 1, '2018-04-17');
-INSERT INTO prj_indicators_health VALUES (1, 'cost', 3, '2014-04-18');
-INSERT INTO prj_indicators_health VALUES (1, 'cost', 3, '2018-04-19');
-INSERT INTO prj_indicators_health VALUES (1, 'cost', 2, '2019-05-20');
+INSERT INTO prj_indicators_health VALUES (1, 1, 1, 2, 1, 2, '2019-04-11');
+INSERT INTO prj_indicators_health VALUES (1, 1, 1, 2, 2, 2, '2019-04-16');
+INSERT INTO prj_indicators_health VALUES (1, 3, 3, 3, 3, 3, '2019-04-30');
+
+INSERT INTO prj_indicators_comments VALUES (1, 'overall', 'Overall comment');
+INSERT INTO prj_indicators_comments VALUES (1, 'schedule', 'Schedule comment');
+INSERT INTO prj_indicators_comments VALUES (1, 'scope', 'Scope comment');
+INSERT INTO prj_indicators_comments VALUES (1, 'quality', 'Quality comment');
+INSERT INTO prj_indicators_comments VALUES (1, 'cost', 'Cost comment');
 
 INSERT INTO prj_urls VALUES (1, 'www.charter.url', 'or.bplan.url', 'upd.bplan.url', 'www.tailored.ru', 'www.lessons.learned', 'project.collab.url', 'pwa.url', 'repo.url', 'defects.url', 'req.url', 'cis.url');
 
-INSERT INTO prj_additional_info VALUES (1, 'Super nice project', 'Awesome BL Manager', 'Awesome Sponsor', 'OEM Partner');
+INSERT INTO prj_additional_info VALUES (1, 'Super nice project, biach', 'Awesome BL Manager', 'Awesome Sponsor', 'OEM Partner');
 
 INSERT INTO prj_status_report
     VALUES (1,

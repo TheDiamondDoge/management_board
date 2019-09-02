@@ -1,26 +1,24 @@
 package com.aiksanov.api.project.data.entity;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.Objects;
 
 @Embeddable
-public class HealthIndicatorsPK implements Serializable{
+public class HealthIndicatorsCommentsPK implements Serializable {
     @Column(name = "project_id", insertable = false, updatable = false)
     private int projectID;
 
-    @Column(name = "modification_date")
-    private Date modificationDate;
+    @Column(name = "label")
+    private String label;
 
-    public HealthIndicatorsPK() {
+    public HealthIndicatorsCommentsPK() {
     }
 
-    public HealthIndicatorsPK(int projectID, Date modificationDate) {
+    public HealthIndicatorsCommentsPK(int projectID, String label) {
         this.projectID = projectID;
-        this.modificationDate = modificationDate;
+        this.label = label;
     }
 
     public int getProjectID() {
@@ -31,25 +29,25 @@ public class HealthIndicatorsPK implements Serializable{
         this.projectID = projectID;
     }
 
-    public Date getModificationDate() {
-        return modificationDate;
+    public String getLabel() {
+        return label;
     }
 
-    public void setModificationDate(Date modificationDate) {
-        this.modificationDate = modificationDate;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HealthIndicatorsPK that = (HealthIndicatorsPK) o;
+        HealthIndicatorsCommentsPK that = (HealthIndicatorsCommentsPK) o;
         return projectID == that.projectID &&
-                Objects.equals(modificationDate, that.modificationDate);
+                Objects.equals(label, that.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(projectID, modificationDate);
+        return Objects.hash(projectID, label);
     }
 }

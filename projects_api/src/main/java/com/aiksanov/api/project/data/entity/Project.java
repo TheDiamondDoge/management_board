@@ -32,7 +32,7 @@ public class Project {
     private String manager;
 
     @Column(name = "project_completion")
-    private int percentOfComplition;
+    private int percentOfCompletion;
 
     @Column(name = "EPM_project")
     private boolean epm;
@@ -71,7 +71,7 @@ public class Project {
         this.rigor = rigor;
         this.state = state;
         this.manager = manager;
-        this.percentOfComplition = percentOfComplition;
+        this.percentOfCompletion = percentOfComplition;
         this.epm = epm;
         this.template = template;
         this.product = product;
@@ -134,12 +134,12 @@ public class Project {
         this.manager = manager;
     }
 
-    public int getPercentOfComplition() {
-        return percentOfComplition;
+    public int getPercentOfCompletion() {
+        return percentOfCompletion;
     }
 
-    public void setPercentOfComplition(int percentOfComplition) {
-        this.percentOfComplition = percentOfComplition;
+    public void setPercentOfCompletion(int percentOfCompletion) {
+        this.percentOfCompletion = percentOfCompletion;
     }
 
     public boolean isEpm() {

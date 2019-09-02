@@ -57,12 +57,24 @@ ALTER TABLE `prj_workspace_info` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WOR
 DROP TABLE IF EXISTS prj_indicators_health;
 CREATE TABLE IF NOT EXISTS `prj_indicators_health` (
   `project_id` int(5) NOT NULL,
-  `label` varchar(20) NOT NULL,
-  `status` int(1) DEFAULT NULL,
+  `overall` int(1) DEFAULT 0,
+  `schedule` int(1) DEFAULT 0,
+  `scope` int(1) DEFAULT 0,
+  `quality` int(1) DEFAULT 0,
+  `cost` int(1) DEFAULT 0,
   `modification_date` date NOT NULL,
-  PRIMARY KEY (`project_id`, `modification_date`, `label`)
+  PRIMARY KEY (`project_id`, `modification_date`)
 );
 ALTER TABLE `prj_indicators_health` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
+
+DROP TABLE IF EXISTS prj_indicators_comments;
+CREATE TABLE IF NOT EXISTS `prj_indicators_comments` (
+  `project_id` int(5) NOT NULL,
+  `label` varchar(10) DEFAULT 0,
+  `comment` text DEFAULT 0,
+  PRIMARY KEY (`project_id`, `label`)
+);
+ALTER TABLE `prj_indicators_comments` ADD FOREIGN KEY (project_id) REFERENCES prj_indicators_health(project_id);
 
 DROP TABLE IF EXISTS prj_additional_info;
 CREATE TABLE IF NOT EXISTS `prj_additional_info` (
