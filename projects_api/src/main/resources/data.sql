@@ -4,11 +4,11 @@ INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, proj
 INSERT INTO prj_products(product_line, product_name, product_manager, product_group, product_division, product_bu, product_unit, product_team, product_release, project_id) VALUES ('Awesome line', 'Awesome name', 'Awesome manager', 'Awesome group', 'Awesome', 'Awesome', 'Awesome unit', 'Awesome team', 'Awesome release', 1);
 
 INSERT INTO prj_milestones VALUES (1, 'OR', '2019-04-09', '2019-04-10', 100, 'www.google.com', 1);
-INSERT INTO prj_milestones VALUES (1, 'DR0', '2019-09-22', '2019-09-23', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (1, 'DR0', '2019-09-22', '2019-09-23', 50, 'www.google.com', 0);
 INSERT INTO prj_milestones VALUES (1, 'DR1', '2019-12-22', '2019-12-23', 50, 'www.google.com', 1);
-INSERT INTO prj_milestones VALUES (1, 'DR2', '2019-12-22', '2019-12-23', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (1, 'DR2', '2019-12-22', '2019-12-23', 50, 'www.google.com', 0);
 INSERT INTO prj_milestones VALUES (1, 'DR3', '2019-12-24', '2019-12-23', 50, 'www.google.com', 1);
-INSERT INTO prj_milestones VALUES (1, 'DR4', '2019-12-25', '2019-12-23', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (1, 'DR4', '2019-12-25', '2019-12-23', 50, 'www.google.com', 0);
 INSERT INTO prj_milestones VALUES (1, 'DR5', '2019-12-26', '2019-12-23', 50, 'www.google.com', 1);
 
 INSERT INTO prj_workspace_info VALUES (1, 'ENABLED', '2019-04-11', '2019-04-11', 'aiksanov');
