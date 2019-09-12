@@ -33,3 +33,5 @@ INSERT INTO prj_status_report
             'This is huge summary for project one. There is a lot of text. It includes Red Yellow and Green bullets. Most probably should be separated from summary report',
             'And this is actions. There are a lot of actions for each project.'
 );
+
+INSERT INTO prj_indicators_reqs VALUES (1, 1, 3, 0, 2);

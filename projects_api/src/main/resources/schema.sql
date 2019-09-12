@@ -113,3 +113,14 @@ CREATE TABLE IF NOT EXISTS `prj_status_report` (
     PRIMARY KEY (`project_id`)
 );
 ALTER TABLE `prj_status_report` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
+
+DROP TABLE IF EXISTS prj_indicators_reqs;
+CREATE TABLE IF NOT EXISTS `prj_indicators_reqs` (
+    `project_id` int(5) NOT NULL,
+    `committed_at_dr1` int(6),
+    `added_after_dr1` int(6),
+    `removed_after_dr1` int(6),
+    `modified_after_dr1` int(6),
+    PRIMARY KEY (`project_id`)
+);
+ALTER TABLE `prj_indicators_reqs` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
