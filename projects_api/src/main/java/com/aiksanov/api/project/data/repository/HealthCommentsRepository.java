@@ -1,11 +1,11 @@
 package com.aiksanov.api.project.data.repository;
 
 import com.aiksanov.api.project.data.entity.HealthIndicatorsComments;
-import com.aiksanov.api.project.data.entity.HealthIndicatorsCommentsPK;
+import com.aiksanov.api.project.data.entity.pk.HealthIndicatorsCommentsPK;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
+@Repository
 public interface HealthCommentsRepository extends CrudRepository<HealthIndicatorsComments, HealthIndicatorsCommentsPK> {
     HealthIndicatorsComments findByPk(HealthIndicatorsCommentsPK pk);
 }

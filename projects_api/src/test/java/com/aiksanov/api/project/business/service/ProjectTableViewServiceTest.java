@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.*;
+import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.web.DTO.PWSTableViewDTO;
 import org.junit.Before;

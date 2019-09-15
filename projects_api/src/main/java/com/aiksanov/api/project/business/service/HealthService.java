@@ -2,8 +2,7 @@ package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.domain.HealthStatus;
 import com.aiksanov.api.project.data.entity.HealthIndicators;
-import com.aiksanov.api.project.data.entity.HealthIndicatorsComments;
-import com.aiksanov.api.project.data.entity.HealthIndicatorsCommentsPK;
+import com.aiksanov.api.project.data.entity.pk.HealthIndicatorsCommentsPK;
 import com.aiksanov.api.project.data.repository.HealthCommentsRepository;
 import com.aiksanov.api.project.data.repository.HealthRepository;
 import com.aiksanov.api.project.web.DTO.HealthIndicatorsDTO;
@@ -29,15 +28,19 @@ public class HealthService {
 
     public HealthIndicatorsDTO getHealthIndicators(Integer projectID){
         List<HealthIndicators> lastTwoHealthStates = this.healthRepository.lastTwoHealthStates(projectID);
-        Map<HealthStatus, HealthIndicatorsComments> comments = new HashMap<>();
+        Map<String, String> comments = new HashMap<>();
 
-        comments.put(OVERALL, this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, OVERALL.getLabel())));
-        comments.put(SCHEDULE, this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, SCHEDULE.getLabel())));
-        comments.put(SCOPE, this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, SCOPE.getLabel())));
-        comments.put(QUALITY, this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, QUALITY.getLabel())));
-        comments.put(COST, this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, COST.getLabel())));
+        comments.put(OVERALL.getLabel(), getCommentString(OVERALL, projectID));
+        comments.put(SCHEDULE.getLabel(), getCommentString(SCHEDULE, projectID));
+        comments.put(SCOPE.getLabel(), getCommentString(SCOPE, projectID));
+        comments.put(QUALITY.getLabel(), getCommentString(QUALITY, projectID));
+        comments.put(COST.getLabel(), getCommentString(COST, projectID));
 
         return new HealthIndicatorsDTO(lastTwoHealthStates, comments);
+    }
+
+    private String getCommentString(HealthStatus statusName, int projectID){
+        return this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, statusName.getLabel())).getComment();
     }
 
     public void saveHealthIndicators(Integer projectID, HealthIndicatorsDTO indicatorsDTOs){

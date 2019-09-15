@@ -1,4 +1,4 @@
-package com.aiksanov.api.project.data.entity;
+package com.aiksanov.api.project.data.entity.pk;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -6,17 +6,17 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class HealthIndicatorsCommentsPK implements Serializable {
-    @Column(name = "project_id", insertable = false, updatable = false)
+public class MilestonePK implements Serializable {
+    @Column(name = "project_id")
     private int projectID;
 
-    @Column(name = "label")
+    @Column(name = "milestone_label")
     private String label;
 
-    public HealthIndicatorsCommentsPK() {
+    public MilestonePK() {
     }
 
-    public HealthIndicatorsCommentsPK(int projectID, String label) {
+    public MilestonePK(int projectID, String label) {
         this.projectID = projectID;
         this.label = label;
     }
@@ -41,7 +41,7 @@ public class HealthIndicatorsCommentsPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HealthIndicatorsCommentsPK that = (HealthIndicatorsCommentsPK) o;
+        MilestonePK that = (MilestonePK) o;
         return projectID == that.projectID &&
                 Objects.equals(label, that.label);
     }

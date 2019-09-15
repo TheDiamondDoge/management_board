@@ -1,5 +1,7 @@
 package com.aiksanov.api.project.data.entity;
 
+import com.aiksanov.api.project.data.entity.pk.MilestonePK;
+
 import javax.persistence.*;
 import java.sql.Date;
 

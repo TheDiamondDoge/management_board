@@ -1,7 +1,7 @@
 package com.aiksanov.api.project.data.repository;
 
 import com.aiksanov.api.project.data.entity.HealthIndicators;
-import com.aiksanov.api.project.data.entity.HealthIndicatorsPK;
+import com.aiksanov.api.project.data.entity.pk.HealthIndicatorsPK;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

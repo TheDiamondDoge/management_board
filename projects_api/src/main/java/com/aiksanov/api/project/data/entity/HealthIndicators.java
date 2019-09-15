@@ -1,5 +1,6 @@
 package com.aiksanov.api.project.data.entity;
 
+import com.aiksanov.api.project.data.entity.pk.HealthIndicatorsPK;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

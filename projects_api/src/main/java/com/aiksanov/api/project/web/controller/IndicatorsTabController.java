@@ -6,6 +6,7 @@ import com.aiksanov.api.project.web.DTO.IndicatorsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class IndicatorsTabController {
         this.reqsRepository = reqsRepository;
     }
 
-    @RequestMapping("/indicators")
+    @GetMapping("/indicators")
     public IndicatorsReqs getIndicatorsTab(@PathVariable Integer id) {
         LOGGER.info("GET /api/projects/{}/tabs/summary", id);
         return reqsRepository.findById(id).get();

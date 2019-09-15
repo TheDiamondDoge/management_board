@@ -1,6 +1,5 @@
-package com.aiksanov.api.project.data.entity;
+package com.aiksanov.api.project.data.entity.pk;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;

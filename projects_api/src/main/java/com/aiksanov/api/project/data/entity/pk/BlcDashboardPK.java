@@ -1,25 +1,24 @@
-package com.aiksanov.api.project.data.entity;
+package com.aiksanov.api.project.data.entity.pk;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class MilestonePK implements Serializable {
+public class BlcDashboardPK implements Serializable {
     @Column(name = "project_id")
     private int projectID;
 
-    @Column(name = "milestone_label")
-    private String label;
+    @Column(name = "role")
+    private String role;
 
-    public MilestonePK() {
+    public BlcDashboardPK() {
     }
 
-    public MilestonePK(int projectID, String label) {
+    public BlcDashboardPK(int projectID, String role) {
         this.projectID = projectID;
-        this.label = label;
+        this.role = role;
     }
 
     public int getProjectID() {
@@ -30,25 +29,25 @@ public class MilestonePK implements Serializable {
         this.projectID = projectID;
     }
 
-    public String getLabel() {
-        return label;
+    public String getRole() {
+        return role;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MilestonePK that = (MilestonePK) o;
+        BlcDashboardPK that = (BlcDashboardPK) o;
         return projectID == that.projectID &&
-                Objects.equals(label, that.label);
+                role.equals(that.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(projectID, label);
+        return Objects.hash(projectID, role);
     }
 }

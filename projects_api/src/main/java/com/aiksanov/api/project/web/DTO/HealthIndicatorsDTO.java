@@ -2,20 +2,19 @@ package com.aiksanov.api.project.web.DTO;
 
 import com.aiksanov.api.project.data.domain.HealthStatus;
 import com.aiksanov.api.project.data.entity.HealthIndicators;
-import com.aiksanov.api.project.data.entity.HealthIndicatorsComments;
 
 import java.util.*;
 
 public class HealthIndicatorsDTO {
     private Map<String, HealthIndicators> statuses;
-    private Map<HealthStatus, HealthIndicatorsComments> comments;
+    private Map<String, String> comments;
     private Date currentStatusSet;
     private Date prevStatusSet;
 
     public HealthIndicatorsDTO() {
     }
 
-    public HealthIndicatorsDTO(List<HealthIndicators> twoLastModifiedHealths, Map<HealthStatus, HealthIndicatorsComments> comments) {
+    public HealthIndicatorsDTO(List<HealthIndicators> twoLastModifiedHealths, Map<String, String> comments) {
         statuses = new HashMap<>();
         if (Objects.nonNull(twoLastModifiedHealths)) {
             statuses.put("current", twoLastModifiedHealths.get(0));
@@ -34,7 +33,7 @@ public class HealthIndicatorsDTO {
         return statuses;
     }
 
-    public Map<HealthStatus, HealthIndicatorsComments> getComments() {
+    public Map<String, String> getComments() {
         return comments;
     }
 
