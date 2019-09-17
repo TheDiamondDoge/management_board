@@ -1,24 +1,18 @@
 package com.aiksanov.api.project.data.entity.pk;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
 public class BlcDashboardPK implements Serializable {
-    @Column(name = "project_id")
     private int projectID;
-
-    @Column(name = "role")
-    private String role;
+    private String roleID;
 
     public BlcDashboardPK() {
     }
 
     public BlcDashboardPK(int projectID, String role) {
         this.projectID = projectID;
-        this.role = role;
+        this.roleID = role;
     }
 
     public int getProjectID() {
@@ -30,11 +24,11 @@ public class BlcDashboardPK implements Serializable {
     }
 
     public String getRole() {
-        return role;
+        return roleID;
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.roleID = role;
     }
 
     @Override
@@ -43,11 +37,11 @@ public class BlcDashboardPK implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         BlcDashboardPK that = (BlcDashboardPK) o;
         return projectID == that.projectID &&
-                role.equals(that.role);
+                roleID.equals(that.roleID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(projectID, role);
+        return Objects.hash(projectID, roleID);
     }
 }

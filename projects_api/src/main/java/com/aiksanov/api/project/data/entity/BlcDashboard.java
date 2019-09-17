@@ -2,17 +2,24 @@ package com.aiksanov.api.project.data.entity;
 
 import com.aiksanov.api.project.data.entity.pk.BlcDashboardPK;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "prj_blc_dashboard")
+@IdClass(BlcDashboardPK.class)
 public class BlcDashboard {
-    @EmbeddedId
-    private BlcDashboardPK pk;
+    @Id
+    @Column(name = "project_id")
+    private int projectID;
+
+    @Id
+    @Column(name = "role")
+    private String roleID;
+
+    @OneToOne
+    @JoinColumn(name = "role", referencedColumnName = "role_id", insertable = false, updatable = false)
+    private BlcRoles roleObj;
 
     @Column(name = "updated_by")
     private String csl;
@@ -62,11 +69,11 @@ public class BlcDashboard {
     public BlcDashboard() {
     }
 
-    public BlcDashboard(BlcDashboardPK pk, String csl, Date updatedOn, int or, int charter, int prjPlan, int tailoring,
-                        int accPrgMgr, int accCoreTeam, int bpPlan, int bpSales, int launchPlan, int launchSales,
-                        int lessons, int risks, String comment)
-    {
-        this.pk = pk;
+    public BlcDashboard(int projectID, String roleID, String csl, Date updatedOn, int or, int charter, int prjPlan,
+                        int tailoring, int accPrgMgr, int accCoreTeam, int bpPlan, int bpSales, int launchPlan,
+                        int launchSales, int lessons, int risks, String comment) {
+        this.projectID = projectID;
+        this.roleID = roleID;
         this.csl = csl;
         this.updatedOn = updatedOn;
         this.or = or;
@@ -84,12 +91,28 @@ public class BlcDashboard {
         this.comment = comment;
     }
 
-    public BlcDashboardPK getPk() {
-        return pk;
+    public BlcRoles getRoleObj() {
+        return roleObj;
     }
 
-    public void setPk(BlcDashboardPK pk) {
-        this.pk = pk;
+    public void setRoleObj(BlcRoles roleObj) {
+        this.roleObj = roleObj;
+    }
+
+    public int getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(int projectID) {
+        this.projectID = projectID;
+    }
+
+    public String getRoleID() {
+        return roleID;
+    }
+
+    public void setRoleID(String roleID) {
+        this.roleID = roleID;
     }
 
     public String getCsl() {

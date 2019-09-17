@@ -3,54 +3,49 @@ package com.aiksanov.api.project.web.DTO;
 import com.aiksanov.api.project.data.entity.BlcDashboard;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class BlcRowDTO {
-    private String roleID;
     private String role;
     private String csl;
     private Date updatedOn;
-    private int or;
-    private int charter;
-    private int prjPlan;
-    private int tailoring;
-    private int accPrgMgr;
-    private int accCoreTeam;
-    private int bpPlan;
-    private int bpSales;
-    private int launchPlan;
-    private int launchSales;
-    private int lessons;
-    private int risks;
+    private BlcIndicators indicators;
     private String comment;
 
     public BlcRowDTO() {
     }
 
     public BlcRowDTO(BlcDashboard row) {
-        this.roleID = row.getPk().getRole();
         this.csl = row.getCsl();
+        this.role = setRole(row);
         this.updatedOn = row.getUpdatedOn();
-        this.or = row.getOr();
-        this.charter = row.getCharter();
-        this.prjPlan = row.getPrjPlan();
-        this.tailoring = row.getTailoring();
-        this.accPrgMgr = row.getAccPrgMgr();
-        this.accCoreTeam = row.getAccCoreTeam();
-        this.bpPlan = row.getBpPlan();
-        this.bpSales = row.getBpSales();
-        this.launchPlan = row.getLaunchPlan();
-        this.launchSales = row.getLaunchSales();
-        this.lessons = row.getLessons();
-        this.risks = row.getRisks();
+        this.indicators = setBlcIndicators(row);
         this.comment = row.getComment();
     }
 
-    public String getRoleID() {
-        return roleID;
+    private String setRole(BlcDashboard row) {
+        if (Objects.isNull(row.getRoleObj())) {
+            return null;
+        } else {
+            return row.getRoleObj().getName();
+        }
     }
 
-    public void setRoleID(String roleID) {
-        this.roleID = roleID;
+    private BlcIndicators setBlcIndicators (BlcDashboard row) {
+        return new BlcIndicators(
+                row.getOr(),
+                row.getCharter(),
+                row.getPrjPlan(),
+                row.getTailoring(),
+                row.getAccPrgMgr(),
+                row.getAccCoreTeam(),
+                row.getBpPlan(),
+                row.getBpSales(),
+                row.getLaunchPlan(),
+                row.getLaunchSales(),
+                row.getLessons(),
+                row.getRisks()
+        );
     }
 
     public void setRole(String role) {
@@ -69,52 +64,8 @@ public class BlcRowDTO {
         return updatedOn;
     }
 
-    public int getOr() {
-        return or;
-    }
-
-    public int getCharter() {
-        return charter;
-    }
-
-    public int getPrjPlan() {
-        return prjPlan;
-    }
-
-    public int getTailoring() {
-        return tailoring;
-    }
-
-    public int getAccPrgMgr() {
-        return accPrgMgr;
-    }
-
-    public int getAccCoreTeam() {
-        return accCoreTeam;
-    }
-
-    public int getBpPlan() {
-        return bpPlan;
-    }
-
-    public int getBpSales() {
-        return bpSales;
-    }
-
-    public int getLaunchPlan() {
-        return launchPlan;
-    }
-
-    public int getLaunchSales() {
-        return launchSales;
-    }
-
-    public int getLessons() {
-        return lessons;
-    }
-
-    public int getRisks() {
-        return risks;
+    public BlcIndicators getIndicators() {
+        return indicators;
     }
 
     public String getComment() {
