@@ -6,52 +6,37 @@ import java.util.Map;
 public class IndicatorsDTO {
     private List<MilestoneDTO> milestones;
     private HealthIndicatorsDTO healthIndicators;
-    private Map<String, String> requirements;
+    private IndicatorsReqDTO requirements;
     private Map<String, String> projectKpi;
-    //TODO: TBD
     private List<Object> quality;
 
 
     public IndicatorsDTO() {
     }
 
-    public List<MilestoneDTO> getMilestones() {
-        return milestones;
+    public IndicatorsDTO(List<MilestoneDTO> milestones, HealthIndicatorsDTO healthIndicators, IndicatorsReqDTO requirements) {
+        this.milestones = milestones;
+        this.healthIndicators = healthIndicators;
+        this.requirements = requirements;
     }
 
-    public void setMilestones(List<MilestoneDTO> milestones) {
-        this.milestones = milestones;
+    public List<MilestoneDTO> getMilestones() {
+        return milestones;
     }
 
     public HealthIndicatorsDTO getHealthIndicators() {
         return healthIndicators;
     }
 
-    public void setHealthIndicators(HealthIndicatorsDTO healthIndicators) {
-        this.healthIndicators = healthIndicators;
-    }
-
-    public Map<String, String> getRequirements() {
+    public IndicatorsReqDTO getRequirements() {
         return requirements;
-    }
-
-    public void setRequirements(Map<String, String> requirements) {
-        this.requirements = requirements;
     }
 
     public Map<String, String> getProjectKpi() {
         return projectKpi;
     }
 
-    public void setProjectKpi(Map<String, String> projectKpi) {
-        this.projectKpi = projectKpi;
-    }
-
     public List<Object> getQuality() {
         return quality;
-    }
-
-    public void setQuality(List<Object> quality) {
-        this.quality = quality;
     }
 }

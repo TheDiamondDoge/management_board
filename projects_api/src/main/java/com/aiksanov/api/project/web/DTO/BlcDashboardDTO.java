@@ -1,10 +1,5 @@
 package com.aiksanov.api.project.web.DTO;
 
-import com.aiksanov.api.project.data.entity.BlcDashboard;
-import com.aiksanov.api.project.data.entity.BlcRoles;
-
-import java.util.List;
-
 public class BlcDashboardDTO {
     private BlcRowDTO pm;
     private BlcRowDTO pmo;
