@@ -39,7 +39,7 @@ public class SummaryTabService {
         Project projectInfo = this.generalRepo.findById(projectID).get();
         ProjectURLs urls = this.urlsRepo.findById(projectID).orElseGet(ProjectURLs::new);
         StatusReport report = this.reportRepo.findById(projectID).orElseGet(StatusReport::new);
-        List<MilestoneDTO> milestones = this.milestoneService.getMilestonesByProjectID(projectID);
+        List<MilestoneDTO> milestones = this.milestoneService.getShownMilestonesByProjectID(projectID);
         HealthIndicatorsDTO healthIndicatorsDTO = this.healthService.getHealthIndicators(projectID);
 
         return new SummaryDTO(projectInfo, urls, report, milestones, healthIndicatorsDTO);

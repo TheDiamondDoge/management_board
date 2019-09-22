@@ -43,3 +43,16 @@ INSERT INTO prj_blc_roles VALUES ('sales', 'Sales');
 INSERT INTO prj_blc_dashboard VALUES (1, 'pm', '2019-09-15', 'aiksanov', 1, 2, 3, 1, 2, 3, 3, 2, 1, 1, 2, 3, 'Comment1!');
 INSERT INTO prj_blc_dashboard VALUES (1, 'pmo', '2019-09-14', 'aiksanov2', 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 'Comment1!');
 INSERT INTO prj_blc_dashboard VALUES (1, 'sales', '2019-09-13', 'aiksanov3', 3, 2, 3, 1, 3, 2, 3, 2, 3, 1, 3, 3, 'Comment1!');
+
+INSERT INTO prj_indicators_quality VALUES (1, 'quality', 1, 100, 95);
+INSERT INTO prj_indicators_quality VALUES (1, 'defects', 1, 200, 195);
+INSERT INTO prj_indicators_quality VALUES (1, 'backlog', 1, 300, 295);
+INSERT INTO prj_indicators_quality VALUES (1, 'execution', 1, 400, 395);
+INSERT INTO prj_indicators_quality VALUES (1, 'execution', 2, 401, 35);
+INSERT INTO prj_indicators_quality VALUES (1, 'rate', 1, 500, 495);
+
+INSERT INTO prj_indicators_quality_comments VALUES (1, 'quality', 'Comment on quality');
+INSERT INTO prj_indicators_quality_comments VALUES (1, 'defects', 'Comment on defects');
+INSERT INTO prj_indicators_quality_comments VALUES (1, 'backlog', 'Comment on backlog');
+INSERT INTO prj_indicators_quality_comments VALUES (1, 'execution', 'Comment on execution');
+INSERT INTO prj_indicators_quality_comments VALUES (1, 'rate', 'Comment on rate');

@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface MilestoneRepository extends CrudRepository<Milestone, MilestonePK> {
     List<Milestone> findAllByMilestonePK_ProjectID(Integer projectId);
+    List<Milestone> findAllByMilestonePK_ProjectIDAndIsShown(Integer projectId, boolean isShown);
     void deleteAllByMilestonePK(List<MilestonePK> pk);
 }

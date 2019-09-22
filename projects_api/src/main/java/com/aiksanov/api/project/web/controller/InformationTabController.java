@@ -23,7 +23,7 @@ public class InformationTabController {
 
     @GetMapping("/information")
     public InformationDTO getData(@PathVariable Integer id){
-        LOGGER.info("/api/projects/{}/tabs/information", id);
+        LOGGER.info("GET /api/projects/{}/tabs/information", id);
         return this.informationService.getInfoTabData(id);
     }
 }

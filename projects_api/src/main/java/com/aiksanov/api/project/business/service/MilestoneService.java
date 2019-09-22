@@ -24,9 +24,18 @@ public class MilestoneService {
 
     public List<MilestoneDTO> getMilestonesByProjectID(Integer projectID){
         List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectID(projectID);
+        return mapMilestonesToDTO(milestones);
+    }
+
+    public List<MilestoneDTO> getShownMilestonesByProjectID(int projectID) {
+        List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDAndIsShown(projectID, true);
+        return mapMilestonesToDTO(milestones);
+    }
+
+    private List<MilestoneDTO> mapMilestonesToDTO(List<Milestone> milestones) {
         if (Objects.nonNull(milestones)){
             return milestones.stream()
-                    .map(m -> new MilestoneDTO(m))
+                    .map(MilestoneDTO::new)
                     .collect(Collectors.toList());
         } else {
             return new ArrayList<>();
