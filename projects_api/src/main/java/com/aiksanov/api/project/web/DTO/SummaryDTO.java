@@ -38,12 +38,9 @@ public class SummaryDTO {
     private Date pwsLastUpdatedDate;
     private String pwsLastUpdatedBy;
     private boolean isEpm;
-    private List<MilestoneDTO> milestones;
-    private HealthIndicatorsDTO healthIndicators;
 
 
-    public SummaryDTO(Project projectInfo, ProjectURLs urls, StatusReport report, List<MilestoneDTO> milestones,
-                      HealthIndicatorsDTO healthIndicators) {
+    public SummaryDTO(Project projectInfo, ProjectURLs urls, StatusReport report) {
         if (Objects.nonNull(projectInfo)) {
             projectInfoMapping(projectInfo);
         }
@@ -55,9 +52,6 @@ public class SummaryDTO {
         if (Objects.nonNull(report)) {
             reportMapping(report);
         }
-
-        this.milestones = milestones;
-        this.healthIndicators = healthIndicators;
     }
 
     private void projectInfoMapping(Project projectInfo) {
@@ -243,21 +237,5 @@ public class SummaryDTO {
 
     public boolean isEpm() {
         return isEpm;
-    }
-
-    public List<MilestoneDTO> getMilestones() {
-        return milestones;
-    }
-
-    public void setMilestones(List<MilestoneDTO> milestones) {
-        this.milestones = milestones;
-    }
-
-    public HealthIndicatorsDTO getHealthIndicators() {
-        return healthIndicators;
-    }
-
-    public void setHealthIndicators(HealthIndicatorsDTO healthIndicators) {
-        this.healthIndicators = healthIndicators;
     }
 }
