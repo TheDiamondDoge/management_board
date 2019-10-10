@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/projects/{id}/tabs")
+@RequestMapping("${api.project.tabs}")
 public class SummaryTabController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryTabController.class);
     private SummaryTabService summaryTabService;
