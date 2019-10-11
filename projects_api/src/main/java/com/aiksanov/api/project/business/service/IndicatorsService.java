@@ -3,17 +3,19 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.data.entity.IndicatorsReqs;
 import com.aiksanov.api.project.data.entity.Milestone;
 import com.aiksanov.api.project.data.entity.QualityIndicators;
+import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.entity.pk.QualityIndicatorsPK;
 import com.aiksanov.api.project.data.repository.IndicatorsReqsRepository;
-import com.aiksanov.api.project.data.repository.QualityIndicatorsCommentsRepository;
+import com.aiksanov.api.project.data.repository.MilestoneRepository;
 import com.aiksanov.api.project.data.repository.QualityIndicatorsRepository;
 import com.aiksanov.api.project.web.DTO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +24,7 @@ public class IndicatorsService {
     private HealthService healthService;
     private IndicatorsReqsRepository indicatorsReqsRepository;
     private QualityIndicatorsRepository qualityRepository;
+    private MilestoneRepository milestoneRepository;
 
     public IndicatorsService() {
     }
@@ -30,16 +33,18 @@ public class IndicatorsService {
     public IndicatorsService(MilestoneService milestoneService,
                              HealthService healthService,
                              IndicatorsReqsRepository indicatorsReqsRepository,
-                             QualityIndicatorsRepository qualityRepository
-    )
-    {
+                             QualityIndicatorsRepository qualityRepository,
+                             MilestoneRepository milestoneRepository
+    ) {
         this.milestoneService = milestoneService;
         this.healthService = healthService;
         this.indicatorsReqsRepository = indicatorsReqsRepository;
         this.qualityRepository = qualityRepository;
+        this.milestoneRepository = milestoneRepository;
     }
-    //TODO: Enums to avoid strings as pk fields
-    public IndicatorsDTO getIndicatorsDTO(int projectID){
+
+    //TODO: To remove
+    public IndicatorsDTO getIndicatorsDTO(int projectID) {
         List<MilestoneDTO> milestones = this.milestoneService.getShownMilestonesByProjectID(projectID);
         HealthIndicatorsDTO indicators = this.healthService.getHealthIndicators(projectID);
         IndicatorsReqDTO reqDTO = getRqDTO(projectID);
@@ -47,8 +52,8 @@ public class IndicatorsService {
         return new IndicatorsDTO(milestones, indicators, reqDTO, quality, new Date());
     }
 
-    private IndicatorsReqDTO getRqDTO(int projectID) {
-        IndicatorsReqs rqs = this.indicatorsReqsRepository.findById(projectID).get();
+    public IndicatorsReqDTO getRqDTO(int projectID) {
+        IndicatorsReqs rqs = this.indicatorsReqsRepository.findById(projectID).orElseGet(IndicatorsReqs::new);
         Milestone dr1 = this.milestoneService.getProjectMilestoneById(projectID, "DR1");
         if (Objects.isNull(dr1)) {
             dr1 = new Milestone();
@@ -56,7 +61,54 @@ public class IndicatorsService {
         return new IndicatorsReqDTO(rqs, dr1.getActualDate());
     }
 
-    private QualityIndicatorsTableDTO getQuality(int projectID){
+    public List<MilestoneIndKpiDTO> getKpiMilestones(int projectID) {
+        if (isNoDr1(projectID)) {
+            return new ArrayList<>();
+        }
+
+        String[] milestonesToShow = {"TR", "DR4", "DR5", "CI"};
+        ArrayList<MilestoneIndKpiDTO> milestoneKpis = (ArrayList<MilestoneIndKpiDTO>) Arrays.stream(milestonesToShow)
+                .filter((label) -> this.milestoneRepository.existsById(new MilestonePK(projectID, label)))
+                .map((label) -> {return getMilestoneKpiDTO(projectID, label);})
+                .collect(Collectors.toList());
+
+        return milestoneKpis;
+    }
+
+    private boolean isNoDr1(int projectID) {
+        return !this.milestoneRepository.existsById(new MilestonePK(projectID, "DR1"));
+    }
+
+    private MilestoneIndKpiDTO getMilestoneKpiDTO(int projectID, String label) {
+        Milestone dr1 = this.milestoneRepository.findById(new MilestonePK(projectID, "DR1")).get();
+        Milestone current = this.milestoneRepository.findById(new MilestonePK(projectID, label)).get();
+
+        LocalDateTime currentActualDate = current.getActualDate().toLocalDate().atStartOfDay();
+        LocalDateTime currentBaselineDate = current.getBaselineDate().toLocalDate().atStartOfDay();
+        LocalDateTime dr1ActualDate = dr1.getActualDate().toLocalDate().atStartOfDay();
+
+        MilestoneIndKpiDTO dto = new MilestoneIndKpiDTO();
+        dto.setLabel(current.getMilestonePK().getLabel());
+        dto.setAdherence(getScheduleAdherence(currentActualDate, dr1ActualDate, currentBaselineDate));
+        dto.setDelay(getDelay(currentBaselineDate, currentActualDate));
+        dto.setDuration(getDuration(dr1ActualDate, currentActualDate));
+        return dto;
+    }
+
+    private float getScheduleAdherence(LocalDateTime currentActualDate, LocalDateTime dr1ActualDate, LocalDateTime currentBaselineDate) {
+        return (float)(Duration.between(currentActualDate, dr1ActualDate)).toDays() /
+                (Duration.between(currentBaselineDate, dr1ActualDate)).toDays();
+    }
+
+    private long getDelay(LocalDateTime currentBaselineDate, LocalDateTime currentActualDate) {
+        return Duration.between(currentBaselineDate, currentActualDate).toDays();
+    }
+
+    private long getDuration(LocalDateTime dr1ActualDate, LocalDateTime currentActualDate) {
+        return Duration.between(dr1ActualDate, currentActualDate).toDays();
+    }
+
+    private QualityIndicatorsTableDTO getQuality(int projectID) {
         QualityIndicators quality = this.qualityRepository.findById(
                 new QualityIndicatorsPK(1, "quality", 1)
         ).orElse(new QualityIndicators());
