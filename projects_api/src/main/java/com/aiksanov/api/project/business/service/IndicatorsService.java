@@ -69,7 +69,7 @@ public class IndicatorsService {
         String[] milestonesToShow = {"TR", "DR4", "DR5", "CI"};
         ArrayList<MilestoneIndKpiDTO> milestoneKpis = (ArrayList<MilestoneIndKpiDTO>) Arrays.stream(milestonesToShow)
                 .filter((label) -> this.milestoneRepository.existsById(new MilestonePK(projectID, label)))
-                .map((label) -> {return getMilestoneKpiDTO(projectID, label);})
+                .map((label) -> getMilestoneKpiDTO(projectID, label))
                 .collect(Collectors.toList());
 
         return milestoneKpis;
@@ -83,15 +83,21 @@ public class IndicatorsService {
         Milestone dr1 = this.milestoneRepository.findById(new MilestonePK(projectID, "DR1")).get();
         Milestone current = this.milestoneRepository.findById(new MilestonePK(projectID, label)).get();
 
-        LocalDateTime currentActualDate = current.getActualDate().toLocalDate().atStartOfDay();
-        LocalDateTime currentBaselineDate = current.getBaselineDate().toLocalDate().atStartOfDay();
-        LocalDateTime dr1ActualDate = dr1.getActualDate().toLocalDate().atStartOfDay();
-
         MilestoneIndKpiDTO dto = new MilestoneIndKpiDTO();
-        dto.setLabel(current.getMilestonePK().getLabel());
-        dto.setAdherence(getScheduleAdherence(currentActualDate, dr1ActualDate, currentBaselineDate));
-        dto.setDelay(getDelay(currentBaselineDate, currentActualDate));
-        dto.setDuration(getDuration(dr1ActualDate, currentActualDate));
+
+        try {
+            LocalDateTime currentActualDate = current.getActualDate().toLocalDate().atStartOfDay();
+            LocalDateTime currentBaselineDate = current.getBaselineDate().toLocalDate().atStartOfDay();
+            LocalDateTime dr1ActualDate = dr1.getActualDate().toLocalDate().atStartOfDay();
+
+            dto.setAdherence(getScheduleAdherence(currentActualDate, dr1ActualDate, currentBaselineDate));
+            dto.setDelay(getDelay(currentBaselineDate, currentActualDate));
+            dto.setDuration(getDuration(dr1ActualDate, currentActualDate));
+        } catch (NullPointerException e) {
+            //TODO: think what to do (actually just need to suppress)
+        } finally {
+            dto.setLabel(current.getMilestonePK().getLabel());
+        }
         return dto;
     }
 

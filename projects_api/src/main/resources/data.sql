@@ -8,10 +8,10 @@ INSERT INTO prj_milestones VALUES (1, 'DR0', '2019-09-22', '2019-09-29', 50, 'ww
 INSERT INTO prj_milestones VALUES (1, 'DR1', '2019-10-19', '2019-03-05', 50, 'www.google.com', 1);
 INSERT INTO prj_milestones VALUES (1, 'DR2', '2019-11-22', '2019-11-30', 50, 'www.google.com', 0);
 INSERT INTO prj_milestones VALUES (1, 'DR3', '2019-12-24', '2019-12-25', 50, 'www.google.com', 1);
-INSERT INTO prj_milestones VALUES (1, 'DR4', '2019-12-29', '2019-09-24', 50, 'www.google.com', 0);
+INSERT INTO prj_milestones VALUES (1, 'DR4', '2019-09-24', NULL, 50, 'www.google.com', 0);
 INSERT INTO prj_milestones VALUES (1, 'DR5', '2020-01-06', '2020-01-15', 50, 'www.google.com', 1);
 INSERT INTO prj_milestones VALUES (1, 'OBR', '2020-01-16', '2020-01-31', 50, 'www.google.com', 1);
-INSERT INTO prj_milestones VALUES (1, 'CI', '2020-02-06', '2019-07-18', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (1, 'CI', '2020-02-06', '2020-02-06', 50, 'www.google.com', 1);
 
 INSERT INTO prj_workspace_info VALUES (1, 'ENABLED', '2019-04-11', '2019-04-11', 'aiksanov');
 INSERT INTO prj_workspace_info VALUES (2, 'DISABLED', '2019-04-11', '2019-04-11', 'aiksanov');
