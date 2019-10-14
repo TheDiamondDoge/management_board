@@ -5,6 +5,7 @@ import com.aiksanov.api.project.data.entity.Milestone;
 import com.aiksanov.api.project.data.entity.QualityIndicators;
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.entity.pk.QualityIndicatorsPK;
+import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.IndicatorsReqsRepository;
 import com.aiksanov.api.project.data.repository.MilestoneRepository;
 import com.aiksanov.api.project.data.repository.QualityIndicatorsRepository;
@@ -26,6 +27,7 @@ public class IndicatorsService {
     private IndicatorsReqsRepository indicatorsReqsRepository;
     private QualityIndicatorsRepository qualityRepository;
     private MilestoneRepository milestoneRepository;
+    private GeneralRepository generalRepository;
 
     public IndicatorsService() {
     }
@@ -35,13 +37,15 @@ public class IndicatorsService {
                              HealthService healthService,
                              IndicatorsReqsRepository indicatorsReqsRepository,
                              QualityIndicatorsRepository qualityRepository,
-                             MilestoneRepository milestoneRepository
+                             MilestoneRepository milestoneRepository,
+                             GeneralRepository generalRepository
     ) {
         this.milestoneService = milestoneService;
         this.healthService = healthService;
         this.indicatorsReqsRepository = indicatorsReqsRepository;
         this.qualityRepository = qualityRepository;
         this.milestoneRepository = milestoneRepository;
+        this.generalRepository = generalRepository;
     }
 
     //TODO: To remove
@@ -114,35 +118,51 @@ public class IndicatorsService {
     }
 
     public IndicatorsDr4KpiDTO getDr4Kpi(int projectID) {
+        if (isProjectNotExist(projectID)) {
+            return new IndicatorsDr4KpiDTO();
+        }
+
+        Milestone dr1 = this.milestoneRepository.findById(new MilestonePK(1, "DR1")).orElse(new Milestone());
+        Milestone dr4 = this.milestoneRepository.findById(new MilestonePK(1, "DR4")).orElse(new Milestone());
+
         IndicatorsDr4KpiDTO dto = new IndicatorsDr4KpiDTO();
         dto.setYear(Calendar.getInstance().get(Calendar.YEAR));
-        dto.setScheduleAdherence(projectID);
-        dto.setContentAdherence(projectID);
-        dto.setRqsChange(projectID);
-        dto.setCostAdherence(projectID);
+
+        try {
+            LocalDateTime dr1ActualDate = dr1.getActualDate().toLocalDate().atStartOfDay();
+            LocalDateTime dr4ActualDate = dr4.getActualDate().toLocalDate().atStartOfDay();
+            LocalDateTime dr4BaselineDate = dr4.getActualDate().toLocalDate().atStartOfDay();
+
+            dto.setScheduleAdherence(getScheduleAdherence(dr4ActualDate, dr1ActualDate, dr4BaselineDate));
+        } catch (NullPointerException e){
+            dto.setScheduleAdherence(null);
+        }
+        dto.setContentAdherence(getContentAdherence(projectID));
+        dto.setRqsChange(getRqsChange(projectID));
+        dto.setCostAdherence(1f);
         return dto;
     }
 
-    private float getRqsChange(int projectID){
+    private float getRqsChange(int projectID) {
         IndicatorsReqs rqs = this.indicatorsReqsRepository.findById(projectID).orElseGet(IndicatorsReqs::new);
         int added = rqs.getAddedAfterDr1();
         int removed = rqs.getRemovedAfterDr1();
         int modified = rqs.getModifiedAfterDr1();
         int committed = rqs.getCommittedAtDr1();
 
-        return (float)(added + removed + modified) / committed;
+        return (float) (added + removed + modified) / committed;
     }
 
-    private float getContentAdherence(int projectID){
+    private float getContentAdherence(int projectID) {
         IndicatorsReqs rqs = this.indicatorsReqsRepository.findById(projectID).orElseGet(IndicatorsReqs::new);
         int committed = rqs.getCommittedAtDr1();
         int removed = rqs.getRemovedAfterDr1();
         int modified = rqs.getModifiedAfterDr1();
 
-        return (float)(committed - removed - modified) / committed;
+        return (float) (committed - removed - modified) / committed;
     }
 
-    private QualityIndicatorsTableDTO getQuality(int projectID) {
+    public QualityIndicatorsTableDTO getQuality(int projectID) {
         QualityIndicators quality = this.qualityRepository.findById(
                 new QualityIndicatorsPK(1, "quality", 1)
         ).orElse(new QualityIndicators());
@@ -175,4 +195,13 @@ public class IndicatorsService {
 
         return dto;
     }
+
+    private boolean isProjectNotExist(int projectID) {
+        return !this.generalRepository.existsById(projectID);
+    }
+
+    private boolean isDr1Exists(int projectID) {
+        return this.milestoneRepository.existsById(new MilestonePK(projectID, "DR1"));
+    }
 }
+

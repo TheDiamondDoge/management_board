@@ -3,10 +3,10 @@ package com.aiksanov.api.project.web.DTO;
 
 public class IndicatorsDr4KpiDTO {
     private int year;
-    private float scheduleAdherence;
-    private float contentAdherence;
-    private float rqsChange;
-    private float costAdherence;
+    private Float scheduleAdherence;
+    private Float contentAdherence;
+    private Float rqsChange;
+    private Float costAdherence;
 
     public IndicatorsDr4KpiDTO() {
     }
@@ -19,35 +19,35 @@ public class IndicatorsDr4KpiDTO {
         this.year = year;
     }
 
-    public float getScheduleAdherence() {
+    public Float getScheduleAdherence() {
         return scheduleAdherence;
     }
 
-    public void setScheduleAdherence(float scheduleAdherence) {
+    public void setScheduleAdherence(Float scheduleAdherence) {
         this.scheduleAdherence = scheduleAdherence;
     }
 
-    public float getContentAdherence() {
+    public Float getContentAdherence() {
         return contentAdherence;
     }
 
-    public void setContentAdherence(float contentAdherence) {
+    public void setContentAdherence(Float contentAdherence) {
         this.contentAdherence = contentAdherence;
     }
 
-    public float getRqsChange() {
+    public Float getRqsChange() {
         return rqsChange;
     }
 
-    public void setRqsChange(float rqsChange) {
+    public void setRqsChange(Float rqsChange) {
         this.rqsChange = rqsChange;
     }
 
-    public float getCostAdherence() {
+    public Float getCostAdherence() {
         return costAdherence;
     }
 
-    public void setCostAdherence(float costAdherence) {
+    public void setCostAdherence(Float costAdherence) {
         this.costAdherence = costAdherence;
     }
 }

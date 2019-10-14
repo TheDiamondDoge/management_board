@@ -1,9 +1,7 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.IndicatorsService;
-import com.aiksanov.api.project.web.DTO.IndicatorsDr4KpiDTO;
-import com.aiksanov.api.project.web.DTO.IndicatorsReqDTO;
-import com.aiksanov.api.project.web.DTO.MilestoneIndKpiDTO;
+import com.aiksanov.api.project.web.DTO.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +37,10 @@ public class IndicatorsRequirementsController {
     @GetMapping("/dr4/{id}")
     public IndicatorsDr4KpiDTO getDr4Kpi(@PathVariable int id) {
         return this.indicatorsService.getDr4Kpi(id);
+    }
+
+    @GetMapping("/quality/{id}")
+    public QualityIndicatorsTableDTO getQuality(@PathVariable int id) {
+        return this.indicatorsService.getQuality(id);
     }
 }
