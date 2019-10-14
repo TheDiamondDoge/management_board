@@ -23,7 +23,7 @@ public class IndicatorsReqDTO {
         } else {
             mapIndicatorsReqs(new IndicatorsReqs());
         }
-        calculateSum();
+        calculate();
     }
 
     private void mapIndicatorsReqs(IndicatorsReqs reqs) {
@@ -33,8 +33,8 @@ public class IndicatorsReqDTO {
         this.modifiedAfterDr1 = reqs.getModifiedAfterDr1();
     }
 
-    private void calculateSum() {
-        this.sum = committedAtDr1 + addedAfterDr1 + removedAfterDr1 + modifiedAfterDr1;
+    private void calculate() {
+        this.sum = committedAtDr1 + addedAfterDr1 - removedAfterDr1;
     }
 
     public Date getDr1Actual() {

@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//TODO: projectID exists??? check!
 @Service
 public class IndicatorsService {
     private MilestoneService milestoneService;
@@ -67,12 +68,10 @@ public class IndicatorsService {
         }
 
         String[] milestonesToShow = {"TR", "DR4", "DR5", "CI"};
-        ArrayList<MilestoneIndKpiDTO> milestoneKpis = (ArrayList<MilestoneIndKpiDTO>) Arrays.stream(milestonesToShow)
+        return Arrays.stream(milestonesToShow)
                 .filter((label) -> this.milestoneRepository.existsById(new MilestonePK(projectID, label)))
                 .map((label) -> getMilestoneKpiDTO(projectID, label))
                 .collect(Collectors.toList());
-
-        return milestoneKpis;
     }
 
     private boolean isNoDr1(int projectID) {
@@ -102,7 +101,7 @@ public class IndicatorsService {
     }
 
     private float getScheduleAdherence(LocalDateTime currentActualDate, LocalDateTime dr1ActualDate, LocalDateTime currentBaselineDate) {
-        return (float)(Duration.between(currentActualDate, dr1ActualDate)).toDays() /
+        return (float) (Duration.between(currentActualDate, dr1ActualDate)).toDays() /
                 (Duration.between(currentBaselineDate, dr1ActualDate)).toDays();
     }
 
@@ -112,6 +111,35 @@ public class IndicatorsService {
 
     private long getDuration(LocalDateTime dr1ActualDate, LocalDateTime currentActualDate) {
         return Duration.between(dr1ActualDate, currentActualDate).toDays();
+    }
+
+    public IndicatorsDr4KpiDTO getDr4Kpi(int projectID) {
+        IndicatorsDr4KpiDTO dto = new IndicatorsDr4KpiDTO();
+        dto.setYear(Calendar.getInstance().get(Calendar.YEAR));
+        dto.setScheduleAdherence(projectID);
+        dto.setContentAdherence(projectID);
+        dto.setRqsChange(projectID);
+        dto.setCostAdherence(projectID);
+        return dto;
+    }
+
+    private float getRqsChange(int projectID){
+        IndicatorsReqs rqs = this.indicatorsReqsRepository.findById(projectID).orElseGet(IndicatorsReqs::new);
+        int added = rqs.getAddedAfterDr1();
+        int removed = rqs.getRemovedAfterDr1();
+        int modified = rqs.getModifiedAfterDr1();
+        int committed = rqs.getCommittedAtDr1();
+
+        return (float)(added + removed + modified) / committed;
+    }
+
+    private float getContentAdherence(int projectID){
+        IndicatorsReqs rqs = this.indicatorsReqsRepository.findById(projectID).orElseGet(IndicatorsReqs::new);
+        int committed = rqs.getCommittedAtDr1();
+        int removed = rqs.getRemovedAfterDr1();
+        int modified = rqs.getModifiedAfterDr1();
+
+        return (float)(committed - removed - modified) / committed;
     }
 
     private QualityIndicatorsTableDTO getQuality(int projectID) {
