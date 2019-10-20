@@ -44,4 +44,14 @@ public class HealthIndicatorsDTO {
     public Date getPrevStatusSet() {
         return prevStatusSet;
     }
+
+    @Override
+    public String toString() {
+        return "HealthIndicatorsDTO{" +
+                "statuses=" + statuses +
+                ", comments=" + comments +
+                ", currentStatusSet=" + currentStatusSet +
+                ", prevStatusSet=" + prevStatusSet +
+                '}';
+    }
 }

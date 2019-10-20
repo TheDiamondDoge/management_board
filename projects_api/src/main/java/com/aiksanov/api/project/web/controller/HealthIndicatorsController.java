@@ -24,8 +24,11 @@ public class HealthIndicatorsController {
         return this.healthService.getHealthIndicators(projectID);
     }
 
-    @PutMapping("/{projectID}")
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/{projectID}")
     public void addHealthIndicator(@PathVariable Integer projectID, @RequestBody HealthIndicatorsDTO indicatorDTOs){
-        this.healthService.saveHealthIndicators(projectID, indicatorDTOs);
+        LOGGER.info("POST /api/health/{}", projectID);
+        LOGGER.info(indicatorDTOs.toString());
+//        this.healthService.saveHealthIndicators(projectID, indicatorDTOs);
     }
 }
