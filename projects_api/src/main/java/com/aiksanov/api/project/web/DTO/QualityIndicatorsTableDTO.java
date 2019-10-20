@@ -8,6 +8,7 @@ public class QualityIndicatorsTableDTO {
     private QualityIndicatorDTO backlog;
     private List<QualityIndicatorDTO> testExecution;
     private List<QualityIndicatorDTO> testRate;
+    private String syncDate;
 
     public QualityIndicatorsTableDTO() {
     }
@@ -63,5 +64,13 @@ public class QualityIndicatorsTableDTO {
 
     public void setTestRate(List<QualityIndicatorDTO> testRate) {
         this.testRate = testRate;
+    }
+
+    public String getSyncDate() {
+        return syncDate;
+    }
+
+    public void setSyncDate(String syncDate) {
+        this.syncDate = syncDate;
     }
 }

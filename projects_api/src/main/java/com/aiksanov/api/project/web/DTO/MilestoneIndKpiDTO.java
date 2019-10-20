@@ -22,7 +22,7 @@ public class MilestoneIndKpiDTO {
     }
 
     public void setAdherence(float adherence) {
-        this.adherence = adherence;
+        this.adherence = round(adherence);
     }
 
     public long getDelay() {
@@ -39,5 +39,9 @@ public class MilestoneIndKpiDTO {
 
     public void setDuration(long duration) {
         this.duration = duration;
+    }
+
+    private float round(float value) {
+        return Math.round(value * 100f) / 100f;
     }
 }

@@ -36,8 +36,7 @@ public class InformationTabService {
         }
         Project project = this.generalRepository.findById(id).orElseThrow(() -> new RuntimeException(projectNotFoundMessage));
         ProjectURLs urls = this.urlsRepository.findById(id).orElseGet(ProjectURLs::new);
-        List<MilestoneDTO> milestones = this.milestoneService.getMilestonesByProjectID(id);
 
-        return new InformationDTO(project, urls, milestones);
+        return new InformationDTO(project, urls);
     }
 }

@@ -48,15 +48,6 @@ public class IndicatorsService {
         this.generalRepository = generalRepository;
     }
 
-    //TODO: To remove
-    public IndicatorsDTO getIndicatorsDTO(int projectID) {
-        List<MilestoneDTO> milestones = this.milestoneService.getShownMilestonesByProjectID(projectID);
-        HealthIndicatorsDTO indicators = this.healthService.getHealthIndicators(projectID);
-        IndicatorsReqDTO reqDTO = getRqDTO(projectID);
-        QualityIndicatorsTableDTO quality = getQuality(projectID);
-        return new IndicatorsDTO(milestones, indicators, reqDTO, quality, new Date());
-    }
-
     public IndicatorsReqDTO getRqDTO(int projectID) {
         IndicatorsReqs rqs = this.indicatorsReqsRepository.findById(projectID).orElseGet(IndicatorsReqs::new);
         Milestone dr1 = this.milestoneService.getProjectMilestoneById(projectID, "DR1");
@@ -192,6 +183,7 @@ public class IndicatorsService {
         dto.setBacklog(new QualityIndicatorDTO(backlog));
         dto.setTestExecution(executionDTO);
         dto.setTestRate(rateDTO);
+        dto.setSyncDate("2019-10-11");
 
         return dto;
     }

@@ -2,7 +2,6 @@ package com.aiksanov.api.project.web.DTO;
 
 import com.aiksanov.api.project.data.entity.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -36,9 +35,8 @@ public class InformationDTO {
     private String defectsUrl;
     private String requirementsUrl;
     private String cisUrl;
-    private List<MilestoneDTO> milestones;
 
-    public InformationDTO(Project projectInfo, ProjectURLs urls, List<MilestoneDTO> milestones) {
+    public InformationDTO(Project projectInfo, ProjectURLs urls) {
         if (Objects.nonNull(projectInfo)) {
             projectInfoMapping(projectInfo);
         }
@@ -46,8 +44,6 @@ public class InformationDTO {
         if (Objects.nonNull(urls)) {
             urlsMapping(urls);
         }
-
-        this.milestones = milestones;
     }
 
     private void projectInfoMapping(Project projectInfo) {
@@ -212,13 +208,5 @@ public class InformationDTO {
 
     public String getCisUrl() {
         return cisUrl;
-    }
-
-    public List<MilestoneDTO> getMilestones() {
-        return milestones;
-    }
-
-    public void setMilestones(List<MilestoneDTO> milestones) {
-        this.milestones = milestones;
     }
 }
