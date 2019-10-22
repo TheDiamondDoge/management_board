@@ -5,10 +5,7 @@ import com.aiksanov.api.project.web.DTO.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +24,12 @@ public class IndicatorsRequirementsController {
     public IndicatorsReqDTO getRequirements(@PathVariable int id) {
         LOGGER.info("GET /api/indicators/requirements/{}", id);
         return indicatorsService.getRqDTO(id);
+    }
+
+    @PostMapping("/requirements/{id}")
+    public void saveRequirements(@PathVariable int id, @RequestBody IndicatorsReqDTO rqs){
+        LOGGER.info("POST /api/indicators/requirements/{}", id);
+        LOGGER.info(rqs.toString());
     }
 
     @GetMapping("/milestones/{id}")
