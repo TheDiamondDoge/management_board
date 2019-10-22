@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/api/health")
 public class HealthIndicatorsController {
@@ -19,16 +21,19 @@ public class HealthIndicatorsController {
     }
 
     @GetMapping("/{projectID}")
-    public HealthIndicatorsDTO getHealthIndicators(@PathVariable Integer projectID){
+    public HealthIndicatorsDTO getHealthIndicators(@PathVariable Integer projectID) {
         LOGGER.info("GET /api/health/{}", projectID);
         return this.healthService.getHealthIndicators(projectID);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/{projectID}")
-    public void addHealthIndicator(@PathVariable Integer projectID, @RequestBody HealthIndicatorsDTO indicatorDTOs){
+    public void addHealthIndicator(@PathVariable Integer projectID, @RequestBody HealthIndicatorsDTO indicatorDTOs) {
         LOGGER.info("POST /api/health/{}", projectID);
-        LOGGER.info(indicatorDTOs.toString());
-//        this.healthService.saveHealthIndicators(projectID, indicatorDTOs);
+        if (Objects.isNull(indicatorDTOs.getComments())) {
+            this.healthService.saveHealthIndicators(indicatorDTOs, projectID);
+        } else if (Objects.isNull(indicatorDTOs.getStatuses())) {
+            this.healthService.saveHealthComments(indicatorDTOs, projectID);
+        }
     }
 }
