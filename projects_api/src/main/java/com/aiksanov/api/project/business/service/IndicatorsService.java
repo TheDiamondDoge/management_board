@@ -188,6 +188,17 @@ public class IndicatorsService {
         return dto;
     }
 
+    public void saveIndicatorsRqs(IndicatorsReqDTO dto, int projectID) {
+        IndicatorsReqs rqs = new IndicatorsReqs();
+        rqs.setProjectID(projectID);
+        rqs.setCommittedAtDr1(dto.getCommittedAtDr1());
+        rqs.setAddedAfterDr1(dto.getAddedAfterDr1());
+        rqs.setRemovedAfterDr1(dto.getRemovedAfterDr1());
+        rqs.setModifiedAfterDr1(dto.getModifiedAfterDr1());
+
+        this.indicatorsReqsRepository.save(rqs);
+    }
+
     private boolean isProjectNotExist(int projectID) {
         return !this.generalRepository.existsById(projectID);
     }

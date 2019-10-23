@@ -7,11 +7,11 @@ import java.util.Objects;
 
 public class IndicatorsReqDTO {
     private Date dr1Actual;
-    private int committedAtDr1;
-    private int addedAfterDr1;
-    private int removedAfterDr1;
-    private int modifiedAfterDr1;
-    private int sum;
+    private Integer committedAtDr1;
+    private Integer addedAfterDr1;
+    private Integer removedAfterDr1;
+    private Integer modifiedAfterDr1;
+    private Integer sum;
 
     public IndicatorsReqDTO() {
     }
@@ -41,23 +41,23 @@ public class IndicatorsReqDTO {
         return dr1Actual;
     }
 
-    public int getCommittedAtDr1() {
+    public Integer getCommittedAtDr1() {
         return committedAtDr1;
     }
 
-    public int getAddedAfterDr1() {
+    public Integer getAddedAfterDr1() {
         return addedAfterDr1;
     }
 
-    public int getRemovedAfterDr1() {
+    public Integer getRemovedAfterDr1() {
         return removedAfterDr1;
     }
 
-    public int getModifiedAfterDr1() {
+    public Integer getModifiedAfterDr1() {
         return modifiedAfterDr1;
     }
 
-    public int getSum() {
+    public Integer getSum() {
         return sum;
     }
 }
