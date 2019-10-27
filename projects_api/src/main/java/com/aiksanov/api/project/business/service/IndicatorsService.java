@@ -12,6 +12,7 @@ import com.aiksanov.api.project.data.repository.QualityIndicatorsRepository;
 import com.aiksanov.api.project.web.DTO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -188,6 +189,7 @@ public class IndicatorsService {
         return dto;
     }
 
+    @Transactional
     public void saveIndicatorsRqs(IndicatorsReqDTO dto, int projectID) {
         IndicatorsReqs rqs = new IndicatorsReqs();
         rqs.setProjectID(projectID);
@@ -197,6 +199,11 @@ public class IndicatorsService {
         rqs.setModifiedAfterDr1(dto.getModifiedAfterDr1());
 
         this.indicatorsReqsRepository.save(rqs);
+    }
+
+    public void saveQuality(QualityIndicatorsTableDTO dto, int projectID) {
+        //TODO extract comment from list; testExecution: {arr []; comment: ""}
+        System.out.println(dto);
     }
 
     private boolean isProjectNotExist(int projectID) {

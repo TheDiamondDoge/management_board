@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface QualityIndicatorsRepository extends CrudRepository<QualityIndicators, QualityIndicatorsPK> {
     List<QualityIndicators> getAllByProjectIDAndKpiID(int projectID, String kpiID);
+    void deleteAllByProjectIDAndKpiID(int projectID, String kpiID);
 }

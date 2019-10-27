@@ -51,4 +51,11 @@ public class IndicatorsRequirementsController {
         LOGGER.info("GET /api/indicators/quality/{}", id);
         return this.indicatorsService.getQuality(id);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/quality/{id}")
+    public void saveQuality(@PathVariable int id, @RequestBody QualityIndicatorsTableDTO dto) {
+        LOGGER.info("POST /api/indicators/quality/{}", id);
+        this.indicatorsService.saveQuality(dto, id);
+    }
 }
