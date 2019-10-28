@@ -158,7 +158,7 @@ ALTER TABLE `prj_blc_dashboard` ADD FOREIGN KEY (role) REFERENCES prj_blc_roles 
 DROP TABLE IF EXISTS prj_indicators_quality;
 CREATE TABLE IF NOT EXISTS `prj_indicators_quality` (
     `project_id` int(5) NOT NULL,
-    `kpi_id` varchar(10) NOT NULL,
+    `kpi_id` varchar(15) NOT NULL,
     `row_num` int(5) NOT NULL,
     `objective` int(7),
     `actual` int(7),
@@ -169,7 +169,7 @@ ALTER TABLE `prj_indicators_quality` ADD FOREIGN KEY (project_id) REFERENCES PRJ
 DROP TABLE IF EXISTS prj_indicators_quality_comments;
 CREATE TABLE IF NOT EXISTS `prj_indicators_quality_comments` (
     `project_id` int(5) NOT NULL,
-    `kpi_id` varchar(10) NOT NULL,
+    `kpi_id` varchar(15) NOT NULL,
     `comment` text,
     PRIMARY KEY (`project_id`, `kpi_id`)
 );

@@ -1,6 +1,8 @@
 package com.aiksanov.api.project.data.entity;
 
 import com.aiksanov.api.project.data.entity.pk.QualityIndicatorsPK;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 
@@ -27,6 +29,7 @@ public class QualityIndicators {
     private int actual;
 
     @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumns({
             @JoinColumn(name = "project_id", referencedColumnName = "project_id", insertable = false, updatable = false),
             @JoinColumn(name = "kpi_id", referencedColumnName = "kpi_id", insertable = false, updatable = false)

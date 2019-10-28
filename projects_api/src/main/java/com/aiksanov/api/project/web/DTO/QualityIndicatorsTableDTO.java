@@ -3,9 +3,9 @@ package com.aiksanov.api.project.web.DTO;
 import java.util.List;
 
 public class QualityIndicatorsTableDTO {
-    private QualityIndicatorDTO quality;
-    private QualityIndicatorDTO defects;
-    private QualityIndicatorDTO backlog;
+    private List<QualityIndicatorDTO> quality;
+    private List<QualityIndicatorDTO> defects;
+    private List<QualityIndicatorDTO> backlog;
     private List<QualityIndicatorDTO> testExecution;
     private List<QualityIndicatorDTO> testRate;
     private String syncDate;
@@ -13,40 +13,42 @@ public class QualityIndicatorsTableDTO {
     public QualityIndicatorsTableDTO() {
     }
 
-    public QualityIndicatorsTableDTO(QualityIndicatorDTO quality,
-                                     QualityIndicatorDTO defects,
-                                     QualityIndicatorDTO backlog,
+
+    public QualityIndicatorsTableDTO(List<QualityIndicatorDTO> quality,
+                                     List<QualityIndicatorDTO> defects,
+                                     List<QualityIndicatorDTO> backlog,
                                      List<QualityIndicatorDTO> testExecution,
-                                     List<QualityIndicatorDTO> testRate
-    ) {
+                                     List<QualityIndicatorDTO> testRate,
+                                     String syncDate) {
         this.quality = quality;
         this.defects = defects;
         this.backlog = backlog;
         this.testExecution = testExecution;
         this.testRate = testRate;
+        this.syncDate = syncDate;
     }
 
-    public QualityIndicatorDTO getQuality() {
+    public List<QualityIndicatorDTO> getQuality() {
         return quality;
     }
 
-    public void setQuality(QualityIndicatorDTO quality) {
+    public void setQuality(List<QualityIndicatorDTO> quality) {
         this.quality = quality;
     }
 
-    public QualityIndicatorDTO getDefects() {
+    public List<QualityIndicatorDTO> getDefects() {
         return defects;
     }
 
-    public void setDefects(QualityIndicatorDTO defects) {
+    public void setDefects(List<QualityIndicatorDTO> defects) {
         this.defects = defects;
     }
 
-    public QualityIndicatorDTO getBacklog() {
+    public List<QualityIndicatorDTO> getBacklog() {
         return backlog;
     }
 
-    public void setBacklog(QualityIndicatorDTO backlog) {
+    public void setBacklog(List<QualityIndicatorDTO> backlog) {
         this.backlog = backlog;
     }
 
