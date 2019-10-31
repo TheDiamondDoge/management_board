@@ -5,10 +5,8 @@ import com.aiksanov.api.project.data.entity.Milestone;
 import com.aiksanov.api.project.data.entity.QualityIndicators;
 import com.aiksanov.api.project.data.entity.QualityIndicatorsComments;
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
-import com.aiksanov.api.project.data.repository.GeneralRepository;
-import com.aiksanov.api.project.data.repository.IndicatorsReqsRepository;
-import com.aiksanov.api.project.data.repository.MilestoneRepository;
-import com.aiksanov.api.project.data.repository.QualityIndicatorsRepository;
+import com.aiksanov.api.project.data.entity.pk.QualityIndicatorsCommentsPK;
+import com.aiksanov.api.project.data.repository.*;
 import com.aiksanov.api.project.web.DTO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +24,7 @@ public class IndicatorsService {
     private HealthService healthService;
     private IndicatorsReqsRepository indicatorsReqsRepository;
     private QualityIndicatorsRepository qualityRepository;
+    private QualityIndicatorsCommentsRepository commentsRepository;
     private MilestoneRepository milestoneRepository;
     private GeneralRepository generalRepository;
 
@@ -37,6 +36,7 @@ public class IndicatorsService {
                              HealthService healthService,
                              IndicatorsReqsRepository indicatorsReqsRepository,
                              QualityIndicatorsRepository qualityRepository,
+                             QualityIndicatorsCommentsRepository commentsRepository,
                              MilestoneRepository milestoneRepository,
                              GeneralRepository generalRepository
     ) {
@@ -44,6 +44,7 @@ public class IndicatorsService {
         this.healthService = healthService;
         this.indicatorsReqsRepository = indicatorsReqsRepository;
         this.qualityRepository = qualityRepository;
+        this.commentsRepository = commentsRepository;
         this.milestoneRepository = milestoneRepository;
         this.generalRepository = generalRepository;
     }
@@ -164,9 +165,16 @@ public class IndicatorsService {
         );
     }
 
+    public Iterable<QualityIndicatorsComments> getAll() {
+        return this.commentsRepository.findAll();
+    }
+
     private List<QualityIndicatorDTO> getQualityRow(int projectID, String kpiID) {
         List<QualityIndicators> list = this.qualityRepository.getAllByProjectIDAndKpiID(projectID, kpiID);
-        return list.stream().map(QualityIndicatorDTO::new).collect(Collectors.toList());
+        QualityIndicatorsComments comment = this.commentsRepository
+                .findById(new QualityIndicatorsCommentsPK(projectID, kpiID))
+                .orElseGet(QualityIndicatorsComments::new);
+        return list.stream().map(indicator -> new QualityIndicatorDTO(indicator, comment)).collect(Collectors.toList());
     }
 
     @Transactional
@@ -186,34 +194,53 @@ public class IndicatorsService {
         List<QualityIndicators> quality = buildQualityIndicators(dto.getQuality(), projectID, "quality");
         List<QualityIndicators> defects = buildQualityIndicators(dto.getDefects(), projectID, "defects");
         List<QualityIndicators> backlog = buildQualityIndicators(dto.getBacklog(), projectID, "backlog");
-        List<QualityIndicators> testExecution = buildQualityIndicators(dto.getTestExecution(), projectID, "testExecution");
-        List<QualityIndicators> testRate = buildQualityIndicators(dto.getQuality(), projectID, "testRate");
+        List<QualityIndicators> testExecution = buildQualityIndicators(dto.getTestExecution(), projectID, "execution");
+        List<QualityIndicators> testRate = buildQualityIndicators(dto.getQuality(), projectID, "rate");
 
-        List<QualityIndicators> toSave = new ArrayList<>();
-        toSave.addAll(quality);
-        toSave.addAll(defects);
-        toSave.addAll(backlog);
-        toSave.addAll(testExecution);
-        toSave.addAll(testRate);
+        QualityIndicatorsComments qualityComment = buildQualityComment(dto.getQuality(), projectID, "quality");
+        QualityIndicatorsComments defectComment = buildQualityComment(dto.getDefects(), projectID, "defects");
+        QualityIndicatorsComments backlogComment = buildQualityComment(dto.getBacklog(), projectID, "backlog");
+        QualityIndicatorsComments testExecutionComment = buildQualityComment(dto.getTestExecution(), projectID, "execution");
+        QualityIndicatorsComments testRateComment = buildQualityComment(dto.getTestRate(), projectID, "rate");
+
+        List<QualityIndicators> indicatorsToSave = new ArrayList<>();
+        indicatorsToSave.addAll(quality);
+        indicatorsToSave.addAll(defects);
+        indicatorsToSave.addAll(backlog);
+        indicatorsToSave.addAll(testExecution);
+        indicatorsToSave.addAll(testRate);
+
+        List<QualityIndicatorsComments> commentsToSave = new ArrayList<>();
+        commentsToSave.add(qualityComment);
+        commentsToSave.add(defectComment);
+        commentsToSave.add(backlogComment);
+        commentsToSave.add(testExecutionComment);
+        commentsToSave.add(testRateComment);
 
         this.qualityRepository.deleteAllByProjectID(projectID);
-        this.qualityRepository.saveAll(toSave);
+        this.commentsRepository.deleteAllByProjectID(projectID);
+
+        this.qualityRepository.saveAll(indicatorsToSave);
+        this.commentsRepository.saveAll(commentsToSave);
     }
 
     private List<QualityIndicators> buildQualityIndicators(List<QualityIndicatorDTO> dtos, int projectID, String kpiId) {
         List<QualityIndicators> result = new ArrayList<>();
+        for (int i = 0; i < dtos.size(); i++) {
+            result.add(
+                    new QualityIndicators(projectID, kpiId, i, dtos.get(i).getObjective(), dtos.get(i).getActual()));
+        }
+
+        return result;
+    }
+
+    private QualityIndicatorsComments buildQualityComment(List<QualityIndicatorDTO> dtos, int projectID, String kpiID) {
         String comment = "";
         if (Objects.nonNull(dtos) && dtos.size() > 0) {
             comment = dtos.get(0).getComment();
         }
-        for (int i = 0; i < dtos.size(); i++) {
-            result.add(
-                    new QualityIndicators(projectID, kpiId, i, dtos.get(i).getObjective(), dtos.get(i).getActual(),
-                            new QualityIndicatorsComments(projectID, kpiId, comment)
-                    ));
-        }
 
-        return result;
+        return new QualityIndicatorsComments(projectID, kpiID, comment);
     }
 
     private boolean isProjectNotExist(int projectID) {

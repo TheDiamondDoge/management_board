@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QualityIndicatorsCommentsRepository extends CrudRepository<QualityIndicatorsComments, QualityIndicatorsCommentsPK> {
+    void deleteAllByProjectID(int projectID);
 }

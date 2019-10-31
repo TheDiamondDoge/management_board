@@ -2,6 +2,7 @@ package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.IndicatorsService;
 import com.aiksanov.api.project.data.entity.IndicatorsReqs;
+import com.aiksanov.api.project.data.entity.QualityIndicatorsComments;
 import com.aiksanov.api.project.web.DTO.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,12 @@ public class IndicatorsRequirementsController {
     public QualityIndicatorsTableDTO getQuality(@PathVariable int id) {
         LOGGER.info("GET /api/indicators/quality/{}", id);
         return this.indicatorsService.getQuality(id);
+    }
+
+    @GetMapping("/quality")
+    public Iterable<QualityIndicatorsComments> getQualityAll() {
+        LOGGER.info("GET /api/indicators/quality/{}");
+        return this.indicatorsService.getAll();
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

@@ -28,24 +28,25 @@ public class QualityIndicators {
     @Column(name = "actual")
     private int actual;
 
-    @OneToOne
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumns({
-            @JoinColumn(name = "project_id", referencedColumnName = "project_id", insertable = false, updatable = false),
-            @JoinColumn(name = "kpi_id", referencedColumnName = "kpi_id", insertable = false, updatable = false)
-    })
-    private QualityIndicatorsComments comment;
+    //TODO learn how to map properly (deletion error)
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+//    @MapsId("kpi_id")
+//    @NotFound(action = NotFoundAction.IGNORE)
+//    @JoinColumns({
+//            @JoinColumn(name = "project_id", referencedColumnName = "project_id"),
+//            @JoinColumn(name = "kpi_id", referencedColumnName = "kpi_id")
+//    })
+//    private QualityIndicatorsComments comment;
 
     public QualityIndicators() {
     }
 
-    public QualityIndicators(int projectID, String kpiID, int rowNumber, int objective, int actual, QualityIndicatorsComments comment) {
+    public QualityIndicators(int projectID, String kpiID, int rowNumber, int objective, int actual) {
         this.projectID = projectID;
         this.kpiID = kpiID;
         this.rowNumber = rowNumber;
         this.objective = objective;
         this.actual = actual;
-        this.comment = comment;
     }
 
     public int getProjectID() {
@@ -86,13 +87,5 @@ public class QualityIndicators {
 
     public void setActual(int actual) {
         this.actual = actual;
-    }
-
-    public QualityIndicatorsComments getComment() {
-        return comment;
-    }
-
-    public void setComment(QualityIndicatorsComments comment) {
-        this.comment = comment;
     }
 }
