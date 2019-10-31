@@ -195,7 +195,7 @@ public class IndicatorsService {
         List<QualityIndicators> defects = buildQualityIndicators(dto.getDefects(), projectID, "defects");
         List<QualityIndicators> backlog = buildQualityIndicators(dto.getBacklog(), projectID, "backlog");
         List<QualityIndicators> testExecution = buildQualityIndicators(dto.getTestExecution(), projectID, "execution");
-        List<QualityIndicators> testRate = buildQualityIndicators(dto.getQuality(), projectID, "rate");
+        List<QualityIndicators> testRate = buildQualityIndicators(dto.getTestRate(), projectID, "rate");
 
         QualityIndicatorsComments qualityComment = buildQualityComment(dto.getQuality(), projectID, "quality");
         QualityIndicatorsComments defectComment = buildQualityComment(dto.getDefects(), projectID, "defects");
