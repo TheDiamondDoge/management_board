@@ -5,7 +5,9 @@ import com.aiksanov.api.project.data.entity.pk.HealthIndicatorsCommentsPK;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface HealthCommentsRepository extends CrudRepository<HealthIndicatorsComments, HealthIndicatorsCommentsPK> {
-    HealthIndicatorsComments findByPk(HealthIndicatorsCommentsPK pk);
+    Optional<HealthIndicatorsComments> findByPk(HealthIndicatorsCommentsPK pk);
 }

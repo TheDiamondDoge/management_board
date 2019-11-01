@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `prj_indicators_comments` (
   `comment` text DEFAULT 0,
   PRIMARY KEY (`project_id`, `label`)
 );
-ALTER TABLE `prj_indicators_comments` ADD FOREIGN KEY (project_id) REFERENCES prj_indicators_health(project_id);
+-- ALTER TABLE `prj_indicators_comments` ADD FOREIGN KEY (project_id) REFERENCES prj_indicators_health(project_id);
 
 DROP TABLE IF EXISTS prj_additional_info;
 CREATE TABLE IF NOT EXISTS `prj_additional_info` (

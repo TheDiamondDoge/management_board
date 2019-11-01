@@ -22,7 +22,7 @@ public class MilestoneService {
         this.milestoneRepo = milestoneRepo;
     }
 
-    public List<MilestoneDTO> getMilestonesByProjectID(Integer projectID){
+    public List<MilestoneDTO> getMilestonesByProjectID(Integer projectID) {
         List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectID(projectID);
         return mapMilestonesToDTO(milestones);
     }
@@ -33,7 +33,7 @@ public class MilestoneService {
     }
 
     private List<MilestoneDTO> mapMilestonesToDTO(List<Milestone> milestones) {
-        if (Objects.nonNull(milestones)){
+        if (Objects.nonNull(milestones)) {
             return milestones.stream()
                     .map(MilestoneDTO::new)
                     .collect(Collectors.toList());
@@ -42,31 +42,28 @@ public class MilestoneService {
         }
     }
 
-    public Milestone getProjectMilestoneById(Integer projectID, String label){
-        return this.milestoneRepo.findById(new MilestonePK(projectID, label)).orElseThrow(
-                () -> new RuntimeException("Milestone not found"));
+    public Milestone getProjectMilestoneById(Integer projectID, String label) {
+        return this.milestoneRepo.findById(new MilestonePK(projectID, label)).orElseGet(Milestone::new);
     }
 
-    public void addMilestonesData(List<MilestoneDTO> milestoneDTOs){
+    public void addMilestonesData(List<MilestoneDTO> milestoneDTOs) {
         List<Milestone> milestones = milestoneDTOs.stream()
                 .map(dto ->
-                    new Milestone(
-                        new MilestonePK(dto.getProjectID(), dto.getLabel()),
-                        dto.getBaselineDate(),
-                        dto.getActualDate(),
-                        dto.getCompletion(),
-                        dto.getMeetingMinutes(),
-                        dto.isShown()
-                    )
+                        new Milestone(
+                                new MilestonePK(dto.getProjectID(), dto.getLabel()),
+                                dto.getBaselineDate(),
+                                dto.getActualDate(),
+                                dto.getCompletion(),
+                                dto.getMeetingMinutes(),
+                                dto.isShown()
+                        )
                 ).collect(Collectors.toList());
 
-        if (Objects.nonNull(milestones)) {
-            this.milestoneRepo.saveAll(milestones);
-        }
+        this.milestoneRepo.saveAll(milestones);
     }
 
     @Transactional
-    public void deleteMilestonesData(List<MilestonePK> milestonesPKs){
+    public void deleteMilestonesData(List<MilestonePK> milestonesPKs) {
         if (Objects.nonNull(milestonesPKs)) {
             this.milestoneRepo.deleteAllByMilestonePK(milestonesPKs);
         }

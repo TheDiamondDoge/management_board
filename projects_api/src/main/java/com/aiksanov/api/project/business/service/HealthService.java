@@ -31,6 +31,9 @@ public class HealthService {
 
     public HealthIndicatorsDTO getHealthIndicators(Integer projectID) {
         List<HealthIndicators> lastTwoHealthStates = this.healthRepository.lastTwoHealthStates(projectID);
+        if (Objects.isNull(lastTwoHealthStates)) {
+            lastTwoHealthStates = new ArrayList<>();
+        }
         Map<String, String> comments = new HashMap<>();
 
         comments.put(OVERALL.getLabel(), getCommentString(OVERALL, projectID));
@@ -43,7 +46,8 @@ public class HealthService {
     }
 
     private String getCommentString(HealthStatus statusName, int projectID) {
-        return this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, statusName.getLabel())).getComment();
+        return this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, statusName.getLabel()))
+                .orElseGet(HealthIndicatorsComments::new).getComment();
     }
 
     public void saveHealthIndicators(HealthIndicatorsDTO indicatorsDTOs, Integer projectID) {

@@ -17,14 +17,18 @@ public class HealthIndicatorsDTO {
     public HealthIndicatorsDTO(List<HealthIndicators> twoLastModifiedHealths, Map<String, String> comments) {
         statuses = new HashMap<>();
         if (Objects.nonNull(twoLastModifiedHealths)) {
-            statuses.put("current", twoLastModifiedHealths.get(0));
-            statuses.put("prev", twoLastModifiedHealths.get(1));
+            if (twoLastModifiedHealths.size() > 0) {
+                statuses.put("current", twoLastModifiedHealths.get(0));
+                currentStatusSet = twoLastModifiedHealths.get(0).getHealthIndicatorsPK().getModificationDate();
+            }
 
-            currentStatusSet = twoLastModifiedHealths.get(0).getHealthIndicatorsPK().getModificationDate();
-            prevStatusSet = twoLastModifiedHealths.get(1).getHealthIndicatorsPK().getModificationDate();
+            if (twoLastModifiedHealths.size() >= 2) {
+                statuses.put("prev", twoLastModifiedHealths.get(1));
+                prevStatusSet = twoLastModifiedHealths.get(1).getHealthIndicatorsPK().getModificationDate();
+            }
         }
 
-        if (Objects.nonNull(comments)){
+        if (Objects.nonNull(comments)) {
             this.comments = comments;
         }
     }
