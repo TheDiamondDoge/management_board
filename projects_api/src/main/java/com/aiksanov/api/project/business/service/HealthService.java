@@ -46,8 +46,9 @@ public class HealthService {
     }
 
     private String getCommentString(HealthStatus statusName, int projectID) {
-        return this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, statusName.getLabel()))
+        String comment = this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, statusName.getLabel()))
                 .orElseGet(HealthIndicatorsComments::new).getComment();
+        return Objects.nonNull(comment) ? comment : "";
     }
 
     public void saveHealthIndicators(HealthIndicatorsDTO indicatorsDTOs, Integer projectID) {

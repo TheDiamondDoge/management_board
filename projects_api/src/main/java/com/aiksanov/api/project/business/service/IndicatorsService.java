@@ -131,7 +131,7 @@ public class IndicatorsService {
         }
         dto.setContentAdherence(getContentAdherence(projectID));
         dto.setRqsChange(getRqsChange(projectID));
-        dto.setCostAdherence(1f);
+        dto.setCostAdherence(-1f);
         return dto;
     }
 

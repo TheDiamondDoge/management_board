@@ -1,6 +1,8 @@
 package com.aiksanov.api.project.web.DTO;
 
 
+import java.util.Objects;
+
 public class IndicatorsDr4KpiDTO {
     private int year;
     private Float scheduleAdherence;
@@ -24,7 +26,7 @@ public class IndicatorsDr4KpiDTO {
     }
 
     public void setScheduleAdherence(Float scheduleAdherence) {
-        this.scheduleAdherence = scheduleAdherence;
+        this.scheduleAdherence = nanToNull(scheduleAdherence);
     }
 
     public Float getContentAdherence() {
@@ -32,7 +34,7 @@ public class IndicatorsDr4KpiDTO {
     }
 
     public void setContentAdherence(Float contentAdherence) {
-        this.contentAdherence = contentAdherence;
+        this.contentAdherence = nanToNull(contentAdherence);
     }
 
     public Float getRqsChange() {
@@ -40,7 +42,7 @@ public class IndicatorsDr4KpiDTO {
     }
 
     public void setRqsChange(Float rqsChange) {
-        this.rqsChange = rqsChange;
+        this.rqsChange = nanToNull(rqsChange);
     }
 
     public Float getCostAdherence() {
@@ -48,6 +50,14 @@ public class IndicatorsDr4KpiDTO {
     }
 
     public void setCostAdherence(Float costAdherence) {
-        this.costAdherence = costAdherence;
+        this.costAdherence = nanToNull(costAdherence);
+    }
+
+    private Float nanToNull(Float f) {
+        if (Objects.nonNull(f)) {
+            return f.isNaN() ? null : f;
+        } else {
+            return f;
+        }
     }
 }
