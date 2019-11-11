@@ -4,9 +4,9 @@ import com.aiksanov.api.project.data.entity.pk.HealthIndicatorsPK;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import java.io.Serializable;
 
-//TODO: Specific query (???) for fetch only 2 latest modification of each milestone
 @Entity
 @Table(name = "prj_indicators_health")
 public class HealthIndicators implements Serializable {
@@ -15,6 +15,7 @@ public class HealthIndicators implements Serializable {
     private HealthIndicatorsPK healthIndicatorsPK;
 
     @Column(name = "overall")
+    @Max(1)
     private int overall;
 
     @Column(name = "schedule")

@@ -39,4 +39,10 @@ public class InformationTabService {
 
         return new InformationDTO(project, urls);
     }
+
+    //TODO: save realization
+    //TODO: save milestones endpoint
+    public void saveInformationData(Integer id, InformationDTO dto) {
+        System.out.println(dto);
+    }
 }
