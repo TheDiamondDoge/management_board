@@ -27,6 +27,9 @@ public class ProjectURLs {
     @Column(name = "lessons_learned")
     private String lessonsLearned;
 
+    @Column(name = "project_plan")
+    private String projectPlan;
+
     @Column(name = "project_collab_url")
     private String collabUrl;
 
@@ -95,6 +98,14 @@ public class ProjectURLs {
 
     public void setLessonsLearned(String lessonsLearned) {
         this.lessonsLearned = lessonsLearned;
+    }
+
+    public String getProjectPlan() {
+        return projectPlan;
+    }
+
+    public void setProjectPlan(String projectPlan) {
+        this.projectPlan = projectPlan;
     }
 
     public String getCollabUrl() {

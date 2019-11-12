@@ -6,9 +6,8 @@ import javax.persistence.*;
 @Table(name = "prj_products")
 public class Product {
     @Id
-    @Column(name = "product_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "project_id")
+    private int projectID;
 
     @Column(name = "product_line")
     private String productLine;
@@ -37,9 +36,6 @@ public class Product {
     @Column(name = "product_release")
     private String release;
 
-    @Column(name = "project_id")
-    private int projectID;
-
     public Product() {
     }
 
@@ -54,14 +50,6 @@ public class Product {
         this.team = team;
         this.release = release;
         this.projectID = projectID;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getProductLine() {

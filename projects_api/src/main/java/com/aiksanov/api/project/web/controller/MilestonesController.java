@@ -23,25 +23,32 @@ public class MilestonesController {
     }
 
     @GetMapping("/{projectId}")
-    public List<MilestoneDTO> getMilestonesByProjectID(@PathVariable Integer projectId){
+    public List<MilestoneDTO> getMilestonesByProjectID(@PathVariable Integer projectId) {
         LOGGER.info("GET /api/milestones/{}", projectId);
         return this.milestoneService.getMilestonesByProjectID(projectId);
     }
 
     @GetMapping("/{projectId}/{label}")
-    public Milestone getProjectMilestone(@PathVariable Integer projectId, @PathVariable String label){
+    public Milestone getProjectMilestone(@PathVariable Integer projectId, @PathVariable String label) {
         LOGGER.info("GET /api/milestones/{}/{}", projectId, label);
         return this.milestoneService.getProjectMilestoneById(projectId, label);
     }
 
-    @PutMapping
-    public void addMilestones(@RequestBody List<MilestoneDTO> milestoneDTOs){
-        LOGGER.info("PUT /api/milestones/");
-        this.milestoneService.addMilestonesData( milestoneDTOs);
+    @CrossOrigin(origins = "*")
+    @PostMapping("/{projectId}")
+    public void saveMilestones(@PathVariable Integer projectId, @RequestBody List<MilestoneDTO> dtos) {
+        LOGGER.info("POST /api/milestones/{}", projectId);
+        this.milestoneService.saveMilestones(projectId, dtos);
+    }
+
+    @PutMapping("/{projectID}")
+    public void addMilestones(@PathVariable Integer projectID, @RequestBody List<MilestoneDTO> milestoneDTOs) {
+        LOGGER.info("PUT /api/milestones/{}", projectID);
+        this.milestoneService.addMilestonesData(projectID, milestoneDTOs);
     }
 
     @DeleteMapping
-    public void deleteMilestones(@RequestBody List<MilestonePK> milestonesPKs){
+    public void deleteMilestones(@RequestBody List<MilestonePK> milestonesPKs) {
         LOGGER.info("DELETE /api/milestones/");
         this.milestoneService.deleteMilestonesData(milestonesPKs);
     }

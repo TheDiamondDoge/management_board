@@ -15,7 +15,7 @@ CREATE TABLE `PRJ_WORKSPACE_GENERAL` (
 
 DROP TABLE IF EXISTS prj_products;
 CREATE TABLE IF NOT EXISTS `prj_products` (
-  `product_id` int(5) NOT NULL AUTO_INCREMENT,
+  `project_id` int(5) DEFAULT NULL,
   `product_line` varchar(45) DEFAULT NULL,
   `product_name` varchar(100) DEFAULT NULL,
   `product_manager` varchar(100) DEFAULT NULL,
@@ -25,8 +25,7 @@ CREATE TABLE IF NOT EXISTS `prj_products` (
   `product_unit` varchar(45) DEFAULT NULL,
   `product_team` varchar(45) DEFAULT NULL,
   `product_release` varchar(45) DEFAULT NULL,
-  `project_id` int(5) DEFAULT NULL,
-  PRIMARY KEY (`product_id`)
+  PRIMARY KEY (`project_id`)
 );
 ALTER TABLE `prj_products` ADD FOREIGN KEY (project_id) REFERENCES `PRJ_WORKSPACE_GENERAL`(project_id);
 
@@ -83,9 +82,19 @@ CREATE TABLE IF NOT EXISTS `prj_additional_info` (
   `business_line_manager` varchar(100) DEFAULT NULL,
   `sponsor` varchar(100) DEFAULT NULL,
   `oem_partner` varchar(256) DEFAULT NULL,
+  `composite` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`project_id`)
 );
 ALTER TABLE `prj_additional_info` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
+
+DROP TABLE IF EXISTS prj_jira_params;
+CREATE TABLE IF NOT EXISTS `prj_jira_params` (
+    `project_id` int(5) NOT NULL,
+    `metrics_scope` varchar(100) DEFAULT NULL,
+    `rq_release` varchar(100) DEFAULT NULL,
+    PRIMARY KEY (`project_id`)
+);
+ALTER TABLE `prj_jira_params` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
 
 DROP TABLE IF EXISTS prj_urls;
 CREATE TABLE IF NOT EXISTS `prj_urls` (
@@ -95,6 +104,7 @@ CREATE TABLE IF NOT EXISTS `prj_urls` (
   `updated_business_plan` varchar(512) DEFAULT NULL,
   `tailored_checklist` varchar(512) DEFAULT NULL,
   `lessons_learned` varchar(512) DEFAULT NULL,
+  `project_plan` varchar(512) DEFAULT NULL,
   `project_collab_url` varchar(512) DEFAULT NULL,
   `project_pwa_url` varchar(512) DEFAULT NULL,
   `document_repo_url` varchar(512) DEFAULT NULL,

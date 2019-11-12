@@ -25,6 +25,7 @@ public class InformationDTO {
     private String updatedBusinessPlan;
     private String drChecklist;
     private String lessonsLearned;
+    private String projectPlan;
     private String metricsScope;
     private String rqRelease;
     private Map<String, String> ecmaBacklogTarget;
@@ -36,13 +37,17 @@ public class InformationDTO {
     private String requirementsUrl;
     private String cisUrl;
 
-    public InformationDTO(Project projectInfo, ProjectURLs urls) {
+    public InformationDTO(Project projectInfo, ProjectURLs urls, JiraParams jiraParams) {
         if (Objects.nonNull(projectInfo)) {
             projectInfoMapping(projectInfo);
         }
 
         if (Objects.nonNull(urls)) {
             urlsMapping(urls);
+        }
+
+        if (Objects.nonNull(jiraParams)){
+            jiraMapping(jiraParams);
         }
     }
 
@@ -77,6 +82,7 @@ public class InformationDTO {
         this.businessLineManager = additionalInfo.getBusinessLineManager();
         this.sponsor = additionalInfo.getSponsor();
         this.oemPartner = additionalInfo.getOemPartner();
+        this.isComposite = additionalInfo.isComposite();
     }
 
     private void urlsMapping(ProjectURLs urls) {
@@ -85,6 +91,7 @@ public class InformationDTO {
         this.updatedBusinessPlan = urls.getUpdatedBusinessPlan();
         this.drChecklist = urls.getTailoredChecklist();
         this.lessonsLearned = urls.getLessonsLearned();
+        this.projectPlan = urls.getProjectPlan();
         this.projectCollabUrl = urls.getCollabUrl();
         this.projectPWASiteUrl = urls.getPwaUrl();
         this.docRepositoryUrl = urls.getDocumentsRepoUrl();
@@ -93,6 +100,72 @@ public class InformationDTO {
         this.cisUrl = urls.getCisUrl();
     }
 
+    private void jiraMapping(JiraParams jiraParams) {
+        this.metricsScope = jiraParams.getMetricsScope();
+        this.rqRelease = jiraParams.getRqRelease();
+    }
+
+    public Project buildProjectObjWithId(int id) {
+        Project prj = new Project();
+        prj.setProjectID(id);
+        prj.setType(projectType);
+        prj.setRigor(projectRigor);
+        prj.setState(projectState);
+        prj.setManager(projectManager);
+
+        Product product = buildProduct();
+        product.setProjectID(id);
+
+        ProjectAdditionalInfo info = buildProjectAdditionalInfo();
+        info.setProjectID(id);
+
+        prj.setProduct(product);
+        prj.setAdditionalInfo(info);
+        return prj;
+    }
+
+    private Product buildProduct() {
+        Product product = new Product();
+        product.setName(productName);
+        product.setRelease(productRelease);
+        product.setManager(productLineManager);
+        product.setDivision(businessDivision);
+        product.setBusinessUnit(businessUnit);
+        product.setProductLine(productLine);
+        return product;
+    }
+
+    private ProjectAdditionalInfo buildProjectAdditionalInfo() {
+        ProjectAdditionalInfo info = new ProjectAdditionalInfo();
+        info.setDescription(projectDescription);
+        info.setBusinessLineManager(businessLineManager);
+        info.setSponsor(sponsor);
+        info.setOemPartner(oemPartner);
+        return info;
+    }
+
+    public ProjectURLs getProjectUrlsObj() {
+        ProjectURLs urls = new ProjectURLs();
+        urls.setCharter(charter);
+        urls.setOrBusinessPlan(orBusinessPlan);
+        urls.setUpdatedBusinessPlan(updatedBusinessPlan);
+        urls.setTailoredChecklist(drChecklist);
+        urls.setLessonsLearned(lessonsLearned);
+        urls.setCollabUrl(projectCollabUrl);
+        urls.setPwaUrl(projectPWASiteUrl);
+        urls.setDocumentsRepoUrl(docRepositoryUrl);
+        urls.setDefectsUrl(defectsUrl);
+        urls.setRequirementsUrl(requirementsUrl);
+        urls.setCisUrl(cisUrl);
+        return urls;
+    }
+
+    public JiraParams getJiraParams() {
+        JiraParams params = new JiraParams();
+        params.setMetricsScope(this.metricsScope);
+        params.setRqRelease(this.rqRelease);
+        return params;
+    }
 
     public String getProjectDescription() {
         return projectDescription;
@@ -168,6 +241,10 @@ public class InformationDTO {
 
     public String getLessonsLearned() {
         return lessonsLearned;
+    }
+
+    public String getProjectPlan() {
+        return projectPlan;
     }
 
     public String getMetricsScope() {

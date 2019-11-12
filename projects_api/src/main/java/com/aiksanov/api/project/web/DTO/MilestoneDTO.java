@@ -5,29 +5,23 @@ import com.aiksanov.api.project.data.entity.Milestone;
 import java.sql.Date;
 
 public class MilestoneDTO {
-    private int projectID;
     private String label;
     private Date baselineDate;
     private Date actualDate;
     private int completion;
     private String meetingMinutes;
-    private boolean isShown;
+    private boolean shown;
 
     public MilestoneDTO() {
     }
 
     public MilestoneDTO(Milestone milestone) {
-        this.projectID = milestone.getMilestonePK().getProjectID();
         this.label = milestone.getMilestonePK().getLabel();
         this.baselineDate = milestone.getBaselineDate();
         this.actualDate = milestone.getActualDate();
         this.completion = milestone.getCompletion();
         this.meetingMinutes = milestone.getMeetingMinutes();
-        this.isShown = milestone.isShown();
-    }
-
-    public int getProjectID() {
-        return projectID;
+        this.shown = milestone.isShown();
     }
 
     public String getLabel() {
@@ -51,6 +45,6 @@ public class MilestoneDTO {
     }
 
     public boolean isShown() {
-        return isShown;
+        return shown;
     }
 }

@@ -20,4 +20,8 @@ public class ProjectGeneralService {
         }
         return this.generalRepository.findById(projectID).get();
     }
+
+    public Iterable<Project> getAll() {
+        return this.generalRepository.findAll();
+    }
 }

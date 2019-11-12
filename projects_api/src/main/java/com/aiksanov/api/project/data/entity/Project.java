@@ -31,6 +31,7 @@ public class Project {
     @Column(name = "project_manager")
     private String manager;
 
+    //TODO: To remove I guess
     @Column(name = "project_completion")
     private int percentOfCompletion;
 
@@ -44,10 +45,6 @@ public class Project {
     @JoinColumn(name = "project_id", referencedColumnName = "project_id")
     private Product product;
 
-    @OneToMany
-    @JoinColumn(name = "project_id", referencedColumnName = "project_id")
-    private List<Milestone> milestones;
-
     @OneToOne
     @JoinColumn(name = "project_id", referencedColumnName = "project_id")
     private WorkspaceInfo workspaceInfo;
@@ -56,26 +53,25 @@ public class Project {
     @JoinColumn(name = "project_id", referencedColumnName = "project_id")
     private ProjectAdditionalInfo additionalInfo;
 
-//    @OneToMany
-//    @JoinColumn(name = "project_id", referencedColumnName = "project_id")
-//    private List<HealthIndicators> healthIndicators;
 
     public Project() {
     }
 
-    public Project(String uid, String name, String type, String rigor, String state, String manager,
-                   int percentOfComplition, boolean epm, String template, Product product, List<Milestone> milestones) {
-        this.uid = uid;
+    public Project(String name, String type, String rigor, String state, String manager, int percentOfCompletion,
+                   boolean epm, String template, Product product, WorkspaceInfo workspaceInfo,
+                   ProjectAdditionalInfo additionalInfo)
+    {
         this.name = name;
         this.type = type;
         this.rigor = rigor;
         this.state = state;
         this.manager = manager;
-        this.percentOfCompletion = percentOfComplition;
+        this.percentOfCompletion = percentOfCompletion;
         this.epm = epm;
         this.template = template;
         this.product = product;
-        this.milestones = milestones;
+        this.workspaceInfo = workspaceInfo;
+        this.additionalInfo = additionalInfo;
     }
 
     public int getProjectID() {
@@ -166,14 +162,6 @@ public class Project {
         this.product = product;
     }
 
-    public List<Milestone> getMilestones() {
-        return milestones;
-    }
-
-    public void setMilestones(List<Milestone> milestones) {
-        this.milestones = milestones;
-    }
-
     public WorkspaceInfo getWorkspaceInfo() {
         return workspaceInfo;
     }
@@ -189,12 +177,4 @@ public class Project {
     public void setAdditionalInfo(ProjectAdditionalInfo additionalInfo) {
         this.additionalInfo = additionalInfo;
     }
-
-//    public Set<HealthIndicators> getHealthIndicators() {
-//        return healthIndicators;
-//    }
-//
-//    public void setHealthIndicators(Set<HealthIndicators> healthIndicators) {
-//        this.healthIndicators = healthIndicators;
-//    }
 }

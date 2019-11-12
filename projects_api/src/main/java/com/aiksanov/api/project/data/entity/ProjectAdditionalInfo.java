@@ -24,15 +24,20 @@ public class ProjectAdditionalInfo {
     @Column(name = "oem_partner")
     private String oemPartner;
 
+    @Column(name = "composite")
+    private boolean composite;
+
     public ProjectAdditionalInfo() {
     }
 
-    public ProjectAdditionalInfo(int projectID, String description, String businessLineManager, String sponsor, String oemPartner) {
+    public ProjectAdditionalInfo(int projectID, String description, String businessLineManager, String sponsor,
+                                 String oemPartner, boolean composite) {
         this.projectID = projectID;
         this.description = description;
         this.businessLineManager = businessLineManager;
         this.sponsor = sponsor;
         this.oemPartner = oemPartner;
+        this.composite = composite;
     }
 
     public int getProjectID() {
@@ -73,5 +78,13 @@ public class ProjectAdditionalInfo {
 
     public void setOemPartner(String oemPartner) {
         this.oemPartner = oemPartner;
+    }
+
+    public boolean isComposite() {
+        return composite;
+    }
+
+    public void setComposite(boolean composite) {
+        this.composite = composite;
     }
 }

@@ -43,5 +43,10 @@ public class ProjectsController {
         LOGGER.info("GET /api/projects/tableview?isEPM={}&status={}", isEPM, status);
         return this.service.getProjectsListView(isEPM, status);
     }
+
+    @GetMapping("/test")
+    public Iterable<Project> getAll() {
+        return this.projectGeneralService.getAll();
+    }
 }
 

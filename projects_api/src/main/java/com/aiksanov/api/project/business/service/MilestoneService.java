@@ -46,20 +46,30 @@ public class MilestoneService {
         return this.milestoneRepo.findById(new MilestonePK(projectID, label)).orElseGet(Milestone::new);
     }
 
-    public void addMilestonesData(List<MilestoneDTO> milestoneDTOs) {
-        List<Milestone> milestones = milestoneDTOs.stream()
-                .map(dto ->
-                        new Milestone(
-                                new MilestonePK(dto.getProjectID(), dto.getLabel()),
-                                dto.getBaselineDate(),
-                                dto.getActualDate(),
-                                dto.getCompletion(),
-                                dto.getMeetingMinutes(),
-                                dto.isShown()
-                        )
-                ).collect(Collectors.toList());
 
-        this.milestoneRepo.saveAll(milestones);
+    @Transactional
+    public void saveMilestones(Integer projectID, List<MilestoneDTO> dtos) {
+        this.milestoneRepo.deleteAllByMilestonePK_ProjectID(projectID);
+        addMilestonesData(projectID, dtos);
+    }
+
+    @Transactional
+    public void addMilestonesData(Integer projectID, List<MilestoneDTO> milestoneDTOs) {
+        if (Objects.nonNull(projectID)) {
+            List<Milestone> milestones = milestoneDTOs.stream()
+                    .map(dto ->
+                            new Milestone(
+                                    new MilestonePK(projectID, dto.getLabel()),
+                                    dto.getBaselineDate(),
+                                    dto.getActualDate(),
+                                    dto.getCompletion(),
+                                    dto.getMeetingMinutes(),
+                                    dto.isShown()
+                            )
+                    ).collect(Collectors.toList());
+
+            this.milestoneRepo.saveAll(milestones);
+        }
     }
 
     @Transactional

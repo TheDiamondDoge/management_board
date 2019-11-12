@@ -58,7 +58,7 @@ public class ProjectTableViewServiceTest {
         assertEquals(tableView.getProjectState(), dummyProject.getState());
         assertEquals(tableView.getProjectRigor(), dummyProject.getRigor());
         assertEquals(tableView.getProjectType(), dummyProject.getType());
-        assertEquals(tableView.getOrDate(), dummyProject.getMilestones().get(0).getBaselineDate());
+//        assertEquals(tableView.getOrDate(), dummyProject.getMilestones().get(0).getBaselineDate());
 //        assertEquals(tableView.getScheduleStatus(),)*/;
     }
 
@@ -101,7 +101,7 @@ public class ProjectTableViewServiceTest {
         project.setEpm(false);
         project.setTemplate("Template");
         project.setProduct(dummyProduct);
-        project.setMilestones(dummyMilestoneList);
+//        project.setMilestones(dummyMilestoneList);
         project.setAdditionalInfo(additionalInfo);
 
         return project;

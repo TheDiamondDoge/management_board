@@ -57,12 +57,6 @@ public class PWSTableViewDTO{
         if (Objects.nonNull(additionalInfo)){
             projectAdditionalInfoMapping(additionalInfo);
         }
-
-        List<Milestone> milestones = projectInfo.getMilestones();
-        if (Objects.nonNull(milestones)){
-            milestonesMapping(milestones);
-        }
-
     }
 
     private void productMapping(Product product){
@@ -94,7 +88,7 @@ public class PWSTableViewDTO{
                 .filter(m -> m.getMilestonePK().getLabel().toUpperCase().equals(milestoneLabel.toUpperCase()))
                 .findAny();
 
-        return milestone.isPresent() ? milestone.get().getBaselineDate() : null;
+        return milestone.map(Milestone::getBaselineDate).orElse(null);
     }
 
     public int getOverallProjectHealth() {
