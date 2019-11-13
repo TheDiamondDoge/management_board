@@ -28,7 +28,7 @@ INSERT INTO prj_indicators_comments VALUES (1, 'cost', 'Cost comment');
 
 INSERT INTO prj_urls VALUES (1, 'www.charter.url', 'or.bplan.url', 'upd.bplan.url', 'www.tailored.ru', 'www.lessons.learned', 'www.project.plan', 'project.collab.url', 'pwa.url', 'repo.url', 'defects.url', 'req.url', 'cis.url');
 
-INSERT INTO prj_additional_info VALUES (1, 'Super nice project, biach', 'Awesome BL Manager', 'Awesome Sponsor', 'OEM Partner', 0);
+INSERT INTO prj_additional_info VALUES (1, 'Super nice project, biach', 'Awesome BL Manager', 'Awesome Sponsor', 'OEM Partner', 'Key customer', 0);
 
 INSERT INTO prj_jira_params VALUES (1, 'Metrics Scope', 'RQ Release');
 

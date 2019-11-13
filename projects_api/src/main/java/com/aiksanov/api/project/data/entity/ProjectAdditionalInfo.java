@@ -24,6 +24,9 @@ public class ProjectAdditionalInfo {
     @Column(name = "oem_partner")
     private String oemPartner;
 
+    @Column(name = "key_customer")
+    private String keyCustomers;
+
     @Column(name = "composite")
     private boolean composite;
 
@@ -78,6 +81,14 @@ public class ProjectAdditionalInfo {
 
     public void setOemPartner(String oemPartner) {
         this.oemPartner = oemPartner;
+    }
+
+    public String getKeyCustomers() {
+        return keyCustomers;
+    }
+
+    public void setKeyCustomers(String keyCustomers) {
+        this.keyCustomers = keyCustomers;
     }
 
     public boolean isComposite() {

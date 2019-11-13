@@ -24,18 +24,18 @@ public class Milestone {
     private String meetingMinutes;
 
     @Column(name = "show_in_timeline")
-    private boolean isShown;
+    private boolean shown;
 
     public Milestone() {
     }
 
-    public Milestone(MilestonePK milestonePK, Date baselineDate, Date actualDate, int completion, String meetingMinutes, boolean isShown) {
+    public Milestone(MilestonePK milestonePK, Date baselineDate, Date actualDate, int completion, String meetingMinutes, boolean shown) {
         this.milestonePK = milestonePK;
         this.baselineDate = baselineDate;
         this.actualDate = actualDate;
         this.completion = completion;
         this.meetingMinutes = meetingMinutes;
-        this.isShown = isShown;
+        this.shown = shown;
     }
 
     public MilestonePK getMilestonePK() {
@@ -79,11 +79,11 @@ public class Milestone {
     }
 
     public boolean isShown() {
-        return isShown;
+        return shown;
     }
 
     public void setShown(boolean shown) {
-        isShown = shown;
+        this.shown = shown;
     }
 }
 

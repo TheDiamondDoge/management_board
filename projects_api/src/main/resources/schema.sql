@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS `prj_additional_info` (
   `business_line_manager` varchar(100) DEFAULT NULL,
   `sponsor` varchar(100) DEFAULT NULL,
   `oem_partner` varchar(256) DEFAULT NULL,
+  `key_customer` varchar(256) DEFAULT NULL,
   `composite` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`project_id`)
 );

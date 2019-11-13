@@ -26,7 +26,7 @@ public class Product {
 
     @Column(name = "product_bu")
     private String businessUnit;
-
+    //TODO: ???
     @Column(name = "product_unit")
     private String productUnit;
 

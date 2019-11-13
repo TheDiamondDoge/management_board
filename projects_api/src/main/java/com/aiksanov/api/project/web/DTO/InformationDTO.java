@@ -8,6 +8,7 @@ import java.util.Objects;
 public class InformationDTO {
     private String projectDescription;
     private String oemPartner;
+    private String keyCustomers;
     private String productRelease;
     private String projectType;
     private String projectRigor;
@@ -82,6 +83,7 @@ public class InformationDTO {
         this.businessLineManager = additionalInfo.getBusinessLineManager();
         this.sponsor = additionalInfo.getSponsor();
         this.oemPartner = additionalInfo.getOemPartner();
+        this.keyCustomers = additionalInfo.getKeyCustomers();
         this.isComposite = additionalInfo.isComposite();
     }
 
@@ -141,6 +143,7 @@ public class InformationDTO {
         info.setBusinessLineManager(businessLineManager);
         info.setSponsor(sponsor);
         info.setOemPartner(oemPartner);
+        info.setKeyCustomers(keyCustomers);
         return info;
     }
 
@@ -173,6 +176,10 @@ public class InformationDTO {
 
     public String getOemPartner() {
         return oemPartner;
+    }
+
+    public String getKeyCustomers() {
+        return keyCustomers;
     }
 
     public String getProductRelease() {

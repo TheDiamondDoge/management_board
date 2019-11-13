@@ -28,7 +28,7 @@ public class MilestoneService {
     }
 
     public List<MilestoneDTO> getShownMilestonesByProjectID(int projectID) {
-        List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDAndIsShown(projectID, true);
+        List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDAndShown(projectID, true);
         return mapMilestonesToDTO(milestones);
     }
 

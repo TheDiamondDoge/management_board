@@ -74,6 +74,7 @@ public class InformationTabService {
         existing.getAdditionalInfo().setBusinessLineManager(additionalFromDto.getBusinessLineManager());
         existing.getAdditionalInfo().setSponsor(additionalFromDto.getSponsor());
         existing.getAdditionalInfo().setOemPartner(additionalFromDto.getOemPartner());
+        existing.getAdditionalInfo().setKeyCustomers(additionalFromDto.getKeyCustomers());
 
         return existing;
     }
