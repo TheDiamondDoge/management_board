@@ -75,6 +75,7 @@ public class InformationTabService {
         existing.getAdditionalInfo().setSponsor(additionalFromDto.getSponsor());
         existing.getAdditionalInfo().setOemPartner(additionalFromDto.getOemPartner());
         existing.getAdditionalInfo().setKeyCustomers(additionalFromDto.getKeyCustomers());
+        existing.getAdditionalInfo().setComposite(additionalFromDto.isComposite());
 
         return existing;
     }

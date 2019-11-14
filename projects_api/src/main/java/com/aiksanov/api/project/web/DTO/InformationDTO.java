@@ -2,6 +2,7 @@ package com.aiksanov.api.project.web.DTO;
 
 import com.aiksanov.api.project.data.entity.*;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -29,8 +30,8 @@ public class InformationDTO {
     private String projectPlan;
     private String metricsScope;
     private String rqRelease;
-    private Map<String, String> ecmaBacklogTarget;
-    private boolean isComposite;
+    private Map<Integer, Map<String, String>> ecmaBacklogTarget;
+    private boolean composite;
     private String projectCollabUrl;
     private String projectPWASiteUrl;
     private String docRepositoryUrl;
@@ -50,6 +51,17 @@ public class InformationDTO {
         if (Objects.nonNull(jiraParams)){
             jiraMapping(jiraParams);
         }
+
+        ecmaBacklogTarget = new HashMap<>();
+        Map<String, String> pair = new HashMap<>();
+        pair.put("milestone", "DR5");
+        pair.put("value", "23");
+        ecmaBacklogTarget.put(0, pair);
+
+        pair = new HashMap<>();
+        pair.put("milestone", "TR");
+        pair.put("value", "382");
+        ecmaBacklogTarget.put(1, pair);
     }
 
     private void projectInfoMapping(Project projectInfo) {
@@ -84,7 +96,7 @@ public class InformationDTO {
         this.sponsor = additionalInfo.getSponsor();
         this.oemPartner = additionalInfo.getOemPartner();
         this.keyCustomers = additionalInfo.getKeyCustomers();
-        this.isComposite = additionalInfo.isComposite();
+        this.composite = additionalInfo.isComposite();
     }
 
     private void urlsMapping(ProjectURLs urls) {
@@ -144,6 +156,7 @@ public class InformationDTO {
         info.setSponsor(sponsor);
         info.setOemPartner(oemPartner);
         info.setKeyCustomers(keyCustomers);
+        info.setComposite(composite);
         return info;
     }
 
@@ -262,12 +275,12 @@ public class InformationDTO {
         return rqRelease;
     }
 
-    public Map<String, String> getEcmaBacklogTarget() {
+    public Map<Integer, Map<String, String>> getEcmaBacklogTarget() {
         return ecmaBacklogTarget;
     }
 
     public boolean isComposite() {
-        return isComposite;
+        return composite;
     }
 
     public String getProjectCollabUrl() {
