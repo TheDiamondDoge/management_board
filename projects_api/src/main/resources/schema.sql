@@ -116,6 +116,15 @@ CREATE TABLE IF NOT EXISTS `prj_urls` (
 );
 ALTER TABLE `prj_urls` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
 
+DROP TABLE IF EXISTS prj_ecma_backlog_target;
+CREATE TABLE IF NOT EXISTS `prj_ecma_backlog_target` (
+  `project_id` int(5) NOT NULL,
+  `milestone_label` VARCHAR(5) DEFAULT NULL,
+  `value` int(5) DEFAULT 0,
+  PRIMARY KEY (`project_id`, `milestone_label`)
+);
+ALTER TABLE `prj_ecma_backlog_target` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
+
 DROP TABLE IF EXISTS prj_status_report;
 CREATE TABLE IF NOT EXISTS `prj_status_report` (
     `project_id` int(5) NOT NULL,

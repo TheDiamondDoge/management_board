@@ -2,9 +2,8 @@ package com.aiksanov.api.project.web.DTO;
 
 import com.aiksanov.api.project.data.entity.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class InformationDTO {
     private String projectDescription;
@@ -30,7 +29,7 @@ public class InformationDTO {
     private String projectPlan;
     private String metricsScope;
     private String rqRelease;
-    private Map<Integer, Map<String, String>> ecmaBacklogTarget;
+    private List<EcmaBacklogTargetDTO> ecmaBacklogTarget;
     private boolean composite;
     private String projectCollabUrl;
     private String projectPWASiteUrl;
@@ -39,7 +38,7 @@ public class InformationDTO {
     private String requirementsUrl;
     private String cisUrl;
 
-    public InformationDTO(Project projectInfo, ProjectURLs urls, JiraParams jiraParams) {
+    public InformationDTO(Project projectInfo, ProjectURLs urls, JiraParams jiraParams, List<EcmaBacklogTarget> target) {
         if (Objects.nonNull(projectInfo)) {
             projectInfoMapping(projectInfo);
         }
@@ -52,16 +51,10 @@ public class InformationDTO {
             jiraMapping(jiraParams);
         }
 
-        ecmaBacklogTarget = new HashMap<>();
-        Map<String, String> pair = new HashMap<>();
-        pair.put("milestone", "DR5");
-        pair.put("value", "23");
-        ecmaBacklogTarget.put(0, pair);
+        if (Objects.nonNull(target) && target.size() > 0) {
+            setEcmaBacklogTarget(target);
+        }
 
-        pair = new HashMap<>();
-        pair.put("milestone", "TR");
-        pair.put("value", "382");
-        ecmaBacklogTarget.put(1, pair);
     }
 
     private void projectInfoMapping(Project projectInfo) {
@@ -117,6 +110,16 @@ public class InformationDTO {
     private void jiraMapping(JiraParams jiraParams) {
         this.metricsScope = jiraParams.getMetricsScope();
         this.rqRelease = jiraParams.getRqRelease();
+    }
+
+    private void setEcmaBacklogTarget(List<EcmaBacklogTarget> target) {
+        if (Objects.isNull(ecmaBacklogTarget)) {
+            this.ecmaBacklogTarget = new ArrayList<>();
+        }
+
+        this.ecmaBacklogTarget = target.stream()
+                .map(EcmaBacklogTargetDTO::new)
+                .collect(Collectors.toList());
     }
 
     public Project buildProjectObjWithId(int id) {
@@ -181,6 +184,19 @@ public class InformationDTO {
         params.setMetricsScope(this.metricsScope);
         params.setRqRelease(this.rqRelease);
         return params;
+    }
+
+    public List<EcmaBacklogTarget> getEcmaBacklogTargetList(int projectId) {
+        List<EcmaBacklogTarget> list = new ArrayList<>();
+        if (Objects.isNull(this.ecmaBacklogTarget)) {
+            return list;
+        }
+
+        list = this.ecmaBacklogTarget.stream()
+                .map(dto -> dto.getEcmaBacklogTargetObj(projectId))
+                .collect(Collectors.toList());
+
+        return list;
     }
 
     public String getProjectDescription() {
@@ -275,7 +291,7 @@ public class InformationDTO {
         return rqRelease;
     }
 
-    public Map<Integer, Map<String, String>> getEcmaBacklogTarget() {
+    public List<EcmaBacklogTargetDTO> getEcmaBacklogTarget() {
         return ecmaBacklogTarget;
     }
 

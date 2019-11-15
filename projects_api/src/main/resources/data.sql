@@ -32,7 +32,8 @@ INSERT INTO prj_additional_info VALUES (1, 'Super nice project, biach', 'Awesome
 
 INSERT INTO prj_jira_params VALUES (1, 'Metrics Scope', 'RQ Release');
 
-
+INSERT INTO prj_ecma_backlog_target VALUES (1, 'DR4', 101);
+INSERT INTO prj_ecma_backlog_target VALUES (1, 'TR', 999);
 
 INSERT INTO prj_status_report
    VALUES (1,
