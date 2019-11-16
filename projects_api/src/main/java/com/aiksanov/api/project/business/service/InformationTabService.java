@@ -5,6 +5,7 @@ import com.aiksanov.api.project.data.repository.EcmaBacklogTargetRepo;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.JiraParamsRepository;
 import com.aiksanov.api.project.data.repository.ProjectURLsRepository;
+import com.aiksanov.api.project.util.decompositor.InformationDtoDecompositor;
 import com.aiksanov.api.project.web.DTO.InformationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,14 +47,13 @@ public class InformationTabService {
         return new InformationDTO(project, urls, jiraParams, target);
     }
 
-    //TODO: save realization
-    //TODO: save milestones endpoint
     @Transactional
     public void saveInformationData(Integer id, InformationDTO dto) {
-        Project project = dto.buildProjectObjWithId(id);
-        ProjectURLs urLs = dto.getProjectUrlsObj();
-        JiraParams params = dto.getJiraParams();
-        List<EcmaBacklogTarget> target = dto.getEcmaBacklogTargetList(id);
+        InformationDtoDecompositor decompositor = new InformationDtoDecompositor(dto, id);
+        Project project = decompositor.getProject();
+        ProjectURLs urLs = decompositor.getProjectUrlsObj();
+        JiraParams params = decompositor.getJiraParams();
+        List<EcmaBacklogTarget> target = decompositor.getEcmaBacklogTargetList();
         this.generalRepository.save(buildProjectToSave(id, project));
         this.urlsRepository.save(buildUrlsToSave(id, urLs));
         this.jiraParamsRepository.save(buildParamsToSave(id, params));

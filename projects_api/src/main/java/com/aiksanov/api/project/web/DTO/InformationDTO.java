@@ -52,7 +52,7 @@ public class InformationDTO {
         }
 
         if (Objects.nonNull(target) && target.size() > 0) {
-            setEcmaBacklogTarget(target);
+            backlogMapping(target);
         }
 
     }
@@ -112,7 +112,7 @@ public class InformationDTO {
         this.rqRelease = jiraParams.getRqRelease();
     }
 
-    private void setEcmaBacklogTarget(List<EcmaBacklogTarget> target) {
+    private void backlogMapping(List<EcmaBacklogTarget> target) {
         if (Objects.isNull(ecmaBacklogTarget)) {
             this.ecmaBacklogTarget = new ArrayList<>();
         }
@@ -120,83 +120,6 @@ public class InformationDTO {
         this.ecmaBacklogTarget = target.stream()
                 .map(EcmaBacklogTargetDTO::new)
                 .collect(Collectors.toList());
-    }
-
-    public Project buildProjectObjWithId(int id) {
-        Project prj = new Project();
-        prj.setProjectID(id);
-        prj.setType(projectType);
-        prj.setRigor(projectRigor);
-        prj.setState(projectState);
-        prj.setManager(projectManager);
-
-        Product product = buildProduct();
-        product.setProjectID(id);
-
-        ProjectAdditionalInfo info = buildProjectAdditionalInfo();
-        info.setProjectID(id);
-
-        prj.setProduct(product);
-        prj.setAdditionalInfo(info);
-        return prj;
-    }
-
-    private Product buildProduct() {
-        Product product = new Product();
-        product.setName(productName);
-        product.setRelease(productRelease);
-        product.setManager(productLineManager);
-        product.setDivision(businessDivision);
-        product.setBusinessUnit(businessUnit);
-        product.setProductLine(productLine);
-        return product;
-    }
-
-    private ProjectAdditionalInfo buildProjectAdditionalInfo() {
-        ProjectAdditionalInfo info = new ProjectAdditionalInfo();
-        info.setDescription(projectDescription);
-        info.setBusinessLineManager(businessLineManager);
-        info.setSponsor(sponsor);
-        info.setOemPartner(oemPartner);
-        info.setKeyCustomers(keyCustomers);
-        info.setComposite(composite);
-        return info;
-    }
-
-    public ProjectURLs getProjectUrlsObj() {
-        ProjectURLs urls = new ProjectURLs();
-        urls.setCharter(charter);
-        urls.setOrBusinessPlan(orBusinessPlan);
-        urls.setUpdatedBusinessPlan(updatedBusinessPlan);
-        urls.setTailoredChecklist(drChecklist);
-        urls.setLessonsLearned(lessonsLearned);
-        urls.setCollabUrl(projectCollabUrl);
-        urls.setPwaUrl(projectPWASiteUrl);
-        urls.setDocumentsRepoUrl(docRepositoryUrl);
-        urls.setDefectsUrl(defectsUrl);
-        urls.setRequirementsUrl(requirementsUrl);
-        urls.setCisUrl(cisUrl);
-        return urls;
-    }
-
-    public JiraParams getJiraParams() {
-        JiraParams params = new JiraParams();
-        params.setMetricsScope(this.metricsScope);
-        params.setRqRelease(this.rqRelease);
-        return params;
-    }
-
-    public List<EcmaBacklogTarget> getEcmaBacklogTargetList(int projectId) {
-        List<EcmaBacklogTarget> list = new ArrayList<>();
-        if (Objects.isNull(this.ecmaBacklogTarget)) {
-            return list;
-        }
-
-        list = this.ecmaBacklogTarget.stream()
-                .map(dto -> dto.getEcmaBacklogTargetObj(projectId))
-                .collect(Collectors.toList());
-
-        return list;
     }
 
     public String getProjectDescription() {

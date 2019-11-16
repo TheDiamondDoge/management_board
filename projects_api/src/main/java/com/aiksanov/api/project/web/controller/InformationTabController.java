@@ -32,12 +32,4 @@ public class InformationTabController {
         this.informationService.saveInformationData(id, dto);
     }
 
-//    @CrossOrigin(origins = "*")
-//    @PostMapping(value = "/information")
-//    public void saveInfo(@PathVariable Integer id, HttpEntity<String> httpEntity){
-//        LOGGER.info("POST /api/projects/{}/tabs/information", id);
-//        String s = httpEntity.getBody();
-//        System.out.println("Done");
-////        this.informationService.saveInformationData(id, dto);
-//    }
 }
