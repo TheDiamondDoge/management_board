@@ -15,11 +15,17 @@ public interface GeneralRepository extends JpaRepository<Project, Integer> {
     String findByStatusQuery = "SELECT * FROM PRJ_WORKSPACE_GENERAL a, prj_workspace_info b " +
                         "WHERE a.project_id = b.project_id AND UPPER(b.workspace_status) = ?1";
 
+    String findContribProjectsQuery = "SELECT * FROM PRJ_WORKSPACE_GENERAL a, prj_contrib b " +
+                        "WHERE b.project_id = ?1 AND a.project_id = b.contrib_id";
+
     @Query(value = findByEpmAndStatusQuery, nativeQuery = true)
     List<Project> findAllByEpmAndStatus(Boolean isEpm, String status);
 
     @Query(value = findByStatusQuery, nativeQuery = true)
     List<Project> findAllByStatus(String status);
+
+    @Query(value = findContribProjectsQuery, nativeQuery = true)
+    List<Project> findAllContribProjectsByProjectID(int projectID);
 
     List<Project> findAllByEpm(Boolean epm);
     List<Project> findAll();

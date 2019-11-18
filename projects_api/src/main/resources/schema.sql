@@ -125,6 +125,14 @@ CREATE TABLE IF NOT EXISTS `prj_ecma_backlog_target` (
 );
 ALTER TABLE `prj_ecma_backlog_target` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
 
+DROP TABLE IF EXISTS prj_contrib;
+CREATE TABLE IF NOT EXISTS `prj_contrib` (
+    `project_id` int(5) NOT NULL,
+    `contrib_id` int(5) NOT NULL,
+    PRIMARY KEY (`project_id`, `contrib_id`)
+);
+ALTER TABLE `prj_contrib` ADD FOREIGN KEY (`project_id`) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
+
 DROP TABLE IF EXISTS prj_status_report;
 CREATE TABLE IF NOT EXISTS `prj_status_report` (
     `project_id` int(5) NOT NULL,

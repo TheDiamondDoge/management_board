@@ -31,6 +31,7 @@ public class InformationDTO {
     private String rqRelease;
     private List<EcmaBacklogTargetDTO> ecmaBacklogTarget;
     private boolean composite;
+    private List<ContributingDTO> contributingProjects;
     private String projectCollabUrl;
     private String projectPWASiteUrl;
     private String docRepositoryUrl;
@@ -38,7 +39,8 @@ public class InformationDTO {
     private String requirementsUrl;
     private String cisUrl;
 
-    public InformationDTO(Project projectInfo, ProjectURLs urls, JiraParams jiraParams, List<EcmaBacklogTarget> target) {
+    public InformationDTO(Project projectInfo, ProjectURLs urls, JiraParams jiraParams, List<EcmaBacklogTarget> target,
+                          List<ContributingDTO> contributingProjects) {
         if (Objects.nonNull(projectInfo)) {
             projectInfoMapping(projectInfo);
         }
@@ -55,6 +57,7 @@ public class InformationDTO {
             backlogMapping(target);
         }
 
+        this.contributingProjects = contributingProjects;
     }
 
     private void projectInfoMapping(Project projectInfo) {
@@ -220,6 +223,10 @@ public class InformationDTO {
 
     public boolean isComposite() {
         return composite;
+    }
+
+    public List<ContributingDTO> getContributingProjects() {
+        return contributingProjects;
     }
 
     public String getProjectCollabUrl() {

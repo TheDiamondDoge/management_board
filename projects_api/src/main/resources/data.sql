@@ -1,5 +1,7 @@
 INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, project_completion, EPM_project, project_template) VALUES ('19CDC35F-96D4-450C-882F-0B633D1D405E', 'Project One', 'Offer', 'High', 'COMMITTED', 'IKSANOV Aleksander', 85, 0, 'Offer');
 INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, project_completion, EPM_project, project_template) VALUES ('19GHJGHF-96D4-450C-882F-AFGAFGDFS233', 'Project tWO', 'Program', 'Low', 'FORECAST', 'IVANOV Ivan', 35, 1, 'PMO');
+INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, project_completion, EPM_project, project_template) VALUES ('19GHJGHF-96D4-450C-882F-AF2321232233', 'Project Three', 'Program', 'Low', 'FORECAST', 'IVANOV Ivan', 35, 0, 'PMO');
+INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, project_completion, EPM_project, project_template) VALUES ('19GHJGHF-6754-450C-882F-AFGAFGDFS233', 'Project Four', 'Program', 'Low', 'FORECAST', 'IVANOV Ivan', 35, 0, 'PMO');
 
 INSERT INTO prj_products(product_line, product_name, product_manager, product_group, product_division, product_bu, product_unit, product_team, product_release, project_id) VALUES ('Awesome line', 'Awesome name', 'Awesome manager', 'Awesome group', 'Awesome', 'Awesome', 'Awesome unit', 'Awesome team', 'Awesome release', 1);
 
@@ -34,6 +36,9 @@ INSERT INTO prj_jira_params VALUES (1, 'Metrics Scope', 'RQ Release');
 
 INSERT INTO prj_ecma_backlog_target VALUES (1, 'DR4', 101);
 INSERT INTO prj_ecma_backlog_target VALUES (1, 'TR', 999);
+
+INSERT INTO prj_contrib VALUES (1, 3);
+INSERT INTO prj_contrib VALUES (1, 4);
 
 INSERT INTO prj_status_report
    VALUES (1,

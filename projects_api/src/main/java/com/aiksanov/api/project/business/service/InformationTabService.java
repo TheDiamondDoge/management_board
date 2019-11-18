@@ -1,11 +1,9 @@
 package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.*;
-import com.aiksanov.api.project.data.repository.EcmaBacklogTargetRepo;
-import com.aiksanov.api.project.data.repository.GeneralRepository;
-import com.aiksanov.api.project.data.repository.JiraParamsRepository;
-import com.aiksanov.api.project.data.repository.ProjectURLsRepository;
+import com.aiksanov.api.project.data.repository.*;
 import com.aiksanov.api.project.util.decompositor.InformationDtoDecompositor;
+import com.aiksanov.api.project.web.DTO.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.InformationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class InformationTabService {
@@ -21,18 +20,21 @@ public class InformationTabService {
     private ProjectURLsRepository urlsRepository;
     private JiraParamsRepository jiraParamsRepository;
     private EcmaBacklogTargetRepo backlogTargetRepo;
+    private ContributingProjectsRepository contribProjectsRepo;
 
     @Value("${project.error.projectNotFound}")
     private String projectNotFoundMessage;
 
     @Autowired
     public InformationTabService(GeneralRepository generalRepository, ProjectURLsRepository urlsRepository,
-                                 JiraParamsRepository jiraParamsRepository, EcmaBacklogTargetRepo backlogTargetRepo)
+                                 JiraParamsRepository jiraParamsRepository, EcmaBacklogTargetRepo backlogTargetRepo,
+                                 ContributingProjectsRepository contribProjectsRepo)
     {
         this.generalRepository = generalRepository;
         this.urlsRepository = urlsRepository;
         this.jiraParamsRepository = jiraParamsRepository;
         this.backlogTargetRepo = backlogTargetRepo;
+        this.contribProjectsRepo = contribProjectsRepo;
     }
 
     public InformationDTO getInfoTabData(Integer id){
@@ -43,8 +45,20 @@ public class InformationTabService {
         ProjectURLs urls = this.urlsRepository.findById(id).orElseGet(ProjectURLs::new);
         JiraParams jiraParams = this.jiraParamsRepository.findById(id).orElseGet(JiraParams::new);
         List<EcmaBacklogTarget> target = this.backlogTargetRepo.findAllByProjectId(id);
+//        List<ContributingProjects> contrib = this.contribProjectsRepo.getContributingProjectsByPk_ProjectID(id);
+//        List<Project> projects = this.generalRepository.findAllByEpmAndStatus(false, "ENABLED");
+//        List<ContributingDTO> contribProjects = projects.stream()
+//                .map((prj) -> (new ContributingDTO(prj.getProjectID(), prj.getName())))
+//                .collect(Collectors.toList());
+        List<ContributingDTO> contribProjects = getContribProjectDtosList(id);
+        return new InformationDTO(project, urls, jiraParams, target, contribProjects);
+    }
 
-        return new InformationDTO(project, urls, jiraParams, target);
+    private List<ContributingDTO> getContribProjectDtosList(int projectID) {
+        List<Project> contribProjects = this.generalRepository.findAllContribProjectsByProjectID(projectID);
+        return contribProjects.stream()
+                .map((prj) -> (new ContributingDTO(prj.getProjectID(), prj.getName())))
+                .collect(Collectors.toList());
     }
 
     @Transactional
