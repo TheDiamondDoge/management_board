@@ -28,8 +28,7 @@ public class InformationTabService {
     @Autowired
     public InformationTabService(GeneralRepository generalRepository, ProjectURLsRepository urlsRepository,
                                  JiraParamsRepository jiraParamsRepository, EcmaBacklogTargetRepo backlogTargetRepo,
-                                 ContributingProjectsRepository contribProjectsRepo)
-    {
+                                 ContributingProjectsRepository contribProjectsRepo) {
         this.generalRepository = generalRepository;
         this.urlsRepository = urlsRepository;
         this.jiraParamsRepository = jiraParamsRepository;
@@ -37,19 +36,14 @@ public class InformationTabService {
         this.contribProjectsRepo = contribProjectsRepo;
     }
 
-    public InformationDTO getInfoTabData(Integer id){
-        if (Objects.isNull(id)){
+    public InformationDTO getInfoTabData(Integer id) {
+        if (Objects.isNull(id)) {
             throw new RuntimeException("Parameter 'id' not found");
         }
         Project project = this.generalRepository.findById(id).orElseThrow(() -> new RuntimeException(projectNotFoundMessage));
         ProjectURLs urls = this.urlsRepository.findById(id).orElseGet(ProjectURLs::new);
         JiraParams jiraParams = this.jiraParamsRepository.findById(id).orElseGet(JiraParams::new);
         List<EcmaBacklogTarget> target = this.backlogTargetRepo.findAllByProjectId(id);
-//        List<ContributingProjects> contrib = this.contribProjectsRepo.getContributingProjectsByPk_ProjectID(id);
-//        List<Project> projects = this.generalRepository.findAllByEpmAndStatus(false, "ENABLED");
-//        List<ContributingDTO> contribProjects = projects.stream()
-//                .map((prj) -> (new ContributingDTO(prj.getProjectID(), prj.getName())))
-//                .collect(Collectors.toList());
         List<ContributingDTO> contribProjects = getContribProjectDtosList(id);
         return new InformationDTO(project, urls, jiraParams, target, contribProjects);
     }

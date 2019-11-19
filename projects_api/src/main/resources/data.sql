@@ -17,6 +17,8 @@ INSERT INTO prj_milestones VALUES (1, 'DR5', '2020-01-06', '2020-01-15', 50, 'ww
 
 INSERT INTO prj_workspace_info VALUES (1, 'ENABLED', '2019-04-11', '2019-04-11', 'aiksanov');
 INSERT INTO prj_workspace_info VALUES (2, 'DISABLED', '2019-04-11', '2019-04-11', 'aiksanov');
+INSERT INTO prj_workspace_info VALUES (3, 'ENABLED', '2019-04-11', '2019-04-11', 'aiksanov');
+INSERT INTO prj_workspace_info VALUES (4, 'ENABLED', '2019-04-11', '2019-04-11', 'aiksanov');
 
 INSERT INTO prj_indicators_health VALUES (1, 1, 1, 2, 1, 0, '2019-04-11');
 INSERT INTO prj_indicators_health VALUES (1, 1, 1, 2, 0, 2, '2019-04-16');

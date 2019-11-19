@@ -3,6 +3,7 @@ package com.aiksanov.api.project.web.controller;
 import com.aiksanov.api.project.business.service.ProjectGeneralService;
 import com.aiksanov.api.project.business.service.ProjectTableViewService;
 import com.aiksanov.api.project.data.entity.Project;
+import com.aiksanov.api.project.web.DTO.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.PWSTableViewDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,12 @@ public class ProjectsController {
                                                       @RequestParam(required = false) String status) {
         LOGGER.info("GET /api/projects/tableview?isEPM={}&status={}", isEPM, status);
         return this.service.getProjectsListView(isEPM, status);
+    }
+
+    @GetMapping("/contrib")
+    public List<ContributingDTO> getProjectsAvailableToContrib(){
+        LOGGER.info("GET /api/projects/contrib");
+        return this.projectGeneralService.getContributableProjects();
     }
 
     @GetMapping("/test")
