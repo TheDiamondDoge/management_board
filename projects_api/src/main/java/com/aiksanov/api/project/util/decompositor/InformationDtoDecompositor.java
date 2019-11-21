@@ -1,6 +1,9 @@
 package com.aiksanov.api.project.util.decompositor;
 
 import com.aiksanov.api.project.data.entity.*;
+import com.aiksanov.api.project.data.entity.pk.ContributingProjectsPK;
+import com.aiksanov.api.project.data.entity.pk.FieldCommentsPK;
+import com.aiksanov.api.project.web.DTO.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.EcmaBacklogTargetDTO;
 import com.aiksanov.api.project.web.DTO.InformationDTO;
 
@@ -66,9 +69,27 @@ public class InformationDtoDecompositor {
         urls.setProjectID(this.projectId);
         urls.setCharter(this.dto.getCharter());
         urls.setOrBusinessPlan(this.dto.getOrBusinessPlan());
-        urls.setUpdatedBusinessPlan(this.dto.getUpdatedBusinessPlan());
-        urls.setTailoredChecklist(this.dto.getDrChecklist());
-        urls.setLessonsLearned(this.dto.getLessonsLearned());
+
+        if (Objects.nonNull(this.dto.getUpdatedBusinessPlan())) {
+            urls.setUpdatedBusinessPlan(this.dto.getUpdatedBusinessPlan().getValue());
+        }
+
+        if (Objects.nonNull(this.dto.getDrChecklist())) {
+            urls.setTailoredChecklist(this.dto.getDrChecklist().getValue());
+        }
+
+        if (Objects.nonNull(this.dto.getLessonsLearned())) {
+            urls.setLessonsLearned(this.dto.getLessonsLearned().getValue());
+        }
+
+        if (Objects.nonNull(this.dto.getProjectPlan())) {
+            urls.setProjectPlan(this.dto.getProjectPlan().getValue());
+        }
+
+        if (Objects.nonNull(this.dto.getLaunchingPlan())) {
+            urls.setLaunchingPlan(this.dto.getLaunchingPlan().getValue());
+        }
+
         urls.setCollabUrl(this.dto.getProjectCollabUrl());
         urls.setPwaUrl(this.dto.getProjectPWASiteUrl());
         urls.setDocumentsRepoUrl(this.dto.getDocRepositoryUrl());
@@ -99,5 +120,37 @@ public class InformationDtoDecompositor {
                 .collect(Collectors.toList());
 
         return list;
+    }
+
+    public List<ContributingProjects> getListOfContribProjects() {
+        List<ContributingProjects> contributingProjects = new ArrayList<>();
+        List<ContributingDTO> contribDto = this.dto.getContributingProjects();
+
+        if (Objects.isNull(contribDto)) {
+            return contributingProjects;
+        }
+
+        contributingProjects = contribDto.stream()
+                .map(project -> new ContributingProjects(new ContributingProjectsPK(this.projectId, project.getProjectID())))
+                .collect(Collectors.toList());
+
+        return contributingProjects;
+    }
+
+    public List<FieldComments> getListOfFieldComments() {
+        List<FieldComments> result = new ArrayList<>();
+        result.add(buildFieldComment("updatedBusinessPlan", dto.getUpdatedBusinessPlan().getComment()));
+        result.add(buildFieldComment("drChecklist", dto.getDrChecklist().getComment()));
+        result.add(buildFieldComment("lessonsLearned", dto.getLessonsLearned().getComment()));
+        result.add(buildFieldComment("projectPlan", dto.getProjectPlan().getComment()));
+        result.add(buildFieldComment("launchingPlan", dto.getLaunchingPlan().getComment()));
+
+        return result;
+    }
+
+    private FieldComments buildFieldComment(String field, String comment) {
+        return new FieldComments(
+                new FieldCommentsPK(this.projectId, field), comment
+        );
     }
 }

@@ -8,7 +8,7 @@ CREATE TABLE `PRJ_WORKSPACE_GENERAL` (
   `project_state` varchar(10) DEFAULT NULL,
   `project_manager` varchar(100) DEFAULT NULL,
   `project_completion` int(3) DEFAULT NULL,
-  `EPM_project` tinyint(4) DEFAULT NULL,
+  `EPM_project` tinyint(1) DEFAULT NULL,
   `project_template` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`project_id`)
 );
@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `prj_urls` (
   `tailored_checklist` varchar(512) DEFAULT NULL,
   `lessons_learned` varchar(512) DEFAULT NULL,
   `project_plan` varchar(512) DEFAULT NULL,
+  `launching_plan` varchar(512) DEFAULT NULL,
   `project_collab_url` varchar(512) DEFAULT NULL,
   `project_pwa_url` varchar(512) DEFAULT NULL,
   `document_repo_url` varchar(512) DEFAULT NULL,
@@ -115,6 +116,14 @@ CREATE TABLE IF NOT EXISTS `prj_urls` (
   PRIMARY KEY (`project_id`)
 );
 ALTER TABLE `prj_urls` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
+
+DROP TABLE IF EXISTS prj_field_comments;
+CREATE TABLE IF NOT EXISTS `prj_field_comments` (
+    `project_id` int(5) NOT NULL,
+    `field_name` VARCHAR(25) NOT NULL,
+    `comment` VARCHAR(255) DEFAULT NULL
+);
+ALTER TABLE `prj_field_comments` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
 
 DROP TABLE IF EXISTS prj_ecma_backlog_target;
 CREATE TABLE IF NOT EXISTS `prj_ecma_backlog_target` (

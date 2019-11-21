@@ -23,10 +23,11 @@ public class InformationDTO {
     private String projectManager;
     private String charter;
     private String orBusinessPlan;
-    private String updatedBusinessPlan;
-    private String drChecklist;
-    private String lessonsLearned;
-    private String projectPlan;
+    private FieldWithCommentDTO updatedBusinessPlan;
+    private FieldWithCommentDTO drChecklist;
+    private FieldWithCommentDTO lessonsLearned;
+    private FieldWithCommentDTO projectPlan;
+    private FieldWithCommentDTO launchingPlan;
     private String metricsScope;
     private String rqRelease;
     private List<EcmaBacklogTargetDTO> ecmaBacklogTarget;
@@ -38,9 +39,10 @@ public class InformationDTO {
     private String defectsUrl;
     private String requirementsUrl;
     private String cisUrl;
+    private boolean epm;
 
     public InformationDTO(Project projectInfo, ProjectURLs urls, JiraParams jiraParams, List<EcmaBacklogTarget> target,
-                          List<ContributingDTO> contributingProjects) {
+                          List<ContributingDTO> contributingProjects, List<FieldComments> comments) {
         if (Objects.nonNull(projectInfo)) {
             projectInfoMapping(projectInfo);
         }
@@ -49,12 +51,16 @@ public class InformationDTO {
             urlsMapping(urls);
         }
 
-        if (Objects.nonNull(jiraParams)){
+        if (Objects.nonNull(jiraParams)) {
             jiraMapping(jiraParams);
         }
 
         if (Objects.nonNull(target) && target.size() > 0) {
             backlogMapping(target);
+        }
+
+        if (Objects.nonNull(comments) && target.size() > 0) {
+            commentsMapping(comments);
         }
 
         this.contributingProjects = contributingProjects;
@@ -65,6 +71,7 @@ public class InformationDTO {
         this.projectRigor = projectInfo.getRigor();
         this.projectState = projectInfo.getState();
         this.projectType = projectInfo.getType();
+        this.epm = projectInfo.isEpm();
 
         Product product = projectInfo.getProduct();
         if (Objects.nonNull(product)) {
@@ -77,7 +84,7 @@ public class InformationDTO {
         }
     }
 
-    private void productMapping(Product product){
+    private void productMapping(Product product) {
         this.productName = product.getName();
         this.productRelease = product.getRelease();
         this.productLineManager = product.getManager();
@@ -96,12 +103,19 @@ public class InformationDTO {
     }
 
     private void urlsMapping(ProjectURLs urls) {
+        this.updatedBusinessPlan = new FieldWithCommentDTO();
+        this.drChecklist = new FieldWithCommentDTO();
+        this.lessonsLearned = new FieldWithCommentDTO();
+        this.projectPlan = new FieldWithCommentDTO();
+        this.launchingPlan = new FieldWithCommentDTO();
+
         this.charter = urls.getCharter();
         this.orBusinessPlan = urls.getOrBusinessPlan();
-        this.updatedBusinessPlan = urls.getUpdatedBusinessPlan();
-        this.drChecklist = urls.getTailoredChecklist();
-        this.lessonsLearned = urls.getLessonsLearned();
-        this.projectPlan = urls.getProjectPlan();
+        this.updatedBusinessPlan.setValue(urls.getUpdatedBusinessPlan());
+        this.drChecklist.setValue(urls.getTailoredChecklist());
+        this.lessonsLearned.setValue(urls.getLessonsLearned());
+        this.projectPlan.setValue(urls.getProjectPlan());
+        this.launchingPlan.setValue(urls.getLaunchingPlan());
         this.projectCollabUrl = urls.getCollabUrl();
         this.projectPWASiteUrl = urls.getPwaUrl();
         this.docRepositoryUrl = urls.getDocumentsRepoUrl();
@@ -123,6 +137,27 @@ public class InformationDTO {
         this.ecmaBacklogTarget = target.stream()
                 .map(EcmaBacklogTargetDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    private void commentsMapping(List<FieldComments> comments) {
+        String updatedBpComment = getCommentByFieldName(comments, "updatedBusinessPlan");
+        String drChecklistComment = getCommentByFieldName(comments, "drChecklist");
+        String lessonsLearnedComment = getCommentByFieldName(comments, "lessonsLearned");
+        String projectPlanComment = getCommentByFieldName(comments, "projectPlan");
+        String launchingPlanComment = getCommentByFieldName(comments, "launchingPlan");
+
+        this.updatedBusinessPlan.setComment(updatedBpComment);
+        this.drChecklist.setComment(drChecklistComment);
+        this.lessonsLearned.setComment(lessonsLearnedComment);
+        this.projectPlan.setComment(projectPlanComment);
+        this.launchingPlan.setComment(launchingPlanComment);
+    }
+
+    private String getCommentByFieldName(List<FieldComments> comments, String fieldName) {
+        return comments.stream()
+                .filter(obj -> obj.getPk().getFieldName().equals(fieldName))
+                .findFirst().orElseGet(FieldComments::new)
+                .getComment();
     }
 
     public String getProjectDescription() {
@@ -193,20 +228,24 @@ public class InformationDTO {
         return orBusinessPlan;
     }
 
-    public String getUpdatedBusinessPlan() {
+    public FieldWithCommentDTO getUpdatedBusinessPlan() {
         return updatedBusinessPlan;
     }
 
-    public String getDrChecklist() {
+    public FieldWithCommentDTO getDrChecklist() {
         return drChecklist;
     }
 
-    public String getLessonsLearned() {
+    public FieldWithCommentDTO getLessonsLearned() {
         return lessonsLearned;
     }
 
-    public String getProjectPlan() {
+    public FieldWithCommentDTO getProjectPlan() {
         return projectPlan;
+    }
+
+    public FieldWithCommentDTO getLaunchingPlan() {
+        return launchingPlan;
     }
 
     public String getMetricsScope() {
@@ -251,5 +290,9 @@ public class InformationDTO {
 
     public String getCisUrl() {
         return cisUrl;
+    }
+
+    public boolean isEpm() {
+        return epm;
     }
 }

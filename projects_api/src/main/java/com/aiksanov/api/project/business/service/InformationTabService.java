@@ -21,6 +21,7 @@ public class InformationTabService {
     private JiraParamsRepository jiraParamsRepository;
     private EcmaBacklogTargetRepo backlogTargetRepo;
     private ContributingProjectsRepository contribProjectsRepo;
+    private FieldCommentsRepository commentsRepository;
 
     @Value("${project.error.projectNotFound}")
     private String projectNotFoundMessage;
@@ -28,12 +29,13 @@ public class InformationTabService {
     @Autowired
     public InformationTabService(GeneralRepository generalRepository, ProjectURLsRepository urlsRepository,
                                  JiraParamsRepository jiraParamsRepository, EcmaBacklogTargetRepo backlogTargetRepo,
-                                 ContributingProjectsRepository contribProjectsRepo) {
+                                 ContributingProjectsRepository contribProjectsRepo, FieldCommentsRepository comments) {
         this.generalRepository = generalRepository;
         this.urlsRepository = urlsRepository;
         this.jiraParamsRepository = jiraParamsRepository;
         this.backlogTargetRepo = backlogTargetRepo;
         this.contribProjectsRepo = contribProjectsRepo;
+        this.commentsRepository = comments;
     }
 
     public InformationDTO getInfoTabData(Integer id) {
@@ -45,7 +47,8 @@ public class InformationTabService {
         JiraParams jiraParams = this.jiraParamsRepository.findById(id).orElseGet(JiraParams::new);
         List<EcmaBacklogTarget> target = this.backlogTargetRepo.findAllByProjectId(id);
         List<ContributingDTO> contribProjects = getContribProjectDtosList(id);
-        return new InformationDTO(project, urls, jiraParams, target, contribProjects);
+        List<FieldComments> comments = this.commentsRepository.findAllByPk_ProjectID(id);
+        return new InformationDTO(project, urls, jiraParams, target, contribProjects, comments);
     }
 
     private List<ContributingDTO> getContribProjectDtosList(int projectID) {
@@ -62,12 +65,21 @@ public class InformationTabService {
         ProjectURLs urLs = decompositor.getProjectUrlsObj();
         JiraParams params = decompositor.getJiraParams();
         List<EcmaBacklogTarget> target = decompositor.getEcmaBacklogTargetList();
+        List<ContributingProjects> contributingProjects = decompositor.getListOfContribProjects();
+        List<FieldComments> comments = decompositor.getListOfFieldComments();
+
         this.generalRepository.save(buildProjectToSave(id, project));
         this.urlsRepository.save(buildUrlsToSave(id, urLs));
         this.jiraParamsRepository.save(buildParamsToSave(id, params));
 
         this.backlogTargetRepo.deleteAllByProjectId(id);
         this.backlogTargetRepo.saveAll(target);
+
+        this.contribProjectsRepo.deleteAllByPk_ProjectID(id);
+        this.contribProjectsRepo.saveAll(contributingProjects);
+
+        this.commentsRepository.deleteAllByPk_ProjectID(id);
+        this.commentsRepository.saveAll(comments);
     }
 
     private Project buildProjectToSave(int projectID, Project fromInfoDTO) {
@@ -105,6 +117,8 @@ public class InformationTabService {
         existing.setUpdatedBusinessPlan(fromInfoDTO.getUpdatedBusinessPlan());
         existing.setTailoredChecklist(fromInfoDTO.getTailoredChecklist());
         existing.setLessonsLearned(fromInfoDTO.getLessonsLearned());
+        existing.setProjectPlan(fromInfoDTO.getProjectPlan());
+        existing.setLaunchingPlan(fromInfoDTO.getLaunchingPlan());
         existing.setCollabUrl(fromInfoDTO.getCollabUrl());
         existing.setPwaUrl(fromInfoDTO.getPwaUrl());
         existing.setDocumentsRepoUrl(fromInfoDTO.getDocumentsRepoUrl());

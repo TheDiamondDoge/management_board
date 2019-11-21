@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ContributingProjectsRepository extends CrudRepository<ContributingProjects, ContributingProjectsPK> {
     List<ContributingProjects> getContributingProjectsByPk_ProjectID(int projectID);
+    void deleteAllByPk_ProjectID(int projectID);
 }
