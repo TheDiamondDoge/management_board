@@ -5,6 +5,7 @@ import com.aiksanov.api.project.data.entity.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+// TODO: Try to use Optionals
 public class InformationDTO {
     private String projectDescription;
     private String oemPartner;
@@ -32,8 +33,10 @@ public class InformationDTO {
     private String rqRelease;
     private List<EcmaBacklogTargetDTO> ecmaBacklogTarget;
     private boolean composite;
+    private boolean maintenance;
     private List<ContributingDTO> contributingProjects;
     private String projectCollabUrl;
+    private String salesForce;
     private String projectPWASiteUrl;
     private String docRepositoryUrl;
     private String defectsUrl;
@@ -100,6 +103,7 @@ public class InformationDTO {
         this.oemPartner = additionalInfo.getOemPartner();
         this.keyCustomers = additionalInfo.getKeyCustomers();
         this.composite = additionalInfo.isComposite();
+        this.maintenance = additionalInfo.isMaintenance();
     }
 
     private void urlsMapping(ProjectURLs urls) {
@@ -117,6 +121,7 @@ public class InformationDTO {
         this.projectPlan.setValue(urls.getProjectPlan());
         this.launchingPlan.setValue(urls.getLaunchingPlan());
         this.projectCollabUrl = urls.getCollabUrl();
+        this.salesForce = urls.getSalesForce();
         this.projectPWASiteUrl = urls.getPwaUrl();
         this.docRepositoryUrl = urls.getDocumentsRepoUrl();
         this.defectsUrl = urls.getDefectsUrl();
@@ -260,6 +265,10 @@ public class InformationDTO {
         return ecmaBacklogTarget;
     }
 
+    public boolean isMaintenance() {
+        return maintenance;
+    }
+
     public boolean isComposite() {
         return composite;
     }
@@ -270,6 +279,10 @@ public class InformationDTO {
 
     public String getProjectCollabUrl() {
         return projectCollabUrl;
+    }
+
+    public String getSalesForce() {
+        return salesForce;
     }
 
     public String getProjectPWASiteUrl() {

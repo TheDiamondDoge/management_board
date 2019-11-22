@@ -61,6 +61,7 @@ public class InformationDtoDecompositor {
         info.setOemPartner(this.dto.getOemPartner());
         info.setKeyCustomers(this.dto.getKeyCustomers());
         info.setComposite(this.dto.isComposite());
+        info.setMaintenance(this.dto.isMaintenance());
         return info;
     }
 
@@ -91,6 +92,7 @@ public class InformationDtoDecompositor {
         }
 
         urls.setCollabUrl(this.dto.getProjectCollabUrl());
+        urls.setSalesForce(this.dto.getSalesForce());
         urls.setPwaUrl(this.dto.getProjectPWASiteUrl());
         urls.setDocumentsRepoUrl(this.dto.getDocRepositoryUrl());
         urls.setDefectsUrl(this.dto.getDefectsUrl());

@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS `prj_additional_info` (
   `oem_partner` varchar(256) DEFAULT NULL,
   `key_customer` varchar(256) DEFAULT NULL,
   `composite` tinyint(1) DEFAULT 0,
+  `maintenance` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`project_id`)
 );
 ALTER TABLE `prj_additional_info` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
@@ -108,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `prj_urls` (
   `project_plan` varchar(512) DEFAULT NULL,
   `launching_plan` varchar(512) DEFAULT NULL,
   `project_collab_url` varchar(512) DEFAULT NULL,
+  `sales_force` varchar(512) DEFAULT NULL,
   `project_pwa_url` varchar(512) DEFAULT NULL,
   `document_repo_url` varchar(512) DEFAULT NULL,
   `defects_url` varchar(512) DEFAULT NULL,

@@ -105,6 +105,7 @@ public class InformationTabService {
         existing.getAdditionalInfo().setOemPartner(additionalFromDto.getOemPartner());
         existing.getAdditionalInfo().setKeyCustomers(additionalFromDto.getKeyCustomers());
         existing.getAdditionalInfo().setComposite(additionalFromDto.isComposite());
+        existing.getAdditionalInfo().setMaintenance(additionalFromDto.isMaintenance());
 
         return existing;
     }
@@ -121,6 +122,7 @@ public class InformationTabService {
         existing.setLaunchingPlan(fromInfoDTO.getLaunchingPlan());
         existing.setCollabUrl(fromInfoDTO.getCollabUrl());
         existing.setPwaUrl(fromInfoDTO.getPwaUrl());
+        existing.setSalesForce(fromInfoDTO.getSalesForce());
         existing.setDocumentsRepoUrl(fromInfoDTO.getDocumentsRepoUrl());
         existing.setDefectsUrl(fromInfoDTO.getDefectsUrl());
         existing.setRequirementsUrl(fromInfoDTO.getRequirementsUrl());

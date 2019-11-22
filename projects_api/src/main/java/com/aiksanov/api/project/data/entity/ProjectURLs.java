@@ -36,6 +36,9 @@ public class ProjectURLs {
     @Column(name = "project_collab_url")
     private String collabUrl;
 
+    @Column(name = "sales_force")
+    private String salesForce;
+
     @Column(name = "project_pwa_url")
     private String pwaUrl;
 
@@ -125,6 +128,14 @@ public class ProjectURLs {
 
     public void setCollabUrl(String collabUrl) {
         this.collabUrl = collabUrl;
+    }
+
+    public String getSalesForce() {
+        return salesForce;
+    }
+
+    public void setSalesForce(String salesForce) {
+        this.salesForce = salesForce;
     }
 
     public String getPwaUrl() {
