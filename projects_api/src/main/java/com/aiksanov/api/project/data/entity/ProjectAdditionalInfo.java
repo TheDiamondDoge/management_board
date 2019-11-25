@@ -36,6 +36,10 @@ public class ProjectAdditionalInfo {
     public ProjectAdditionalInfo() {
     }
 
+    public ProjectAdditionalInfo(int projectID) {
+        this.projectID = projectID;
+    }
+
     public ProjectAdditionalInfo(int projectID, String description, String businessLineManager, String sponsor,
                                  String oemPartner, boolean composite, boolean maintenance) {
         this.projectID = projectID;

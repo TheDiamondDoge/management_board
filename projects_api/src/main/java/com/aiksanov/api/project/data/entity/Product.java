@@ -39,6 +39,10 @@ public class Product {
     public Product() {
     }
 
+    public Product(int projectID) {
+        this.projectID = projectID;
+    }
+
     public Product(String productLine, String name, String manager, String group, String division, String businessUnit, String productUnit, String team, String release, int projectID) {
         this.productLine = productLine;
         this.name = name;

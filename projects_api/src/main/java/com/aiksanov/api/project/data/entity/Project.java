@@ -1,7 +1,8 @@
 package com.aiksanov.api.project.data.entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
-import java.util.List;
 
 //TODO: PWS status - separate entity (???)
 //TODO: milestones -> to remove due to indicators page saving (???)
@@ -41,20 +42,27 @@ public class Project {
     @Column(name = "project_template")
     private String template;
 
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @OneToOne
     @JoinColumn(name = "project_id", referencedColumnName = "project_id")
     private Product product;
 
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @OneToOne
     @JoinColumn(name = "project_id", referencedColumnName = "project_id")
     private WorkspaceInfo workspaceInfo;
 
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @OneToOne
     @JoinColumn(name = "project_id", referencedColumnName = "project_id")
     private ProjectAdditionalInfo additionalInfo;
 
 
     public Project() {
+    }
+
+    public Project(int projectID) {
+        this.projectID = projectID;
     }
 
     public Project(String name, String type, String rigor, String state, String manager, int percentOfCompletion,

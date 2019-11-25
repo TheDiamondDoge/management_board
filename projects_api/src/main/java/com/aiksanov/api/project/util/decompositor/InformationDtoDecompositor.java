@@ -118,6 +118,7 @@ public class InformationDtoDecompositor {
         }
 
         list = ecmaBacklogTarget.stream()
+                .filter(dto -> Objects.nonNull(dto.getMilestone()))
                 .map(dto -> dto.getEcmaBacklogTargetObj(projectId))
                 .collect(Collectors.toList());
 

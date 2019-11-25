@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class InformationTabService {
     private GeneralRepository generalRepository;
     private ProjectURLsRepository urlsRepository;
@@ -83,22 +84,38 @@ public class InformationTabService {
     }
 
     private Project buildProjectToSave(int projectID, Project fromInfoDTO) {
-        Project existing = this.generalRepository.findById(projectID).orElseGet(Project::new);
+        Project existing = this.generalRepository.findById(projectID).orElseGet(() -> new Project(projectID));
         existing.setProjectID(projectID);
         existing.setType(fromInfoDTO.getType());
         existing.setRigor(fromInfoDTO.getRigor());
         existing.setState(fromInfoDTO.getState());
         existing.setManager(fromInfoDTO.getManager());
 
-        Product productfromDto = fromInfoDTO.getProduct();
-        existing.getProduct().setProductLine(productfromDto.getProductLine());
-        existing.getProduct().setName(productfromDto.getName());
-        existing.getProduct().setManager(productfromDto.getManager());
-        existing.getProduct().setDivision(productfromDto.getDivision());
-        existing.getProduct().setBusinessUnit(productfromDto.getBusinessUnit());
-        existing.getProduct().setRelease(productfromDto.getRelease());
+        Product productFromDto = fromInfoDTO.getProduct();
+        if (Objects.isNull(productFromDto)) {
+            productFromDto = new Product();
+        }
+
+        if (Objects.isNull(existing.getProduct())) {
+            existing.setProduct(new Product(projectID));
+        }
+
+        existing.getProduct().setProductLine(productFromDto.getProductLine());
+        existing.getProduct().setName(productFromDto.getName());
+        existing.getProduct().setManager(productFromDto.getManager());
+        existing.getProduct().setDivision(productFromDto.getDivision());
+        existing.getProduct().setBusinessUnit(productFromDto.getBusinessUnit());
+        existing.getProduct().setRelease(productFromDto.getRelease());
 
         ProjectAdditionalInfo additionalFromDto = fromInfoDTO.getAdditionalInfo();
+        if (Objects.isNull(additionalFromDto)) {
+            additionalFromDto = new ProjectAdditionalInfo();
+        }
+
+        if (Objects.isNull(existing.getAdditionalInfo())) {
+            existing.setAdditionalInfo(new ProjectAdditionalInfo(projectID));
+        }
+
         existing.getAdditionalInfo().setDescription(additionalFromDto.getDescription());
         existing.getAdditionalInfo().setBusinessLineManager(additionalFromDto.getBusinessLineManager());
         existing.getAdditionalInfo().setSponsor(additionalFromDto.getSponsor());

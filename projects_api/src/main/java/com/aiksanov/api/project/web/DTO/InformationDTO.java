@@ -62,7 +62,7 @@ public class InformationDTO {
             backlogMapping(target);
         }
 
-        if (Objects.nonNull(comments) && target.size() > 0) {
+        if (Objects.nonNull(comments) && comments.size() > 0) {
             commentsMapping(comments);
         }
 

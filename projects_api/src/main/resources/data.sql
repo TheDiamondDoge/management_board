@@ -32,11 +32,11 @@ INSERT INTO prj_workspace_info VALUES (1, 'ENABLED', '2019-04-11', '2019-04-11',
 
 -- INSERT INTO prj_urls VALUES (1, 'www.charter.url', 'or.bplan.url', 'upd.bplan.url', 'www.tailored.ru', 'www.lessons.learned', 'www.project.plan', 'www.launching.plan', 'project.collab.url', 'www.sales.force', 'pwa.url', 'repo.url', 'defects.url', 'req.url', 'cis.url');
 
-INSERT INTO prj_field_comments VALUES (1, 'updatedBusinessPlan', 'test bp');
-INSERT INTO prj_field_comments VALUES (1, 'drChecklist', 'test check');
-INSERT INTO prj_field_comments VALUES (1, 'lessonsLearned', 'test ll');
-INSERT INTO prj_field_comments VALUES (1, 'projectPlan', 'test pp');
-INSERT INTO prj_field_comments VALUES (1, 'launchingPlan', 'test lp');
+-- INSERT INTO prj_field_comments VALUES (1, 'updatedBusinessPlan', 'test bp');
+-- INSERT INTO prj_field_comments VALUES (1, 'drChecklist', 'test check');
+-- INSERT INTO prj_field_commentsmaintenance VALUES (1, 'lessonsLearned', 'test ll');
+-- INSERT INTO prj_field_comments VALUES (1, 'projectPlan', 'test pp');
+-- INSERT INTO prj_field_comments VALUES (1, 'launchingPlan', 'test lp');
 
 -- INSERT INTO prj_additional_info VALUES (1, 'Super nice project, biach', 'Awesome BL Manager', 'Awesome Sponsor', 'OEM Partner', 'Key customer', 0, 0);
 
