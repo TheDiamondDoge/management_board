@@ -15,7 +15,6 @@ public class HealthIndicators implements Serializable {
     private HealthIndicatorsPK healthIndicatorsPK;
 
     @Column(name = "overall")
-    @Max(1)
     private int overall;
 
     @Column(name = "schedule")

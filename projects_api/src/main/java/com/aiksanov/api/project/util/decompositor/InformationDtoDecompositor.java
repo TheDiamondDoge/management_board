@@ -3,6 +3,7 @@ package com.aiksanov.api.project.util.decompositor;
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.entity.pk.ContributingProjectsPK;
 import com.aiksanov.api.project.data.entity.pk.FieldCommentsPK;
+import com.aiksanov.api.project.util.enums.CommentsFieldNames;
 import com.aiksanov.api.project.web.DTO.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.EcmaBacklogTargetDTO;
 import com.aiksanov.api.project.web.DTO.InformationDTO;
@@ -142,18 +143,18 @@ public class InformationDtoDecompositor {
 
     public List<FieldComments> getListOfFieldComments() {
         List<FieldComments> result = new ArrayList<>();
-        result.add(buildFieldComment("updatedBusinessPlan", dto.getUpdatedBusinessPlan().getComment()));
-        result.add(buildFieldComment("drChecklist", dto.getDrChecklist().getComment()));
-        result.add(buildFieldComment("lessonsLearned", dto.getLessonsLearned().getComment()));
-        result.add(buildFieldComment("projectPlan", dto.getProjectPlan().getComment()));
-        result.add(buildFieldComment("launchingPlan", dto.getLaunchingPlan().getComment()));
+        result.add(buildFieldComment(CommentsFieldNames.UPDATED_BP, dto.getUpdatedBusinessPlan().getComment()));
+        result.add(buildFieldComment(CommentsFieldNames.DR_CHECKLIST, dto.getDrChecklist().getComment()));
+        result.add(buildFieldComment(CommentsFieldNames.LESSONS_LEARNED, dto.getLessonsLearned().getComment()));
+        result.add(buildFieldComment(CommentsFieldNames.PROJECT_PLAN, dto.getProjectPlan().getComment()));
+        result.add(buildFieldComment(CommentsFieldNames.LAUNCHING_PLAN, dto.getLaunchingPlan().getComment()));
 
         return result;
     }
 
-    private FieldComments buildFieldComment(String field, String comment) {
+    private FieldComments buildFieldComment(CommentsFieldNames field, String comment) {
         return new FieldComments(
-                new FieldCommentsPK(this.projectId, field), comment
+                new FieldCommentsPK(this.projectId, field.getTitle()), comment
         );
     }
 }

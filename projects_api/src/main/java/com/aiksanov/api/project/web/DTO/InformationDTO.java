@@ -1,11 +1,11 @@
 package com.aiksanov.api.project.web.DTO;
 
 import com.aiksanov.api.project.data.entity.*;
+import com.aiksanov.api.project.util.enums.CommentsFieldNames;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-// TODO: Try to use Optionals
 public class InformationDTO {
     private String projectDescription;
     private String oemPartner;
@@ -145,11 +145,11 @@ public class InformationDTO {
     }
 
     private void commentsMapping(List<FieldComments> comments) {
-        String updatedBpComment = getCommentByFieldName(comments, "updatedBusinessPlan");
-        String drChecklistComment = getCommentByFieldName(comments, "drChecklist");
-        String lessonsLearnedComment = getCommentByFieldName(comments, "lessonsLearned");
-        String projectPlanComment = getCommentByFieldName(comments, "projectPlan");
-        String launchingPlanComment = getCommentByFieldName(comments, "launchingPlan");
+        String updatedBpComment = getCommentByFieldName(comments, CommentsFieldNames.UPDATED_BP);
+        String drChecklistComment = getCommentByFieldName(comments, CommentsFieldNames.DR_CHECKLIST);
+        String lessonsLearnedComment = getCommentByFieldName(comments, CommentsFieldNames.LESSONS_LEARNED);
+        String projectPlanComment = getCommentByFieldName(comments, CommentsFieldNames.PROJECT_PLAN);
+        String launchingPlanComment = getCommentByFieldName(comments, CommentsFieldNames.LAUNCHING_PLAN);
 
         this.updatedBusinessPlan.setComment(updatedBpComment);
         this.drChecklist.setComment(drChecklistComment);
@@ -158,9 +158,9 @@ public class InformationDTO {
         this.launchingPlan.setComment(launchingPlanComment);
     }
 
-    private String getCommentByFieldName(List<FieldComments> comments, String fieldName) {
+    private String getCommentByFieldName(List<FieldComments> comments, CommentsFieldNames fieldName) {
         return comments.stream()
-                .filter(obj -> obj.getPk().getFieldName().equals(fieldName))
+                .filter(obj -> obj.getPk().getFieldName().equals(fieldName.getTitle()))
                 .findFirst().orElseGet(FieldComments::new)
                 .getComment();
     }

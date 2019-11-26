@@ -2,11 +2,11 @@ package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.*;
+import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.util.decompositor.InformationDtoDecompositor;
 import com.aiksanov.api.project.web.DTO.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.InformationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,27 +23,29 @@ public class InformationTabService {
     private EcmaBacklogTargetRepo backlogTargetRepo;
     private ContributingProjectsRepository contribProjectsRepo;
     private FieldCommentsRepository commentsRepository;
+    private ServiceUtils utils;
 
-    @Value("${project.error.projectNotFound}")
-    private String projectNotFoundMessage;
 
     @Autowired
     public InformationTabService(GeneralRepository generalRepository, ProjectURLsRepository urlsRepository,
                                  JiraParamsRepository jiraParamsRepository, EcmaBacklogTargetRepo backlogTargetRepo,
-                                 ContributingProjectsRepository contribProjectsRepo, FieldCommentsRepository comments) {
+                                 ContributingProjectsRepository contribProjectsRepo, FieldCommentsRepository comments,
+                                 ServiceUtils utils) {
         this.generalRepository = generalRepository;
         this.urlsRepository = urlsRepository;
         this.jiraParamsRepository = jiraParamsRepository;
         this.backlogTargetRepo = backlogTargetRepo;
         this.contribProjectsRepo = contribProjectsRepo;
         this.commentsRepository = comments;
+        this.utils = utils;
     }
 
+    @Transactional
     public InformationDTO getInfoTabData(Integer id) {
-        if (Objects.isNull(id)) {
-            throw new RuntimeException("Parameter 'id' not found");
+        if (Objects.isNull(id) || !utils.isProjectExist(id)) {
+            throw new RuntimeException("Project not found");
         }
-        Project project = this.generalRepository.findById(id).orElseThrow(() -> new RuntimeException(projectNotFoundMessage));
+        Project project = this.generalRepository.findById(id).orElseThrow(() -> new RuntimeException("Project not found"));
         ProjectURLs urls = this.urlsRepository.findById(id).orElseGet(ProjectURLs::new);
         JiraParams jiraParams = this.jiraParamsRepository.findById(id).orElseGet(JiraParams::new);
         List<EcmaBacklogTarget> target = this.backlogTargetRepo.findAllByProjectId(id);
@@ -61,6 +63,14 @@ public class InformationTabService {
 
     @Transactional
     public void saveInformationData(Integer id, InformationDTO dto) {
+        if (Objects.isNull(id) || !utils.isProjectExist(id)) {
+            throw new RuntimeException("Project not found");
+        }
+
+        if (Objects.isNull(dto)) {
+            throw new RuntimeException("No data");
+        }
+
         InformationDtoDecompositor decompositor = new InformationDtoDecompositor(dto, id);
         Project project = decompositor.getProject();
         ProjectURLs urLs = decompositor.getProjectUrlsObj();
@@ -84,7 +94,7 @@ public class InformationTabService {
     }
 
     private Project buildProjectToSave(int projectID, Project fromInfoDTO) {
-        Project existing = this.generalRepository.findById(projectID).orElseGet(() -> new Project(projectID));
+        Project existing = this.generalRepository.findById(projectID).orElseThrow(() -> new RuntimeException("Project not found"));
         existing.setProjectID(projectID);
         existing.setType(fromInfoDTO.getType());
         existing.setRigor(fromInfoDTO.getRigor());

@@ -28,7 +28,7 @@ public class IndicatorsRequirementsController {
         return indicatorsService.getRqDTO(id);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @PostMapping("/requirements/{id}")
     public void saveRequirements(@PathVariable int id, @RequestBody IndicatorsReqDTO rqs){
         LOGGER.info("POST /api/indicators/requirements/{}", id);
@@ -59,7 +59,7 @@ public class IndicatorsRequirementsController {
         return this.indicatorsService.getAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @PostMapping("/quality/{id}")
     public void saveQuality(@PathVariable int id, @RequestBody QualityIndicatorsTableDTO dto) {
         LOGGER.info("POST /api/indicators/quality/{}", id);
