@@ -5,7 +5,6 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 
 //TODO: PWS status - separate entity (???)
-//TODO: milestones -> to remove due to indicators page saving (???)
 @Entity
 @Table(name = "PRJ_WORKSPACE_GENERAL")
 public class Project {
@@ -31,10 +30,6 @@ public class Project {
 
     @Column(name = "project_manager")
     private String manager;
-
-    //TODO: To remove I guess
-    @Column(name = "project_completion")
-    private int percentOfCompletion;
 
     @Column(name = "EPM_project")
     private boolean epm;
@@ -65,7 +60,7 @@ public class Project {
         this.projectID = projectID;
     }
 
-    public Project(String name, String type, String rigor, String state, String manager, int percentOfCompletion,
+    public Project(String name, String type, String rigor, String state, String manager,
                    boolean epm, String template, Product product, WorkspaceInfo workspaceInfo,
                    ProjectAdditionalInfo additionalInfo)
     {
@@ -74,7 +69,6 @@ public class Project {
         this.rigor = rigor;
         this.state = state;
         this.manager = manager;
-        this.percentOfCompletion = percentOfCompletion;
         this.epm = epm;
         this.template = template;
         this.product = product;
@@ -136,14 +130,6 @@ public class Project {
 
     public void setManager(String manager) {
         this.manager = manager;
-    }
-
-    public int getPercentOfCompletion() {
-        return percentOfCompletion;
-    }
-
-    public void setPercentOfCompletion(int percentOfCompletion) {
-        this.percentOfCompletion = percentOfCompletion;
     }
 
     public boolean isEpm() {

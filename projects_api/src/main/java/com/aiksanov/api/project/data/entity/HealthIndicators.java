@@ -32,6 +32,14 @@ public class HealthIndicators implements Serializable {
     public HealthIndicators() {
     }
 
+    public HealthIndicators(int overall, int schedule, int scope, int quality, int cost) {
+        this.overall = overall;
+        this.schedule = schedule;
+        this.scope = scope;
+        this.quality = quality;
+        this.cost = cost;
+    }
+
     public HealthIndicators(HealthIndicatorsPK healthIndicatorsPK, int overall, int schedule, int scope, int quality, int cost) {
         this.healthIndicatorsPK = healthIndicatorsPK;
         this.overall = overall;

@@ -15,7 +15,7 @@ public class HealthIndicatorsDTO {
     }
 
     public HealthIndicatorsDTO(List<HealthIndicators> twoLastModifiedHealths, Map<String, String> comments) {
-        statuses = new HashMap<>();
+        statuses = this.getEmptyStatuses();
         if (Objects.nonNull(twoLastModifiedHealths)) {
             if (twoLastModifiedHealths.size() > 0) {
                 statuses.put("current", twoLastModifiedHealths.get(0));
@@ -47,6 +47,14 @@ public class HealthIndicatorsDTO {
 
     public Date getPrevStatusSet() {
         return prevStatusSet;
+    }
+
+    private Map<String, HealthIndicators> getEmptyStatuses() {
+        Map<String, HealthIndicators> result = new HashMap<>();
+        HealthIndicators indicator = new HealthIndicators(0,0,0,0,0);
+        result.put("current", indicator);
+
+        return result;
     }
 
     @Override

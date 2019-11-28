@@ -7,7 +7,6 @@ CREATE TABLE `PRJ_WORKSPACE_GENERAL` (
   `project_rigor` varchar(10) DEFAULT NULL,
   `project_state` varchar(10) DEFAULT NULL,
   `project_manager` varchar(100) DEFAULT NULL,
-  `project_completion` int(3) DEFAULT NULL,
   `EPM_project` tinyint(1) DEFAULT NULL,
   `project_template` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`project_id`)
@@ -199,8 +198,8 @@ CREATE TABLE IF NOT EXISTS `prj_indicators_quality` (
     `project_id` int(5) NOT NULL,
     `kpi_id` varchar(15) NOT NULL,
     `row_num` int(5) NOT NULL,
-    `objective` int(7),
-    `actual` int(7),
+    `objective` int(5),
+    `actual` int(5),
     PRIMARY KEY (`project_id`, `kpi_id`, `row_num`)
 );
 ALTER TABLE `prj_indicators_quality` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
