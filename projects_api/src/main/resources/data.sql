@@ -56,13 +56,13 @@ INSERT INTO prj_workspace_info VALUES (1, 'ENABLED', '2019-04-11', '2019-04-11',
 
 -- INSERT INTO prj_indicators_reqs VALUES (1, 1, 3, 0, 2);
 
--- INSERT INTO prj_blc_roles VALUES ('pm', 'Project Manager');
--- INSERT INTO prj_blc_roles VALUES ('pmo', 'PMO - Quality');
--- INSERT INTO prj_blc_roles VALUES ('sales', 'Sales');
+INSERT INTO prj_blc_roles VALUES ('pm', 'Project Manager');
+INSERT INTO prj_blc_roles VALUES ('pmo', 'PMO - Quality');
+INSERT INTO prj_blc_roles VALUES ('sales', 'Sales');
 
--- INSERT INTO prj_blc_dashboard VALUES (1, 'pm', '2019-09-15', 'aiksanov', 1, 2, 3, 1, 2, 3, 3, 2, 1, 1, 2, 3, 'Comment1!');
--- INSERT INTO prj_blc_dashboard VALUES (1, 'pmo', '2019-09-14', 'aiksanov2', 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 'Comment1!');
--- INSERT INTO prj_blc_dashboard VALUES (1, 'sales', '2019-09-13', 'aiksanov3', 3, 2, 3, 1, 3, 2, 3, 2, 3, 1, 3, 3, 'Comment1!');
+INSERT INTO prj_blc_dashboard VALUES (1, 'pm', '2019-09-15', 'aiksanov', 1, 5, 8, 1, 5, 8, 8, 5, 1, 1, 5, 8, 'Comment1!');
+INSERT INTO prj_blc_dashboard VALUES (1, 'pmo', '2019-09-14', 'aiksanov2', 8, 5, 1, 8, 5, 1, 8, 5, 1, 8, 5, 1, 'Comment1!');
+INSERT INTO prj_blc_dashboard VALUES (1, 'sales', '2019-09-13', 'aiksanov3', 8, 5, 8, 1, 8, 5, 8, 5, 8, 1, 8, 8, 'Comment1!');
 
 -- INSERT INTO prj_indicators_quality VALUES (1, 'quality', 1, 100, 95);
 -- INSERT INTO prj_indicators_quality VALUES (1, 'defects', 1, 200, 195);
