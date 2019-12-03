@@ -15,20 +15,14 @@ public class BlcRowDTO {
     public BlcRowDTO() {
     }
 
-    public BlcRowDTO(BlcDashboard row) {
-        this.csl = row.getCsl();
-        this.role = setRole(row);
-        this.updatedOn = row.getUpdatedOn();
-        this.indicators = setBlcIndicators(row);
-        this.comment = row.getComment();
-    }
-
-    private String setRole(BlcDashboard row) {
-        if (Objects.isNull(row.getRoleObj())) {
-            return null;
-        } else {
-            return row.getRoleObj().getName();
+    public BlcRowDTO(BlcDashboard row, String comment) {
+        if (Objects.nonNull(row)) {
+            this.csl = row.getCsl();
+            this.role = row.getRole();
+            this.updatedOn = row.getUpdatedOn();
+            this.indicators = setBlcIndicators(row);
         }
+        this.comment = comment;
     }
 
     private BlcIndicators setBlcIndicators (BlcDashboard row) {

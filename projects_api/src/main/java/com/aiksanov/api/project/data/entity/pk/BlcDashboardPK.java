@@ -5,14 +5,14 @@ import java.util.Objects;
 
 public class BlcDashboardPK implements Serializable {
     private int projectID;
-    private String roleID;
+    private String role;
 
     public BlcDashboardPK() {
     }
 
     public BlcDashboardPK(int projectID, String role) {
         this.projectID = projectID;
-        this.roleID = role;
+        this.role = role;
     }
 
     public int getProjectID() {
@@ -24,11 +24,11 @@ public class BlcDashboardPK implements Serializable {
     }
 
     public String getRole() {
-        return roleID;
+        return role;
     }
 
     public void setRole(String role) {
-        this.roleID = role;
+        this.role = role;
     }
 
     @Override
@@ -37,11 +37,11 @@ public class BlcDashboardPK implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         BlcDashboardPK that = (BlcDashboardPK) o;
         return projectID == that.projectID &&
-                roleID.equals(that.roleID);
+                role.equals(that.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(projectID, roleID);
+        return Objects.hash(projectID, role);
     }
 }

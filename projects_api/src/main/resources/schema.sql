@@ -163,13 +163,6 @@ CREATE TABLE IF NOT EXISTS `prj_indicators_reqs` (
 );
 ALTER TABLE `prj_indicators_reqs` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
 
-DROP TABLE IF EXISTS prj_blc_roles;
-CREATE TABLE IF NOT EXISTS `prj_blc_roles` (
-    `role_id` varchar(5) NOT NULL,
-    `role_name` varchar(30) NOT NULL,
-    PRIMARY KEY (`role_id`)
-);
-
 DROP TABLE IF EXISTS prj_blc_dashboard;
 CREATE TABLE IF NOT EXISTS `prj_blc_dashboard` (
     `project_id` int(5) NOT NULL,
@@ -188,10 +181,18 @@ CREATE TABLE IF NOT EXISTS `prj_blc_dashboard` (
     `launch_sales` int(1) DEFAULT 0,
     `lessons` int(1) DEFAULT 0,
     `risks` int(1) DEFAULT 0,
-    `comments` text,
     PRIMARY KEY (`project_id`, `role`)
 );
-ALTER TABLE `prj_blc_dashboard` ADD FOREIGN KEY (role) REFERENCES prj_blc_roles (role_id);
+ALTER TABLE `prj_blc_dashboard` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
+
+DROP TABLE IF EXISTS prj_blc_dashboard_comments;
+CREATE TABLE IF NOT EXISTS `prj_blc_dashboard_comments` (
+    `project_id` int(5) NOT NULL,
+    `role` varchar(5) NOT NULL,
+    `comment` text,
+    PRIMARY KEY (`project_id`, `role`)
+);
+ALTER TABLE `prj_blc_dashboard_comments` ADD FOREIGN KEY (project_id, role) REFERENCES prj_blc_dashboard(project_id, role);
 
 DROP TABLE IF EXISTS prj_indicators_quality;
 CREATE TABLE IF NOT EXISTS `prj_indicators_quality` (

@@ -15,11 +15,7 @@ public class BlcDashboard {
 
     @Id
     @Column(name = "role")
-    private String roleID;
-
-    @OneToOne
-    @JoinColumn(name = "role", referencedColumnName = "role_id", insertable = false, updatable = false)
-    private BlcRoles roleObj;
+    private String role;
 
     @Column(name = "updated_by")
     private String csl;
@@ -63,17 +59,14 @@ public class BlcDashboard {
     @Column(name = "risks")
     private int risks;
 
-    @Column(name = "comments")
-    private String comment;
-
     public BlcDashboard() {
     }
 
-    public BlcDashboard(int projectID, String roleID, String csl, Date updatedOn, int or, int charter, int prjPlan,
+    public BlcDashboard(int projectID, String role, String csl, Date updatedOn, int or, int charter, int prjPlan,
                         int tailoring, int accPrgMgr, int accCoreTeam, int bpPlan, int bpSales, int launchPlan,
-                        int launchSales, int lessons, int risks, String comment) {
+                        int launchSales, int lessons, int risks) {
         this.projectID = projectID;
-        this.roleID = roleID;
+        this.role = role;
         this.csl = csl;
         this.updatedOn = updatedOn;
         this.or = or;
@@ -88,15 +81,6 @@ public class BlcDashboard {
         this.launchSales = launchSales;
         this.lessons = lessons;
         this.risks = risks;
-        this.comment = comment;
-    }
-
-    public BlcRoles getRoleObj() {
-        return roleObj;
-    }
-
-    public void setRoleObj(BlcRoles roleObj) {
-        this.roleObj = roleObj;
     }
 
     public int getProjectID() {
@@ -107,12 +91,12 @@ public class BlcDashboard {
         this.projectID = projectID;
     }
 
-    public String getRoleID() {
-        return roleID;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoleID(String roleID) {
-        this.roleID = roleID;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getCsl() {
@@ -227,11 +211,4 @@ public class BlcDashboard {
         this.risks = risks;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
 }

@@ -4,6 +4,7 @@ public class BlcDashboardDTO {
     private BlcRowDTO pm;
     private BlcRowDTO pmo;
     private BlcRowDTO sales;
+    private String rowToSave;
 
     public BlcDashboardDTO() {
     }
@@ -30,5 +31,13 @@ public class BlcDashboardDTO {
 
     public void setSales(BlcRowDTO sales) {
         this.sales = sales;
+    }
+
+    public String getRowToSave() {
+        return rowToSave;
+    }
+
+    public void setRowToSave(String rowToSave) {
+        this.rowToSave = rowToSave;
     }
 }
