@@ -213,3 +213,30 @@ CREATE TABLE IF NOT EXISTS `prj_indicators_quality_comments` (
     PRIMARY KEY (`project_id`, `kpi_id`)
 );
 -- ALTER TABLE `prj_indicators_quality_comments` ADD FOREIGN KEY (project_id, kpi_id) REFERENCES prj_indicators_quality(project_id, kpi_id);
+
+DROP TABLE IF EXISTS prj_risks;
+CREATE TABLE IF NOT EXISTS `prj_risks` (
+    `project_id` int(5) NOT NULL,
+    `risk_id` float NOT NULL,
+    `impact` int(2) NOT NULL,
+    `probability` varchar(15),
+    `rating` float,
+    `previous` float,
+    `initial` float,
+    `risk_description` text,
+    `impact_description` text,
+    `business_impact` text,
+    `risk_response` varchar(512),
+    `mitigation` text,
+    `decision_date` date,
+    `estimated_cost` varchar(100),
+    `provision_budget` varchar(100),
+    `responsible` varchar(100),
+    `related_action` varchar(1024),
+    `target` date,
+    `done` date,
+    `result` date,
+    `report` tinyint(1),
+    PRIMARY KEY (`project_id`, `risk_id`)
+);
+ALTER TABLE `prj_risks` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
