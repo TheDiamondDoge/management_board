@@ -28,15 +28,6 @@ public class QualityIndicators {
     @Column(name = "actual")
     private int actual;
 
-    //TODO learn how to map properly (deletion error)
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-//    @MapsId("kpi_id")
-//    @NotFound(action = NotFoundAction.IGNORE)
-//    @JoinColumns({
-//            @JoinColumn(name = "project_id", referencedColumnName = "project_id"),
-//            @JoinColumn(name = "kpi_id", referencedColumnName = "kpi_id")
-//    })
-//    private QualityIndicatorsComments comment;
 
     public QualityIndicators() {
     }

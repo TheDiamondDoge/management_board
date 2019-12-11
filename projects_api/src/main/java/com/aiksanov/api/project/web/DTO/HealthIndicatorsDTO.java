@@ -1,6 +1,5 @@
 package com.aiksanov.api.project.web.DTO;
 
-import com.aiksanov.api.project.data.domain.HealthStatus;
 import com.aiksanov.api.project.data.entity.HealthIndicators;
 
 import java.util.*;

@@ -1,6 +1,6 @@
 package com.aiksanov.api.project.business.service;
 
-import com.aiksanov.api.project.data.domain.HealthStatus;
+import com.aiksanov.api.project.util.enums.HealthStatus;
 import com.aiksanov.api.project.data.entity.HealthIndicators;
 import com.aiksanov.api.project.data.entity.HealthIndicatorsComments;
 import com.aiksanov.api.project.data.entity.pk.HealthIndicatorsCommentsPK;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.aiksanov.api.project.data.domain.HealthStatus.*;
+import static com.aiksanov.api.project.util.enums.HealthStatus.*;
 
 @Service
 public class HealthService {

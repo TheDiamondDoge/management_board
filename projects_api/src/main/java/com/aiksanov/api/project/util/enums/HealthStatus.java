@@ -1,4 +1,4 @@
-package com.aiksanov.api.project.data.domain;
+package com.aiksanov.api.project.util.enums;
 
 public enum HealthStatus {
     OVERALL("overall"),
