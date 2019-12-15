@@ -25,6 +25,7 @@ public class RisksController {
 
     @GetMapping("/risks")
     public List<Risk> getRisks(@PathVariable int projectId) {
+        LOGGER.info("GET /api/projects/{}/tabs/risks", projectId);
         return this.risksService.getProjectRisks(projectId);
     }
 }
