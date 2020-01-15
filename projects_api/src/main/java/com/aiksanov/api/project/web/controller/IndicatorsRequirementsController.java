@@ -1,9 +1,11 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.IndicatorsService;
-import com.aiksanov.api.project.data.entity.IndicatorsReqs;
 import com.aiksanov.api.project.data.entity.QualityIndicatorsComments;
-import com.aiksanov.api.project.web.DTO.*;
+import com.aiksanov.api.project.web.DTO.indicators.IndicatorsDr4KpiDTO;
+import com.aiksanov.api.project.web.DTO.indicators.IndicatorsReqDTO;
+import com.aiksanov.api.project.web.DTO.indicators.MilestoneIndKpiDTO;
+import com.aiksanov.api.project.web.DTO.quality.QualityIndicatorsTableDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +57,7 @@ public class IndicatorsRequirementsController {
 
     @GetMapping("/quality")
     public Iterable<QualityIndicatorsComments> getQualityAll() {
-        LOGGER.info("GET /api/indicators/quality/{}");
+        LOGGER.info("GET /api/indicators/quality");
         return this.indicatorsService.getAll();
     }
 

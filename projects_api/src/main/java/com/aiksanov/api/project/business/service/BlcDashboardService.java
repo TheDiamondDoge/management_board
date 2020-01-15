@@ -6,9 +6,9 @@ import com.aiksanov.api.project.data.entity.pk.BlcDashboardPK;
 import com.aiksanov.api.project.data.repository.BlcDashboardCommentsRepo;
 import com.aiksanov.api.project.data.repository.BlcDashboardRepository;
 import com.aiksanov.api.project.util.enums.BlcRoles;
-import com.aiksanov.api.project.web.DTO.BlcDashboardDTO;
-import com.aiksanov.api.project.web.DTO.BlcIndicators;
-import com.aiksanov.api.project.web.DTO.BlcRowDTO;
+import com.aiksanov.api.project.web.DTO.blc.BlcDashboardDTO;
+import com.aiksanov.api.project.web.DTO.blc.BlcIndicators;
+import com.aiksanov.api.project.web.DTO.blc.BlcRowDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,8 +61,9 @@ public class BlcDashboardService {
             throw new RuntimeException("RowToSave should not be null");
         }
         BlcDashboard indicators = getBlcDashboardFromDto(dto, rowName, projectID);
-
-        this.dashboardRepository.save(indicators);
+        if (Objects.nonNull(indicators)) {
+            this.dashboardRepository.save(indicators);
+        }
     }
 
     private BlcDashboard getBlcDashboardFromDto(BlcDashboardDTO dto, String role, int projectID) {

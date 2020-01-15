@@ -1,4 +1,8 @@
-package com.aiksanov.api.project.web.DTO;
+package com.aiksanov.api.project.web.DTO.indicators;
+
+import com.aiksanov.api.project.web.DTO.HealthIndicatorsDTO;
+import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
+import com.aiksanov.api.project.web.DTO.quality.QualityIndicatorsTableDTO;
 
 import java.util.Date;
 import java.util.List;

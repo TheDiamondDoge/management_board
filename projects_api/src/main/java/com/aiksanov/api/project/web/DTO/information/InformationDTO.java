@@ -1,7 +1,8 @@
-package com.aiksanov.api.project.web.DTO;
+package com.aiksanov.api.project.web.DTO.information;
 
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.util.enums.CommentsFieldNames;
+import com.aiksanov.api.project.web.DTO.ContributingDTO;
 
 import java.util.*;
 import java.util.stream.Collectors;

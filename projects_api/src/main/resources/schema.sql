@@ -240,3 +240,46 @@ CREATE TABLE IF NOT EXISTS `prj_risks` (
     PRIMARY KEY (`project_id`, `risk_id`)
 );
 ALTER TABLE `prj_risks` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
+
+DROP TABLE IF EXISTS prj_actions;
+CREATE TABLE IF NOT EXISTS `prj_actions` (
+    `project_id` int(5) NOT NULL,
+    `registry` int(1),
+    `uid` int(5) NOT NULL,
+    `title` varchar(255),
+    `state` int(1),
+    `priority` int(1),
+    `owner` varchar(255),
+    `optional_info` text,
+    `due` date,
+    `description` text,
+    `status` text,
+    `created_date` date,
+    `closed_date` date,
+    PRIMARY KEY (`project_id`, `uid`)
+);
+ALTER TABLE `prj_actions` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
+
+DROP TABLE IF EXISTS prj_actions_registry;
+CREATE TABLE IF NOT EXISTS `prj_actions_registry` (
+    `registry_id` int(1) NOT NULL,
+    `registry_label` varchar(20),
+    PRIMARY KEY (registry_id)
+);
+ALTER TABLE `prj_actions` ADD FOREIGN KEY (`registry`) REFERENCES prj_actions_registry(`registry_id`);
+
+DROP TABLE IF EXISTS prj_actions_state;
+CREATE TABLE IF NOT EXISTS `prj_actions_state` (
+    `state_id` int(1) NOT NULL,
+    `state_label` varchar(20),
+    PRIMARY KEY (state_id)
+);
+ALTER TABLE `prj_actions` ADD FOREIGN KEY (`state`) REFERENCES prj_actions_state(`state_id`);
+
+DROP TABLE IF EXISTS prj_actions_priority;
+CREATE TABLE IF NOT EXISTS `prj_actions_priority` (
+    `priority_id` int(1) NOT NULL,
+    `priority_label` varchar(20),
+    PRIMARY KEY (priority_id)
+);
+ALTER TABLE `prj_actions` ADD FOREIGN KEY (`priority`) REFERENCES prj_actions_priority(`priority_id`);

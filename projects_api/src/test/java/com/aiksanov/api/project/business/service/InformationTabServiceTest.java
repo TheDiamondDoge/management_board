@@ -3,7 +3,7 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.ProjectURLsRepository;
-import com.aiksanov.api.project.web.DTO.InformationDTO;
+import com.aiksanov.api.project.web.DTO.information.InformationDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

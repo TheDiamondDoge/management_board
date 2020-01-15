@@ -3,7 +3,7 @@ package com.aiksanov.api.project.web.controller;
 import com.aiksanov.api.project.business.service.MilestoneService;
 import com.aiksanov.api.project.data.entity.Milestone;
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
-import com.aiksanov.api.project.web.DTO.MilestoneDTO;
+import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

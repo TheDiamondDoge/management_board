@@ -82,3 +82,12 @@ INSERT INTO prj_risks VALUES (1, 1.2, 4, '70%', 2.8, 1.0, 1.0, 'Many products in
 INSERT INTO prj_risks VALUES (1, 1.3, 4, '70%', 2.8, 1.0, 1.0, 'Many products in parallel', 'Overloaded Metiers', 'Business impact indeed', 'FAst response, Sonic style', 'Mitigation:Priority on content\nLast chance corrective action:Delay product availability or some major content', '2020-12-15', '1000ME', '2000ME', 'Iksanov', '12CaE', '2020-12-15', '2020-12-15', '2020-12-15', 0);
 INSERT INTO prj_risks VALUES (1, 1.4, 4, '70%', 2.8, 1.0, 1.0, 'Many products in parallel', 'Overloaded Metiers', 'Business impact indeed', 'FAst response, Sonic style', 'Mitigation:Priority on content\nLast chance corrective action:Delay product availability or some major content', '2020-12-15', '1000ME', '2000ME', 'Iksanov', '12CaE', '2020-12-15', '2020-12-15', '2020-12-15', 1);
 INSERT INTO prj_risks VALUES (1, 1.5, 4, '70%', 2.8, 1.0, 1.0, 'Many products in parallel', 'Overloaded Metiers', 'Business impact indeed', 'FAst response, Sonic style', 'Mitigation:Priority on content\nLast chance corrective action:Delay product availability or some major content', '2020-12-15', '1000ME', '2000ME', 'Iksanov', '12CaE', '2020-12-15', '2020-12-15', '2020-12-15', 0);
+
+INSERT INTO prj_actions_registry VALUES (0, ''), (1, 'Action'), (2, 'Informational'), (3, 'Decision');
+INSERT INTO prj_actions_state VALUES (0, ''), (1, 'Active'), (2, 'Postponed'), (3, 'Closed'), (4, 'Did not occur');
+INSERT INTO prj_actions_priority VALUES (0, ''), (1, 'Low'), (2, 'Medium'), (3, 'High');
+
+INSERT INTO prj_actions VALUES (1, 1, 1001, 'First actions to test', 1, 0, 'Aleksandr Iksanov', 'This is the optional info for first action', '2020-02-02', 'High quality action! I hope so...', 'Super status, mate!', '2020-01-15', '2021-01-31');
+INSERT INTO prj_actions VALUES (1, 2, 1002, 'Second actions to test', 2, 1, 'Aleksandr Iksanov', 'This is the optional info for second action', '2020-02-02', 'High quality action! I hope so...', 'Super status, mate!', '2020-01-15', '2021-01-31');
+INSERT INTO prj_actions VALUES (1, 3, 1003, 'Third actions to test', 3, 2, 'Aleksandr Iksanov', 'This is the optional info for third action', '2020-02-02', 'High quality action! I hope so...', 'Super status, mate!', '2020-01-15', '2021-01-31');
+INSERT INTO prj_actions VALUES (1, 0, 1004, 'Fourth actions to test', 4, 3, 'Aleksandr Iksanov', 'This is the optional info for forth action', '2020-02-02', 'High quality action! I hope so...', 'Super status, mate!', '2020-01-15', '2021-01-31');

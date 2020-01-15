@@ -1,4 +1,4 @@
-package com.aiksanov.api.project.web.DTO;
+package com.aiksanov.api.project.web.DTO.information;
 
 public class FieldWithCommentDTO {
     private String value;

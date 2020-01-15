@@ -1,7 +1,7 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.BlcDashboardService;
-import com.aiksanov.api.project.web.DTO.BlcDashboardDTO;
+import com.aiksanov.api.project.web.DTO.blc.BlcDashboardDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.aiksanov.api.project.web.DTO;
+package com.aiksanov.api.project.web.DTO.quality;
 
 import com.aiksanov.api.project.data.entity.QualityIndicators;
 import com.aiksanov.api.project.data.entity.QualityIndicatorsComments;

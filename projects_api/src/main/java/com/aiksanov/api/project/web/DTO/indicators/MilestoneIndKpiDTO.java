@@ -1,4 +1,4 @@
-package com.aiksanov.api.project.web.DTO;
+package com.aiksanov.api.project.web.DTO.indicators;
 
 public class MilestoneIndKpiDTO {
     private String label;

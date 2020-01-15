@@ -5,8 +5,8 @@ import com.aiksanov.api.project.data.entity.pk.ContributingProjectsPK;
 import com.aiksanov.api.project.data.entity.pk.FieldCommentsPK;
 import com.aiksanov.api.project.util.enums.CommentsFieldNames;
 import com.aiksanov.api.project.web.DTO.ContributingDTO;
-import com.aiksanov.api.project.web.DTO.EcmaBacklogTargetDTO;
-import com.aiksanov.api.project.web.DTO.InformationDTO;
+import com.aiksanov.api.project.web.DTO.information.EcmaBacklogTargetDTO;
+import com.aiksanov.api.project.web.DTO.information.InformationDTO;
 
 import java.util.ArrayList;
 import java.util.List;

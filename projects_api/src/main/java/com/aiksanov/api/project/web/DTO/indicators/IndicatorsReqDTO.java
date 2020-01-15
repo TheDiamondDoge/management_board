@@ -1,4 +1,4 @@
-package com.aiksanov.api.project.web.DTO;
+package com.aiksanov.api.project.web.DTO.indicators;
 
 import com.aiksanov.api.project.data.entity.IndicatorsReqs;
 
