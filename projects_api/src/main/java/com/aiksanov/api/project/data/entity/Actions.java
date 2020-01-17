@@ -3,7 +3,7 @@ package com.aiksanov.api.project.data.entity;
 import com.aiksanov.api.project.data.entity.pk.ActionsPK;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "prj_actions")

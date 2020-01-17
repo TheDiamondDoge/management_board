@@ -5,7 +5,9 @@ import com.aiksanov.api.project.data.repository.RisksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RisksService {
@@ -18,5 +20,12 @@ public class RisksService {
 
     public List<Risk> getProjectRisks(int projectId) {
         return this.risksRepository.findAllByProjectId(projectId);
+    }
+
+    public List<Float> getListOfProjectsRisks(int projectId) {
+        return this.risksRepository.findAllByProjectId(projectId)
+                .stream()
+                .map(Risk::getRiskId)
+                .collect(Collectors.toList());
     }
 }

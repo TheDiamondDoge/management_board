@@ -28,4 +28,10 @@ public class RisksController {
         LOGGER.info("GET /api/projects/{}/tabs/risks", projectId);
         return this.risksService.getProjectRisks(projectId);
     }
+
+    @GetMapping("/risks/id")
+    public List<Float> getRisksIds(@PathVariable int projectId) {
+        LOGGER.info("GET /api/projects/{}/tabs/risks/id", projectId);
+        return this.risksService.getListOfProjectsRisks(projectId);
+    }
 }
