@@ -256,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `prj_actions` (
     `status` text,
     `created_date` date,
     `closed_date` date,
-    PRIMARY KEY (`project_id`, `uid`)
+    PRIMARY KEY (`uid`)
 );
 ALTER TABLE `prj_actions` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
 
@@ -283,3 +283,12 @@ CREATE TABLE IF NOT EXISTS `prj_actions_priority` (
     PRIMARY KEY (priority_id)
 );
 ALTER TABLE `prj_actions` ADD FOREIGN KEY (`priority`) REFERENCES prj_actions_priority(`priority_id`);
+
+DROP TABLE IF EXISTS prj_actions_related_risks;
+CREATE TABLE IF NOT EXISTS `prj_actions_related_risks` (
+    `action_id` int(3) NOT NULL,
+    `risks_id` float NOT NULL,
+    `project_id` int(5) NOT NULL,
+    PRIMARY KEY (action_id, risks_id)
+);
+ALTER TABLE `prj_actions_related_risks` ADD FOREIGN KEY (`project_id`) REFERENCES prj_actions(`project_id`);

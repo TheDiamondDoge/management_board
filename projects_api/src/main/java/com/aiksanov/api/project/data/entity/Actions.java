@@ -1,15 +1,19 @@
 package com.aiksanov.api.project.data.entity;
 
-import com.aiksanov.api.project.data.entity.pk.ActionsPK;
-
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "prj_actions")
 public class Actions {
-    @EmbeddedId
-    private ActionsPK actionsPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "uid")
+    private Integer uid;
+
+    @Column(name = "project_id")
+    private int projectId;
 
     @OneToOne
     @JoinColumn(name = "registry", referencedColumnName = "registry_id")
@@ -47,15 +51,35 @@ public class Actions {
     @Column(name = "closed_date")
     private Date closedDate;
 
+    @OneToMany
+    @JoinColumn(name = "uid")
+    private List<ActionRelatedRisks> relatedRisks;
+
     public Actions() {
     }
 
-    public ActionsPK getActionsPK() {
-        return actionsPK;
+    public Integer getUid() {
+        return uid;
     }
 
-    public void setActionsPK(ActionsPK actionsPK) {
-        this.actionsPK = actionsPK;
+    public void setUid(Integer uid) {
+        this.uid = uid;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+
+    public List<ActionRelatedRisks> getRelatedRisks() {
+        return relatedRisks;
+    }
+
+    public void setRelatedRisks(List<ActionRelatedRisks> relatedRisks) {
+        this.relatedRisks = relatedRisks;
     }
 
     public ActionsRegistry getRegistry() {

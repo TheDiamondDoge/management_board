@@ -1,14 +1,17 @@
 package com.aiksanov.api.project.web.DTO.actions;
 
+import com.aiksanov.api.project.data.entity.ActionRelatedRisks;
 import com.aiksanov.api.project.data.entity.Actions;
+import com.aiksanov.api.project.data.entity.Risk;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ActionDTO {
     private String registry;
-    private int uid;
+    private Integer uid;
     private String title;
     private String state;
     private String priority;
@@ -22,7 +25,9 @@ public class ActionDTO {
     private List<Float> relatedRisks;
 
     public ActionDTO(Actions actions) {
-        this.setValues(actions);
+        if (Objects.nonNull(actions)) {
+            this.setValues(actions);
+        }
     }
 
     public ActionDTO() {
@@ -37,11 +42,8 @@ public class ActionDTO {
         this.status = actions.getStatus();
         this.createdDate = actions.getCreatedDate();
         this.closedDate = actions.getClosedDate();
-        // this.relatedRisks;
-
-        if (Objects.nonNull(actions.getActionsPK())) {
-            this.uid = actions.getActionsPK().getUid();
-        }
+        this.relatedRisks = this.getRisksIds(actions);
+        this.uid = actions.getUid();
 
         if (Objects.nonNull(actions.getRegistry())) {
             this.registry = actions.getRegistry().getRegistryLabel();
@@ -56,6 +58,14 @@ public class ActionDTO {
         }
     }
 
+    private List<Float> getRisksIds(Actions actions) {
+        if (Objects.nonNull(actions.getRelatedRisks())) {
+            return actions.getRelatedRisks().stream().map(ActionRelatedRisks::getRisksId).collect(Collectors.toList());
+        }
+
+        return null;
+    }
+
     public String getRegistry() {
         return registry;
     }
@@ -64,7 +74,7 @@ public class ActionDTO {
         this.registry = registry;
     }
 
-    public int getUid() {
+    public Integer getUid() {
         return uid;
     }
 

@@ -91,3 +91,5 @@ INSERT INTO prj_actions VALUES (1, 1, 1001, 'First actions to test', 1, 0, 'Alek
 INSERT INTO prj_actions VALUES (1, 2, 1002, 'Second actions to test', 2, 1, 'Aleksandr Iksanov', 'This is the optional info for second action', '2020-02-02', 'High quality action! I hope so...', 'Super status, mate!', '2020-01-15', '2021-01-31');
 INSERT INTO prj_actions VALUES (1, 3, 1003, 'Third actions to test', 3, 2, 'Aleksandr Iksanov', 'This is the optional info for third action', '2020-02-02', 'High quality action! I hope so...', 'Super status, mate!', '2020-01-15', '2021-01-31');
 INSERT INTO prj_actions VALUES (1, 0, 1004, 'Fourth actions to test', 4, 3, 'Aleksandr Iksanov', 'This is the optional info for forth action', '2020-02-02', 'High quality action! I hope so...', 'Super status, mate!', '2020-01-15', '2021-01-31');
+
+INSERT INTO prj_actions_related_risks VALUES (1002, 1.3, 1), (1002, 1.5, 1);

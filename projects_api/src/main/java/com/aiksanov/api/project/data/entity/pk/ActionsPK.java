@@ -2,6 +2,8 @@ package com.aiksanov.api.project.data.entity.pk;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -10,13 +12,14 @@ public class ActionsPK implements Serializable {
     @Column(name = "project_id")
     private int projectID;
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid")
-    private int uid;
+    private Integer uid;
 
     public ActionsPK() {
     }
 
-    public ActionsPK(int projectID, int uid) {
+    public ActionsPK(int projectID, Integer uid) {
         this.projectID = projectID;
         this.uid = uid;
     }
@@ -29,7 +32,7 @@ public class ActionsPK implements Serializable {
         this.projectID = projectID;
     }
 
-    public int getUid() {
+    public Integer getUid() {
         return uid;
     }
 

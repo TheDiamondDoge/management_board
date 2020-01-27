@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ActionsRepository extends CrudRepository<Actions, ActionsPK> {
-    List<Actions> findActionsByActionsPK_ProjectID(int projectId);
-    void deleteAllByActionsPK_ProjectID(int projectId);
+public interface ActionsRepository extends CrudRepository<Actions, Integer> {
+    List<Actions> findActionsByProjectId(int projectId);
+    void deleteAllByProjectId(int projectId);
 }
