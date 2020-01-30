@@ -3,6 +3,7 @@ package com.aiksanov.api.project.data.entity;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "prj_actions")
@@ -51,9 +52,12 @@ public class Actions {
     @Column(name = "closed_date")
     private Date closedDate;
 
-    @OneToMany
-    @JoinColumn(name = "uid")
-    private List<ActionRelatedRisks> relatedRisks;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinColumns({
+            @JoinColumn(name="")
+            @JoinColumn(name="")
+    })
+    private Set<Risk> relatedRisks;
 
     public Actions() {
     }
@@ -74,11 +78,11 @@ public class Actions {
         this.projectId = projectId;
     }
 
-    public List<ActionRelatedRisks> getRelatedRisks() {
+    public Set<Risk> getRelatedRisks() {
         return relatedRisks;
     }
 
-    public void setRelatedRisks(List<ActionRelatedRisks> relatedRisks) {
+    public void setRelatedRisks(Set<Risk> relatedRisks) {
         this.relatedRisks = relatedRisks;
     }
 

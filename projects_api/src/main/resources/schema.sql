@@ -289,6 +289,8 @@ CREATE TABLE IF NOT EXISTS `prj_actions_related_risks` (
     `action_id` int(3) NOT NULL,
     `risks_id` float NOT NULL,
     `project_id` int(5) NOT NULL,
-    PRIMARY KEY (action_id, risks_id)
+    PRIMARY KEY (action_id, risks_id, project_id),
+    FOREIGN KEY (action_id) REFERENCES  `prj_actions` (uid),
+    FOREIGN KEY (risks_id) REFERENCES  `prj_risks` (risk_id),
+    FOREIGN KEY (project_id) REFERENCES  `prj_risks` (project_id)
 );
-ALTER TABLE `prj_actions_related_risks` ADD FOREIGN KEY (`project_id`) REFERENCES prj_actions(`project_id`);

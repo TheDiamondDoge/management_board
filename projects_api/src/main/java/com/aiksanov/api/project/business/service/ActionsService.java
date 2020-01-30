@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,14 +65,6 @@ public class ActionsService {
         action.setDescription(dto.getStatus());
         action.setCreatedDate(dto.getCreatedDate());
         action.setClosedDate(dto.getClosedDate());
-
-        if (Objects.nonNull(action.getRelatedRisks())) {
-            List<ActionRelatedRisks> actionRelatedRisks = action.getRelatedRisks()
-                    .stream()
-                    .map(risk -> new ActionRelatedRisks(uid, risk.getRisksId(), projectId)).collect(Collectors.toList());
-
-            action.setRelatedRisks(actionRelatedRisks);
-        }
 
         return action;
     }

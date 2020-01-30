@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "prj_risks")
@@ -75,6 +76,9 @@ public class Risk {
 
     @Column(name = "report")
     private boolean report;
+
+    @ManyToMany(mappedBy = "actions")
+    private Set<Actions> relatedActions;
 
     public Risk() {
     }
@@ -245,5 +249,13 @@ public class Risk {
 
     public void setReport(boolean report) {
         this.report = report;
+    }
+
+    public Set<Actions> getRelatedActions() {
+        return relatedActions;
+    }
+
+    public void setRelatedActions(Set<Actions> relatedActions) {
+        this.relatedActions = relatedActions;
     }
 }

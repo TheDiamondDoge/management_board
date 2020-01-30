@@ -5,8 +5,10 @@ import com.aiksanov.api.project.data.entity.Actions;
 import com.aiksanov.api.project.data.entity.Risk;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ActionDTO {
@@ -42,7 +44,7 @@ public class ActionDTO {
         this.status = actions.getStatus();
         this.createdDate = actions.getCreatedDate();
         this.closedDate = actions.getClosedDate();
-        this.relatedRisks = this.getRisksIds(actions);
+        this.relatedRisks = this.getRisksIds(actions.getRelatedRisks());
         this.uid = actions.getUid();
 
         if (Objects.nonNull(actions.getRegistry())) {
@@ -58,12 +60,12 @@ public class ActionDTO {
         }
     }
 
-    private List<Float> getRisksIds(Actions actions) {
-        if (Objects.nonNull(actions.getRelatedRisks())) {
-            return actions.getRelatedRisks().stream().map(ActionRelatedRisks::getRisksId).collect(Collectors.toList());
+    private List<Float> getRisksIds(Set<Risk> riskSet) {
+        if (Objects.nonNull(riskSet)) {
+            return riskSet.stream().map(Risk::getRiskId).collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
         }
-
-        return null;
     }
 
     public String getRegistry() {
