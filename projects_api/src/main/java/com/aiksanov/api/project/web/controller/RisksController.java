@@ -2,6 +2,7 @@ package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.RisksService;
 import com.aiksanov.api.project.data.entity.Risk;
+import com.aiksanov.api.project.web.DTO.RisksDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,13 @@ public class RisksController {
     }
 
     @GetMapping("/risks")
-    public List<Risk> getRisks(@PathVariable int projectId) {
+    public List<RisksDTO> getRisks(@PathVariable int projectId) {
         LOGGER.info("GET /api/projects/{}/tabs/risks", projectId);
         return this.risksService.getProjectRisks(projectId);
     }
 
     @GetMapping("/risks/id")
-    public List<Float> getRisksIds(@PathVariable int projectId) {
+    public List<String> getRisksIds(@PathVariable int projectId) {
         LOGGER.info("GET /api/projects/{}/tabs/risks/id", projectId);
         return this.risksService.getListOfProjectsRisks(projectId);
     }

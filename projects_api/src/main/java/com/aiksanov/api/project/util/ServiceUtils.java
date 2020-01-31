@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
+import java.util.Date;
 
 @Component
 public class ServiceUtils {
@@ -30,5 +31,9 @@ public class ServiceUtils {
 
     public int getCurrentYear() {
         return Calendar.getInstance().get(Calendar.YEAR);
+    }
+
+    public Date getCurrentDate() {
+        return new Date();
     }
 }

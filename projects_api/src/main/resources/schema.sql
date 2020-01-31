@@ -217,7 +217,8 @@ CREATE TABLE IF NOT EXISTS `prj_indicators_quality_comments` (
 DROP TABLE IF EXISTS prj_risks;
 CREATE TABLE IF NOT EXISTS `prj_risks` (
     `project_id` int(5) NOT NULL,
-    `risk_id` float NOT NULL,
+    `risk_id` int(3) NOT NULL,
+    `risk_display_id` varchar(5),
     `impact` int(2) NOT NULL,
     `probability` varchar(15),
     `rating` float,
@@ -245,7 +246,7 @@ DROP TABLE IF EXISTS prj_actions;
 CREATE TABLE IF NOT EXISTS `prj_actions` (
     `project_id` int(5) NOT NULL,
     `registry` int(1),
-    `uid` int(5) NOT NULL,
+    `uid` int(5) AUTO_INCREMENT NOT NULL,
     `title` varchar(255),
     `state` int(1),
     `priority` int(1),
@@ -287,7 +288,7 @@ ALTER TABLE `prj_actions` ADD FOREIGN KEY (`priority`) REFERENCES prj_actions_pr
 DROP TABLE IF EXISTS prj_actions_related_risks;
 CREATE TABLE IF NOT EXISTS `prj_actions_related_risks` (
     `action_id` int(3) NOT NULL,
-    `risk_id` float NOT NULL,
+    `risk_id` int(3) NOT NULL,
     `project_id` int(5) NOT NULL,
     PRIMARY KEY (action_id, risk_id, project_id),
     FOREIGN KEY (action_id) REFERENCES  `prj_actions` (uid),

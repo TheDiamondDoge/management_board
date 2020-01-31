@@ -5,12 +5,12 @@ import java.util.Objects;
 
 public class RiskPK implements Serializable {
     private int projectId;
-    private float riskId;
+    private int riskId;
 
     public RiskPK() {
     }
 
-    public RiskPK(int projectId, float riskId) {
+    public RiskPK(int projectId, int riskId) {
         this.projectId = projectId;
         this.riskId = riskId;
     }
@@ -23,11 +23,11 @@ public class RiskPK implements Serializable {
         this.projectId = projectId;
     }
 
-    public float getRiskId() {
+    public int getRiskId() {
         return riskId;
     }
 
-    public void setRiskId(float riskId) {
+    public void setRiskId(int riskId) {
         this.riskId = riskId;
     }
 

@@ -24,7 +24,7 @@ public class ActionDTO {
     private String status;
     private Date createdDate;
     private Date closedDate;
-    private List<Float> relatedRisks;
+    private List<String> relatedRisks;
 
     public ActionDTO(Actions actions) {
         if (Objects.nonNull(actions)) {
@@ -60,9 +60,9 @@ public class ActionDTO {
         }
     }
 
-    private List<Float> getRisksIds(Set<Risk> riskSet) {
+    private List<String> getRisksIds(Set<Risk> riskSet) {
         if (Objects.nonNull(riskSet)) {
-            return riskSet.stream().map(Risk::getRiskId).collect(Collectors.toList());
+            return riskSet.stream().map(Risk::getRiskDisplayId).collect(Collectors.toList());
         } else {
             return new ArrayList<>();
         }
@@ -164,11 +164,11 @@ public class ActionDTO {
         this.closedDate = closedDate;
     }
 
-    public List<Float> getRelatedRisks() {
+    public List<String> getRelatedRisks() {
         return relatedRisks;
     }
 
-    public void setRelatedRisks(List<Float> relatedRisks) {
+    public void setRelatedRisks(List<String> relatedRisks) {
         this.relatedRisks = relatedRisks;
     }
 }

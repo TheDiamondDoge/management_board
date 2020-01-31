@@ -5,7 +5,9 @@ import com.aiksanov.api.project.data.entity.pk.RiskPK;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Set;
 
 public interface RisksRepository extends CrudRepository<Risk, RiskPK> {
     List<Risk> findAllByProjectId(int projectId);
+    Set<Risk> findByRiskDisplayIdIn(List<String> ids);
 }

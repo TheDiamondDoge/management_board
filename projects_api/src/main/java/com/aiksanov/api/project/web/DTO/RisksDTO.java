@@ -1,91 +1,65 @@
-package com.aiksanov.api.project.data.entity;
+package com.aiksanov.api.project.web.DTO;
 
-import com.aiksanov.api.project.data.entity.pk.RiskPK;
+import com.aiksanov.api.project.data.entity.Risk;
 
-import javax.persistence.*;
 import java.sql.Date;
+import java.util.Objects;
 
-@Entity
-@Table(name = "prj_risks")
-@IdClass(RiskPK.class)
-public class Risk {
-    @Id
-    @Column(name = "project_id")
-    private int projectId;
-
-    @Id
-    @Column(name = "risk_id")
+public class RisksDTO {
     private int riskId;
-
-    @Column(name = "risk_display_id")
     private String riskDisplayId;
-
-    @Column(name = "impact")
     private int impact;
-
-    @Column(name = "probability")
     private String probability;
-
-    @Column(name = "rating")
     private Float rating;
-
-    @Column(name = "previous")
     private Float previous;
-
-    @Column(name = "initial")
     private Float initial;
-
-    @Column(name = "risk_description")
     private String riskDescription;
-
-    @Column(name = "impact_description")
     private String impactDescription;
-
-    @Column(name = "business_impact")
     private String businessImpact;
-
-    @Column(name = "risk_response")
     private String riskResponse;
-
-    @Column(name = "mitigation")
     private String mitigation;
-
-    @Column(name = "decision_date")
     private Date decisionDate;
-
-    @Column(name = "estimated_cost")
     private String estimatedCost;
-
-    @Column(name = "provision_budget")
     private String provisionBudget;
-
-    @Column(name = "responsible")
     private String responsible;
-
-    @Column(name = "related_action")
     private String relatedAction;
-
-    @Column(name = "target")
     private Date target;
-
-    @Column(name = "done")
     private Date done;
-
-    @Column(name = "result")
     private Date result;
-
-    @Column(name = "report")
     private boolean report;
 
-    public Risk() {
+    public RisksDTO() {
     }
 
-    public int getProjectId() {
-        return projectId;
+    public RisksDTO(Risk risk) {
+        if (Objects.nonNull(risk)) {
+            this.mapRiskToDto(risk);
+        }
     }
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
+    private void mapRiskToDto(Risk risk) {
+        this.riskId = risk.getRiskId();
+        this.riskDisplayId = risk.getRiskDisplayId();
+        this.impact = risk.getImpact();
+        this.probability = risk.getProbability();
+        this.rating = risk.getRating();
+        this.previous = risk.getPrevious();
+        this.initial = risk.getInitial();
+        this.riskDescription = risk.getRiskDescription();
+        this.impactDescription = risk.getImpactDescription();
+        this.businessImpact = risk.getBusinessImpact();
+        this.riskResponse = risk.getRiskResponse();
+        this.mitigation = risk.getMitigation();
+        this.decisionDate = risk.getDecisionDate();
+        this.estimatedCost = risk.getEstimatedCost();
+        this.provisionBudget = risk.getProvisionBudget();
+        this.responsible = risk.getResponsible();
+        this.relatedAction = risk.getRelatedAction();
+        this.target = risk.getTarget();
+        this.done = risk.getDone();
+        this.result = risk.getResult();
+        this.report = risk.isReport();
+
     }
 
     public int getRiskId() {
@@ -255,5 +229,4 @@ public class Risk {
     public void setReport(boolean report) {
         this.report = report;
     }
-
 }

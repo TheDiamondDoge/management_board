@@ -4,6 +4,8 @@ import com.aiksanov.api.project.data.entity.pk.ActionRelatedRisksPK;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 @Entity
 @Table(name = "prj_actions_related_risks")
@@ -14,16 +16,17 @@ public class ActionRelatedRisks {
     private int actionId;
 
     @Id
-    @Column(name = "risks_id")
-    private Float risksId;
+    @Column(name = "risk_id")
+    private int risksId;
 
+    @Id
     @Column(name = "project_id")
     private int projectId;
 
     public ActionRelatedRisks() {
     }
 
-    public ActionRelatedRisks(int actionId, float risksId, int projectId) {
+    public ActionRelatedRisks(int actionId, int risksId, int projectId) {
         this.actionId = actionId;
         this.risksId = risksId;
         this.projectId = projectId;
@@ -45,11 +48,11 @@ public class ActionRelatedRisks {
         this.actionId = actionId;
     }
 
-    public Float getRisksId() {
+    public int getRisksId() {
         return risksId;
     }
 
-    public void setRisksId(Float risksId) {
+    public void setRisksId(int risksId) {
         this.risksId = risksId;
     }
 }

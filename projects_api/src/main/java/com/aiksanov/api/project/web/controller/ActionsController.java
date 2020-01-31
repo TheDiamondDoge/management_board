@@ -26,6 +26,7 @@ public class ActionsController {
         return this.actionsService.getAllActionsByProjectId(projectId);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/actions")
     public void saveAction(@PathVariable int projectId, @RequestBody ActionDTO actionDTO) {
         LOGGER.info("POST /api/projects/{}/tabs", projectId);
