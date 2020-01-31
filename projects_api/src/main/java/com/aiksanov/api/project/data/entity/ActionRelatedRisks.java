@@ -1,14 +1,14 @@
 package com.aiksanov.api.project.data.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.aiksanov.api.project.data.entity.pk.ActionRelatedRisksPK;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "prj_actions_related_risks")
-public class ActionRelatedRisks implements Serializable {
+@IdClass(ActionRelatedRisksPK.class)
+public class ActionRelatedRisks {
     @Id
     @Column(name = "action_id")
     private int actionId;

@@ -52,11 +52,12 @@ public class Actions {
     @Column(name = "closed_date")
     private Date closedDate;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinColumns({
-            @JoinColumn(name="")
-            @JoinColumn(name="")
-    })
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "prj_actions_related_risks",
+            joinColumns = @JoinColumn(name = "action_id"),
+            inverseJoinColumns = { @JoinColumn(name = "project_id"), @JoinColumn(name = "risk_id") }
+    )
     private Set<Risk> relatedRisks;
 
     public Actions() {

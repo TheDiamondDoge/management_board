@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -77,8 +78,9 @@ public class Risk {
     @Column(name = "report")
     private boolean report;
 
-    @ManyToMany(mappedBy = "actions")
-    private Set<Actions> relatedActions;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "relatedRisks")
+    private List<Actions> relatedActions;
 
     public Risk() {
     }
@@ -251,11 +253,11 @@ public class Risk {
         this.report = report;
     }
 
-    public Set<Actions> getRelatedActions() {
+    public List<Actions> getRelatedActions() {
         return relatedActions;
     }
 
-    public void setRelatedActions(Set<Actions> relatedActions) {
+    public void setRelatedActions(List<Actions> relatedActions) {
         this.relatedActions = relatedActions;
     }
 }
