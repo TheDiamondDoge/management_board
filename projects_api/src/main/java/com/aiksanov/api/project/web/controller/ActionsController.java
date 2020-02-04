@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.ActionsService;
+import com.aiksanov.api.project.data.entity.ActionRelatedRisks;
 import com.aiksanov.api.project.web.DTO.actions.ActionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +27,16 @@ public class ActionsController {
         return this.actionsService.getAllActionsByProjectId(projectId);
     }
 
+    @GetMapping("/arr")
+    public Iterable<ActionRelatedRisks> getAllARR() {
+        return this.actionsService.getAllARR();
+    }
+
     @CrossOrigin(origins = "*")
     @PostMapping("/actions")
     public void saveAction(@PathVariable int projectId, @RequestBody ActionDTO actionDTO) {
         LOGGER.info("POST /api/projects/{}/tabs", projectId);
+        LOGGER.info(actionDTO.toString());
         this.actionsService.saveAction(projectId, actionDTO);
     }
 }

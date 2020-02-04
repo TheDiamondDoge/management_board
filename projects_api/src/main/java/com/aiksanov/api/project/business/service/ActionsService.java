@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -38,6 +37,10 @@ public class ActionsService {
         this.serviceUtils = serviceUtils;
     }
 
+    public Iterable<ActionRelatedRisks> getAllARR() {
+        return relatedRisksRepo.findAll();
+    }
+
     public List<ActionDTO> getAllActionsByProjectId(int projectId) {
         List<Actions> actions = this.actionsRepository.findActionsByProjectId(projectId);
         return actions.stream().map(ActionDTO::new).collect(Collectors.toList());
@@ -48,7 +51,7 @@ public class ActionsService {
         if (Objects.nonNull(actionDTO)) {
             Actions action = createActionsEntry(actionDTO, projectId);
             Actions savedAction = this.actionsRepository.save(action);
-            saveRelatedRisks(actionDTO, savedAction.getUid(), projectId);
+            this.saveRelatedRisks(actionDTO.getRelatedRisks(), savedAction);
         }
     }
 
@@ -85,16 +88,9 @@ public class ActionsService {
         return action;
     }
 
-    private void saveRelatedRisks(ActionDTO dto, int actionId, int projectId) {
-        List<String> riskDisplayIds = dto.getRelatedRisks();
-        Set<Risk> risks = this.risksService.getRisksByIds(riskDisplayIds);
-        List<Integer> riskIds = risks.stream().map(Risk::getRiskId).collect(Collectors.toList());
-        if (riskIds.size() != 0) {
-            List<ActionRelatedRisks> relatedRisks = riskIds.stream()
-                    .map((riskId) -> new ActionRelatedRisks(actionId, riskId, projectId))
-                    .collect(Collectors.toList());
-
-            this.relatedRisksRepo.saveAll(relatedRisks);
-        }
+    private void saveRelatedRisks(List<String> riskIds, Actions action) {
+        Set<Risk> risks = this.risksService.getRisksByIds(riskIds);
+        action.setRelatedRisks(risks);
+        this.actionsRepository.save(action);
     }
 }

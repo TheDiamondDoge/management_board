@@ -171,4 +171,23 @@ public class ActionDTO {
     public void setRelatedRisks(List<String> relatedRisks) {
         this.relatedRisks = relatedRisks;
     }
+
+    @Override
+    public String toString() {
+        return "ActionDTO{" +
+                "registry='" + registry + '\'' +
+                ", uid=" + uid +
+                ", title='" + title + '\'' +
+                ", state='" + state + '\'' +
+                ", priority='" + priority + '\'' +
+                ", owner='" + owner + '\'' +
+                ", optionalInfo='" + optionalInfo + '\'' +
+                ", dueDate=" + dueDate +
+                ", description='" + description + '\'' +
+                ", status='" + status + '\'' +
+                ", createdDate=" + createdDate +
+                ", closedDate=" + closedDate +
+                ", relatedRisks=" + relatedRisks +
+                '}';
+    }
 }
