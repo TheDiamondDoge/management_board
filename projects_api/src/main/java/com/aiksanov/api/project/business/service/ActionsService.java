@@ -47,11 +47,19 @@ public class ActionsService {
     }
 
     @Transactional
+    public void deleteAction(int uid) {
+        this.actionsRepository.deleteById(uid);
+    }
+
+    @Transactional
     public void saveAction(int projectId, ActionDTO actionDTO) {
         if (Objects.nonNull(actionDTO)) {
             Actions action = createActionsEntry(actionDTO, projectId);
             Actions savedAction = this.actionsRepository.save(action);
-            this.saveRelatedRisks(actionDTO.getRelatedRisks(), savedAction);
+            List<String> riskIds = actionDTO.getRelatedRisks();
+            if (Objects.nonNull(riskIds)) {
+                this.saveRelatedRisks(actionDTO.getRelatedRisks(), savedAction);
+            }
         }
     }
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/projects/{projectId}/tabs")
+@RequestMapping("/api")
 public class ActionsController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ActionsController.class);
     private ActionsService actionsService;
@@ -21,19 +21,26 @@ public class ActionsController {
         this.actionsService = actionsService;
     }
 
-    @GetMapping("/actions")
+    @GetMapping("/projects/{projectId}/tabs/actions")
     public List<ActionDTO> getActionsByProjectId(@PathVariable int projectId) {
         LOGGER.info("GET /api/projects/{}/tabs", projectId);
         return this.actionsService.getAllActionsByProjectId(projectId);
     }
 
-    @GetMapping("/arr")
+    @GetMapping("/projects/{projectId}/tabs/arr")
     public Iterable<ActionRelatedRisks> getAllARR() {
         return this.actionsService.getAllARR();
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/actions")
+    @DeleteMapping("/actions/{uid}")
+    public void deleteActionByUID(@PathVariable int uid) {
+        LOGGER.info("DELETE /api/actions/{}", uid);
+        this.actionsService.deleteAction(uid);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/projects/{projectId}/tabs/actions")
     public void saveAction(@PathVariable int projectId, @RequestBody ActionDTO actionDTO) {
         LOGGER.info("POST /api/projects/{}/tabs", projectId);
         LOGGER.info(actionDTO.toString());
