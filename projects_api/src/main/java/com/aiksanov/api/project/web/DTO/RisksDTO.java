@@ -59,7 +59,33 @@ public class RisksDTO {
         this.done = risk.getDone();
         this.result = risk.getResult();
         this.report = risk.isReport();
+    }
 
+    public Risk createRiskObjWOProjectId() {
+        Risk risk = new Risk();
+        risk.setRiskDisplayId(this.riskDisplayId);
+        risk.setRiskId(this.riskId);
+        risk.setImpact(this.impact);
+        risk.setProbability(this.probability);
+        risk.setRating(this.rating);
+        risk.setPrevious(this.previous);
+        risk.setInitial(this.initial);
+        risk.setRiskDescription(this.riskDescription);
+        risk.setImpactDescription(this.impactDescription);
+        risk.setBusinessImpact(this.businessImpact);
+        risk.setRiskResponse(this.riskResponse);
+        risk.setMitigation(this.mitigation);
+        risk.setDecisionDate(this.decisionDate);
+        risk.setEstimatedCost(this.estimatedCost);
+        risk.setProvisionBudget(this.provisionBudget);
+        risk.setResponsible(this.responsible);
+        risk.setRelatedAction(this.relatedAction);
+        risk.setTarget(this.target);
+        risk.setDone(this.done);
+        risk.setResult(this.result);
+        risk.setReport(this.report);
+
+        return risk;
     }
 
     public int getRiskId() {

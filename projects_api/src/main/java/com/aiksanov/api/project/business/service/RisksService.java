@@ -6,6 +6,7 @@ import com.aiksanov.api.project.web.DTO.RisksDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,5 +36,12 @@ public class RisksService {
                 .stream()
                 .map(Risk::getRiskDisplayId)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void saveEditedRisk(RisksDTO dto, int projectId) {
+        Risk risk = dto.createRiskObjWOProjectId();
+        risk.setProjectId(projectId);
+        this.risksRepository.save(risk);
     }
 }
