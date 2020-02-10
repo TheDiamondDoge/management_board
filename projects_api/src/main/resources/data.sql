@@ -93,3 +93,6 @@ INSERT INTO prj_actions VALUES (1, 3, 3, 'Third actions to test', 3, 2, 'Aleksan
 INSERT INTO prj_actions VALUES (1, 0, 4, 'Fourth actions to test', 4, 3, 'Aleksandr Iksanov', 'This is the optional info for forth action', '2020-02-02', 'High quality action! I hope so...', 'Super status, mate!', '2020-01-15', '2021-01-31');
 
 INSERT INTO prj_actions_related_risks VALUES (2, 1, 1), (2, 2, 1);
+
+INSERT INTO prj_cost VALUES (1, 0, 0, 'DR1', '2340', 'Committed comment 1'), (1, 0, 1, 'DR4', '2000', 'Realized comment 1'), (1, 1, 0, 'DR0', '4287', 'Committed comment 2'), (1, 1, 1, 'DR5', '4200', 'Realized comment 2');
+INSERT INTO prj_cost_details VALUES (1, '2020-02-10');

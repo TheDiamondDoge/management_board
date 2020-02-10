@@ -295,3 +295,21 @@ CREATE TABLE IF NOT EXISTS `prj_actions_related_risks` (
     FOREIGN KEY (risk_id) REFERENCES  `prj_risks` (risk_id),
     FOREIGN KEY (project_id) REFERENCES  `prj_risks` (project_id)
 );
+
+DROP TABLE IF EXISTS prj_cost;
+CREATE TABLE IF NOT EXISTS `prj_cost` (
+    `project_id` int(5) NOT NULL,
+    `type` int(1) NOT NULL,
+    `state` int(1) NOT NULL,
+    `milestone` varchar(5),
+    `value` double,
+    `comment` text,
+    PRIMARY KEY (`project_id`, `type`, `state`)
+);
+
+DROP TABLE IF EXISTS prj_cost_details;
+CREATE TABLE IF NOT EXISTS `prj_cost_details` (
+    `project_id` int(5) NOT NULL,
+    `updated` date NOT NULL,
+    PRIMARY KEY (`project_id`)
+);
