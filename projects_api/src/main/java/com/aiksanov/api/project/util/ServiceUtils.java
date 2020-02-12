@@ -7,8 +7,7 @@ import com.aiksanov.api.project.util.enums.MilestoneLabels;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 @Component
 public class ServiceUtils {
@@ -35,5 +34,19 @@ public class ServiceUtils {
 
     public Date getCurrentDate() {
         return new Date();
+    }
+
+    public List<Integer> generateRandomDataset() {
+        List<Integer> numbers = new ArrayList<>();
+        for (int j = 0; j < 15; j++) {
+            numbers.add(getRandomInt() / 10000000);
+        }
+
+        return numbers;
+    }
+
+    private int getRandomInt() {
+        Random rand = new Random();
+        return Math.abs(rand.nextInt());
     }
 }

@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class BacklogService {
+public class DefectsService {
     private ServiceUtils utils;
 
     @Autowired
-    public BacklogService(ServiceUtils utils) {
+    public DefectsService(ServiceUtils utils) {
         this.utils = utils;
     }
 
     public BacklogDefectsChartDTO getChartData(int projectId) {
         //Mock for time being
-        String[] labels = {"1901", "1902", "1903", "1904", "1905", "1906", "1907", "1908", "1909", "1910", "1911", "1912", "1913", "1914", "1915", "1916"};
+        String[] labels = {"2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"};
 
         BacklogDefectsChartDTO dto = new BacklogDefectsChartDTO();
         dto.setDev(utils.generateRandomDataset());

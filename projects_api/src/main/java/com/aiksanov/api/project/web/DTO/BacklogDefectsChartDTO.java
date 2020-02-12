@@ -1,9 +1,9 @@
-package com.aiksanov.api.project.web.DTO.backlog;
+package com.aiksanov.api.project.web.DTO;
 
 import java.util.Date;
 import java.util.List;
 
-public class BacklogChartDTO {
+public class BacklogDefectsChartDTO {
     List<Integer> dev;
     List<Integer> in;
     List<String> labels;
@@ -13,7 +13,7 @@ public class BacklogChartDTO {
     List<Integer> qaDone;
     Date updatedOn;
 
-    public BacklogChartDTO() {
+    public BacklogDefectsChartDTO() {
     }
 
     public List<Integer> getDev() {
