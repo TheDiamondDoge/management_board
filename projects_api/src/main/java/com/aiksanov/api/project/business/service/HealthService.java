@@ -46,12 +46,9 @@ public class HealthService {
     }
 
     public HealthIndicators getHealthIndicators(int projectId) {
-        List<HealthIndicators> list = this.healthRepository
-                .findAllByHealthIndicatorsPK_ProjectIDOrderByHealthIndicatorsPKDesc(projectId);
-        return Objects.nonNull(list) && list.size() > 0
-                ? list.get(0)
-                : null;
+        return this.healthRepository.lastHealthState(projectId);
     }
+
 
     private String getCommentString(HealthStatus statusName, int projectID) {
         String comment = this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, statusName.getLabel()))

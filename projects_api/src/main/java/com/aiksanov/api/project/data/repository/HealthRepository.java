@@ -9,11 +9,16 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface HealthRepository extends CrudRepository<HealthIndicators, HealthIndicatorsPK>{
+public interface HealthRepository extends CrudRepository<HealthIndicators, HealthIndicatorsPK> {
     String indicatorsByProjectAndLabel = "SELECT * FROM prj_indicators_health " +
             "WHERE project_id = ?1 ORDER BY modification_date DESC LIMIT 2";
 
+    String lastIndicatorById = "SELECT * FROM prj_indicators_health " +
+            "WHERE project_id = ?1 ORDER BY modification_date DESC LIMIT 1";
+
     @Query(value = indicatorsByProjectAndLabel, nativeQuery = true)
     List<HealthIndicators> lastTwoHealthStates(Integer projectID);
-    List<HealthIndicators> findAllByHealthIndicatorsPK_ProjectIDOrderByHealthIndicatorsPKDesc(int projectID);
+
+    @Query(value = lastIndicatorById, nativeQuery = true)
+    HealthIndicators lastHealthState(int projectID);
 }
