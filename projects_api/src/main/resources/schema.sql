@@ -147,7 +147,10 @@ DROP TABLE IF EXISTS prj_status_report;
 CREATE TABLE IF NOT EXISTS `prj_status_report` (
     `project_id` int(5) NOT NULL,
     `executive_summary` text,
-    `actions_needed` text,
+    `red_flag` text,
+    `orange_flag` text,
+    `green_flag` text,
+    `details` text,
     PRIMARY KEY (`project_id`)
 );
 ALTER TABLE `prj_status_report` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);

@@ -28,7 +28,10 @@ public class SummaryDTO {
     private String oemPartner;
     private Date disabledTime;
     private String executiveSummary;
-    private String executiveActions;
+    private String redFlag;
+    private String orangeFlag;
+    private String greenFlag;
+    private String details;
     private String collabSite;
     private String epmPwaSite;
     private String documentationRepo;
@@ -112,7 +115,10 @@ public class SummaryDTO {
 
     private void reportMapping(StatusReport report) {
         this.executiveSummary = report.getExecutiveSummary();
-        this.executiveActions = report.getActionsNeeded();
+        this.redFlag = report.getRedFlag();
+        this.orangeFlag = report.getOrangeFlag();
+        this.greenFlag = report.getGreenFlag();
+        this.details = report.getDetails();
     }
 
     public String getProjectName() {
@@ -199,8 +205,20 @@ public class SummaryDTO {
         return executiveSummary;
     }
 
-    public String getExecutiveActions() {
-        return executiveActions;
+    public String getRedFlag() {
+        return redFlag;
+    }
+
+    public String getOrangeFlag() {
+        return orangeFlag;
+    }
+
+    public String getGreenFlag() {
+        return greenFlag;
+    }
+
+    public String getDetails() {
+        return details;
     }
 
     public String getCollabSite() {

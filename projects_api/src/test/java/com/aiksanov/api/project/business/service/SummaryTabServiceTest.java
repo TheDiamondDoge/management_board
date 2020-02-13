@@ -37,12 +37,12 @@ public class SummaryTabServiceTest {
     public void getSummaryDTO() {
         Project dummyProject = getProject();
         ProjectURLs dummyUrls = getUrls();
-        StatusReport dummyStatus = getStatus();
+//        StatusReport dummyStatus = getStatus();
 
         when(this.generalRepository.existsById(0)).thenReturn(true);
         when(this.generalRepository.findById(0)).thenReturn(Optional.of(dummyProject));
         when(this.urlsRepository.findById(0)).thenReturn(Optional.of(dummyUrls));
-        when(this.statusReportRepository.findById(0)).thenReturn(Optional.of(dummyStatus));
+//        when(this.statusReportRepository.findById(0)).thenReturn(Optional.of(dummyStatus));
 
         SummaryDTO summaryDTO = this.summaryTabService.getSummaryDTO(0);
 
@@ -124,11 +124,11 @@ public class SummaryTabServiceTest {
         return urls;
     }
 
-    private StatusReport getStatus(){
-        StatusReport report = new StatusReport();
-        report.setExecutiveSummary("Dummy Summary right here!");
-        report.setActionsNeeded("Dummy Actions right here!");
-
-        return report;
-    }
+//    private StatusReport getStatus(){
+//        StatusReport report = new StatusReport();
+//        report.setExecutiveSummary("Dummy Summary right here!");
+//        report.setActionsNeeded("Dummy Actions right here!");
+//
+//        return report;
+//    }
 }

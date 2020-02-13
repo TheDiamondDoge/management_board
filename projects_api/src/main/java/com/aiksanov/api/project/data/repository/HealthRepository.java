@@ -15,4 +15,5 @@ public interface HealthRepository extends CrudRepository<HealthIndicators, Healt
 
     @Query(value = indicatorsByProjectAndLabel, nativeQuery = true)
     List<HealthIndicators> lastTwoHealthStates(Integer projectID);
+    List<HealthIndicators> findAllByHealthIndicatorsPK_ProjectIDOrderByHealthIndicatorsPKDesc(int projectID);
 }

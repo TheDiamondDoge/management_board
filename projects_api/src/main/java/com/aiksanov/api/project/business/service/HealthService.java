@@ -7,7 +7,7 @@ import com.aiksanov.api.project.data.entity.pk.HealthIndicatorsCommentsPK;
 import com.aiksanov.api.project.data.entity.pk.HealthIndicatorsPK;
 import com.aiksanov.api.project.data.repository.HealthCommentsRepository;
 import com.aiksanov.api.project.data.repository.HealthRepository;
-import com.aiksanov.api.project.web.DTO.HealthIndicatorsDTO;
+import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +43,14 @@ public class HealthService {
         comments.put(COST.getLabel(), getCommentString(COST, projectID));
 
         return new HealthIndicatorsDTO(lastTwoHealthStates, comments);
+    }
+
+    public HealthIndicators getHealthIndicators(int projectId) {
+        List<HealthIndicators> list = this.healthRepository
+                .findAllByHealthIndicatorsPK_ProjectIDOrderByHealthIndicatorsPKDesc(projectId);
+        return Objects.nonNull(list) && list.size() > 0
+                ? list.get(0)
+                : null;
     }
 
     private String getCommentString(HealthStatus statusName, int projectID) {

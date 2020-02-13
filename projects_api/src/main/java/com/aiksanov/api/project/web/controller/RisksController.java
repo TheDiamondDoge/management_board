@@ -1,8 +1,7 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.RisksService;
-import com.aiksanov.api.project.data.entity.Risk;
-import com.aiksanov.api.project.web.DTO.RisksDTO;
+import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

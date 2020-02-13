@@ -2,7 +2,7 @@ package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.Risk;
 import com.aiksanov.api.project.data.repository.RisksRepository;
-import com.aiksanov.api.project.web.DTO.RisksDTO;
+import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +36,10 @@ public class RisksService {
                 .stream()
                 .map(Risk::getRiskDisplayId)
                 .collect(Collectors.toList());
+    }
+
+    public List<Risk> getRiskList(int projectId) {
+        return this.risksRepository.findAllByProjectId(projectId);
     }
 
     @Transactional

@@ -1,7 +1,7 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.HealthService;
-import com.aiksanov.api.project.web.DTO.HealthIndicatorsDTO;
+import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
