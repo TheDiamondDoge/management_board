@@ -2,9 +2,10 @@ package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.StatusReportRepository;
-import com.aiksanov.api.project.web.DTO.ReportTabDTO;
+import com.aiksanov.api.project.web.DTO.reports.ReportTabDTO;
 import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsMinimalDTO;
 import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
+import com.aiksanov.api.project.web.DTO.reports.UserReportsDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksMinimalDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,6 @@ public class ReportService {
         Project project = this.projectService.getProjectGeneralInfo(projectId);
         List<MilestoneDTO> milestones = this.milestoneService.getShownMilestonesByProjectID(projectId);
         HealthIndicators indicators = this.healthService.getHealthIndicators(projectId);
-        StatusReport report = this.reportRepository.findById(projectId).orElseGet(StatusReport::new);
         List<Risk> risks = this.risksService.getRiskList(projectId);
 
         ReportTabDTO dto = new ReportTabDTO();
@@ -56,12 +56,12 @@ public class ReportService {
 
         dto.setMilestones(milestones);
         dto.setIndicators(new HealthIndicatorsMinimalDTO(indicators));
-        dto.setSummary(report.getExecutiveSummary());
-        dto.setRed(report.getRedFlag());
-        dto.setOrange(report.getOrangeFlag());
-        dto.setGreen(report.getGreenFlag());
-        dto.setDetails(report.getDetails());
 
         return dto;
+    }
+
+    public UserReportsDTO getUserReports(int projectId) {
+        StatusReport report = this.reportRepository.findById(projectId).orElseGet(StatusReport::new);
+        return new UserReportsDTO(report);
     }
 }
