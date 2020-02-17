@@ -48,4 +48,8 @@ public class RisksService {
         risk.setProjectId(projectId);
         this.risksRepository.save(risk);
     }
+
+    public int getActiveRisks(int projectId) {
+        return this.risksRepository.countAllByProjectId(projectId);
+    }
 }

@@ -37,13 +37,14 @@ public class SummaryDTO {
     private String documentationRepo;
     private String defectsReportSite;
     private int activeRisks;
+    private int activeActions;
     private Date epmLastSavedDate;
     private Date pwsLastUpdatedDate;
     private String pwsLastUpdatedBy;
     private boolean isEpm;
 
 
-    public SummaryDTO(Project projectInfo, ProjectURLs urls, StatusReport report) {
+    public SummaryDTO(Project projectInfo, ProjectURLs urls, StatusReport report, int activeRisks, int activeActions) {
         if (Objects.nonNull(projectInfo)) {
             projectInfoMapping(projectInfo);
         }
@@ -55,6 +56,9 @@ public class SummaryDTO {
         if (Objects.nonNull(report)) {
             reportMapping(report);
         }
+
+        this.activeRisks = activeRisks;
+        this.activeActions = activeActions;
     }
 
     private void projectInfoMapping(Project projectInfo) {
@@ -239,6 +243,10 @@ public class SummaryDTO {
 
     public int getActiveRisks() {
         return activeRisks;
+    }
+
+    public int getActiveActions() {
+        return activeActions;
     }
 
     public Date getEpmLastSavedDate() {

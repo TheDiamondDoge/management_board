@@ -63,6 +63,11 @@ public class ActionsService {
         }
     }
 
+    public int getActiveActions(int projectId) {
+        ActionsState state = this.actionsStateRepo.findById(1).orElseGet(ActionsState::new);
+        return this.actionsRepository.countActionsByProjectIdAndState(projectId, state);
+    }
+
     private Actions createActionsEntry(ActionDTO dto, int projectId) {
         Actions action = new Actions();
 

@@ -10,4 +10,5 @@ import java.util.Set;
 public interface RisksRepository extends CrudRepository<Risk, RiskPK> {
     List<Risk> findAllByProjectId(int projectId);
     Set<Risk> findByRiskDisplayIdIn(List<String> ids);
+    int countAllByProjectId(int projectId);
 }

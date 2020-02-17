@@ -16,22 +16,26 @@ public class SummaryTabService {
     private GeneralRepository generalRepo;
     private ProjectURLsRepository urlsRepo;
     private StatusReportRepository reportRepo;
+    private ActionsService actionsService;
+    private RisksService risksService;
 
     @Autowired
-    public SummaryTabService(GeneralRepository generalRepo, ProjectURLsRepository urlsRepo, StatusReportRepository reportRepo) {
+    public SummaryTabService(GeneralRepository generalRepo, ProjectURLsRepository urlsRepo, StatusReportRepository reportRepo,
+                             ActionsService actionsService, RisksService risksService) {
         this.generalRepo = generalRepo;
         this.urlsRepo = urlsRepo;
         this.reportRepo = reportRepo;
+        this.actionsService = actionsService;
+        this.risksService = risksService;
     }
 
     public SummaryDTO getSummaryDTO(Integer projectID){
-        if (!this.generalRepo.existsById(projectID)){
-            throw new RuntimeException("Project id doesn't exist");
-        }
-        Project projectInfo = this.generalRepo.findById(projectID).get();
+        Project projectInfo = this.generalRepo.findById(projectID)
+                .orElseThrow(() -> new RuntimeException("Project id doesn't exist"));
         ProjectURLs urls = this.urlsRepo.findById(projectID).orElseGet(ProjectURLs::new);
         StatusReport report = this.reportRepo.findById(projectID).orElseGet(StatusReport::new);
-
-        return new SummaryDTO(projectInfo, urls, report);
+        int activeActionsAmount = this.actionsService.getActiveActions(projectID);
+        int activeRisksAmount = this.risksService.getActiveRisks(projectID);
+        return new SummaryDTO(projectInfo, urls, report, activeRisksAmount, activeActionsAmount);
     }
 }
