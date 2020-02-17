@@ -4,7 +4,7 @@ import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.ProjectURLsRepository;
 import com.aiksanov.api.project.data.repository.StatusReportRepository;
-import com.aiksanov.api.project.web.DTO.SummaryDTO;
+import com.aiksanov.api.project.web.DTO.summary.SummaryDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

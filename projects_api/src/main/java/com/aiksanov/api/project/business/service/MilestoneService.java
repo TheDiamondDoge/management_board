@@ -78,4 +78,12 @@ public class MilestoneService {
             this.milestoneRepo.deleteAllByMilestonePK(milestonesPKs);
         }
     }
+
+    public Milestone getMilestoneWithHighestActDate(List<Integer> projectIds) {
+        return this.milestoneRepo.highestActualDate(projectIds).orElseGet(Milestone::new);
+    }
+
+    public Milestone getMilestoneWithLowestActDate(List<Integer> projectIds) {
+        return this.milestoneRepo.lowestActualDate(projectIds).orElseGet(Milestone::new);
+    }
 }

@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class InformationTabService {
+    private ProjectGeneralService generalService;
     private GeneralRepository generalRepository;
     private ProjectURLsRepository urlsRepository;
     private JiraParamsRepository jiraParamsRepository;
@@ -27,10 +28,11 @@ public class InformationTabService {
 
 
     @Autowired
-    public InformationTabService(GeneralRepository generalRepository, ProjectURLsRepository urlsRepository,
+    public InformationTabService(ProjectGeneralService generalService, GeneralRepository generalRepository, ProjectURLsRepository urlsRepository,
                                  JiraParamsRepository jiraParamsRepository, EcmaBacklogTargetRepo backlogTargetRepo,
                                  ContributingProjectsRepository contribProjectsRepo, FieldCommentsRepository comments,
                                  ServiceUtils utils) {
+        this.generalService = generalService;
         this.generalRepository = generalRepository;
         this.urlsRepository = urlsRepository;
         this.jiraParamsRepository = jiraParamsRepository;
@@ -42,24 +44,17 @@ public class InformationTabService {
 
     @Transactional
     public InformationDTO getInfoTabData(Integer id) {
-        if (Objects.isNull(id) || !utils.isProjectExist(id)) {
-            throw new RuntimeException("Project not found");
-        }
         Project project = this.generalRepository.findById(id).orElseThrow(() -> new RuntimeException("Project not found"));
         ProjectURLs urls = this.urlsRepository.findById(id).orElseGet(ProjectURLs::new);
         JiraParams jiraParams = this.jiraParamsRepository.findById(id).orElseGet(JiraParams::new);
         List<EcmaBacklogTarget> target = this.backlogTargetRepo.findAllByProjectId(id);
-        List<ContributingDTO> contribProjects = getContribProjectDtosList(id);
+        List<ContributingDTO> contribProjects = this.generalService.getContribProjectDtosList(id);
         List<FieldComments> comments = this.commentsRepository.findAllByPk_ProjectID(id);
+
         return new InformationDTO(project, urls, jiraParams, target, contribProjects, comments);
     }
 
-    private List<ContributingDTO> getContribProjectDtosList(int projectID) {
-        List<Project> contribProjects = this.generalRepository.findAllContribProjectsByProjectID(projectID);
-        return contribProjects.stream()
-                .map((prj) -> (new ContributingDTO(prj.getProjectID(), prj.getName())))
-                .collect(Collectors.toList());
-    }
+
 
     @Transactional
     public void saveInformationData(Integer id, InformationDTO dto) {

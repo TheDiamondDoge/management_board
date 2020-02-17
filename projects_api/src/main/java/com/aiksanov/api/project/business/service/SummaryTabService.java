@@ -6,7 +6,7 @@ import com.aiksanov.api.project.data.entity.StatusReport;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.ProjectURLsRepository;
 import com.aiksanov.api.project.data.repository.StatusReportRepository;
-import com.aiksanov.api.project.web.DTO.SummaryDTO;
+import com.aiksanov.api.project.web.DTO.summary.SummaryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
