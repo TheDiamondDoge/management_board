@@ -6,10 +6,12 @@ import com.aiksanov.api.project.web.DTO.reports.ReportTabDTO;
 import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsMinimalDTO;
 import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsDTO;
+import com.aiksanov.api.project.web.DTO.reports.UserReportsSaveDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksMinimalDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -63,5 +65,34 @@ public class ReportService {
     public UserReportsDTO getUserReports(int projectId) {
         StatusReport report = this.reportRepository.findById(projectId).orElseGet(StatusReport::new);
         return new UserReportsDTO(report);
+    }
+
+    @Transactional
+    public void saveReport(int projectId, UserReportsSaveDTO dto) {
+        StatusReport report = getStatusReportObj(projectId, dto);
+        this.reportRepository.save(report);
+    }
+
+    private StatusReport getStatusReportObj(int projectId, UserReportsSaveDTO dto) {
+        StatusReport report = this.reportRepository.findById(projectId).orElseGet(StatusReport::new);
+        String type = dto.getType();
+        switch (type) {
+            case "summary":
+                report.setExecutiveSummary(dto.getData());
+                return report;
+            case "red":
+                report.setRedFlag(dto.getData());
+                return report;
+            case "orange":
+                report.setOrangeFlag(dto.getData());
+                return report;
+            case "green":
+                report.setGreenFlag(dto.getData());
+                return report;
+            case "details":
+                report.setDetails(dto.getData());
+                return report;
+        }
+        return report;
     }
 }

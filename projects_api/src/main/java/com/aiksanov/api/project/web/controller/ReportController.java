@@ -3,13 +3,11 @@ package com.aiksanov.api.project.web.controller;
 import com.aiksanov.api.project.business.service.ReportService;
 import com.aiksanov.api.project.web.DTO.reports.ReportTabDTO;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsDTO;
+import com.aiksanov.api.project.web.DTO.reports.UserReportsSaveDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/projects/{projectId}/tabs")
@@ -30,7 +28,14 @@ public class ReportController {
 
     @GetMapping("/user_reports")
     public UserReportsDTO getUserReports(@PathVariable int projectId) {
-        LOGGER.info("/api/projects/{}/tabs/user_reports", projectId);
+        LOGGER.info("GET /api/projects/{}/tabs/user_reports", projectId);
         return this.reportService.getUserReports(projectId);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/user_reports")
+    public void saveReportOrFlag(@PathVariable int projectId, @RequestBody UserReportsSaveDTO dto) {
+        LOGGER.info("POST /api/projects/{}/tabs/user_reports", projectId);
+        this.reportService.saveReport(projectId, dto);
     }
 }
