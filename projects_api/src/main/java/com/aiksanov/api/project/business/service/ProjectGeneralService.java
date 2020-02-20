@@ -119,15 +119,4 @@ public class ProjectGeneralService {
 
         return new ContributingProjectDTO(projectName, projectState, lastApprovedDto, milestoneDTOS);
     }
-//
-//    private Map<String, List<MilestoneDTO>> getContribMilestones(List<ContributingDTO> contribProjects) {
-//        Map<String, List<MilestoneDTO>> contribMilestones = new HashMap<>();
-//        contribProjects.forEach((project) -> {
-//            String projectName = project.getProjectName();
-//            List<MilestoneDTO> milestones = this.milestoneService.getMilestoneDTOsByProjectID(project.getProjectID());
-//            contribMilestones.put(projectName, milestones);
-//        });
-//
-//        return contribMilestones;
-//    }
 }

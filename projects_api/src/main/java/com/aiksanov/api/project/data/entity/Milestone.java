@@ -89,10 +89,12 @@ public class Milestone implements Comparable<Milestone> {
 
     @Override
     public int compareTo(Milestone o) {
-        if (Objects.isNull(this.getActualDate()) || Objects.isNull(o.getActualDate())) {
+        Date d1 = Objects.isNull(this.getActualDate()) ? this.getBaselineDate() : this.getActualDate();
+        Date d2 = Objects.isNull(o.getActualDate()) ? o.getBaselineDate() : o.getActualDate();
+        if (Objects.isNull(d1) || Objects.isNull(d2)) {
             return 0;
         }
-        return this.getActualDate().compareTo(o.getActualDate());
+        return d1.compareTo(d2);
     }
 }
 

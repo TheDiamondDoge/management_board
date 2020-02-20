@@ -22,6 +22,7 @@ public class MilestoneService {
 
     public List<MilestoneDTO> getMilestoneDTOsByProjectID(Integer projectID) {
         List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDOrderByActualDateAsc(projectID);
+        Collections.sort(milestones);
         return mapMilestonesToDTO(milestones);
     }
 
@@ -31,6 +32,7 @@ public class MilestoneService {
 
     public List<MilestoneDTO> getShownMilestonesByProjectID(int projectID) {
         List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDAndShown(projectID, true);
+        Collections.sort(milestones);
         return mapMilestonesToDTO(milestones);
     }
 
