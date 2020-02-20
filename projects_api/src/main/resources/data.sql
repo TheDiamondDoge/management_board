@@ -1,6 +1,6 @@
-INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, EPM_project, project_template) VALUES ('19CDC35F-96D4-450C-882F-0B633D1D405E', 'Project One', 'Offer', 'High', 'COMMITTED', 'IKSANOV Aleksander',  0, 'Offer');
-INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, EPM_project, project_template) VALUES ('19GHJGHF-96D4-450C-882F-AFGAFGDFS233', 'Project tWO', 'Program', 'Low', 'FORECAST', 'IVANOV Ivan', 1, 'PMO');
-INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, EPM_project, project_template) VALUES ('19GHJGHF-96D4-450C-882F-AF2321232233', 'Project Three', 'Program', 'Low', 'FORECAST', 'IVANOV Ivan', 0, 'PMO');
+INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, EPM_project, project_template) VALUES ('19CDC35F-96D4-450C-882F-0B633D1D405E', 'Pineapple', 'Offer', 'High', 'COMMITTED', 'IKSANOV Aleksander',  0, 'Offer');
+INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, EPM_project, project_template) VALUES ('19GHJGHF-96D4-450C-882F-AFGAFGDFS233', 'Cherry', 'Program', 'Low', 'FORECAST', 'IVANOV Ivan', 1, 'PMO');
+INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, EPM_project, project_template) VALUES ('19GHJGHF-96D4-450C-882F-AF2321232233', 'Tomato', 'Program', 'Low', 'FORECAST', 'IVANOV Ivan', 0, 'PMO');
 INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, EPM_project, project_template) VALUES ('19GHJGHF-6754-450C-882F-AFGAFGDFS233', 'Project Four', 'Program', 'Low', 'FORECAST', 'IVANOV Ivan', 0, 'PMO');
 
 INSERT INTO prj_products(product_line, product_name, product_manager, product_group, product_division, product_bu, product_unit, product_team, product_release, project_id) VALUES ('Awesome line', 'Awesome name', 'Awesome manager', 'Awesome group', 'Awesome', 'Awesome', 'Awesome unit', 'Awesome team', 'Awesome release', 1);
@@ -14,6 +14,16 @@ INSERT INTO prj_milestones VALUES (1, 'DR4', '2019-09-24', NULL, 50, 'www.google
 INSERT INTO prj_milestones VALUES (1, 'OBR', '2020-01-16', '2020-02-06', 50, 'http://www.google.com', 1);
 INSERT INTO prj_milestones VALUES (1, 'CI', '2020-02-06', '2020-02-06', 50, 'www.google.com', 1);
 INSERT INTO prj_milestones VALUES (1, 'DR5', '2020-01-06', '2020-01-15', 50, 'www.google.com', 1);
+
+INSERT INTO prj_milestones VALUES (3, 'OR', '2019-10-19', '2019-03-05', 50, 'http://www.google.com', 1);
+INSERT INTO prj_milestones VALUES (3, 'DR0', '2019-09-22', '2019-09-29', 50, 'www.google.com', 0);
+INSERT INTO prj_milestones VALUES (3, 'DR1', '2019-04-09', '2019-04-10', 100, 'http://www.google.com', 1);
+INSERT INTO prj_milestones VALUES (3, 'DR2', '2019-11-22', '2019-11-30', 50, 'www.google.com', 0);
+INSERT INTO prj_milestones VALUES (3, 'DR3', '2019-12-24', '2019-12-25', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (3, 'DR4', '2019-09-24', NULL, 50, 'www.google.com', 0);
+INSERT INTO prj_milestones VALUES (3, 'OBR', '2020-01-16', '2020-02-06', 50, 'http://www.google.com', 1);
+INSERT INTO prj_milestones VALUES (3, 'CI', '2020-02-06', '2020-02-06', 50, 'www.google.com', 1);
+INSERT INTO prj_milestones VALUES (3, 'DR5', '2020-01-06', '2020-01-15', 50, 'www.google.com', 1);
 
 INSERT INTO prj_workspace_info VALUES (1, 'ENABLED', '2019-04-11', '2019-04-11', 'aiksanov');
 INSERT INTO prj_workspace_info VALUES (2, 'DISABLED', '2019-04-11', '2019-04-11', 'aiksanov');

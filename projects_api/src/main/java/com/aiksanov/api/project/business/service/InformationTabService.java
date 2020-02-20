@@ -4,7 +4,7 @@ import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.*;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.util.decompositor.InformationDtoDecompositor;
-import com.aiksanov.api.project.web.DTO.ContributingDTO;
+import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.information.InformationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

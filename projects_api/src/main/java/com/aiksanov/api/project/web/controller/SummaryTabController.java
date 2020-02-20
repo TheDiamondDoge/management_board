@@ -2,7 +2,7 @@ package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.ProjectGeneralService;
 import com.aiksanov.api.project.business.service.SummaryTabService;
-import com.aiksanov.api.project.web.DTO.summary.ContribProjectsDataDTO;
+import com.aiksanov.api.project.web.DTO.contrib.ContribProjectsDataDTO;
 import com.aiksanov.api.project.web.DTO.summary.SummaryDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

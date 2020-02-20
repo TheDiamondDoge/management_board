@@ -3,7 +3,7 @@ package com.aiksanov.api.project.web.controller;
 import com.aiksanov.api.project.business.service.ProjectGeneralService;
 import com.aiksanov.api.project.business.service.ProjectTableViewService;
 import com.aiksanov.api.project.data.entity.Project;
-import com.aiksanov.api.project.web.DTO.ContributingDTO;
+import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.PWSTableViewDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

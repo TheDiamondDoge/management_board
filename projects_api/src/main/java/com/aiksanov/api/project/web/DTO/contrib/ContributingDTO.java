@@ -1,4 +1,4 @@
-package com.aiksanov.api.project.web.DTO;
+package com.aiksanov.api.project.web.DTO.contrib;
 
 public class ContributingDTO {
     private int projectID;

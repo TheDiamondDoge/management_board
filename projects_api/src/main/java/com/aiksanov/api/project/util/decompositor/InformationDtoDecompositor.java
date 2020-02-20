@@ -4,7 +4,7 @@ import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.entity.pk.ContributingProjectsPK;
 import com.aiksanov.api.project.data.entity.pk.FieldCommentsPK;
 import com.aiksanov.api.project.util.enums.CommentsFieldNames;
-import com.aiksanov.api.project.web.DTO.ContributingDTO;
+import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.information.EcmaBacklogTargetDTO;
 import com.aiksanov.api.project.web.DTO.information.InformationDTO;
 

@@ -25,7 +25,7 @@ public class MilestonesController {
     @GetMapping("/{projectId}")
     public List<MilestoneDTO> getMilestonesByProjectID(@PathVariable Integer projectId) {
         LOGGER.info("GET /api/milestones/{}", projectId);
-        return this.milestoneService.getMilestonesByProjectID(projectId);
+        return this.milestoneService.getMilestoneDTOsByProjectID(projectId);
     }
 
     @GetMapping("/{projectId}/{label}")

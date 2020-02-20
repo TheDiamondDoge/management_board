@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,9 +20,13 @@ public class MilestoneService {
         this.milestoneRepo = milestoneRepo;
     }
 
-    public List<MilestoneDTO> getMilestonesByProjectID(Integer projectID) {
-        List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectID(projectID);
+    public List<MilestoneDTO> getMilestoneDTOsByProjectID(Integer projectID) {
+        List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDOrderByActualDateAsc(projectID);
         return mapMilestonesToDTO(milestones);
+    }
+
+    public List<Milestone> getMilestonesByProjectID(Integer projectID) {
+        return this.milestoneRepo.findAllByMilestonePK_ProjectIDOrderByActualDateAsc(projectID);
     }
 
     public List<MilestoneDTO> getShownMilestonesByProjectID(int projectID) {
@@ -85,5 +87,14 @@ public class MilestoneService {
 
     public Milestone getMilestoneWithLowestActDate(List<Integer> projectIds) {
         return this.milestoneRepo.lowestActualDate(projectIds).orElseGet(Milestone::new);
+    }
+
+    public Milestone getLastApprovedMilestone(List<Milestone> milestones) {
+        if (milestones.size() == 0) {
+            return null;
+        } else {
+            Collections.sort(milestones);
+            return milestones.get(0);
+        }
     }
 }

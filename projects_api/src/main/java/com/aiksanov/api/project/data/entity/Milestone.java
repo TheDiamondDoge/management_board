@@ -4,10 +4,11 @@ import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "prj_milestones")
-public class Milestone {
+public class Milestone implements Comparable<Milestone> {
     @EmbeddedId
     private MilestonePK milestonePK;
 
@@ -84,6 +85,14 @@ public class Milestone {
 
     public void setShown(boolean shown) {
         this.shown = shown;
+    }
+
+    @Override
+    public int compareTo(Milestone o) {
+        if (Objects.isNull(this.getActualDate()) || Objects.isNull(o.getActualDate())) {
+            return 0;
+        }
+        return this.getActualDate().compareTo(o.getActualDate());
     }
 }
 
