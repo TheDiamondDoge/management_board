@@ -102,9 +102,10 @@ public class IndicatorsService {
         return dto;
     }
 
+    //TODO deal with int-float casting???
     private float getScheduleAdherence(LocalDateTime currentActualDate, LocalDateTime dr1ActualDate, LocalDateTime currentBaselineDate) {
         return (float) (Duration.between(currentActualDate, dr1ActualDate)).toDays() /
-                (Duration.between(currentBaselineDate, dr1ActualDate)).toDays();
+                (float) (Duration.between(currentBaselineDate, dr1ActualDate)).toDays();
     }
 
     private long getDelay(LocalDateTime currentBaselineDate, LocalDateTime currentActualDate) {
@@ -116,6 +117,7 @@ public class IndicatorsService {
     }
 
     public IndicatorsDr4KpiDTO getDr4Kpi(int projectID) {
+        //TODO: ????
         if (!utils.isProjectExist(projectID)) {
             return new IndicatorsDr4KpiDTO();
         }
@@ -131,7 +133,7 @@ public class IndicatorsService {
         try {
             LocalDateTime dr1ActualDate = dr1.getActualDate().toLocalDate().atStartOfDay();
             LocalDateTime dr4ActualDate = dr4.getActualDate().toLocalDate().atStartOfDay();
-            LocalDateTime dr4BaselineDate = dr4.getActualDate().toLocalDate().atStartOfDay();
+            LocalDateTime dr4BaselineDate = dr4.getBaselineDate().toLocalDate().atStartOfDay();
 
             dto.setScheduleAdherence(getScheduleAdherence(dr4ActualDate, dr1ActualDate, dr4BaselineDate));
         } catch (NullPointerException e) {
