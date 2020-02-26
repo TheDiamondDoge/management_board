@@ -5,6 +5,7 @@ import com.aiksanov.api.project.business.service.ProjectTableViewService;
 import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.PWSTableViewDTO;
+import com.aiksanov.api.project.web.DTO.summary.ProjectDefaultDataDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,12 @@ public class ProjectsController {
     public List<ContributingDTO> getProjectsAvailableToContrib(){
         LOGGER.info("GET /api/projects/contrib");
         return this.projectGeneralService.getContributableProjects();
+    }
+
+    @GetMapping("/{id}/defaults")
+    public ProjectDefaultDataDTO getProjectDefaults(@PathVariable int id) {
+        LOGGER.info("GET /api/projects/{}/defaults", id);
+        return this.projectGeneralService.getProjectDefaults(id);
     }
 
     @GetMapping("/test")

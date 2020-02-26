@@ -117,11 +117,6 @@ public class IndicatorsService {
     }
 
     public IndicatorsDr4KpiDTO getDr4Kpi(int projectID) {
-        //TODO: ????
-        if (!utils.isProjectExist(projectID)) {
-            return new IndicatorsDr4KpiDTO();
-        }
-
         Milestone dr1 = this.milestoneRepository.findById(new MilestonePK(1, MilestoneLabels.DR1.getLabel()))
                 .orElse(new Milestone());
         Milestone dr4 = this.milestoneRepository.findById(new MilestonePK(1, MilestoneLabels.DR4.getLabel()))

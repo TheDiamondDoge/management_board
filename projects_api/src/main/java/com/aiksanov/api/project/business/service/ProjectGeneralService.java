@@ -9,6 +9,7 @@ import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingProjectDTO;
 import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContribProjectsDataDTO;
+import com.aiksanov.api.project.web.DTO.summary.ProjectDefaultDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -118,5 +119,13 @@ public class ProjectGeneralService {
         List<MilestoneDTO> milestoneDTOS = milestones.stream().map(MilestoneDTO::new).collect(Collectors.toList());
 
         return new ContributingProjectDTO(projectName, projectState, lastApprovedDto, milestoneDTOS);
+    }
+
+    public ProjectDefaultDataDTO getProjectDefaults(int projectId) {
+        Project project = this.generalRepository.findById(projectId).orElseThrow(RuntimeException::new);
+        ProjectDefaultDataDTO dto = new ProjectDefaultDataDTO();
+        dto.setProjectId(project.getProjectID());
+        dto.setProjectName(project.getName());
+        return dto;
     }
 }
