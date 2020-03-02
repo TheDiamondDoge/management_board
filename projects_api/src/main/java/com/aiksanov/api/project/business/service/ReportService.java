@@ -75,6 +75,7 @@ public class ReportService {
 
     private StatusReport getStatusReportObj(int projectId, UserReportsSaveDTO dto) {
         StatusReport report = this.reportRepository.findById(projectId).orElseGet(StatusReport::new);
+        report.setProjectId(projectId);
         String type = dto.getType();
         switch (type) {
             case "summary":

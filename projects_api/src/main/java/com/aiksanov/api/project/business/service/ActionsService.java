@@ -3,6 +3,7 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.*;
 import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.enums.actions.ActionsStateVals;
 import com.aiksanov.api.project.web.DTO.actions.ActionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class ActionsService {
-    private ActionRelatedRisksRepo relatedRisksRepo;
     private ActionsRepository actionsRepository;
     private ActionsRegistryRepo actionsRegistryRepo;
     private ActionsStateRepo actionsStateRepo;
@@ -25,20 +25,15 @@ public class ActionsService {
     private ServiceUtils serviceUtils;
 
     @Autowired
-    public ActionsService(ActionRelatedRisksRepo relatedRisksRepo, ActionsRepository actionsRepository, ActionsRegistryRepo actionsRegistryRepo,
+    public ActionsService(ActionsRepository actionsRepository, ActionsRegistryRepo actionsRegistryRepo,
                           ActionsStateRepo actionsStateRepo, ActionsPriorityRepo actionsPriorityRepo, ServiceUtils serviceUtils,
                           RisksService riskService) {
-        this.relatedRisksRepo = relatedRisksRepo;
         this.actionsRepository = actionsRepository;
         this.actionsRegistryRepo = actionsRegistryRepo;
         this.actionsStateRepo = actionsStateRepo;
         this.actionsPriorityRepo = actionsPriorityRepo;
         this.risksService = riskService;
         this.serviceUtils = serviceUtils;
-    }
-
-    public Iterable<ActionRelatedRisks> getAllARR() {
-        return relatedRisksRepo.findAll();
     }
 
     public List<ActionDTO> getAllActionsByProjectId(int projectId) {
@@ -64,7 +59,7 @@ public class ActionsService {
     }
 
     public int getActiveActions(int projectId) {
-        ActionsState state = this.actionsStateRepo.findById(1).orElseGet(ActionsState::new);
+        ActionsState state = this.actionsStateRepo.findById(ActionsStateVals.ACTIVE).orElseGet(ActionsState::new);
         return this.actionsRepository.countActionsByProjectIdAndState(projectId, state);
     }
 

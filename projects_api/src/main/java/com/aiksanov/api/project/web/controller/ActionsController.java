@@ -27,11 +27,6 @@ public class ActionsController {
         return this.actionsService.getAllActionsByProjectId(projectId);
     }
 
-    @GetMapping("/projects/{projectId}/tabs/arr")
-    public Iterable<ActionRelatedRisks> getAllARR() {
-        return this.actionsService.getAllARR();
-    }
-
     @CrossOrigin(origins = "*")
     @DeleteMapping("/actions/{uid}")
     public void deleteActionByUID(@PathVariable int uid) {

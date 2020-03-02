@@ -1,5 +1,7 @@
 package com.aiksanov.api.project.data.entity;
 
+import com.aiksanov.api.project.util.enums.actions.ActionsStateVals;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +12,7 @@ import javax.persistence.Table;
 public class ActionsState {
     @Id
     @Column(name = "state_id")
-    private int stateId;
+    private ActionsStateVals stateId;
 
     @Column(name = "state_label")
     private String stateLabel;
@@ -18,16 +20,16 @@ public class ActionsState {
     public ActionsState() {
     }
 
-    public ActionsState(int stateId, String stateLabel) {
+    public ActionsState(ActionsStateVals stateId, String stateLabel) {
         this.stateId = stateId;
         this.stateLabel = stateLabel;
     }
 
-    public int getStateId() {
+    public ActionsStateVals getStateId() {
         return stateId;
     }
 
-    public void setStateId(int stateId) {
+    public void setStateId(ActionsStateVals stateId) {
         this.stateId = stateId;
     }
 
