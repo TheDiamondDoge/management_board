@@ -34,7 +34,7 @@ public class BlcDashboardDTO {
     }
 
     public String getRowToSave() {
-        return rowToSave;
+        return this.rowToSave;
     }
 
     public void setRowToSave(String rowToSave) {

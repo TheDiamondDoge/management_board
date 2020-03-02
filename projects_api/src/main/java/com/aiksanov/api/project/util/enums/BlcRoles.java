@@ -1,17 +1,17 @@
 package com.aiksanov.api.project.util.enums;
 
 public enum BlcRoles {
-    PM("pm"),
-    PMO("pmo"),
-    SALES("sales");
+    PM,
+    PMO,
+    SALES;
 
-    private String roleName;
+    public static BlcRoles getEnumByValue(String value) {
+        for (BlcRoles role : values()) {
+            if (role.name().equals(value.toUpperCase())) {
+                return role;
+            }
+        }
 
-    BlcRoles(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public String getRoleName() {
-        return roleName;
+        return null;
     }
 }

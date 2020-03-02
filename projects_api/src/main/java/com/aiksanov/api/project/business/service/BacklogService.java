@@ -16,6 +16,8 @@ public class BacklogService {
         this.utils = utils;
     }
 
+    //TODO: add population from metrics portal;
+    //TODO: replace mock with actual data
     public BacklogDefectsChartDTO getChartData(int projectId) {
         //Mock for time being
         String[] labels = {"1901", "1902", "1903", "1904", "1905", "1906", "1907", "1908", "1909", "1910", "1911", "1912", "1913", "1914", "1915", "1916"};

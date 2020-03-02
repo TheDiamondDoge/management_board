@@ -1,16 +1,18 @@
 package com.aiksanov.api.project.data.entity.pk;
 
+import com.aiksanov.api.project.util.enums.BlcRoles;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 public class BlcDashboardPK implements Serializable {
     private int projectID;
-    private String role;
+    private BlcRoles role;
 
     public BlcDashboardPK() {
     }
 
-    public BlcDashboardPK(int projectID, String role) {
+    public BlcDashboardPK(int projectID, BlcRoles role) {
         this.projectID = projectID;
         this.role = role;
     }
@@ -23,11 +25,11 @@ public class BlcDashboardPK implements Serializable {
         this.projectID = projectID;
     }
 
-    public String getRole() {
+    public BlcRoles getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(BlcRoles role) {
         this.role = role;
     }
 
@@ -37,7 +39,7 @@ public class BlcDashboardPK implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         BlcDashboardPK that = (BlcDashboardPK) o;
         return projectID == that.projectID &&
-                role.equals(that.role);
+                role == that.role;
     }
 
     @Override

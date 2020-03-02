@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.data.entity;
 
 import com.aiksanov.api.project.data.entity.pk.BlcDashboardPK;
+import com.aiksanov.api.project.util.enums.BlcRoles;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -15,7 +16,8 @@ public class BlcDashboardComments {
 
     @Id
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private BlcRoles role;
 
     @Column(name = "comment")
     private String comment;
@@ -31,7 +33,7 @@ public class BlcDashboardComments {
         this.comment = comment;
     }
 
-    public BlcDashboardComments(int projectID, String role, String comment) {
+    public BlcDashboardComments(int projectID, BlcRoles role, String comment) {
         this.projectID = projectID;
         this.role = role;
         this.comment = comment;
@@ -45,11 +47,11 @@ public class BlcDashboardComments {
         this.projectID = projectID;
     }
 
-    public String getRole() {
+    public BlcRoles getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(BlcRoles role) {
         this.role = role;
     }
 

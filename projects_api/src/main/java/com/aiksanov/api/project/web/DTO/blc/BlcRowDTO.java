@@ -1,12 +1,13 @@
 package com.aiksanov.api.project.web.DTO.blc;
 
 import com.aiksanov.api.project.data.entity.BlcDashboard;
+import com.aiksanov.api.project.util.enums.BlcRoles;
 
 import java.util.Date;
 import java.util.Objects;
 
 public class BlcRowDTO {
-    private String role;
+    private BlcRoles role;
     private String csl;
     private Date updatedOn;
     private BlcIndicators indicators;
@@ -42,11 +43,11 @@ public class BlcRowDTO {
         );
     }
 
-    public void setRole(String role) {
+    public void setRole(BlcRoles role) {
         this.role = role;
     }
 
-    public String getRole() {
+    public BlcRoles getRole() {
         return role;
     }
 

@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.data.entity;
 
 import com.aiksanov.api.project.data.entity.pk.BlcDashboardPK;
+import com.aiksanov.api.project.util.enums.BlcRoles;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,7 +16,8 @@ public class BlcDashboard {
 
     @Id
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private BlcRoles role;
 
     @Column(name = "updated_by")
     private String csl;
@@ -62,7 +64,7 @@ public class BlcDashboard {
     public BlcDashboard() {
     }
 
-    public BlcDashboard(int projectID, String role, String csl, Date updatedOn, int or, int charter, int prjPlan,
+    public BlcDashboard(int projectID, BlcRoles role, String csl, Date updatedOn, int or, int charter, int prjPlan,
                         int tailoring, int accPrgMgr, int accCoreTeam, int bpPlan, int bpSales, int launchPlan,
                         int launchSales, int lessons, int risks) {
         this.projectID = projectID;
@@ -91,11 +93,11 @@ public class BlcDashboard {
         this.projectID = projectID;
     }
 
-    public String getRole() {
+    public BlcRoles getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(BlcRoles role) {
         this.role = role;
     }
 

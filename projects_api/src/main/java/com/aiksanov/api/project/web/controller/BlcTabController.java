@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.BlcDashboardService;
+import com.aiksanov.api.project.exceptions.NoRowToSave;
 import com.aiksanov.api.project.web.DTO.blc.BlcDashboardDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class BlcTabController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/blc/indicators")
-    public void saveIndicators(@PathVariable int id, @RequestBody BlcDashboardDTO dto) {
+    public void saveIndicators(@PathVariable int id, @RequestBody BlcDashboardDTO dto) throws NoRowToSave {
         LOGGER.info("POST /api/projects/{}/tabs/blc/indicators", id);
         this.blcService.saveBlcIndicators(id, dto);
     }

@@ -70,13 +70,13 @@ INSERT INTO prj_status_report
 
 INSERT INTO prj_indicators_reqs VALUES (1, 1, 3, 0, 2);
 
-INSERT INTO prj_blc_dashboard VALUES (1, 'pm', '2019-09-15', 'aiksanov', 1, 5, 8, 1, 5, 8, 8, 5, 1, 1, 5, 8);
-INSERT INTO prj_blc_dashboard VALUES (1, 'pmo', '2019-09-14', 'aiksanov2', 8, 5, 1, 8, 5, 1, 8, 5, 1, 8, 5, 1);
-INSERT INTO prj_blc_dashboard VALUES (1, 'sales', '2019-09-13', 'aiksanov3', 8, 5, 8, 1, 8, 5, 8, 5, 8, 1, 8, 8);
+INSERT INTO prj_blc_dashboard VALUES (1, 'PM', '2019-09-15', 'aiksanov', 1, 5, 8, 1, 5, 8, 8, 5, 1, 1, 5, 8);
+INSERT INTO prj_blc_dashboard VALUES (1, 'PMO', '2019-09-14', 'aiksanov2', 8, 5, 1, 8, 5, 1, 8, 5, 1, 8, 5, 1);
+INSERT INTO prj_blc_dashboard VALUES (1, 'SALES', '2019-09-13', 'aiksanov3', 8, 5, 8, 1, 8, 5, 8, 5, 8, 1, 8, 8);
 
-INSERT INTO prj_blc_dashboard_comments VALUES (1, 'pm', 'Comment1');
-INSERT INTO prj_blc_dashboard_comments VALUES (1, 'pmo', 'Comment2');
-INSERT INTO prj_blc_dashboard_comments VALUES (1, 'sales', 'Comment3');
+INSERT INTO prj_blc_dashboard_comments VALUES (1, 'PM', 'Comment1');
+INSERT INTO prj_blc_dashboard_comments VALUES (1, 'PMO', 'Comment2');
+INSERT INTO prj_blc_dashboard_comments VALUES (1, 'SALES', 'Comment3');
 
 INSERT INTO prj_indicators_quality VALUES (1, 'quality', 1, 100, 95);
 INSERT INTO prj_indicators_quality VALUES (1, 'defects', 1, 200, 195);

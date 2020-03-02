@@ -5,6 +5,7 @@ import com.aiksanov.api.project.data.entity.BlcDashboardComments;
 import com.aiksanov.api.project.data.entity.pk.BlcDashboardPK;
 import com.aiksanov.api.project.data.repository.BlcDashboardCommentsRepo;
 import com.aiksanov.api.project.data.repository.BlcDashboardRepository;
+import com.aiksanov.api.project.exceptions.NoRowToSave;
 import com.aiksanov.api.project.util.enums.BlcRoles;
 import com.aiksanov.api.project.web.DTO.blc.BlcDashboardDTO;
 import com.aiksanov.api.project.web.DTO.blc.BlcIndicators;
@@ -31,13 +32,13 @@ public class BlcDashboardService {
 
     public BlcDashboardDTO getBlcDTO(int projectID) {
         BlcDashboardDTO blcDTO = new BlcDashboardDTO();
-        blcDTO.setPm(getRowDTO(getBlcRow(projectID, BlcRoles.PM.getRoleName())));
-        blcDTO.setPmo(getRowDTO(getBlcRow(projectID, BlcRoles.PMO.getRoleName())));
-        blcDTO.setSales(getRowDTO(getBlcRow(projectID, BlcRoles.SALES.getRoleName())));
+        blcDTO.setPm(getRowDTO(getBlcRow(projectID, BlcRoles.PM)));
+        blcDTO.setPmo(getRowDTO(getBlcRow(projectID, BlcRoles.PMO)));
+        blcDTO.setSales(getRowDTO(getBlcRow(projectID, BlcRoles.SALES)));
         return blcDTO;
     }
 
-    private BlcDashboard getBlcRow(int projectID, String role) {
+    private BlcDashboard getBlcRow(int projectID, BlcRoles role) {
         return this.dashboardRepository
                 .findById(new BlcDashboardPK(projectID, role))
                 .orElse(new BlcDashboard());
@@ -48,17 +49,17 @@ public class BlcDashboardService {
         return new BlcRowDTO(blcRow, comment);
     }
 
-    private String getBlcComment(int projectId, String role) {
+    private String getBlcComment(int projectId, BlcRoles role) {
         BlcDashboardComments commentObj = this.commentsRepo.findById(new BlcDashboardPK(projectId, role))
                 .orElseGet(BlcDashboardComments::new);
         return commentObj.getComment();
     }
 
     @Transactional
-    public void saveBlcIndicators(int projectID, BlcDashboardDTO dto) {
-        String rowName = dto.getRowToSave();
+    public void saveBlcIndicators(int projectID, BlcDashboardDTO dto) throws NoRowToSave {
+        BlcRoles rowName = BlcRoles.getEnumByValue(dto.getRowToSave());
         if (Objects.isNull(rowName)) {
-            throw new RuntimeException("RowToSave should not be null");
+            throw new NoRowToSave();
         }
         BlcDashboard indicators = getBlcDashboardFromDto(dto, rowName, projectID);
         if (Objects.nonNull(indicators)) {
@@ -66,7 +67,7 @@ public class BlcDashboardService {
         }
     }
 
-    private BlcDashboard getBlcDashboardFromDto(BlcDashboardDTO dto, String role, int projectID) {
+    private BlcDashboard getBlcDashboardFromDto(BlcDashboardDTO dto, BlcRoles role, int projectID) {
         if (Objects.isNull(dto)) {
             return null;
         }
@@ -108,14 +109,14 @@ public class BlcDashboardService {
         ArrayList<BlcDashboardComments> comments = new ArrayList<>();
 
         for (BlcRoles role : dtoRoles) {
-            String comment = getCommentFromBlcDashDto(dto, role.getRoleName());
-            comments.add(new BlcDashboardComments(new BlcDashboardPK(projectID, role.getRoleName()), comment));
+            String comment = getCommentFromBlcDashDto(dto, role);
+            comments.add(new BlcDashboardComments(new BlcDashboardPK(projectID, role), comment));
         }
 
         this.commentsRepo.saveAll(comments);
     }
 
-    private String getCommentFromBlcDashDto(BlcDashboardDTO dto, String rowName) {
+    private String getCommentFromBlcDashDto(BlcDashboardDTO dto, BlcRoles rowName) {
         BlcRowDTO row = getRow(dto, rowName);
         if (Objects.nonNull(row)) {
             return row.getComment();
@@ -124,7 +125,7 @@ public class BlcDashboardService {
         }
     }
 
-    private BlcRowDTO getRow(BlcDashboardDTO dto, String rowName) {
+    private BlcRowDTO getRow(BlcDashboardDTO dto, BlcRoles rowName) {
         if (Objects.isNull(dto)) {
             return null;
         }
@@ -132,13 +133,13 @@ public class BlcDashboardService {
         BlcRowDTO row = null;
 
         switch (rowName) {
-            case "pm":
+            case PM:
                 row = dto.getPm();
                 break;
-            case "pmo":
+            case PMO:
                 row = dto.getPmo();
                 break;
-            case "sales":
+            case SALES:
                 row = dto.getSales();
                 break;
         }
