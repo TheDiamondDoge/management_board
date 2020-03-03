@@ -1,11 +1,11 @@
 package com.aiksanov.api.project.data.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.aiksanov.api.project.util.enums.WorkspaceStatus;
+
+import javax.persistence.*;
 import java.sql.Date;
 
+//TODO: Workspace template??
 @Entity
 @Table(name = "prj_workspace_info")
 public class WorkspaceInfo {
@@ -13,8 +13,9 @@ public class WorkspaceInfo {
     @Column(name = "project_id")
     private int id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "workspace_status")
-    private String status;
+    private WorkspaceStatus status;
 
     @Column(name = "workspace_created")
     private Date created;
@@ -36,11 +37,11 @@ public class WorkspaceInfo {
         this.id = id;
     }
 
-    public String getStatus() {
+    public WorkspaceStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(WorkspaceStatus status) {
         this.status = status;
     }
 

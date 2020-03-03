@@ -1,8 +1,6 @@
 package com.aiksanov.api.project.business.service;
 
-import com.aiksanov.api.project.data.entity.Product;
 import com.aiksanov.api.project.data.entity.Project;
-import com.aiksanov.api.project.data.repository.AdditionalInfoRepository;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.web.DTO.PWSTableViewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +40,7 @@ public class ProjectTableViewService {
         } else if (isEPM == null){
             return this.generalRepository.findAllByStatus(status.toUpperCase());
         } else {
-            return this.generalRepository.findAllByEpmAndStatus(isEPM, status.toUpperCase());
+            return this.generalRepository.findAllByEpmAndStatus(isEPM, status);
         }
     }
 }

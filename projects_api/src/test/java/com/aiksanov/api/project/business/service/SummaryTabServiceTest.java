@@ -4,6 +4,7 @@ import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.ProjectURLsRepository;
 import com.aiksanov.api.project.data.repository.StatusReportRepository;
+import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.summary.SummaryDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -91,7 +92,7 @@ public class SummaryTabServiceTest {
         workspaceInfo.setId(0);
         workspaceInfo.setModified(Date.valueOf("2019-04-22"));
         workspaceInfo.setModifiedBy("User csl");
-        workspaceInfo.setStatus("Enabled");
+        workspaceInfo.setStatus(WorkspaceStatus.ENABLED);
 
         Project project = new Project();
         project.setUid("Dummy UID");

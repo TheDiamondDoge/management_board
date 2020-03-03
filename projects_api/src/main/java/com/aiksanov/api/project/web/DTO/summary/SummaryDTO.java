@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.web.DTO.summary;
 
 import com.aiksanov.api.project.data.entity.*;
+import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 
 import java.util.Date;
 import java.util.List;
@@ -23,7 +24,7 @@ public class SummaryDTO {
     private String businessDivision;
     private String businessUnit;
     private String productLine;
-    private String workspaceState;
+    private WorkspaceStatus workspaceState;
     private String projectType;
     private String oemPartner;
     private Date disabledTime;
@@ -189,7 +190,7 @@ public class SummaryDTO {
         return productLine;
     }
 
-    public String getWorkspaceState() {
+    public WorkspaceStatus getWorkspaceState() {
         return workspaceState;
     }
 

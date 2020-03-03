@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.data.repository;
 
 import com.aiksanov.api.project.data.entity.Project;
+import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

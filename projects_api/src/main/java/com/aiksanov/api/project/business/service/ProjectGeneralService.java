@@ -5,6 +5,8 @@ import com.aiksanov.api.project.data.entity.Milestone;
 import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.data.repository.ContributingProjectsRepository;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
+import com.aiksanov.api.project.exceptions.ProjectDoesNotExist;
+import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingProjectDTO;
 import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
@@ -31,19 +33,17 @@ public class ProjectGeneralService {
     }
 
     public Project getProjectGeneralInfo(Integer projectID) {
-        if (!this.generalRepository.existsById(projectID)) {
-            throw new RuntimeException("Project doesnt exist");
-        }
-        return this.generalRepository.findById(projectID).get();
+        return this.generalRepository.findById(projectID).orElseThrow(ProjectDoesNotExist::new);
     }
 
     public Iterable<Project> getAll() {
         return this.generalRepository.findAll();
     }
 
-    public List<ContributingDTO> getContributableProjects() {
-        List<Project> projects = this.generalRepository.findAllByEpmAndStatus(false, "ENABLED");
+    public List<ContributingDTO> getContributableProjects(int projectId) {
+        List<Project> projects = this.generalRepository.findAllByEpmAndStatus(false, WorkspaceStatus.ENABLED.getValue());
         return projects.stream()
+                .filter((prj) -> (prj.getProjectID() != projectId))
                 .map((prj) -> (new ContributingDTO(prj.getProjectID(), prj.getName())))
                 .collect(Collectors.toList());
     }
@@ -57,7 +57,7 @@ public class ProjectGeneralService {
 
     //TODO: refactor
     public ContribProjectsDataDTO getContibData(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Err"));
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExist::new);
         String projectType = project.getType();
 
         ContributingProjectDTO offer;
@@ -67,6 +67,7 @@ public class ProjectGeneralService {
         if (projectType.equals("Offer")) {
             offer = this.getContribProject(projectId);
             products = this.getContribProjectsToOffer(projectId);
+
             List<ContributingDTO> contibProjects = this.getContribProjectDtosList(projectId);
             projectIds = contibProjects.stream().map(ContributingDTO::getProjectID).collect(Collectors.toList());
             projectIds.add(projectId);
@@ -105,24 +106,28 @@ public class ProjectGeneralService {
     }
 
     private ContributingProjectDTO getContribProject(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(() -> new RuntimeException("Err"));
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExist::new);
         String projectName = project.getName();
         String projectState = project.getState();
         List<Milestone> milestones = this.milestoneService.getMilestonesByProjectID(projectId);
-        Milestone lastApproved = this.milestoneService.getLastApprovedMilestone(milestones);
-        MilestoneDTO lastApprovedDto;
-        if (Objects.isNull(lastApproved)) {
-            lastApprovedDto = null;
-        } else {
-            lastApprovedDto = new MilestoneDTO(lastApproved);
-        }
+        MilestoneDTO lastApprovedDto = this.getLastApprovedMilestoneDto(projectId);
         List<MilestoneDTO> milestoneDTOS = milestones.stream().map(MilestoneDTO::new).collect(Collectors.toList());
 
         return new ContributingProjectDTO(projectName, projectState, lastApprovedDto, milestoneDTOS);
     }
 
+    private MilestoneDTO getLastApprovedMilestoneDto(int projectId) {
+        List<Milestone> milestones = this.milestoneService.getMilestonesByProjectID(projectId);
+        Milestone lastApproved = this.milestoneService.getLastApprovedMilestone(milestones);
+        if (Objects.isNull(lastApproved)) {
+            return null;
+        } else {
+            return new MilestoneDTO(lastApproved);
+        }
+    }
+
     public ProjectDefaultDataDTO getProjectDefaults(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(RuntimeException::new);
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExist::new);
         ProjectDefaultDataDTO dto = new ProjectDefaultDataDTO();
         dto.setProjectId(project.getProjectID());
         dto.setProjectName(project.getName());
