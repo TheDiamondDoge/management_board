@@ -28,12 +28,10 @@ import java.util.stream.Collectors;
 @Service
 public class IndicatorsService {
     private MilestoneService milestoneService;
-    private HealthService healthService;
     private IndicatorsReqsRepository indicatorsReqsRepository;
     private QualityIndicatorsRepository qualityRepository;
     private QualityIndicatorsCommentsRepository commentsRepository;
     private MilestoneRepository milestoneRepository;
-    private GeneralRepository generalRepository;
     private ServiceUtils utils;
 
     public IndicatorsService() {
@@ -41,21 +39,17 @@ public class IndicatorsService {
 
     @Autowired
     public IndicatorsService(MilestoneService milestoneService,
-                             HealthService healthService,
                              IndicatorsReqsRepository indicatorsReqsRepository,
                              QualityIndicatorsRepository qualityRepository,
                              QualityIndicatorsCommentsRepository commentsRepository,
                              MilestoneRepository milestoneRepository,
-                             GeneralRepository generalRepository,
                              ServiceUtils utils
     ) {
         this.milestoneService = milestoneService;
-        this.healthService = healthService;
         this.indicatorsReqsRepository = indicatorsReqsRepository;
         this.qualityRepository = qualityRepository;
         this.commentsRepository = commentsRepository;
         this.milestoneRepository = milestoneRepository;
-        this.generalRepository = generalRepository;
         this.utils = utils;
     }
 
@@ -95,14 +89,13 @@ public class IndicatorsService {
             dto.setDelay(getDelay(currentBaselineDate, currentActualDate));
             dto.setDuration(getDuration(dr1ActualDate, currentActualDate));
         } catch (NullPointerException e) {
-            //TODO: think what to do (actually just need to suppress)
+            //just catching NPE
         } finally {
             dto.setLabel(current.getMilestonePK().getLabel());
         }
         return dto;
     }
 
-    //TODO deal with int-float casting???
     private float getScheduleAdherence(LocalDateTime currentActualDate, LocalDateTime dr1ActualDate, LocalDateTime currentBaselineDate) {
         return (float) (Duration.between(currentActualDate, dr1ActualDate)).toDays() /
                 (float) (Duration.between(currentBaselineDate, dr1ActualDate)).toDays();
@@ -161,11 +154,11 @@ public class IndicatorsService {
 
     public QualityIndicatorsTableDTO getQuality(int projectID) {
         return new QualityIndicatorsTableDTO(
-                getQualityRow(projectID, QualityRowNames.QUALITY.getTitle()),
-                getQualityRow(projectID, QualityRowNames.DEFECTS.getTitle()),
-                getQualityRow(projectID, QualityRowNames.BACKLOG.getTitle()),
-                getQualityRow(projectID, QualityRowNames.EXECUTION.getTitle()),
-                getQualityRow(projectID, QualityRowNames.RATE.getTitle()),
+                getQualityRow(projectID, QualityRowNames.QUALITY),
+                getQualityRow(projectID, QualityRowNames.DEFECTS),
+                getQualityRow(projectID, QualityRowNames.BACKLOG),
+                getQualityRow(projectID, QualityRowNames.EXECUTION),
+                getQualityRow(projectID, QualityRowNames.RATE),
                 "2000-12-12"
         );
     }
@@ -174,7 +167,8 @@ public class IndicatorsService {
         return this.commentsRepository.findAll();
     }
 
-    private List<QualityIndicatorDTO> getQualityRow(int projectID, String kpiID) {
+    private List<QualityIndicatorDTO> getQualityRow(int projectID, QualityRowNames rowName) {
+        String kpiID = rowName.getTitle();
         List<QualityIndicators> list = this.qualityRepository.getAllByProjectIDAndKpiID(projectID, kpiID);
         QualityIndicatorsComments comment = this.commentsRepository
                 .findById(new QualityIndicatorsCommentsPK(projectID, kpiID))
@@ -196,22 +190,22 @@ public class IndicatorsService {
 
     @Transactional
     public void saveQuality(QualityIndicatorsTableDTO dto, int projectID) {
-        List<QualityIndicators> quality = buildQualityIndicators(dto.getQuality(), projectID, QualityRowNames.QUALITY.getTitle());
-        List<QualityIndicators> defects = buildQualityIndicators(dto.getDefects(), projectID, QualityRowNames.DEFECTS.getTitle());
-        List<QualityIndicators> backlog = buildQualityIndicators(dto.getBacklog(), projectID, QualityRowNames.BACKLOG.getTitle());
-        List<QualityIndicators> testExecution = buildQualityIndicators(dto.getTestExecution(), projectID, QualityRowNames.EXECUTION.getTitle());
-        List<QualityIndicators> testRate = buildQualityIndicators(dto.getTestRate(), projectID, QualityRowNames.RATE.getTitle());
+        List<QualityIndicators> quality = buildQualityIndicators(dto.getQuality(), projectID, QualityRowNames.QUALITY);
+        List<QualityIndicators> defects = buildQualityIndicators(dto.getDefects(), projectID, QualityRowNames.DEFECTS);
+        List<QualityIndicators> backlog = buildQualityIndicators(dto.getBacklog(), projectID, QualityRowNames.BACKLOG);
+        List<QualityIndicators> testExecution = buildQualityIndicators(dto.getTestExecution(), projectID, QualityRowNames.EXECUTION);
+        List<QualityIndicators> testRate = buildQualityIndicators(dto.getTestRate(), projectID, QualityRowNames.RATE);
 
         QualityIndicatorsComments qualityComment =
-                buildQualityComment(dto.getQuality(), projectID, QualityRowNames.QUALITY.getTitle());
+                buildQualityComment(dto.getQuality(), projectID, QualityRowNames.QUALITY);
         QualityIndicatorsComments defectComment =
-                buildQualityComment(dto.getDefects(), projectID, QualityRowNames.DEFECTS.getTitle());
+                buildQualityComment(dto.getDefects(), projectID, QualityRowNames.DEFECTS);
         QualityIndicatorsComments backlogComment =
-                buildQualityComment(dto.getBacklog(), projectID, QualityRowNames.BACKLOG.getTitle());
+                buildQualityComment(dto.getBacklog(), projectID, QualityRowNames.BACKLOG);
         QualityIndicatorsComments testExecutionComment =
-                buildQualityComment(dto.getTestExecution(), projectID, QualityRowNames.EXECUTION.getTitle());
+                buildQualityComment(dto.getTestExecution(), projectID, QualityRowNames.EXECUTION);
         QualityIndicatorsComments testRateComment =
-                buildQualityComment(dto.getTestRate(), projectID, QualityRowNames.RATE.getTitle());
+                buildQualityComment(dto.getTestRate(), projectID, QualityRowNames.RATE);
 
         List<QualityIndicators> indicatorsToSave = new ArrayList<>();
         indicatorsToSave.addAll(quality);
@@ -234,7 +228,8 @@ public class IndicatorsService {
         this.commentsRepository.saveAll(commentsToSave);
     }
 
-    private List<QualityIndicators> buildQualityIndicators(List<QualityIndicatorDTO> dtos, int projectID, String kpiId) {
+    private List<QualityIndicators> buildQualityIndicators(List<QualityIndicatorDTO> dtos, int projectID, QualityRowNames rowName) {
+        String kpiId = rowName.getTitle();
         List<QualityIndicators> result = new ArrayList<>();
         for (int i = 0; i < dtos.size(); i++) {
             result.add(
@@ -244,7 +239,8 @@ public class IndicatorsService {
         return result;
     }
 
-    private QualityIndicatorsComments buildQualityComment(List<QualityIndicatorDTO> dtos, int projectID, String kpiID) {
+    private QualityIndicatorsComments buildQualityComment(List<QualityIndicatorDTO> dtos, int projectID, QualityRowNames rowName) {
+        String kpiID = rowName.getTitle();
         String comment = "";
         if (Objects.nonNull(dtos) && dtos.size() > 0) {
             comment = dtos.get(0).getComment();

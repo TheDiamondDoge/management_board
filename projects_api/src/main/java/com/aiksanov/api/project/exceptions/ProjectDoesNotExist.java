@@ -1,8 +1,8 @@
 package com.aiksanov.api.project.exceptions;
 
-public class ProjectDoesNotExist extends Exception {
+public class ProjectDoesNotExist extends RuntimeException {
     public ProjectDoesNotExist() {
-        super("Project doesn`t exist");
+        super("Project does not exist");
     }
 
     public ProjectDoesNotExist(String msg) {
