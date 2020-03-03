@@ -3,6 +3,7 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.data.entity.Cost;
 import com.aiksanov.api.project.data.repository.CostDetailsRepository;
 import com.aiksanov.api.project.data.repository.CostRepository;
+import com.aiksanov.api.project.util.enums.CostRowTypes;
 import com.aiksanov.api.project.web.DTO.cost.CostDTO;
 import com.aiksanov.api.project.web.DTO.cost.CostRowDTO;
 import com.aiksanov.api.project.web.DTO.cost.CostTableDTO;
@@ -17,12 +18,10 @@ import java.util.Objects;
 @Service
 public class CostService {
     private CostRepository costRepository;
-    private CostDetailsRepository costDetailsRepository;
 
     @Autowired
-    public CostService(CostRepository costRepository, CostDetailsRepository costDetailsRepository) {
+    public CostService(CostRepository costRepository) {
         this.costRepository = costRepository;
-        this.costDetailsRepository = costDetailsRepository;
     }
 
     public CostDTO getCostData(int projectId) {
@@ -32,9 +31,9 @@ public class CostService {
         costList.forEach((cost) -> {
             CostRowDTO rowDTO = new CostRowDTO(cost);
             int costType = cost.getType();
-            if (costType == 0) {
+            if (costType == CostRowTypes.CHARGE.getValue()) {
                 chargeRows.add(rowDTO);
-            } else if (costType == 1) {
+            } else if (costType == CostRowTypes.CAPEX.getValue()) {
                 capexRows.add(rowDTO);
             }
         });
