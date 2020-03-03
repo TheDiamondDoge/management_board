@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class InformationDtoDecompositor {
+public class InformationDtoDecomposer {
     private InformationDTO dto;
     private int projectId;
 
-    public InformationDtoDecompositor() {
+    public InformationDtoDecomposer() {
     }
 
-    public InformationDtoDecompositor(InformationDTO dto, int projectId) {
+    public InformationDtoDecomposer(InformationDTO dto, int projectId) {
         this.dto = dto;
         this.projectId = projectId;
     }

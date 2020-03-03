@@ -2,8 +2,10 @@ package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.*;
+import com.aiksanov.api.project.exceptions.NoDataFound;
+import com.aiksanov.api.project.exceptions.ProjectDoesNotExist;
 import com.aiksanov.api.project.util.ServiceUtils;
-import com.aiksanov.api.project.util.decompositor.InformationDtoDecompositor;
+import com.aiksanov.api.project.util.decompositor.InformationDtoDecomposer;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.information.InformationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,7 @@ public class InformationTabService {
 
     @Transactional
     public InformationDTO getInfoTabData(Integer id) {
-        Project project = this.generalRepository.findById(id).orElseThrow(() -> new RuntimeException("Project not found"));
+        Project project = this.generalRepository.findById(id).orElseThrow(ProjectDoesNotExist::new);
         ProjectURLs urls = this.urlsRepository.findById(id).orElseGet(ProjectURLs::new);
         JiraParams jiraParams = this.jiraParamsRepository.findById(id).orElseGet(JiraParams::new);
         List<EcmaBacklogTarget> target = this.backlogTargetRepo.findAllByProjectId(id);
@@ -58,20 +60,20 @@ public class InformationTabService {
     @Transactional
     public void saveInformationData(Integer id, InformationDTO dto) {
         if (Objects.isNull(id) || !utils.isProjectExist(id)) {
-            throw new RuntimeException("Project not found");
+            throw new ProjectDoesNotExist();
         }
 
         if (Objects.isNull(dto)) {
-            throw new RuntimeException("No data");
+            throw new NoDataFound();
         }
 
-        InformationDtoDecompositor decompositor = new InformationDtoDecompositor(dto, id);
-        Project project = decompositor.getProject();
-        ProjectURLs urLs = decompositor.getProjectUrlsObj();
-        JiraParams params = decompositor.getJiraParams();
-        List<EcmaBacklogTarget> target = decompositor.getEcmaBacklogTargetList();
-        List<ContributingProjects> contributingProjects = decompositor.getListOfContribProjects();
-        List<FieldComments> comments = decompositor.getListOfFieldComments();
+        InformationDtoDecomposer decomposer = new InformationDtoDecomposer(dto, id);
+        Project project = decomposer.getProject();
+        ProjectURLs urLs = decomposer.getProjectUrlsObj();
+        JiraParams params = decomposer.getJiraParams();
+        List<EcmaBacklogTarget> target = decomposer.getEcmaBacklogTargetList();
+        List<ContributingProjects> contributingProjects = decomposer.getListOfContribProjects();
+        List<FieldComments> comments = decomposer.getListOfFieldComments();
 
         this.generalRepository.save(buildProjectToSave(id, project));
         this.urlsRepository.save(buildUrlsToSave(id, urLs));
@@ -88,7 +90,7 @@ public class InformationTabService {
     }
 
     private Project buildProjectToSave(int projectID, Project fromInfoDTO) {
-        Project existing = this.generalRepository.findById(projectID).orElseThrow(() -> new RuntimeException("Project not found"));
+        Project existing = this.generalRepository.findById(projectID).orElseThrow(ProjectDoesNotExist::new);
         existing.setProjectID(projectID);
         existing.setType(fromInfoDTO.getType());
         existing.setRigor(fromInfoDTO.getRigor());
