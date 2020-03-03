@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.web.DTO.healthIndicators;
 
 import com.aiksanov.api.project.data.entity.HealthIndicators;
+import com.aiksanov.api.project.util.enums.HealthStatus;
 
 import java.util.*;
 
@@ -17,12 +18,12 @@ public class HealthIndicatorsDTO {
         statuses = this.getEmptyStatuses();
         if (Objects.nonNull(twoLastModifiedHealths)) {
             if (twoLastModifiedHealths.size() > 0) {
-                statuses.put("current", twoLastModifiedHealths.get(0));
+                statuses.put(HealthStatus.CURRENT.getLabel(), twoLastModifiedHealths.get(0));
                 currentStatusSet = twoLastModifiedHealths.get(0).getHealthIndicatorsPK().getModificationDate();
             }
 
             if (twoLastModifiedHealths.size() >= 2) {
-                statuses.put("prev", twoLastModifiedHealths.get(1));
+                statuses.put(HealthStatus.PREVIOUS.getLabel(), twoLastModifiedHealths.get(1));
                 prevStatusSet = twoLastModifiedHealths.get(1).getHealthIndicatorsPK().getModificationDate();
             }
         }
@@ -51,7 +52,7 @@ public class HealthIndicatorsDTO {
     private Map<String, HealthIndicators> getEmptyStatuses() {
         Map<String, HealthIndicators> result = new HashMap<>();
         HealthIndicators indicator = new HealthIndicators(0,0,0,0,0);
-        result.put("current", indicator);
+        result.put(HealthStatus.CURRENT.getLabel(), indicator);
 
         return result;
     }

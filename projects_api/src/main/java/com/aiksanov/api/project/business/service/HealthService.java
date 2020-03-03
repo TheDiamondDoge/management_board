@@ -59,7 +59,7 @@ public class HealthService {
     public void saveHealthIndicators(HealthIndicatorsDTO indicatorsDTOs, Integer projectID) {
         Map<String, HealthIndicators> indicators = indicatorsDTOs.getStatuses();
         if (Objects.nonNull(indicators)) {
-            HealthIndicators current = indicators.get("current");
+            HealthIndicators current = indicators.get(CURRENT.getLabel());
             current.setHealthIndicatorsPK(new HealthIndicatorsPK(projectID, getSqlDateNow()));
             this.healthRepository.save(current);
         }
@@ -84,26 +84,4 @@ public class HealthService {
         LocalDate localDate = LocalDate.now();
         return Date.valueOf(localDate.toString());
     }
-
-//    public void saveHealthIndicators(Integer projectID, HealthIndicatorsDTO indicatorsDTOs){
-//        List<HealthIndicators> indicators = new ArrayList<>();
-//        Map<String, Map<String, Integer>> statuses = indicatorsDTOs.getStatuses();
-//        for (String statusLabel : statuses.keySet()){
-//            Map<String, Integer> status = statuses.get(statusLabel);
-//            if (status.isEmpty()){
-//                continue;
-//            }
-//
-//            Set<String> dateStrings = status.keySet();
-//            if (dateStrings.isEmpty()){
-//                continue;
-//            }
-//            String dateString = dateStrings.iterator().next();
-//            Date date = Date.valueOf(dateString);
-//            HealthIndicatorsPK pk = new HealthIndicatorsPK(projectID, statusLabel, date);
-//            indicators.add(new HealthIndicators(pk, status.get(dateString)));
-//        }
-//
-//        this.healthRepository.saveAll(indicators);
-//    }
 }

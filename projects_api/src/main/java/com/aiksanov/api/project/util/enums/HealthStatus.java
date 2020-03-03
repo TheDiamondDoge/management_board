@@ -5,7 +5,9 @@ public enum HealthStatus {
     SCHEDULE("schedule"),
     SCOPE("scope"),
     QUALITY("quality"),
-    COST("cost");
+    COST("cost"),
+    CURRENT("current"),
+    PREVIOUS("prev");
     private String label;
 
     HealthStatus(String label){
