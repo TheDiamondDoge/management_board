@@ -57,10 +57,14 @@ public class BlcDashboardService {
 
     @Transactional
     public void saveBlcIndicators(int projectID, BlcDashboardDTO dto) throws NoRowToSave {
-        BlcRoles rowName = BlcRoles.getEnumByValue(dto.getRowToSave());
-        if (Objects.isNull(rowName)) {
+        BlcRoles rowName;
+        try {
+            String rowToSave = dto.getRowToSave().toUpperCase();
+            rowName = BlcRoles.valueOf(rowToSave);
+        } catch (Exception e) {
             throw new NoRowToSave();
         }
+
         BlcDashboard indicators = getBlcDashboardFromDto(dto, rowName, projectID);
         if (Objects.nonNull(indicators)) {
             this.dashboardRepository.save(indicators);
