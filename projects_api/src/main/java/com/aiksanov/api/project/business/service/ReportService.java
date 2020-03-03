@@ -2,6 +2,7 @@ package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.StatusReportRepository;
+import com.aiksanov.api.project.util.enums.ReportTypes;
 import com.aiksanov.api.project.web.DTO.reports.ReportTabDTO;
 import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsMinimalDTO;
 import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
@@ -76,21 +77,21 @@ public class ReportService {
     private StatusReport getStatusReportObj(int projectId, UserReportsSaveDTO dto) {
         StatusReport report = this.reportRepository.findById(projectId).orElseGet(StatusReport::new);
         report.setProjectId(projectId);
-        String type = dto.getType();
+        ReportTypes type = ReportTypes.getTypeIgnoreCase(dto.getType());
         switch (type) {
-            case "summary":
+            case SUMMARY:
                 report.setExecutiveSummary(dto.getData());
                 return report;
-            case "red":
+            case RED:
                 report.setRedFlag(dto.getData());
                 return report;
-            case "orange":
+            case ORANGE:
                 report.setOrangeFlag(dto.getData());
                 return report;
-            case "green":
+            case GREEN:
                 report.setGreenFlag(dto.getData());
                 return report;
-            case "details":
+            case DETAILS:
                 report.setDetails(dto.getData());
                 return report;
         }
