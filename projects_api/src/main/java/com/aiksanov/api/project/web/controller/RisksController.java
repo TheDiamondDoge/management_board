@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -37,5 +39,12 @@ public class RisksController {
     public void saveEditedRisk(@PathVariable int projectId, @RequestBody RisksDTO dto) {
         LOGGER.info("PUT /api/projects/{}/tabs/risks", projectId);
         this.risksService.saveEditedRisk(dto, projectId);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/risks")
+    public void uploadExcelFile(@PathVariable int projectId, @RequestParam("file")MultipartFile file) throws IOException {
+        LOGGER.info("POST /api/projects/{}/tabs/risks Filename: {}", projectId, file.getOriginalFilename());
+        this.risksService.processRiskFile(file, projectId);
     }
 }

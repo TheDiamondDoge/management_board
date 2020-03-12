@@ -5,12 +5,21 @@ import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.MilestoneRepository;
 import com.aiksanov.api.project.util.enums.MilestoneLabels;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Component
 public class ServiceUtils {
+    @Value("${tmp.file.storage}")
+    private String STORAGE_DIRECTORY;
+
     private MilestoneRepository milestoneRepository;
     private GeneralRepository generalRepository;
 
@@ -48,5 +57,20 @@ public class ServiceUtils {
     private int getRandomInt() {
         Random rand = new Random();
         return Math.abs(rand.nextInt());
+    }
+
+    public String getFileFormat(String filename) {
+        int lastDotIndex = filename.lastIndexOf('.');
+        return filename.substring(lastDotIndex + 1);
+    }
+
+    public String saveFile(MultipartFile file, String prefix) throws IOException {
+        byte[] bytes = file.getBytes();
+        long timestamp = new Date().getTime();
+        String filename = Objects.requireNonNull(file.getOriginalFilename(), "File name should not be null");
+        Path path = Paths.get(STORAGE_DIRECTORY + prefix + timestamp + "." + this.getFileFormat(filename));
+        Files.write(path, bytes);
+
+        return path.toString();
     }
 }
