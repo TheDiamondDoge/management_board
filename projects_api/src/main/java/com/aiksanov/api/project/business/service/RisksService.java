@@ -4,18 +4,32 @@ import com.aiksanov.api.project.data.entity.Risk;
 import com.aiksanov.api.project.data.repository.RisksRepository;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
+import com.aiksanov.api.project.web.DTO.risks.RisksFromFileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class RisksService {
+    private String PROCESSOR_URL = "http://localhost:8081/processors/risks";
 
     private RisksRepository risksRepository;
     private ServiceUtils serviceUtils;
@@ -60,7 +74,19 @@ public class RisksService {
     }
 
     public void processRiskFile(MultipartFile file, int projectId) throws IOException {
-        String filepath = serviceUtils.saveFile(file, "risks_");
-        //Send file to service
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("file", file.getResource());
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<RisksFromFileDTO> response = restTemplate.postForEntity(PROCESSOR_URL, requestEntity, RisksFromFileDTO.class);
+        RisksFromFileDTO dty = response.getBody();
+
+        //save risk
+        //return found errors
     }
 }

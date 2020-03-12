@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ProjectApplication {
 
 	//TODO: Globally -> replace date strings by date objects
-	//TODO: Globally -> refactor to be able to use enums instead strings (where enums is used)
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectApplication.class, args);
 	}

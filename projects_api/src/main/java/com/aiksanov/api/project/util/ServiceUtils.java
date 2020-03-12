@@ -58,19 +58,4 @@ public class ServiceUtils {
         Random rand = new Random();
         return Math.abs(rand.nextInt());
     }
-
-    public String getFileFormat(String filename) {
-        int lastDotIndex = filename.lastIndexOf('.');
-        return filename.substring(lastDotIndex + 1);
-    }
-
-    public String saveFile(MultipartFile file, String prefix) throws IOException {
-        byte[] bytes = file.getBytes();
-        long timestamp = new Date().getTime();
-        String filename = Objects.requireNonNull(file.getOriginalFilename(), "File name should not be null");
-        Path path = Paths.get(STORAGE_DIRECTORY + prefix + timestamp + "." + this.getFileFormat(filename));
-        Files.write(path, bytes);
-
-        return path.toString();
-    }
 }
