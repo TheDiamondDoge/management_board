@@ -9,7 +9,7 @@ public class RisksDTO {
     private int riskId;
     private String riskDisplayId;
     private int impact;
-    private String probability;
+    private Float probability;
     private Float rating;
     private Float previous;
     private Float initial;
@@ -66,10 +66,10 @@ public class RisksDTO {
         risk.setRiskDisplayId(this.riskDisplayId);
         risk.setRiskId(this.riskId);
         risk.setImpact(this.impact);
-        risk.setProbability(this.probability);
-        risk.setRating(this.rating);
-        risk.setPrevious(this.previous);
-        risk.setInitial(this.initial);
+        risk.setProbability(this.getNullIfZero(this.probability));
+        risk.setRating(this.getNullIfZero(this.rating));
+        risk.setPrevious(this.getNullIfZero(this.previous));
+        risk.setInitial(this.getNullIfZero(this.initial));
         risk.setRiskDescription(this.riskDescription);
         risk.setImpactDescription(this.impactDescription);
         risk.setBusinessImpact(this.businessImpact);
@@ -86,6 +86,10 @@ public class RisksDTO {
         risk.setReport(this.report);
 
         return risk;
+    }
+
+    private Float getNullIfZero(Float value) {
+        return Math.signum(value) == 0 ? null : value;
     }
 
     public int getRiskId() {
@@ -112,11 +116,11 @@ public class RisksDTO {
         this.impact = impact;
     }
 
-    public String getProbability() {
+    public Float getProbability() {
         return probability;
     }
 
-    public void setProbability(String probability) {
+    public void setProbability(Float probability) {
         this.probability = probability;
     }
 

@@ -24,7 +24,7 @@ public class Risk {
     private int impact;
 
     @Column(name = "probability")
-    private String probability;
+    private Float probability;
 
     @Column(name = "rating")
     private Float rating;
@@ -112,11 +112,11 @@ public class Risk {
         this.impact = impact;
     }
 
-    public String getProbability() {
+    public Float getProbability() {
         return probability;
     }
 
-    public void setProbability(String probability) {
+    public void setProbability(Float probability) {
         this.probability = probability;
     }
 

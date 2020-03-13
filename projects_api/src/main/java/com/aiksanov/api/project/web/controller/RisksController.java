@@ -1,6 +1,8 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.RisksService;
+import com.aiksanov.api.project.exceptions.RestTemplateException;
+import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +45,8 @@ public class RisksController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/risks")
-    public void uploadExcelFile(@PathVariable int projectId, @RequestParam("file")MultipartFile file) throws IOException {
+    public List<ErrorExportDTO> uploadExcelFile(@PathVariable int projectId, @RequestParam("file")MultipartFile file) throws IOException, RestTemplateException {
         LOGGER.info("POST /api/projects/{}/tabs/risks Filename: {}", projectId, file.getOriginalFilename());
-        this.risksService.processRiskFile(file, projectId);
+        return this.risksService.processRiskFile(file, projectId);
     }
 }

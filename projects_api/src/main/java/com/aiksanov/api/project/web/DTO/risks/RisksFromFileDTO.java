@@ -5,22 +5,22 @@ import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
 import java.util.List;
 
 public class RisksFromFileDTO {
-    private List<RisksFromFile> risks;
+    private List<RisksDTO> risks;
     private List<ErrorExportDTO> errors;
 
     public RisksFromFileDTO() {
     }
 
-    public RisksFromFileDTO(List<RisksFromFile> risks, List<ErrorExportDTO> errors) {
+    public RisksFromFileDTO(List<RisksDTO> risks, List<ErrorExportDTO> errors) {
         this.risks = risks;
         this.errors = errors;
     }
 
-    public List<RisksFromFile> getRisks() {
+    public List<RisksDTO> getRisks() {
         return risks;
     }
 
-    public void setRisks(List<RisksFromFile> risks) {
+    public void setRisks(List<RisksDTO> risks) {
         this.risks = risks;
     }
 

@@ -223,7 +223,7 @@ CREATE TABLE IF NOT EXISTS `prj_risks` (
     `risk_id` int(3) NOT NULL,
     `risk_display_id` varchar(5),
     `impact` int(2) NOT NULL,
-    `probability` varchar(15),
+    `probability` float(15),
     `rating` float,
     `previous` float,
     `initial` float,
@@ -293,10 +293,10 @@ CREATE TABLE IF NOT EXISTS `prj_actions_related_risks` (
     `action_id` int(3) NOT NULL,
     `risk_id` int(3) NOT NULL,
     `project_id` int(5) NOT NULL,
-    PRIMARY KEY (action_id, risk_id, project_id),
-    FOREIGN KEY (action_id) REFERENCES  `prj_actions` (uid),
-    FOREIGN KEY (risk_id) REFERENCES  `prj_risks` (risk_id),
-    FOREIGN KEY (project_id) REFERENCES  `prj_risks` (project_id)
+    PRIMARY KEY (action_id, risk_id, project_id)
+--    FOREIGN KEY (action_id) REFERENCES  `prj_actions` (uid),
+--    FOREIGN KEY (risk_id) REFERENCES  `prj_risks` (risk_id),
+--    FOREIGN KEY (project_id) REFERENCES  `prj_risks` (project_id)
 );
 
 DROP TABLE IF EXISTS prj_cost;
