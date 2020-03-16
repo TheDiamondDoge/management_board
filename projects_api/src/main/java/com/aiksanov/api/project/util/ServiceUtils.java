@@ -6,6 +6,7 @@ import com.aiksanov.api.project.data.repository.MilestoneRepository;
 import com.aiksanov.api.project.util.enums.MilestoneLabels;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,9 +18,6 @@ import java.util.*;
 
 @Component
 public class ServiceUtils {
-    @Value("${tmp.file.storage}")
-    private String STORAGE_DIRECTORY;
-
     private MilestoneRepository milestoneRepository;
     private GeneralRepository generalRepository;
 
@@ -57,5 +55,14 @@ public class ServiceUtils {
     private int getRandomInt() {
         Random rand = new Random();
         return Math.abs(rand.nextInt());
+    }
+
+    public HttpHeaders getFileDownloadHeaders(String filename) {
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+        header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        header.add("Pragma", "no-cache");
+        header.add("Expires", "0");
+        return header;
     }
 }

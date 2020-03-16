@@ -6,6 +6,7 @@ import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
+import com.aiksanov.api.project.web.DTO.risks.RisksFromFile;
 import com.aiksanov.api.project.web.DTO.risks.RisksFromFileDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,8 +75,7 @@ public class RisksService {
         return this.risksRepository.countAllByProjectId(projectId);
     }
 
-    @Transactional
-    public List<ErrorExportDTO> processRiskFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
+    private RisksFromFileDTO getRisksFromFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -93,10 +93,15 @@ public class RisksService {
             ObjectMapper mapper = new ObjectMapper();
             throw mapper.readValue(responseString, RestTemplateException.class);
         }
-        RisksFromFileDTO dto = response.getBody();
-        List<RisksDTO> risksDTOS = dto.getRisks();
+        return response.getBody();
+    }
+
+    @Transactional
+    public List<ErrorExportDTO> processRiskFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
+        RisksFromFileDTO risksFromFile = this.getRisksFromFile(file, projectId);
+
         AtomicInteger i = new AtomicInteger(0);
-        List<Risk> risksToSave = risksDTOS.stream().map((riskDto) -> {
+        List<Risk> risksToSave = risksFromFile.getRisks().stream().map((riskDto) -> {
             Risk risk = riskDto.createRiskObjWOProjectId();
             risk.setProjectId(projectId);
             risk.setRiskId(i.addAndGet(1));
@@ -105,8 +110,7 @@ public class RisksService {
 
         this.risksRepository.deleteAllByProjectId(projectId);
         this.risksRepository.saveAll(risksToSave);
-        //save risk
-        //return found errors
-        return dto.getErrors();
+
+        return risksFromFile.getErrors();
     }
 }
