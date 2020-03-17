@@ -1,7 +1,10 @@
 package com.aiksanov.api.project.business.service;
 
+import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.data.entity.Risk;
+import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.RisksRepository;
+import com.aiksanov.api.project.exceptions.ProjectDoesNotExist;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
@@ -11,6 +14,8 @@ import com.aiksanov.api.project.web.DTO.risks.RisksFromFileDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -31,14 +36,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class RisksService {
-    private String PROCESSOR_URL = "http://localhost:8081/processors/risks";
+    private static final String PROCESSOR_URL = "http://localhost:8081/processors/risks";
+    private static final String GET_RISKS_URL = "http://localhost:8081/processors/risksFile/";
 
     private RisksRepository risksRepository;
+    private GeneralRepository generalRepository;
     private ServiceUtils serviceUtils;
 
-    @Autowired
-    public RisksService(RisksRepository risksRepository, ServiceUtils serviceUtils) {
+    public RisksService(RisksRepository risksRepository, GeneralRepository generalRepository, ServiceUtils serviceUtils) {
         this.risksRepository = risksRepository;
+        this.generalRepository = generalRepository;
         this.serviceUtils = serviceUtils;
     }
 
@@ -75,7 +82,7 @@ public class RisksService {
         return this.risksRepository.countAllByProjectId(projectId);
     }
 
-    private RisksFromFileDTO getRisksFromFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
+    private RisksFromFileDTO getRisksFromFile(MultipartFile file) throws IOException, RestTemplateException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -85,7 +92,7 @@ public class RisksService {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<RisksFromFileDTO> response = null;
+        ResponseEntity<RisksFromFileDTO> response;
         try {
             response = restTemplate.postForEntity(PROCESSOR_URL, requestEntity, RisksFromFileDTO.class);
         } catch (HttpStatusCodeException e) {
@@ -98,7 +105,7 @@ public class RisksService {
 
     @Transactional
     public List<ErrorExportDTO> processRiskFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
-        RisksFromFileDTO risksFromFile = this.getRisksFromFile(file, projectId);
+        RisksFromFileDTO risksFromFile = this.getRisksFromFile(file);
 
         AtomicInteger i = new AtomicInteger(0);
         List<Risk> risksToSave = risksFromFile.getRisks().stream().map((riskDto) -> {
@@ -112,5 +119,32 @@ public class RisksService {
         this.risksRepository.saveAll(risksToSave);
 
         return risksFromFile.getErrors();
+    }
+
+    public ResponseEntity<Resource> getRisksFileToUser(int projectId) throws IOException, RestTemplateException {
+        String projectName = serviceUtils.getProjectName(projectId);
+        ByteArrayResource reader = getRisksFileAsByteArrResource(projectId);
+        HttpHeaders header = serviceUtils.getFileDownloadHeaders(projectName + "_risks.xlsx");
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(reader);
+    }
+
+    private ByteArrayResource getRisksFileAsByteArrResource(int projectId) throws IOException, RestTemplateException {
+        String projectName = serviceUtils.getProjectName(projectId);
+        List<RisksDTO> risks = getProjectRisks(projectId);
+
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<ByteArrayResource> response;
+        try {
+            response = template.postForEntity(GET_RISKS_URL + projectName, risks, ByteArrayResource.class);
+        } catch (HttpStatusCodeException e) {
+            String responseString = e.getResponseBodyAsString();
+            ObjectMapper mapper = new ObjectMapper();
+            throw mapper.readValue(responseString, RestTemplateException.class);
+        }
+
+        return response.getBody();
     }
 }

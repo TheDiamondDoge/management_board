@@ -1,8 +1,10 @@
 package com.aiksanov.api.project.util;
 
+import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.MilestoneRepository;
+import com.aiksanov.api.project.exceptions.ProjectDoesNotExist;
 import com.aiksanov.api.project.util.enums.MilestoneLabels;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,5 +66,10 @@ public class ServiceUtils {
         header.add("Pragma", "no-cache");
         header.add("Expires", "0");
         return header;
+    }
+
+    public String getProjectName(int projectId) {
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExist::new);
+        return project.getName();
     }
 }

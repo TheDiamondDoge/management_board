@@ -60,19 +60,15 @@ public class RisksController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/risks")
-    public List<ErrorExportDTO> uploadExcelFile(@PathVariable int projectId, @RequestParam("file")MultipartFile file) throws IOException, RestTemplateException {
+    public List<ErrorExportDTO> uploadExcelFile(@PathVariable int projectId, @RequestParam("file") MultipartFile file) throws IOException, RestTemplateException {
         LOGGER.info("POST /api/projects/{}/tabs/risks Filename: {}", projectId, file.getOriginalFilename());
         return this.risksService.processRiskFile(file, projectId);
     }
 
     @GetMapping(value = "/risksFile", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public @ResponseBody
-    ResponseEntity<Resource> getRisksFile(@PathVariable int projectId) throws IOException {
-        ByteArrayResource reader = new ByteArrayResource(Files.readAllBytes(Paths.get("D:\\git\\management_board_file_processors\\excellProcessors\\risksFileProcessor\\src\\main\\resources\\risks.pdf")));
-        HttpHeaders header = utils.getFileDownloadHeaders("risk.pdf");
-        return ResponseEntity.ok()
-                .headers(header)
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(reader);
+    ResponseEntity<Resource> getRisksFile(@PathVariable int projectId) throws IOException, RestTemplateException {
+        LOGGER.info("GET /api/projects/{}/tabs/risksFile", projectId);
+        return this.risksService.getRisksFileToUser(projectId);
     }
 }
