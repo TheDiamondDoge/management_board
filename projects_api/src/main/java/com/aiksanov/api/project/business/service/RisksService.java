@@ -75,30 +75,10 @@ public class RisksService {
         return this.risksRepository.countAllByProjectId(projectId);
     }
 
-    private RisksFromFileDTO getRisksFromFile(MultipartFile file) throws IOException, RestTemplateException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("file", file.getResource());
-
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<RisksFromFileDTO> response;
-        try {
-            response = restTemplate.postForEntity(PROCESSOR_URL, requestEntity, RisksFromFileDTO.class);
-        } catch (HttpStatusCodeException e) {
-            String responseString = e.getResponseBodyAsString();
-            ObjectMapper mapper = new ObjectMapper();
-            throw mapper.readValue(responseString, RestTemplateException.class);
-        }
-        return response.getBody();
-    }
-
+    //TODO: Can produce null - fix
     @Transactional
     public List<ErrorExportDTO> processRiskFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
-        RisksFromFileDTO risksFromFile = this.getRisksFromFile(file);
+        RisksFromFileDTO risksFromFile = (RisksFromFileDTO) serviceUtils.sendFileToService(file, PROCESSOR_URL).getBody();
 
         AtomicInteger i = new AtomicInteger(0);
         List<Risk> risksToSave = risksFromFile.getRisks().stream().map((riskDto) -> {

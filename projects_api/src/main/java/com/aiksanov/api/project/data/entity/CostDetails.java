@@ -19,6 +19,11 @@ public class CostDetails {
     public CostDetails() {
     }
 
+    public CostDetails(int projectId, Date date) {
+        this.projectId = projectId;
+        this.updated = date;
+    }
+
     public int getProjectId() {
         return projectId;
     }

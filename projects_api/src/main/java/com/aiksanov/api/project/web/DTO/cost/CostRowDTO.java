@@ -25,6 +25,15 @@ public class CostRowDTO {
         this.comment = comment;
     }
 
+    public Cost getCostWithoutTypeAndPrjId() {
+        Cost cost = new Cost();
+        cost.setState(state);
+        cost.setMilestone(milestone);
+        cost.setValue(value);
+        cost.setComment(comment);
+        return cost;
+    }
+
     public String getMilestone() {
         return milestone;
     }
