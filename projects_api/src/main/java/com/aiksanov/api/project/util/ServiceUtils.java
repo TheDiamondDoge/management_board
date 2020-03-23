@@ -97,7 +97,7 @@ public class ServiceUtils {
         return bd;
     }
 
-    public ResponseEntity sendFileToService(MultipartFile file, String url) throws IOException, RestTemplateException {
+    public ResponseEntity sendFileToService(MultipartFile file, String url, Class<?> expectedClass) throws IOException, RestTemplateException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -109,7 +109,7 @@ public class ServiceUtils {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity response;
         try {
-            response = restTemplate.postForEntity(url, requestEntity, RisksFromFileDTO.class);
+            response = restTemplate.postForEntity(url, requestEntity, expectedClass);
         } catch (HttpStatusCodeException e) {
             String responseString = e.getResponseBodyAsString();
             ObjectMapper mapper = new ObjectMapper();

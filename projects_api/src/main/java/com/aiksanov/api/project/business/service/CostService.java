@@ -77,7 +77,8 @@ public class CostService {
     //TODO: Can produce null - fix (or should throw smthng)
     public void processCostFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
         String bd = serviceUtils.getProjectsBD(projectId);
-        CostDTO costFromFile = (CostDTO) serviceUtils.sendFileToService(file, bd).getBody();
+        CostDTO costFromFile =
+                (CostDTO) serviceUtils.sendFileToService(file, UPLOAD_URL + bd, CostDTO.class).getBody();
         if (Objects.nonNull(costFromFile)) {
             saveCostData(costFromFile, projectId);
         }
@@ -111,7 +112,7 @@ public class CostService {
 
         Cost capexReleased = capexReleasedDTO.getCostWithoutTypeAndPrjId();
         capexReleased.setProjectId(projectId);
-        capexCommitted.setType(CostRowTypes.CAPEX.getValue());
+        capexReleased.setType(CostRowTypes.CAPEX.getValue());
         costsToSave.add(capexReleased);
 
         this.costRepository.saveAll(costsToSave);

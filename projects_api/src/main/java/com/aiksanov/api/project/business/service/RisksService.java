@@ -78,7 +78,8 @@ public class RisksService {
     //TODO: Can produce null - fix
     @Transactional
     public List<ErrorExportDTO> processRiskFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
-        RisksFromFileDTO risksFromFile = (RisksFromFileDTO) serviceUtils.sendFileToService(file, PROCESSOR_URL).getBody();
+        RisksFromFileDTO risksFromFile =
+                (RisksFromFileDTO) serviceUtils.sendFileToService(file, PROCESSOR_URL, RisksFromFileDTO.class).getBody();
 
         AtomicInteger i = new AtomicInteger(0);
         List<Risk> risksToSave = risksFromFile.getRisks().stream().map((riskDto) -> {

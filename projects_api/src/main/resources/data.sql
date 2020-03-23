@@ -3,7 +3,7 @@ INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, proj
 INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, EPM_project, project_template) VALUES ('19GHJGHF-96D4-450C-882F-AF2321232233', 'Tomato', 'Program', 'Low', 'FORECAST', 'IVANOV Ivan', 0, 'PMO');
 INSERT INTO PRJ_WORKSPACE_GENERAL (project_uid, project_name, project_type, project_rigor, project_state, project_manager, EPM_project, project_template) VALUES ('19GHJGHF-6754-450C-882F-AFGAFGDFS233', 'Project Four', 'Program', 'Low', 'FORECAST', 'IVANOV Ivan', 0, 'PMO');
 
-INSERT INTO prj_products(product_line, product_name, product_manager, product_group, product_division, product_bu, product_unit, product_team, product_release, project_id) VALUES ('Awesome line', 'Awesome name', 'Awesome manager', 'Awesome group', 'Awesome', 'Awesome', 'Awesome unit', 'Awesome team', 'Awesome release', 1);
+INSERT INTO prj_products(product_line, product_name, product_manager, product_group, product_division, product_bu, product_unit, product_team, product_release, project_id) VALUES ('Awesome line', 'Awesome name', 'Awesome manager', 'Awesome group', 'CBD', 'Awesome', 'Awesome unit', 'Awesome team', 'Awesome release', 1);
 
 INSERT INTO prj_milestones VALUES (1, 'OR', '2019-10-19', '2019-03-05', 50, 'http://www.google.com', 1);
 INSERT INTO prj_milestones VALUES (1, 'DR0', '2019-09-22', '2019-09-29', 50, 'www.google.com', 0);
@@ -112,5 +112,8 @@ INSERT INTO prj_actions VALUES (1, 0, 4, 'Fourth actions to test', 4, 3, 'Aleksa
 
 INSERT INTO prj_actions_related_risks VALUES (2, 1, 1), (2, 2, 1);
 
-INSERT INTO prj_cost VALUES (1, 0, 0, 'DR1', '2340', 'Committed comment 1'), (1, 0, 1, 'DR4', '2000', 'Realized comment 1'), (1, 1, 0, 'DR0', '4287', 'Committed comment 2'), (1, 1, 1, 'DR5', '4200', 'Realized comment 2');
+INSERT INTO prj_cost VALUES (1, 0, 0, 'DR1', '2340', 'Committed comment 1'),
+                            (1, 0, 1, 'DR4', '2000', 'Realized comment 1'),
+                            (1, 1, 0, 'DR0', '4287', 'Committed comment 2'),
+                            (1, 1, 1, 'DR5', '4200', 'Realized comment 2');
 INSERT INTO prj_cost_details VALUES (1, '2020-02-10');
