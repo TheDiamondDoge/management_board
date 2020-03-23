@@ -1,7 +1,7 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExist;
-import com.aiksanov.api.project.util.enums.CostRowTypes;
+import com.aiksanov.api.project.util.enums.cost.CostRowTypes;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

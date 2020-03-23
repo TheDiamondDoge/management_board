@@ -1,15 +1,13 @@
 package com.aiksanov.api.project.business.service;
 
-import com.aiksanov.api.project.data.entity.IndicatorsReqs;
-import com.aiksanov.api.project.data.entity.Milestone;
-import com.aiksanov.api.project.data.entity.QualityIndicators;
-import com.aiksanov.api.project.data.entity.QualityIndicatorsComments;
+import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.entity.pk.QualityIndicatorsCommentsPK;
 import com.aiksanov.api.project.data.repository.*;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.util.enums.MilestoneLabels;
 import com.aiksanov.api.project.util.enums.QualityRowNames;
+import com.aiksanov.api.project.util.enums.cost.CostStates;
 import com.aiksanov.api.project.web.DTO.indicators.IndicatorsDr4KpiDTO;
 import com.aiksanov.api.project.web.DTO.indicators.IndicatorsReqDTO;
 import com.aiksanov.api.project.web.DTO.indicators.MilestoneIndKpiDTO;
@@ -28,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class IndicatorsService {
     private MilestoneService milestoneService;
+    private CostService costService;
     private IndicatorsReqsRepository indicatorsReqsRepository;
     private QualityIndicatorsRepository qualityRepository;
     private QualityIndicatorsCommentsRepository commentsRepository;
@@ -39,6 +38,7 @@ public class IndicatorsService {
 
     @Autowired
     public IndicatorsService(MilestoneService milestoneService,
+                             CostService costService,
                              IndicatorsReqsRepository indicatorsReqsRepository,
                              QualityIndicatorsRepository qualityRepository,
                              QualityIndicatorsCommentsRepository commentsRepository,
@@ -46,6 +46,7 @@ public class IndicatorsService {
                              ServiceUtils utils
     ) {
         this.milestoneService = milestoneService;
+        this.costService = costService;
         this.indicatorsReqsRepository = indicatorsReqsRepository;
         this.qualityRepository = qualityRepository;
         this.commentsRepository = commentsRepository;
@@ -129,7 +130,7 @@ public class IndicatorsService {
         }
         dto.setContentAdherence(getContentAdherence(projectID));
         dto.setRqsChange(getRqsChange(projectID));
-        dto.setCostAdherence(-1f);
+        dto.setCostAdherence(getCostAdherence(projectID));
         return dto;
     }
 
@@ -150,6 +151,19 @@ public class IndicatorsService {
         int modified = rqs.getModifiedAfterDr1();
 
         return (float) (committed - removed - modified) / committed;
+    }
+
+    private float getCostAdherence(int projectID) {
+        List<Cost> costs = this.costService.getAllCostObjectsByPrjId(projectID);
+        double committedSum = costs.stream()
+                .filter(cost -> cost.getState() == CostStates.COMMITTED.getValue())
+                .map(Cost::getValue)
+                .reduce(0.0, Double::sum);
+        double releasedSum = costs.stream()
+                .filter(cost -> cost.getState() == CostStates.RELEASED.getValue())
+                .map(Cost::getValue)
+                .reduce(0.0, Double::sum);
+        return (float) (releasedSum / committedSum);
     }
 
     public QualityIndicatorsTableDTO getQuality(int projectID) {

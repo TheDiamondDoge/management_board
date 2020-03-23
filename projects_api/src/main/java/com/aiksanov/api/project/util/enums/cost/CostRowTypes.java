@@ -1,4 +1,4 @@
-package com.aiksanov.api.project.util.enums;
+package com.aiksanov.api.project.util.enums.cost;
 
 public enum CostRowTypes {
     CHARGE(0), CAPEX(1);

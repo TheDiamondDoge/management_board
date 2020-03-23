@@ -6,11 +6,11 @@ import com.aiksanov.api.project.data.repository.CostDetailsRepository;
 import com.aiksanov.api.project.data.repository.CostRepository;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
-import com.aiksanov.api.project.util.enums.CostRowTypes;
+import com.aiksanov.api.project.util.enums.cost.CostRowTypes;
+import com.aiksanov.api.project.util.enums.cost.CostStates;
 import com.aiksanov.api.project.web.DTO.cost.CostDTO;
 import com.aiksanov.api.project.web.DTO.cost.CostRowDTO;
 import com.aiksanov.api.project.web.DTO.cost.CostTableDTO;
-import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +35,10 @@ public class CostService {
         this.costRepository = costRepository;
         this.costDetailsRepository = costDetailsRepository;
         this.serviceUtils = serviceUtils;
+    }
+
+    public List<Cost> getAllCostObjectsByPrjId(int projectId) {
+        return this.costRepository.findAllByProjectId(projectId);
     }
 
     public CostDTO getCostData(int projectId) {
@@ -64,9 +68,9 @@ public class CostService {
         CostTableDTO tableDto = new CostTableDTO();
         if (Objects.nonNull(rows) && rows.size() > 0) {
             rows.forEach(row -> {
-                if (Objects.nonNull(row) && row.getState() == 0) {
+                if (Objects.nonNull(row) && row.getState() == CostStates.COMMITTED.getValue()) {
                     tableDto.setCommitted(row);
-                } else if (Objects.nonNull(row) && row.getState() == 1) {
+                } else if (Objects.nonNull(row) && row.getState() == CostStates.RELEASED.getValue()) {
                     tableDto.setRealized(row);
                 }
             });
