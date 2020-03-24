@@ -5,7 +5,7 @@ import com.aiksanov.api.project.data.entity.BlcDashboardComments;
 import com.aiksanov.api.project.data.entity.pk.BlcDashboardPK;
 import com.aiksanov.api.project.data.repository.BlcDashboardCommentsRepo;
 import com.aiksanov.api.project.data.repository.BlcDashboardRepository;
-import com.aiksanov.api.project.exceptions.NoRowToSave;
+import com.aiksanov.api.project.exceptions.NoRowToSaveException;
 import com.aiksanov.api.project.util.enums.BlcRoles;
 import com.aiksanov.api.project.web.DTO.blc.BlcDashboardDTO;
 import com.aiksanov.api.project.web.DTO.blc.BlcIndicators;
@@ -56,13 +56,13 @@ public class BlcDashboardService {
     }
 
     @Transactional
-    public void saveBlcIndicators(int projectID, BlcDashboardDTO dto) throws NoRowToSave {
+    public void saveBlcIndicators(int projectID, BlcDashboardDTO dto) throws NoRowToSaveException {
         BlcRoles rowName;
         try {
             String rowToSave = dto.getRowToSave().toUpperCase();
             rowName = BlcRoles.valueOf(rowToSave);
         } catch (Exception e) {
-            throw new NoRowToSave();
+            throw new NoRowToSaveException();
         }
 
         BlcDashboard indicators = getBlcDashboardFromDto(dto, rowName, projectID);

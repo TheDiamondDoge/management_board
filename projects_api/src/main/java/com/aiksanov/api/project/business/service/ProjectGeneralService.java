@@ -5,7 +5,7 @@ import com.aiksanov.api.project.data.entity.Milestone;
 import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.data.repository.ContributingProjectsRepository;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
-import com.aiksanov.api.project.exceptions.ProjectDoesNotExist;
+import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingProjectDTO;
@@ -33,7 +33,7 @@ public class ProjectGeneralService {
     }
 
     public Project getProjectGeneralInfo(Integer projectID) {
-        return this.generalRepository.findById(projectID).orElseThrow(ProjectDoesNotExist::new);
+        return this.generalRepository.findById(projectID).orElseThrow(ProjectDoesNotExistException::new);
     }
 
     public Iterable<Project> getAll() {
@@ -57,7 +57,7 @@ public class ProjectGeneralService {
 
     //TODO: refactor
     public ContribProjectsDataDTO getContibData(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExist::new);
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         String projectType = project.getType();
 
         ContributingProjectDTO offer;
@@ -106,7 +106,7 @@ public class ProjectGeneralService {
     }
 
     private ContributingProjectDTO getContribProject(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExist::new);
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         String projectName = project.getName();
         String projectState = project.getState();
         List<Milestone> milestones = this.milestoneService.getMilestonesByProjectID(projectId);
@@ -127,7 +127,7 @@ public class ProjectGeneralService {
     }
 
     public ProjectDefaultDataDTO getProjectDefaults(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExist::new);
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         ProjectDefaultDataDTO dto = new ProjectDefaultDataDTO();
         dto.setProjectId(project.getProjectID());
         dto.setProjectName(project.getName());

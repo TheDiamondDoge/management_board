@@ -6,7 +6,7 @@ import com.aiksanov.api.project.data.entity.StatusReport;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.ProjectURLsRepository;
 import com.aiksanov.api.project.data.repository.StatusReportRepository;
-import com.aiksanov.api.project.exceptions.ProjectDoesNotExist;
+import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.web.DTO.summary.SummaryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class SummaryTabService {
     }
 
     public SummaryDTO getSummaryDTO(Integer projectID){
-        Project projectInfo = this.generalRepo.findById(projectID).orElseThrow(ProjectDoesNotExist::new);
+        Project projectInfo = this.generalRepo.findById(projectID).orElseThrow(ProjectDoesNotExistException::new);
         ProjectURLs urls = this.urlsRepo.findById(projectID).orElseGet(ProjectURLs::new);
         StatusReport report = this.reportRepo.findById(projectID).orElseGet(StatusReport::new);
         int activeActionsAmount = this.actionsService.getActiveActions(projectID);

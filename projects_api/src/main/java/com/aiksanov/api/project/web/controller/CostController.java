@@ -1,14 +1,19 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.CostService;
+import com.aiksanov.api.project.exceptions.FileNotSavedException;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.web.DTO.cost.CostDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.IOException;
 
 @RestController
@@ -29,8 +34,16 @@ public class CostController {
     }
 
     @PostMapping("/cost")
-    public void uploadCost(@PathVariable int projectId, @RequestParam("file") MultipartFile file) throws IOException, RestTemplateException {
+    public void uploadCost(@PathVariable int projectId, @RequestParam("file") MultipartFile file)
+            throws IOException, RestTemplateException
+    {
         LOGGER.info("POST /api/projects/{}/tabs/cost Filename: {}", projectId, file.getOriginalFilename());
         this.costService.processCostFile(file, projectId);
+    }
+
+    @GetMapping(value = "/cost/lastUploaded", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<Resource> getLastUpdatedFile(@PathVariable int projectId) throws IOException {
+        LOGGER.info("GET /api/projects/{}/tabs/cost/cost/lastUploaded", projectId);
+        return this.costService.getLastUpdatedFile(projectId);
     }
 }

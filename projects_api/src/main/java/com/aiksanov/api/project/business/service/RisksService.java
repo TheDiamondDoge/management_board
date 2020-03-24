@@ -1,28 +1,25 @@
 package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.Risk;
-import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.RisksRepository;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksFromFileDTO;
+import com.aiksanov.api.project.web.DTO.risks.RisksTabDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
@@ -31,8 +28,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class RisksService {
-    private static final String PROCESSOR_URL = "http://localhost:8081/processors/risks";
-    private static final String GET_RISKS_URL = "http://localhost:8081/processors/risksFile/";
+    @Value("${risks.processor.url}")
+    private String PROCESSOR_URL;
+
+    @Value("${risks.generator.url}")
+    private String GET_RISKS_URL;
+
+    @Value("${risks.file.storage}")
+    private String RISKS_STORAGE;
+    private String RISKS_SUFFIX = "_risks.xlsx";
 
     private RisksRepository risksRepository;
     private ServiceUtils serviceUtils;
@@ -51,6 +55,12 @@ public class RisksService {
                 .stream()
                 .map(RisksDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    public RisksTabDTO getRisksTab(int projectId) {
+        List<RisksDTO> risks = this.getProjectRisks(projectId);
+        boolean isRisksFileExists = this.isRisksFileExists(projectId);
+        return new RisksTabDTO(risks, isRisksFileExists);
     }
 
     public List<String> getListOfProjectsRisks(int projectId) {
@@ -92,17 +102,21 @@ public class RisksService {
         this.risksRepository.deleteAllByProjectId(projectId);
         this.risksRepository.saveAll(risksToSave);
 
+        String filename = projectId + RISKS_SUFFIX;
+        try {
+            serviceUtils.saveFile(file, filename, RISKS_STORAGE);
+        } catch (Exception e) {
+            //Log e
+        }
+
         return risksFromFile.getErrors();
     }
 
-    public ResponseEntity<Resource> getRisksFileToUser(int projectId) throws IOException, RestTemplateException {
+    public ResponseEntity<Resource> getRisksAsFileToUser(int projectId) throws IOException, RestTemplateException {
         String projectName = serviceUtils.getProjectName(projectId);
+        String filename = projectName + RISKS_SUFFIX;
         ByteArrayResource reader = getRisksFileAsByteArrResource(projectId);
-        HttpHeaders header = serviceUtils.getFileDownloadHeaders(projectName + "_risks.xlsx");
-        return ResponseEntity.ok()
-                .headers(header)
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(reader);
+        return serviceUtils.giveFileToUser(filename, reader);
     }
 
     private ByteArrayResource getRisksFileAsByteArrResource(int projectId) throws IOException, RestTemplateException {
@@ -120,5 +134,21 @@ public class RisksService {
         }
 
         return response.getBody();
+    }
+
+    public ResponseEntity<Resource> getLastUpdatedFile(int projectId) throws IOException {
+        String projectName = serviceUtils.getProjectName(projectId);
+        String filepath = RISKS_STORAGE + File.separator + projectId + RISKS_SUFFIX;
+        String filename = projectName + RISKS_SUFFIX;
+
+        return serviceUtils.giveFileToUser(filename, filepath);
+    }
+
+    private boolean isRisksFileExists(int projectId) {
+        String filename = projectId + RISKS_SUFFIX;
+        String filepath = RISKS_STORAGE + File.separator + filename;
+        File file = new File(filepath);
+
+        return file.exists() && file.isFile();
     }
 }

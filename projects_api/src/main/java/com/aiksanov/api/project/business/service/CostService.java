@@ -4,6 +4,7 @@ import com.aiksanov.api.project.data.entity.Cost;
 import com.aiksanov.api.project.data.entity.CostDetails;
 import com.aiksanov.api.project.data.repository.CostDetailsRepository;
 import com.aiksanov.api.project.data.repository.CostRepository;
+import com.aiksanov.api.project.exceptions.FileNotSavedException;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.util.enums.cost.CostRowTypes;
@@ -12,11 +13,16 @@ import com.aiksanov.api.project.web.DTO.cost.CostDTO;
 import com.aiksanov.api.project.web.DTO.cost.CostRowDTO;
 import com.aiksanov.api.project.web.DTO.cost.CostTableDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.io.IOException;
+import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +31,10 @@ import java.util.Objects;
 @Service
 public class CostService {
     private static final String UPLOAD_URL = "http://localhost:8081/processors/cost/";
+    private static final String COST_SUFFIX = "_cost.xlsx";
 
+    @Value("${cost.file.storage}")
+    private String COST_STORAGE;
     private CostRepository costRepository;
     private CostDetailsRepository costDetailsRepository;
     private ServiceUtils serviceUtils;
@@ -61,7 +70,8 @@ public class CostService {
         }
         CostTableDTO charged = buildCostTable(chargeRows);
         CostTableDTO capex = buildCostTable(capexRows);
-        return new CostDTO(updated, charged, capex);
+        boolean isCostFileExists = this.isCostFileExists(projectId);
+        return new CostDTO(updated, charged, capex, isCostFileExists);
     }
 
     private CostTableDTO buildCostTable(List<CostRowDTO> rows) {
@@ -85,6 +95,13 @@ public class CostService {
                 (CostDTO) serviceUtils.sendFileToService(file, UPLOAD_URL + bd, CostDTO.class).getBody();
         if (Objects.nonNull(costFromFile)) {
             saveCostData(costFromFile, projectId);
+        }
+
+        String filename = projectId + COST_SUFFIX;
+        try {
+            this.serviceUtils.saveFile(file, filename, COST_STORAGE);
+        } catch (Exception e) {
+            //Log this
         }
     }
 
@@ -121,5 +138,20 @@ public class CostService {
 
         this.costRepository.saveAll(costsToSave);
         this.costDetailsRepository.save(new CostDetails(projectId, new Date()));
+    }
+
+    public ResponseEntity<Resource> getLastUpdatedFile(int projectId) throws IOException {
+        String projectName = serviceUtils.getProjectName(projectId);
+        String filepath = COST_STORAGE + File.separator + projectId + COST_SUFFIX;
+        String filename = projectName + COST_SUFFIX;
+        return serviceUtils.giveFileToUser(filename, filepath);
+    }
+
+    private boolean isCostFileExists(int projectId) {
+        String filename = projectId + COST_SUFFIX;
+        String filepath = COST_STORAGE + File.separator + filename;
+        File file = new File(filepath);
+
+        return file.exists() && file.isFile();
     }
 }

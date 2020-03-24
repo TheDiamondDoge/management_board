@@ -2,8 +2,8 @@ package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.*;
-import com.aiksanov.api.project.exceptions.NoDataFound;
-import com.aiksanov.api.project.exceptions.ProjectDoesNotExist;
+import com.aiksanov.api.project.exceptions.NoDataFoundException;
+import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.util.decompositor.InformationDtoDecomposer;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
@@ -45,7 +45,7 @@ public class InformationTabService {
 
     @Transactional
     public InformationDTO getInfoTabData(Integer id) {
-        Project project = this.generalRepository.findById(id).orElseThrow(ProjectDoesNotExist::new);
+        Project project = this.generalRepository.findById(id).orElseThrow(ProjectDoesNotExistException::new);
         ProjectURLs urls = this.urlsRepository.findById(id).orElseGet(ProjectURLs::new);
         JiraParams jiraParams = this.jiraParamsRepository.findById(id).orElseGet(JiraParams::new);
         List<EcmaBacklogTarget> target = this.backlogTargetRepo.findAllByProjectId(id);
@@ -60,11 +60,11 @@ public class InformationTabService {
     @Transactional
     public void saveInformationData(Integer id, InformationDTO dto) {
         if (Objects.isNull(id) || !utils.isProjectExist(id)) {
-            throw new ProjectDoesNotExist();
+            throw new ProjectDoesNotExistException();
         }
 
         if (Objects.isNull(dto)) {
-            throw new NoDataFound();
+            throw new NoDataFoundException();
         }
 
         InformationDtoDecomposer decomposer = new InformationDtoDecomposer(dto, id);
@@ -90,7 +90,7 @@ public class InformationTabService {
     }
 
     private Project buildProjectToSave(int projectID, Project fromInfoDTO) {
-        Project existing = this.generalRepository.findById(projectID).orElseThrow(ProjectDoesNotExist::new);
+        Project existing = this.generalRepository.findById(projectID).orElseThrow(ProjectDoesNotExistException::new);
         existing.setProjectID(projectID);
         existing.setType(fromInfoDTO.getType());
         existing.setRigor(fromInfoDTO.getRigor());

@@ -1,17 +1,16 @@
 package com.aiksanov.api.project.util;
 
-import com.aiksanov.api.project.data.entity.Product;
 import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.MilestoneRepository;
-import com.aiksanov.api.project.exceptions.ProjectDoesNotExist;
+import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.enums.MilestoneLabels;
-import com.aiksanov.api.project.web.DTO.risks.RisksFromFileDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,7 +22,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.xml.ws.Response;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -81,12 +80,12 @@ public class ServiceUtils {
     }
 
     public String getProjectName(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExist::new);
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         return project.getName();
     }
 
     public String getProjectsBD(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExist::new);
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         String bd = "";
         try {
             bd = project.getProduct().getDivision();
@@ -116,5 +115,30 @@ public class ServiceUtils {
             throw mapper.readValue(responseString, RestTemplateException.class);
         }
         return response;
+    }
+
+    public String saveFile(MultipartFile file, String saveName, String storagePath) throws IOException {
+        byte[] bytes = file.getBytes();
+        String fullPath = storagePath + File.separator + saveName;
+        Path path = Paths.get(fullPath);
+        Files.write(path, bytes);
+        return path.toString();
+    }
+
+    public ResponseEntity<Resource> giveFileToUser(String desiredFilename, String filepath) throws IOException {
+        ByteArrayResource reader = new ByteArrayResource(Files.readAllBytes(Paths.get(filepath)));
+        HttpHeaders header = this.getFileDownloadHeaders(desiredFilename);
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(reader);
+    }
+
+    public ResponseEntity<Resource> giveFileToUser(String desiredFilename, ByteArrayResource arrayResource) {
+        HttpHeaders header = this.getFileDownloadHeaders(desiredFilename);
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(arrayResource);
     }
 }
