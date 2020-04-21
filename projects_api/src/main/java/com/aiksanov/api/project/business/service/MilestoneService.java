@@ -3,7 +3,7 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.data.entity.Milestone;
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.repository.MilestoneRepository;
-import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
+import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

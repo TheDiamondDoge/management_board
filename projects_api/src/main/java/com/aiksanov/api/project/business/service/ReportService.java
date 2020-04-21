@@ -5,7 +5,7 @@ import com.aiksanov.api.project.data.repository.StatusReportRepository;
 import com.aiksanov.api.project.util.enums.ReportTypes;
 import com.aiksanov.api.project.web.DTO.reports.ReportTabDTO;
 import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsMinimalDTO;
-import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
+import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsDTO;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsSaveDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksMinimalDTO;
@@ -39,7 +39,7 @@ public class ReportService {
     public ReportTabDTO getReportTab(int projectId) {
         Project project = this.projectService.getProjectGeneralInfo(projectId);
         List<MilestoneDTO> milestones = this.milestoneService.getShownMilestonesByProjectID(projectId);
-        HealthIndicators indicators = this.healthService.getHealthIndicators(projectId);
+        HealthIndicators indicators = this.healthService.getLastHealthIndicators(projectId);
         List<Risk> risks = this.risksService.getRiskList(projectId);
 
         ReportTabDTO dto = new ReportTabDTO();

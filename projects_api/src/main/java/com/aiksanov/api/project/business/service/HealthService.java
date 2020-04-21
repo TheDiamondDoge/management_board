@@ -45,7 +45,7 @@ public class HealthService {
         return new HealthIndicatorsDTO(lastTwoHealthStates, comments);
     }
 
-    public HealthIndicators getHealthIndicators(int projectId) {
+    public HealthIndicators getLastHealthIndicators(int projectId) {
         return this.healthRepository.lastHealthState(projectId);
     }
 

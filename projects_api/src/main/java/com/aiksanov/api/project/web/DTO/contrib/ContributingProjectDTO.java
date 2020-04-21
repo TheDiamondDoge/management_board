@@ -1,6 +1,6 @@
 package com.aiksanov.api.project.web.DTO.contrib;
 
-import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
+import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 
 import java.util.List;
 

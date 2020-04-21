@@ -1,4 +1,4 @@
-package com.aiksanov.api.project.web.DTO.information;
+package com.aiksanov.api.project.web.DTO;
 
 import com.aiksanov.api.project.data.entity.Milestone;
 

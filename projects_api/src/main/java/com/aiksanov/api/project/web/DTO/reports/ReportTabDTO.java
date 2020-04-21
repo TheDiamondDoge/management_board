@@ -1,7 +1,7 @@
 package com.aiksanov.api.project.web.DTO.reports;
 
 import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsMinimalDTO;
-import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
+import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksMinimalDTO;
 
 import java.util.Date;

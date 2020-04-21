@@ -3,15 +3,17 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.data.entity.ContributingProjects;
 import com.aiksanov.api.project.data.entity.Milestone;
 import com.aiksanov.api.project.data.entity.Project;
+import com.aiksanov.api.project.data.entity.WorkspaceInfo;
 import com.aiksanov.api.project.data.repository.ContributingProjectsRepository;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingProjectDTO;
-import com.aiksanov.api.project.web.DTO.information.MilestoneDTO;
+import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContribProjectsDataDTO;
 import com.aiksanov.api.project.web.DTO.summary.ProjectDefaultDataDTO;
+import com.aiksanov.api.project.web.DTO.summary.ProjectGeneral;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,6 +90,16 @@ public class ProjectGeneralService {
         Milestone min = this.milestoneService.getMilestoneWithLowestActDate(projectIds);
 
         return new ContribProjectsDataDTO(offer, products, max.getActualDate(), min.getActualDate());
+    }
+
+    public ProjectGeneral getProjectGeneralObj(int projectId) {
+        Project project = this.getProjectGeneralInfo(projectId);
+        WorkspaceInfo workspaceInfo = project.getWorkspaceInfo();
+        Date updated = null;
+        if (Objects.nonNull(workspaceInfo)) {
+            updated = workspaceInfo.getModified();
+        }
+        return new ProjectGeneral(project.getName(), project.getManager(), "http://www.google.com", updated);
     }
 
     private ContributingProjects getOfferByContribId(int projectId) {
