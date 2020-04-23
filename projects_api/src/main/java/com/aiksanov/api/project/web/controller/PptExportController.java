@@ -2,13 +2,14 @@ package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.PptGenerationService;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
+import com.aiksanov.api.project.util.enums.PptExportTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -23,9 +24,24 @@ public class PptExportController {
         this.service = service;
     }
 
-    @GetMapping("/test/{projectId}")
-    public void getFile(@PathVariable int projectId) throws IOException, RestTemplateException {
-        LOGGER.info("GET /api/export/ppt/test");
-        service.getPptFile(projectId);
+    @GetMapping(value = "/custom/{projectId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public @ResponseBody
+    ResponseEntity<Resource> getCustomPptFile(@PathVariable int projectId) throws IOException, RestTemplateException {
+        LOGGER.info("GET /api/export/ppt/custom/{}", projectId);
+        return service.getPptFile(projectId, PptExportTypes.CUSTOM);
+    }
+
+    @GetMapping(value = "/indicators/{projectId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public @ResponseBody
+    ResponseEntity<Resource> getFileIndicatorsPpt(@PathVariable int projectId) throws IOException, RestTemplateException {
+        LOGGER.info("GET /api/export/ppt/indicators/{}", projectId);
+        return service.getPptFile(projectId, PptExportTypes.INDICATORS);
+    }
+
+    @GetMapping(value = "/review/{projectId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public @ResponseBody
+    ResponseEntity<Resource> getFileReview(@PathVariable int projectId) throws IOException, RestTemplateException {
+        LOGGER.info("GET /api/export/ppt/review/{}", projectId);
+        return service.getPptFile(projectId, PptExportTypes.REVIEW);
     }
 }
