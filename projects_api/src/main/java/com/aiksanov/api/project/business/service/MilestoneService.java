@@ -32,6 +32,7 @@ public class MilestoneService {
 
     public List<MilestoneDTO> getShownMilestonesByProjectID(int projectID) {
         List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDAndShown(projectID, true);
+        milestones = milestones.stream().filter(milestone -> Objects.nonNull(milestone.getActualDate())).collect(Collectors.toList());
         Collections.sort(milestones);
         return mapMilestonesToDTO(milestones);
     }

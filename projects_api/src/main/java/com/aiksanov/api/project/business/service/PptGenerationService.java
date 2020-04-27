@@ -63,7 +63,7 @@ public class PptGenerationService {
 
     private PptConfigurationData getDataForPptCreation(int projectId) {
         ProjectGeneral projectGeneral = generalService.getProjectGeneralObj(projectId);
-        List<MilestoneDTO> milestones = milestoneService.getMilestoneDTOsByProjectID(projectId);
+        List<MilestoneDTO> milestones = milestoneService.getShownMilestonesByProjectID(projectId);
         List<RisksDTO> risks = risksService.getProjectRisks(projectId);
         List<RequirementsDTO> requirements = requirementsService.getJiraRequirements();
         HealthIndicatorsDTO indicators = indicatorsService.getHealthIndicators(projectId);

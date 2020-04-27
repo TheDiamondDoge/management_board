@@ -23,9 +23,13 @@ public class MilestonesController {
     }
 
     @GetMapping("/{projectId}")
-    public List<MilestoneDTO> getMilestonesByProjectID(@PathVariable Integer projectId) {
-        LOGGER.info("GET /api/milestones/{}", projectId);
-        return this.milestoneService.getMilestoneDTOsByProjectID(projectId);
+    public List<MilestoneDTO> getMilestonesByProjectID(@PathVariable Integer projectId, @RequestParam boolean isShown) {
+        LOGGER.info("GET /api/milestones/{}?isShown={}", projectId, isShown);
+        if (isShown) {
+            return this.milestoneService.getShownMilestonesByProjectID(projectId);
+        } else {
+            return this.milestoneService.getMilestoneDTOsByProjectID(projectId);
+        }
     }
 
     @GetMapping("/{projectId}/{label}")
