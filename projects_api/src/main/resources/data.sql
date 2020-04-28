@@ -64,7 +64,9 @@ INSERT INTO prj_status_report
            'This is the Red flags section',
            'This is the Orange flags section',
            'This is the Green flags section',
-           'This is the Details section'
+           'This is the Details section',
+           '2020-04-20',
+           1
 
  );
 

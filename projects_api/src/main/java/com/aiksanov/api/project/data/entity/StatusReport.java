@@ -1,16 +1,15 @@
 package com.aiksanov.api.project.data.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.aiksanov.api.project.data.entity.pk.StatusReportPK;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "prj_status_report")
 public class StatusReport {
-    @Id
-    @Column(name = "project_id")
-    private Integer projectId;
+    @EmbeddedId
+    private StatusReportPK pk;
 
     @Column(name = "executive_summary")
     private String executiveSummary;
@@ -27,16 +26,19 @@ public class StatusReport {
     @Column(name = "details")
     private String details;
 
+    @Column(name = "timestamp")
+    private Date timestamp;
+
     public StatusReport() {
 
     }
 
-    public Integer getProjectId() {
-        return projectId;
+    public StatusReportPK getPk() {
+        return pk;
     }
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
+    public void setPk(StatusReportPK pk) {
+        this.pk = pk;
     }
 
     public String getExecutiveSummary() {
@@ -77,5 +79,13 @@ public class StatusReport {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }

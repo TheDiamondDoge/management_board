@@ -151,7 +151,9 @@ CREATE TABLE IF NOT EXISTS `prj_status_report` (
     `orange_flag` text,
     `green_flag` text,
     `details` text,
-    PRIMARY KEY (`project_id`)
+    `timestamp` date NOT NULL,
+    `report_id` int(3) NOT NULL,
+    PRIMARY KEY (`project_id`, `report_id`)
 );
 ALTER TABLE `prj_status_report` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
 

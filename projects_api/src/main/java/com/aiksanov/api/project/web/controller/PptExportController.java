@@ -26,22 +26,22 @@ public class PptExportController {
 
     @GetMapping(value = "/custom/{projectId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public @ResponseBody
-    ResponseEntity<Resource> getCustomPptFile(@PathVariable int projectId) throws IOException, RestTemplateException {
+    ResponseEntity<Resource> getCustomPptFile(@PathVariable int projectId, @RequestParam(required = false) Integer reportId) throws IOException, RestTemplateException {
         LOGGER.info("GET /api/export/ppt/custom/{}", projectId);
-        return service.getPptFile(projectId, PptExportTypes.CUSTOM);
+        return service.getPptFile(projectId, PptExportTypes.CUSTOM, reportId);
     }
 
     @GetMapping(value = "/indicators/{projectId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public @ResponseBody
-    ResponseEntity<Resource> getFileIndicatorsPpt(@PathVariable int projectId) throws IOException, RestTemplateException {
+    ResponseEntity<Resource> getFileIndicatorsPpt(@PathVariable int projectId, @RequestParam(required = false) Integer reportId) throws IOException, RestTemplateException {
         LOGGER.info("GET /api/export/ppt/indicators/{}", projectId);
-        return service.getPptFile(projectId, PptExportTypes.INDICATORS);
+        return service.getPptFile(projectId, PptExportTypes.INDICATORS, reportId);
     }
 
     @GetMapping(value = "/review/{projectId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public @ResponseBody
-    ResponseEntity<Resource> getFileReview(@PathVariable int projectId) throws IOException, RestTemplateException {
+    ResponseEntity<Resource> getFileReview(@PathVariable int projectId, @RequestParam(required = false) Integer reportId) throws IOException, RestTemplateException {
         LOGGER.info("GET /api/export/ppt/review/{}", projectId);
-        return service.getPptFile(projectId, PptExportTypes.REVIEW);
+        return service.getPptFile(projectId, PptExportTypes.REVIEW, reportId);
     }
 }

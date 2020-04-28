@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PptGenerationService {
@@ -55,20 +56,25 @@ public class PptGenerationService {
         this.serviceUtils = serviceUtils;
     }
 
-    public ResponseEntity<Resource> getPptFile(int projectId, PptExportTypes type) throws IOException, RestTemplateException {
-        PptConfigurationData dataToSend = getDataForPptCreation(projectId);
+    public ResponseEntity<Resource> getPptFile(int projectId, PptExportTypes type, Integer reportId) throws IOException, RestTemplateException {
+        PptConfigurationData dataToSend = getDataForPptCreation(projectId, reportId);
         ByteArrayResource resource = getPptFromService(dataToSend, type);
         return serviceUtils.giveFileToUser(projectId + POSTFIX, resource);
     }
 
-    private PptConfigurationData getDataForPptCreation(int projectId) {
+    private PptConfigurationData getDataForPptCreation(int projectId, Integer reportId) {
         ProjectGeneral projectGeneral = generalService.getProjectGeneralObj(projectId);
         List<MilestoneDTO> milestones = milestoneService.getShownMilestonesByProjectID(projectId);
         List<RisksDTO> risks = risksService.getProjectRisks(projectId);
         List<RequirementsDTO> requirements = requirementsService.getJiraRequirements();
         HealthIndicatorsDTO indicators = indicatorsService.getHealthIndicators(projectId);
 
-        UserReportsDTO reports = reportService.getUserReports(projectId);
+        UserReportsDTO reports;
+        if (Objects.nonNull(reportId)) {
+            reports = reportService.getUserSnapshot(projectId, reportId);
+        } else {
+            reports = reportService.getUserReports(projectId);
+        }
         String executionSummary = reports.getSummary();
         String projectDetails = reports.getDetails();
         List<String> flags = new ArrayList<>();
