@@ -7,6 +7,7 @@ import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksFromFileDTO;
+import com.aiksanov.api.project.web.DTO.risks.RisksMinimalDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksTabDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -150,5 +152,10 @@ public class RisksService {
         File file = new File(filepath);
 
         return file.exists() && file.isFile();
+    }
+
+    public List<RisksMinimalDTO> getMinimalRisks(int projectId) {
+        List<Risk> risks = getRiskList(projectId);
+        return risks.stream().map(RisksMinimalDTO::new).collect(Collectors.toList());
     }
 }

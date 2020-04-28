@@ -52,14 +52,6 @@ public class ReportService {
             }
         }
 
-        if (Objects.nonNull(risks)) {
-            List<RisksMinimalDTO> risksDtos = risks.stream().map(RisksMinimalDTO::new).collect(Collectors.toList());
-            dto.setRisks(risksDtos);
-        }
-
-        dto.setMilestones(milestones);
-        dto.setIndicators(new HealthIndicatorsMinimalDTO(indicators));
-
         return dto;
     }
 
@@ -77,24 +69,11 @@ public class ReportService {
     private StatusReport getStatusReportObj(int projectId, UserReportsSaveDTO dto) {
         StatusReport report = this.reportRepository.findById(projectId).orElseGet(StatusReport::new);
         report.setProjectId(projectId);
-        ReportTypes type = ReportTypes.getTypeIgnoreCase(dto.getType());
-        switch (type) {
-            case SUMMARY:
-                report.setExecutiveSummary(dto.getData());
-                return report;
-            case RED:
-                report.setRedFlag(dto.getData());
-                return report;
-            case ORANGE:
-                report.setOrangeFlag(dto.getData());
-                return report;
-            case GREEN:
-                report.setGreenFlag(dto.getData());
-                return report;
-            case DETAILS:
-                report.setDetails(dto.getData());
-                return report;
-        }
+        report.setExecutiveSummary(dto.getSummary());
+        report.setRedFlag(dto.getRed());
+        report.setOrangeFlag(dto.getOrange());
+        report.setGreenFlag(dto.getGreen());
+        report.setDetails(dto.getDetails());
         return report;
     }
 }
