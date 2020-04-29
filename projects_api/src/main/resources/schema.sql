@@ -151,11 +151,18 @@ CREATE TABLE IF NOT EXISTS `prj_status_report` (
     `orange_flag` text,
     `green_flag` text,
     `details` text,
-    `timestamp` date NOT NULL,
-    `report_id` int(3) NOT NULL,
-    PRIMARY KEY (`project_id`, `report_id`)
+    PRIMARY KEY (`project_id`)
 );
 ALTER TABLE `prj_status_report` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
+
+DROP TABLE IF EXISTS prj_status_report_snapshots;
+CREATE TABLE IF NOT EXISTS `prj_status_report_snapshots` (
+    `project_id` int(5) NOT NULL,
+    `report_id` int(3) NOT NULL,
+    `timestamp` timestamp NOT NULL,
+    `snapshot_json` text,
+    PRIMARY KEY (`project_id`, `report_id`)
+);
 
 DROP TABLE IF EXISTS prj_indicators_reqs;
 CREATE TABLE IF NOT EXISTS `prj_indicators_reqs` (

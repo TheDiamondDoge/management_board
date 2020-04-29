@@ -38,7 +38,7 @@ public class ReportController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/user_reports")
-    public void saveReportOrFlag(@PathVariable int projectId, @RequestBody UserReportsSaveDTO dto) {
+    public void saveReportOrFlag(@PathVariable int projectId, @RequestBody UserReportsSaveDTO dto) throws Exception {
         LOGGER.info("POST /api/projects/{}/tabs/user_reports", projectId);
         this.reportService.saveReport(projectId, dto);
     }
@@ -47,10 +47,5 @@ public class ReportController {
     public List<ReportSnapshot> getSnapshotsInfo(@PathVariable int projectId) {
         LOGGER.info("GET /api/projects/{}/tabs/snapshots_info", projectId);
         return this.reportService.getListOfSnapshots(projectId);
-    }
-
-    @GetMapping("/test")
-    public List<StatusReport> getAllReports(@PathVariable int projectId) {
-        return this.reportService.getAllReports(projectId);
     }
 }

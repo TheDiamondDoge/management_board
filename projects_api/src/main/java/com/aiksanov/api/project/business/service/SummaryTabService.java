@@ -33,7 +33,7 @@ public class SummaryTabService {
     public SummaryDTO getSummaryDTO(Integer projectID){
         Project projectInfo = this.generalRepo.findById(projectID).orElseThrow(ProjectDoesNotExistException::new);
         ProjectURLs urls = this.urlsRepo.findById(projectID).orElseGet(ProjectURLs::new);
-        StatusReport report = this.reportRepo.getLastReportByProjectId(projectID).orElseGet(StatusReport::new);
+        StatusReport report = this.reportRepo.findById(projectID).orElseGet(StatusReport::new);
         int activeActionsAmount = this.actionsService.getActiveActions(projectID);
         int activeRisksAmount = this.risksService.getActiveRisks(projectID);
         return new SummaryDTO(projectInfo, urls, report, activeRisksAmount, activeActionsAmount);

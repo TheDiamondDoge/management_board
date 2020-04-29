@@ -1,5 +1,6 @@
 package com.aiksanov.api.project.business.service;
 
+import com.aiksanov.api.project.data.entity.StatusReportSnapshot;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.util.enums.PptExportTypes;
@@ -56,25 +57,29 @@ public class PptGenerationService {
         this.serviceUtils = serviceUtils;
     }
 
-    public ResponseEntity<Resource> getPptFile(int projectId, PptExportTypes type, Integer reportId) throws IOException, RestTemplateException {
-        PptConfigurationData dataToSend = getDataForPptCreation(projectId, reportId);
+    public ResponseEntity<Resource> getPptFile(int projectId, PptExportTypes type) throws Exception {
+        return getPptFile(projectId, type, null);
+    }
+
+    public ResponseEntity<Resource> getPptFile(int projectId, PptExportTypes type, Integer reportId) throws Exception {
+        PptConfigurationData dataToSend;
+        if (Objects.isNull(reportId)) {
+            dataToSend = getDataForPptCreation(projectId);
+        } else {
+            dataToSend = this.reportService.getUserSnapshot(projectId, reportId);
+        }
         ByteArrayResource resource = getPptFromService(dataToSend, type);
         return serviceUtils.giveFileToUser(projectId + POSTFIX, resource);
     }
 
-    private PptConfigurationData getDataForPptCreation(int projectId, Integer reportId) {
+    public PptConfigurationData getDataForPptCreation(int projectId) {
         ProjectGeneral projectGeneral = generalService.getProjectGeneralObj(projectId);
         List<MilestoneDTO> milestones = milestoneService.getShownMilestonesByProjectID(projectId);
         List<RisksDTO> risks = risksService.getProjectRisks(projectId);
         List<RequirementsDTO> requirements = requirementsService.getJiraRequirements();
         HealthIndicatorsDTO indicators = indicatorsService.getHealthIndicators(projectId);
+        UserReportsDTO reports = reportService.getUserReports(projectId);
 
-        UserReportsDTO reports;
-        if (Objects.nonNull(reportId)) {
-            reports = reportService.getUserSnapshot(projectId, reportId);
-        } else {
-            reports = reportService.getUserReports(projectId);
-        }
         String executionSummary = reports.getSummary();
         String projectDetails = reports.getDetails();
         List<String> flags = new ArrayList<>();
