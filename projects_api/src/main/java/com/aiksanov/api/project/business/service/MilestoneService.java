@@ -95,7 +95,8 @@ public class MilestoneService {
     public Milestone getLastApprovedMilestone(List<Milestone> milestones) {
         Milestone lastApproved = new Milestone();
         for (Milestone current : milestones) {
-            if (current.getCompletion() == 100) {
+            if (Objects.isNull(current)) continue;
+            if (Objects.nonNull(current.getActualDate()) && current.getCompletion() == 100) {
                 lastApproved = current;
             }
         }
