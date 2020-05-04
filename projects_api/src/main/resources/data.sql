@@ -48,7 +48,7 @@ INSERT INTO prj_field_comments VALUES (1, 'lessonsLearned', 'test ll');
 INSERT INTO prj_field_comments VALUES (1, 'projectPlan', 'test pp');
 INSERT INTO prj_field_comments VALUES (1, 'launchingPlan', 'test lp');
 
-INSERT INTO prj_additional_info VALUES (1, 'Super nice project, biach', 'Awesome BL Manager', 'Awesome Sponsor', 'OEM Partner', 'Key customer', 0, 0);
+INSERT INTO prj_additional_info VALUES (1, 'Super nice project, biach', 'Awesome BL Manager', 'Awesome Sponsor', 'OEM Partner', 'Key customer', 1, 0);
 
 INSERT INTO prj_jira_params VALUES (1, 'Metrics Scope', 'RQ Release');
 

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -72,7 +73,11 @@ public class InformationTabService {
         ProjectURLs urLs = decomposer.getProjectUrlsObj();
         JiraParams params = decomposer.getJiraParams();
         List<EcmaBacklogTarget> target = decomposer.getEcmaBacklogTargetList();
-        List<ContributingProjects> contributingProjects = decomposer.getListOfContribProjects();
+        List<ContributingProjects> contributingProjects = new ArrayList<>();
+        if (project.getAdditionalInfo().isComposite()) {
+            contributingProjects = decomposer.getListOfContribProjects();
+        }
+
         List<FieldComments> comments = decomposer.getListOfFieldComments();
 
         this.generalRepository.save(buildProjectToSave(id, project));
