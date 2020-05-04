@@ -122,8 +122,12 @@ public class ProjectGeneralService {
         String projectName = project.getName();
         String projectState = project.getState();
         List<Milestone> milestones = this.milestoneService.getMilestonesByProjectID(projectId);
+        List<Milestone> onlyWithActualDate = milestones.stream()
+                .filter(mil -> Objects.nonNull(mil) && Objects.nonNull(mil.getActualDate()))
+                .collect(Collectors.toList());
         MilestoneDTO lastApprovedDto = this.getLastApprovedMilestoneDto(projectId);
-        List<MilestoneDTO> milestoneDTOS = milestones.stream().map(MilestoneDTO::new).collect(Collectors.toList());
+        List<MilestoneDTO> milestoneDTOS = onlyWithActualDate.stream().map(MilestoneDTO::new)
+                .collect(Collectors.toList());
 
         return new ContributingProjectDTO(projectName, projectState, lastApprovedDto, milestoneDTOS);
     }

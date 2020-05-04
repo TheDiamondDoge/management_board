@@ -3,6 +3,7 @@ package com.aiksanov.api.project.web.DTO;
 import com.aiksanov.api.project.data.entity.Milestone;
 
 import java.sql.Date;
+import java.util.Objects;
 
 public class MilestoneDTO {
     private String label;
@@ -16,7 +17,9 @@ public class MilestoneDTO {
     }
 
     public MilestoneDTO(Milestone milestone) {
-        this.label = milestone.getMilestonePK().getLabel();
+        if (Objects.nonNull(milestone.getMilestonePK())) {
+            this.label = milestone.getMilestonePK().getLabel();
+        }
         this.baselineDate = milestone.getBaselineDate();
         this.actualDate = milestone.getActualDate();
         this.completion = milestone.getCompletion();

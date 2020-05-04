@@ -93,11 +93,13 @@ public class MilestoneService {
     }
 
     public Milestone getLastApprovedMilestone(List<Milestone> milestones) {
-        if (milestones.size() == 0) {
-            return null;
-        } else {
-            Collections.sort(milestones);
-            return milestones.get(0);
+        Milestone lastApproved = new Milestone();
+        for (Milestone current : milestones) {
+            if (current.getCompletion() == 100) {
+                lastApproved = current;
+            }
         }
+
+        return lastApproved;
     }
 }
