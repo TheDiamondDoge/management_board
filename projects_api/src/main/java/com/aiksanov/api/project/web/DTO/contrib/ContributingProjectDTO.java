@@ -5,6 +5,7 @@ import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import java.util.List;
 
 public class ContributingProjectDTO {
+    private int projectId;
     private String projectName;
     private String projectState;
     private MilestoneDTO lastApproved;
@@ -13,12 +14,21 @@ public class ContributingProjectDTO {
     public ContributingProjectDTO() {
     }
 
-    public ContributingProjectDTO(String projectName, String projectState, MilestoneDTO lastApproved,
+    public ContributingProjectDTO(int projectId, String projectName, String projectState, MilestoneDTO lastApproved,
                                   List<MilestoneDTO> milestones) {
+        this.projectId = projectId;
         this.projectName = projectName;
         this.projectState = projectState;
         this.lastApproved = lastApproved;
         this.milestones = milestones;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
     }
 
     public String getProjectName() {

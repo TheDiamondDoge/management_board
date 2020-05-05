@@ -129,7 +129,7 @@ public class ProjectGeneralService {
         List<MilestoneDTO> milestoneDTOS = onlyWithActualDate.stream().map(MilestoneDTO::new)
                 .collect(Collectors.toList());
 
-        return new ContributingProjectDTO(projectName, projectState, lastApprovedDto, milestoneDTOS);
+        return new ContributingProjectDTO(projectId, projectName, projectState, lastApprovedDto, milestoneDTOS);
     }
 
     private MilestoneDTO getLastApprovedMilestoneDto(int projectId) {
