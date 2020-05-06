@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ContributingProjectsRepository extends CrudRepository<ContributingProjects, ContributingProjectsPK> {
     List<ContributingProjects> getContributingProjectsByPk_ProjectID(int projectID);
-    ContributingProjects findByPk_ContribID(int projectID);
+    ContributingProjects findFirstByPk_ContribID(int projectID);
     ContributingProjects findByPk_ProjectID(int projectID);
     List<ContributingProjects> findAllByPk_ProjectID(int projectID);
     void deleteAllByPk_ProjectID(int projectID);

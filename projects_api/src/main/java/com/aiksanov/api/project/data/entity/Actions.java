@@ -2,7 +2,6 @@ package com.aiksanov.api.project.data.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,18 +15,18 @@ public class Actions {
     @Column(name = "project_id")
     private int projectId;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "registry", referencedColumnName = "registry_id")
     private ActionsRegistry registry;
 
     @Column(name = "title")
     private String title;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "state", referencedColumnName = "state_id")
     private ActionsState state;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "priority", referencedColumnName = "priority_id")
     private ActionsPriority priority;
 
@@ -52,7 +51,7 @@ public class Actions {
     @Column(name = "closed_date")
     private Date closedDate;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.ALL })
     @JoinTable(
             name = "prj_actions_related_risks",
             joinColumns = @JoinColumn(name = "action_id"),

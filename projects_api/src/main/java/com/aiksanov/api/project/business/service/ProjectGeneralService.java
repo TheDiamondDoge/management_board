@@ -103,7 +103,7 @@ public class ProjectGeneralService {
     }
 
     private ContributingProjects getOfferByContribId(int projectId) {
-        return this.contribRepository.findByPk_ContribID(projectId);
+        return this.contribRepository.findFirstByPk_ContribID(projectId);
     }
 
     private List<ContributingProjectDTO> getContribProjectsToOffer(int offerId) {

@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -59,8 +60,9 @@ public class ActionsService {
     }
 
     public int getActiveActions(int projectId) {
-        ActionsState state = this.actionsStateRepo.findById(ActionsStateVals.ACTIVE).orElseGet(ActionsState::new);
-        return this.actionsRepository.countActionsByProjectIdAndState(projectId, state);
+        Optional<ActionsState> state = this.actionsStateRepo.findById(ActionsStateVals.ACTIVE);
+        return state.map(actionsState -> this.actionsRepository.countActionsByProjectIdAndState(projectId, actionsState))
+                .orElse(0);
     }
 
     private Actions createActionsEntry(ActionDTO dto, int projectId) {

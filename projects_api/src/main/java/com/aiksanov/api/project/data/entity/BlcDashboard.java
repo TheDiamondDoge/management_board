@@ -25,7 +25,7 @@ public class BlcDashboard {
     @Column(name = "updated_on")
     private Date updatedOn;
 
-    @Column(name = "or")
+    @Column(name = "or_rank")
     private int or;
 
     @Column(name = "charter")

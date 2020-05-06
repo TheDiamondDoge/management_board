@@ -81,7 +81,7 @@ public class BlcDashboardService {
         if (Objects.nonNull(row)) {
             BlcDashboard blcObj = new BlcDashboard();
             blcObj.setProjectID(projectID);
-            blcObj.setRole(row.getRole());
+            blcObj.setRole(role);
             //TODO: when session will be done - get csl form it
             blcObj.setCsl(row.getCsl());
             blcObj.setUpdatedOn(new Date());
