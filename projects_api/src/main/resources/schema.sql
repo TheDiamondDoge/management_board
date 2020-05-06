@@ -3,12 +3,12 @@ CREATE TABLE `PRJ_WORKSPACE_GENERAL` (
   `project_id` int(5) NOT NULL AUTO_INCREMENT,
   `project_uid` varchar(255) DEFAULT NULL,
   `project_name` varchar(100) DEFAULT NULL,
-  `project_type` varchar(10) DEFAULT NULL,
+  `project_type` varchar(30) DEFAULT NULL,
   `project_rigor` varchar(10) DEFAULT NULL,
   `project_state` varchar(10) DEFAULT NULL,
   `project_manager` varchar(100) DEFAULT NULL,
   `EPM_project` tinyint(1) DEFAULT NULL,
-  `project_template` varchar(10) DEFAULT NULL,
+  `project_template` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`project_id`)
 );
 
@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS `prj_products` (
   `product_name` varchar(100) DEFAULT NULL,
   `product_manager` varchar(100) DEFAULT NULL,
   `product_group` varchar(100) DEFAULT NULL,
-  `product_division` varchar(10) DEFAULT NULL,
-  `product_bu` varchar(10) DEFAULT NULL,
+  `product_division` varchar(25) DEFAULT NULL,
+  `product_bu` varchar(50) DEFAULT NULL,
   `product_unit` varchar(45) DEFAULT NULL,
   `product_team` varchar(45) DEFAULT NULL,
   `product_release` varchar(45) DEFAULT NULL,
@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS `prj_milestones` (
   `milestone_label` varchar(45) NOT NULL,
   `baseline_date` date DEFAULT NULL,
   `actual_date` date DEFAULT NULL,
-  `completion` int(3) DEFAULT NULL,
+  `completion` int(3) DEFAULT 0,
   `url` varchar(512) DEFAULT NULL,
-  `show_in_timeline` tinyint(1) DEFAULT NULL,
+  `show_in_timeline` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`project_id`,`milestone_label`)
 );
 ALTER TABLE `prj_milestones` ADD FOREIGN KEY (project_id) REFERENCES PRJ_WORKSPACE_GENERAL(project_id);
@@ -179,9 +179,9 @@ DROP TABLE IF EXISTS prj_blc_dashboard;
 CREATE TABLE IF NOT EXISTS `prj_blc_dashboard` (
     `project_id` int(5) NOT NULL,
     `role` varchar(5) NOT NULL,
-    `updated_on` date,
+    `updated_on` timestamp,
     `updated_by` varchar (20),
-    `or` int(1) DEFAULT 0,
+    `or_rank` int(1) DEFAULT 0,
     `charter` int(1) DEFAULT 0,
     `prj_plan` int(1) DEFAULT 0,
     `tailoring` int(1) DEFAULT 0,
