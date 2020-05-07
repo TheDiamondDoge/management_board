@@ -23,16 +23,16 @@ public class QualityIndicators {
     private int rowNumber;
 
     @Column(name = "objective")
-    private int objective;
+    private String objective;
 
     @Column(name = "actual")
-    private int actual;
+    private String actual;
 
 
     public QualityIndicators() {
     }
 
-    public QualityIndicators(int projectID, String kpiID, int rowNumber, int objective, int actual) {
+    public QualityIndicators(int projectID, String kpiID, int rowNumber, String objective, String actual) {
         this.projectID = projectID;
         this.kpiID = kpiID;
         this.rowNumber = rowNumber;
@@ -64,19 +64,19 @@ public class QualityIndicators {
         this.rowNumber = rowNumber;
     }
 
-    public int getObjective() {
+    public String getObjective() {
         return objective;
     }
 
-    public void setObjective(int objective) {
+    public void setObjective(String objective) {
         this.objective = objective;
     }
 
-    public int getActual() {
+    public String getActual() {
         return actual;
     }
 
-    public void setActual(int actual) {
+    public void setActual(String actual) {
         this.actual = actual;
     }
 }

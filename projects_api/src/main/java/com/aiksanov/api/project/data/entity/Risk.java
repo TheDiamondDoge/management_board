@@ -21,19 +21,19 @@ public class Risk {
     private String riskDisplayId;
 
     @Column(name = "impact")
-    private int impact;
+    private String impact;
 
     @Column(name = "probability")
-    private Float probability;
+    private String probability;
 
     @Column(name = "rating")
     private Float rating;
 
     @Column(name = "previous")
-    private Float previous;
+    private String previous;
 
     @Column(name = "initial")
-    private Float initial;
+    private String initial;
 
     @Column(name = "risk_description")
     private String riskDescription;
@@ -104,19 +104,19 @@ public class Risk {
         this.riskDisplayId = riskDisplayId;
     }
 
-    public int getImpact() {
+    public String getImpact() {
         return impact;
     }
 
-    public void setImpact(int impact) {
+    public void setImpact(String impact) {
         this.impact = impact;
     }
 
-    public Float getProbability() {
+    public String getProbability() {
         return probability;
     }
 
-    public void setProbability(Float probability) {
+    public void setProbability(String probability) {
         this.probability = probability;
     }
 
@@ -128,19 +128,19 @@ public class Risk {
         this.rating = rating;
     }
 
-    public Float getPrevious() {
+    public String getPrevious() {
         return previous;
     }
 
-    public void setPrevious(Float previous) {
+    public void setPrevious(String previous) {
         this.previous = previous;
     }
 
-    public Float getInitial() {
+    public String getInitial() {
         return initial;
     }
 
-    public void setInitial(Float initial) {
+    public void setInitial(String initial) {
         this.initial = initial;
     }
 

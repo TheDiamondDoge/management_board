@@ -7,8 +7,8 @@ import java.util.Objects;
 
 public class QualityIndicatorDTO {
     private int rowNumber;
-    private int objective;
-    private int actual;
+    private String objective;
+    private String actual;
     private String comment;
 
     public QualityIndicatorDTO() {
@@ -30,11 +30,11 @@ public class QualityIndicatorDTO {
         return rowNumber;
     }
 
-    public int getObjective() {
+    public String getObjective() {
         return objective;
     }
 
-    public int getActual() {
+    public String getActual() {
         return actual;
     }
 

@@ -8,11 +8,11 @@ import java.util.Objects;
 public class RisksDTO {
     private int riskId;
     private String riskDisplayId;
-    private int impact;
-    private Float probability;
+    private String impact;
+    private String probability;
     private Float rating;
-    private Float previous;
-    private Float initial;
+    private String previous;
+    private String initial;
     private String riskDescription;
     private String impactDescription;
     private String businessImpact;
@@ -66,10 +66,11 @@ public class RisksDTO {
         risk.setRiskDisplayId(this.riskDisplayId);
         risk.setRiskId(this.riskId);
         risk.setImpact(this.impact);
-        risk.setProbability(this.getNullIfZero(this.probability));
+//        risk.setProbability(this.getNullIfZero(this.probability));
+        risk.setProbability(this.probability);
         risk.setRating(this.getNullIfZero(this.rating));
-        risk.setPrevious(this.getNullIfZero(this.previous));
-        risk.setInitial(this.getNullIfZero(this.initial));
+        risk.setPrevious(this.previous);
+        risk.setInitial(this.initial);
         risk.setRiskDescription(this.riskDescription);
         risk.setImpactDescription(this.impactDescription);
         risk.setBusinessImpact(this.businessImpact);
@@ -108,19 +109,19 @@ public class RisksDTO {
         this.riskDisplayId = riskDisplayId;
     }
 
-    public int getImpact() {
+    public String getImpact() {
         return impact;
     }
 
-    public void setImpact(int impact) {
+    public void setImpact(String impact) {
         this.impact = impact;
     }
 
-    public Float getProbability() {
+    public String getProbability() {
         return probability;
     }
 
-    public void setProbability(Float probability) {
+    public void setProbability(String probability) {
         this.probability = probability;
     }
 
@@ -132,19 +133,19 @@ public class RisksDTO {
         this.rating = rating;
     }
 
-    public Float getPrevious() {
+    public String getPrevious() {
         return previous;
     }
 
-    public void setPrevious(Float previous) {
+    public void setPrevious(String previous) {
         this.previous = previous;
     }
 
-    public Float getInitial() {
+    public String getInitial() {
         return initial;
     }
 
-    public void setInitial(Float initial) {
+    public void setInitial(String initial) {
         this.initial = initial;
     }
 

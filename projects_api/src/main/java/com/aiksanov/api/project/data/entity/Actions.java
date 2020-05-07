@@ -15,18 +15,18 @@ public class Actions {
     @Column(name = "project_id")
     private int projectId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "registry", referencedColumnName = "registry_id")
     private ActionsRegistry registry;
 
     @Column(name = "title")
     private String title;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "state", referencedColumnName = "state_id")
     private ActionsState state;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "priority", referencedColumnName = "priority_id")
     private ActionsPriority priority;
 
