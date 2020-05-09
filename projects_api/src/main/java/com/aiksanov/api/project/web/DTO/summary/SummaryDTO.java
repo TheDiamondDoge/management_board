@@ -4,7 +4,6 @@ import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 public class SummaryDTO {

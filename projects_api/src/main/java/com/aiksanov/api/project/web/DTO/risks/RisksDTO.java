@@ -54,7 +54,6 @@ public class RisksDTO {
         this.estimatedCost = risk.getEstimatedCost();
         this.provisionBudget = risk.getProvisionBudget();
         this.responsible = risk.getResponsible();
-        this.relatedAction = risk.getRelatedAction();
         this.target = risk.getTarget();
         this.done = risk.getDone();
         this.result = risk.getResult();
@@ -80,7 +79,6 @@ public class RisksDTO {
         risk.setEstimatedCost(this.estimatedCost);
         risk.setProvisionBudget(this.provisionBudget);
         risk.setResponsible(this.responsible);
-        risk.setRelatedAction(this.relatedAction);
         risk.setTarget(this.target);
         risk.setDone(this.done);
         risk.setResult(this.result);

@@ -62,9 +62,6 @@ public class Risk {
     @Column(name = "responsible")
     private String responsible;
 
-    @Column(name = "related_action")
-    private String relatedAction;
-
     @Column(name = "target")
     private Date target;
 
@@ -214,14 +211,6 @@ public class Risk {
 
     public void setResponsible(String responsible) {
         this.responsible = responsible;
-    }
-
-    public String getRelatedAction() {
-        return relatedAction;
-    }
-
-    public void setRelatedAction(String relatedAction) {
-        this.relatedAction = relatedAction;
     }
 
     public Date getTarget() {

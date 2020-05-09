@@ -1,7 +1,6 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.ActionsService;
-import com.aiksanov.api.project.data.entity.ActionRelatedRisks;
 import com.aiksanov.api.project.web.DTO.actions.ActionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

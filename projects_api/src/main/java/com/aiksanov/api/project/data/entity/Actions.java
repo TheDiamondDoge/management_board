@@ -51,7 +51,7 @@ public class Actions {
     @Column(name = "closed_date")
     private Date closedDate;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.ALL })
+    @OneToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "prj_actions_related_risks",
             joinColumns = @JoinColumn(name = "action_id"),

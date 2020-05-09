@@ -313,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `prj_cost` (
     `project_id` int(5) NOT NULL,
     `type` int(1) NOT NULL,
     `state` int(1) NOT NULL,
-    `milestone` varchar(5),
+    `milestone` varchar(10),
     `value` double,
     `comment` text,
     PRIMARY KEY (`project_id`, `type`, `state`)
