@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ContribProjectsDataDTO {
-    private ContributingProjectDTO offer;
+    private List<ContributingProjectDTO> offer;
     private List<ContributingProjectDTO> products;
     private Date maxDate;
     private Date minDate;
@@ -13,18 +13,18 @@ public class ContribProjectsDataDTO {
     public ContribProjectsDataDTO() {
     }
 
-    public ContribProjectsDataDTO(ContributingProjectDTO offer, List<ContributingProjectDTO> products, Date maxDate, Date minDate) {
+    public ContribProjectsDataDTO(List<ContributingProjectDTO> offer, List<ContributingProjectDTO> products, Date maxDate, Date minDate) {
         this.offer = offer;
         this.products = products;
         this.maxDate = maxDate;
         this.minDate = minDate;
     }
 
-    public ContributingProjectDTO getOffer() {
+    public List<ContributingProjectDTO> getOffer() {
         return offer;
     }
 
-    public void setOffer(ContributingProjectDTO offer) {
+    public void setOffer(List<ContributingProjectDTO> offer) {
         this.offer = offer;
     }
 

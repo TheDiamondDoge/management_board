@@ -62,28 +62,36 @@ public class ProjectGeneralService {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         String projectType = project.getType();
 
-        ContributingProjectDTO offer;
+        List<ContributingProjectDTO> offer = new ArrayList<>();
         List<ContributingProjectDTO> products = new ArrayList<>();
         List<Integer> projectIds = new ArrayList<>();
 
         if (projectType.equals("Offer")) {
-            offer = this.getContribProject(projectId);
+            ContributingProjectDTO offerDto = this.getContribProjectDto(projectId);
+            offer.add(offerDto);
             products = this.getContribProjectsToOffer(projectId);
 
             List<ContributingDTO> contibProjects = this.getContribProjectDtosList(projectId);
             projectIds = contibProjects.stream().map(ContributingDTO::getProjectID).collect(Collectors.toList());
             projectIds.add(projectId);
         } else {
-            ContributingProjects offerProductPair = this.getOfferByContribId(projectId);
+            List<ContributingProjects> offersProductPair = this.getOfferByContribId(projectId);
+            List<Integer> offersIds = offersProductPair.stream()
+                    .map(p -> p.getPk().getProjectID())
+                    .collect(Collectors.toList());
 
-            if (Objects.isNull(offerProductPair)) return new ContribProjectsDataDTO();
+            if (offersProductPair.size() == 0) return new ContribProjectsDataDTO();
 
-            int offerId = offerProductPair.getPk().getProjectID();
-            offer = this.getContribProject(offerId);
-            ContributingProjectDTO product = this.getContribProject(projectId);
-            products.add(product);
-            projectIds.add(projectId);
-            projectIds.add(offerId);
+            for (ContributingProjects contrib: offersProductPair) {
+                int offerId = contrib.getPk().getProjectID();
+                ContributingProjectDTO contributedOffer = this.getContribProjectDto(offerId);
+                offer.add(contributedOffer);
+                ContributingProjectDTO product = this.getContribProjectDto(projectId);
+                products.add(product);
+                projectIds.add(projectId);
+                projectIds.add(offerId);
+                projectIds.addAll(offersIds);
+            }
         }
 
         Milestone max = this.milestoneService.getMilestoneWithHighestActDate(projectIds);
@@ -102,25 +110,26 @@ public class ProjectGeneralService {
         return new ProjectGeneral(project.getName(), project.getManager(), "http://www.google.com", updated);
     }
 
-    private ContributingProjects getOfferByContribId(int projectId) {
-        return this.contribRepository.findFirstByPk_ContribID(projectId);
+    private List<ContributingProjects> getOfferByContribId(int projectId) {
+        return this.contribRepository.findByPk_ContribID(projectId);
     }
 
     private List<ContributingProjectDTO> getContribProjectsToOffer(int offerId) {
         List<ContributingProjects> products = this.contribRepository.findAllByPk_ProjectID(offerId);
         List<ContributingProjectDTO> result = new ArrayList<>();
         products.forEach((product) -> {
-            ContributingProjectDTO dto = this.getContribProject(product.getPk().getContribID());
+            ContributingProjectDTO dto = this.getContribProjectDto(product.getPk().getContribID());
             result.add(dto);
         });
 
         return result;
     }
 
-    private ContributingProjectDTO getContribProject(int projectId) {
+    private ContributingProjectDTO getContribProjectDto(int projectId) {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         String projectName = project.getName();
         String projectState = project.getState();
+        String projectType = project.getType();
         List<Milestone> milestones = this.milestoneService.getMilestonesByProjectID(projectId);
         List<Milestone> onlyWithActualDate = milestones.stream()
                 .filter(mil -> Objects.nonNull(mil) && Objects.nonNull(mil.getActualDate()))
@@ -129,7 +138,7 @@ public class ProjectGeneralService {
         List<MilestoneDTO> milestoneDTOS = onlyWithActualDate.stream().map(MilestoneDTO::new)
                 .collect(Collectors.toList());
 
-        return new ContributingProjectDTO(projectId, projectName, projectState, lastApprovedDto, milestoneDTOS);
+        return new ContributingProjectDTO(projectId, projectName, projectState, projectType, lastApprovedDto, milestoneDTOS);
     }
 
     private MilestoneDTO getLastApprovedMilestoneDto(int projectId) {

@@ -3,7 +3,7 @@ package com.aiksanov.api.project.data.entity;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 //TODO: Workspace template??
 @Entity
