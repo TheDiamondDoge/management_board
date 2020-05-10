@@ -5,10 +5,7 @@ import com.aiksanov.api.project.data.repository.RisksRepository;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
-import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
-import com.aiksanov.api.project.web.DTO.risks.RisksFromFileDTO;
-import com.aiksanov.api.project.web.DTO.risks.RisksMinimalDTO;
-import com.aiksanov.api.project.web.DTO.risks.RisksTabDTO;
+import com.aiksanov.api.project.web.DTO.risks.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -70,10 +67,6 @@ public class RisksService {
                 .stream()
                 .map(Risk::getRiskDisplayId)
                 .collect(Collectors.toList());
-    }
-
-    public List<Risk> getRiskList(int projectId) {
-        return this.risksRepository.findAllByProjectId(projectId);
     }
 
     @Transactional
@@ -154,8 +147,10 @@ public class RisksService {
         return file.exists() && file.isFile();
     }
 
-    public List<RisksMinimalDTO> getMinimalRisks(int projectId) {
-        List<Risk> risks = getRiskList(projectId);
-        return risks.stream().map(RisksMinimalDTO::new).collect(Collectors.toList());
+    public RisksReportDTO getMinimalRisks(int projectId) {
+        List<Risk> risks = this.risksRepository.findAllByProjectId(projectId);
+        risks = risks.stream().filter(Risk::isReport).collect(Collectors.toList());
+        List<RisksMinimalDTO> minimalRisks = risks.stream().map(RisksMinimalDTO::new).collect(Collectors.toList());
+        return new RisksReportDTO(minimalRisks);
     }
 }
