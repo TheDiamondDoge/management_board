@@ -60,7 +60,7 @@ public class MilestoneService {
         return this.milestoneRepo.findAllByMilestonePK_ProjectIDOrderByActualDateAsc(projectID);
     }
 
-    public List<MilestoneDTO> getShownMilestonesByProjectID(int projectID) {
+    public List<MilestoneDTO> getTimelineMilestones(int projectID) {
         List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDAndShown(projectID, true);
         milestones = milestones.stream().filter(milestone -> Objects.nonNull(milestone.getActualDate())).collect(Collectors.toList());
         Collections.sort(milestones);

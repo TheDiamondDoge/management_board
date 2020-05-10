@@ -1,6 +1,5 @@
 package com.aiksanov.api.project.business.service;
 
-import com.aiksanov.api.project.data.entity.StatusReportSnapshot;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.util.enums.PptExportTypes;
@@ -74,7 +73,7 @@ public class PptGenerationService {
 
     public PptConfigurationData getDataForPptCreation(int projectId) {
         ProjectGeneral projectGeneral = generalService.getProjectGeneralObj(projectId);
-        List<MilestoneDTO> milestones = milestoneService.getShownMilestonesByProjectID(projectId);
+        List<MilestoneDTO> milestones = milestoneService.getTimelineMilestones(projectId);
         List<RisksDTO> risks = risksService.getProjectRisks(projectId);
         List<RequirementsDTO> requirements = requirementsService.getJiraRequirements();
         HealthIndicatorsDTO indicators = indicatorsService.getHealthIndicators(projectId);

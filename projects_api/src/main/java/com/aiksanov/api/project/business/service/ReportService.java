@@ -102,7 +102,7 @@ public class ReportService {
 
     public PptConfigurationData getDataForPptCreation(int projectId) {
         ProjectGeneral projectGeneral = generalService.getProjectGeneralObj(projectId);
-        List<MilestoneDTO> milestones = milestoneService.getShownMilestonesByProjectID(projectId);
+        List<MilestoneDTO> milestones = milestoneService.getTimelineMilestones(projectId);
         List<RisksDTO> risks = risksService.getProjectRisks(projectId);
         List<RequirementsDTO> requirements = requirementsService.getJiraRequirements();
         HealthIndicatorsDTO indicators = indicatorsService.getHealthIndicators(projectId);
@@ -137,7 +137,7 @@ public class ReportService {
         return report;
     }
 
-    private int lastStatusReportId(int projectId) throws Exception {
+    private int lastStatusReportId(int projectId) {
         StatusReportSnapshot report = this.snapshotRepository.getLastSnapshotByProjectId(projectId).orElseGet(StatusReportSnapshot::new);
         if (Objects.nonNull(report.getPk())) {
             return report.getPk().getReportId();

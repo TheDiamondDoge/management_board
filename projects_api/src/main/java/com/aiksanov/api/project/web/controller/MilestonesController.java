@@ -26,7 +26,7 @@ public class MilestonesController {
     public List<MilestoneDTO> getMilestonesByProjectID(@PathVariable Integer projectId, @RequestParam boolean isShown) {
         LOGGER.info("GET /api/milestones/{}?isShown={}", projectId, isShown);
         if (isShown) {
-            return this.milestoneService.getShownMilestonesByProjectID(projectId);
+            return this.milestoneService.getTimelineMilestones(projectId);
         } else {
             return this.milestoneService.getMilestoneDTOsForInfoTab(projectId);
         }
