@@ -28,7 +28,7 @@ public class MilestonesController {
         if (isShown) {
             return this.milestoneService.getShownMilestonesByProjectID(projectId);
         } else {
-            return this.milestoneService.getMilestoneDTOsByProjectID(projectId);
+            return this.milestoneService.getMilestoneDTOsForInfoTab(projectId);
         }
     }
 

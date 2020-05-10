@@ -13,17 +13,47 @@ import java.util.stream.Collectors;
 
 @Service
 public class MilestoneService {
-    private MilestoneRepository milestoneRepo;
+    private final MilestoneRepository milestoneRepo;
+    private final String[] mandatoryMilestones = {"OR", "DR0", "DR1", "DR2", "DR3", "TR", "DR4", "DR5", "OBR", "CI"};
 
     @Autowired
     public MilestoneService(MilestoneRepository milestoneRepo) {
         this.milestoneRepo = milestoneRepo;
     }
 
-    public List<MilestoneDTO> getMilestoneDTOsByProjectID(Integer projectID) {
+    public List<MilestoneDTO> getMilestoneDTOsForInfoTab(Integer projectID) {
         List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDOrderByActualDateAsc(projectID);
-        Collections.sort(milestones);
-        return mapMilestonesToDTO(milestones);
+        List<Milestone> orderedMilestones = this.getOrderedByMandatory(milestones);
+        return mapMilestonesToDTO(orderedMilestones);
+    }
+
+    private List<Milestone> getOrderedByMandatory(List<Milestone> milestones) {
+        List<Milestone> orderedMilestones = new ArrayList<>();
+        List<Integer> pickedMilestonesPositions = new ArrayList<>();
+        nextLabel:
+        for(String label: mandatoryMilestones) {
+           for(Milestone current: milestones) {
+               if (current.getMilestonePK().getLabel().toUpperCase().equals(label)) {
+                   orderedMilestones.add(current);
+                   pickedMilestonesPositions.add(milestones.indexOf(current));
+                   continue nextLabel;
+               }
+           }
+
+           Milestone empty = new Milestone();
+           empty.setMilestonePK(new MilestonePK(-1, label));
+           orderedMilestones.add(empty);
+        }
+
+        if (pickedMilestonesPositions.size() != 0) {
+            for (int i = 0; i < milestones.size(); i++) {
+                if (pickedMilestonesPositions.contains(i)) continue;
+
+                orderedMilestones.add(milestones.get(i));
+            }
+        }
+
+        return orderedMilestones;
     }
 
     public List<Milestone> getMilestonesByProjectID(Integer projectID) {
