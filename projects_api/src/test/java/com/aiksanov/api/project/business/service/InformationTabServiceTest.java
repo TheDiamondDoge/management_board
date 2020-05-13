@@ -3,6 +3,7 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.ProjectURLsRepository;
+import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.information.InformationDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -89,7 +90,7 @@ public class InformationTabServiceTest {
 
         Project project = new Project();
         project.setName("Name");
-        project.setType("Program");
+        project.setType(ProjectTypes.PRODUCT);
         project.setRigor("Rigor");
         project.setState("State");
         project.setManager("Manager");

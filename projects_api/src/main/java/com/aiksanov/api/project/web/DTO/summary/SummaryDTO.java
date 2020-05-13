@@ -66,7 +66,9 @@ public class SummaryDTO {
         this.projectManager = projectInfo.getManager();
         this.projectState = projectInfo.getState();
         this.projectRigor = projectInfo.getRigor();
-        this.projectType = projectInfo.getType();
+        if (Objects.nonNull(projectInfo.getType())) {
+            this.projectType = projectInfo.getType().getValue();
+        }
         this.isEpm = projectInfo.isEpm();
 
         Product product = projectInfo.getProduct();

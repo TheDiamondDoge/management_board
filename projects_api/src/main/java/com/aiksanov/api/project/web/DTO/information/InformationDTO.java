@@ -2,6 +2,7 @@ package com.aiksanov.api.project.web.DTO.information;
 
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.util.enums.CommentsFieldNames;
+import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 
 import java.util.*;
@@ -12,7 +13,7 @@ public class InformationDTO {
     private String oemPartner;
     private String keyCustomers;
     private String productRelease;
-    private String projectType;
+    private ProjectTypes projectType;
     private String projectRigor;
     private String projectState;
     private String businessDivision;
@@ -182,7 +183,7 @@ public class InformationDTO {
         return productRelease;
     }
 
-    public String getProjectType() {
+    public ProjectTypes getProjectType() {
         return projectType;
     }
 

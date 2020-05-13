@@ -7,6 +7,7 @@ import com.aiksanov.api.project.data.entity.WorkspaceInfo;
 import com.aiksanov.api.project.data.repository.ContributingProjectsRepository;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
+import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingProjectDTO;
@@ -60,13 +61,13 @@ public class ProjectGeneralService {
     //TODO: refactor
     public ContribProjectsDataDTO getContibData(int projectId) {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
-        String projectType = project.getType();
+        ProjectTypes projectType = project.getType();
 
         List<ContributingProjectDTO> offer = new ArrayList<>();
         List<ContributingProjectDTO> products = new ArrayList<>();
         List<Integer> projectIds = new ArrayList<>();
 
-        if (projectType.equals("Offer")) {
+        if (projectType == ProjectTypes.OFFER) {
             ContributingProjectDTO offerDto = this.getContribProjectDto(projectId);
             offer.add(offerDto);
             products = this.getContribProjectsToOffer(projectId);
@@ -129,7 +130,7 @@ public class ProjectGeneralService {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         String projectName = project.getName();
         String projectState = project.getState();
-        String projectType = project.getType();
+        ProjectTypes projectType = project.getType();
         List<Milestone> milestones = this.milestoneService.getMilestonesByProjectID(projectId);
         List<Milestone> onlyWithActualDate = milestones.stream()
                 .filter(mil -> Objects.nonNull(mil) && Objects.nonNull(mil.getActualDate()))
@@ -156,6 +157,7 @@ public class ProjectGeneralService {
         ProjectDefaultDataDTO dto = new ProjectDefaultDataDTO();
         dto.setProjectId(project.getProjectID());
         dto.setProjectName(project.getName());
+        dto.setProjectType(project.getType());
         return dto;
     }
 }

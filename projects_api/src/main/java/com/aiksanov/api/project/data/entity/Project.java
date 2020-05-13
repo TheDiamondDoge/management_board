@@ -1,5 +1,7 @@
 package com.aiksanov.api.project.data.entity;
 
+import com.aiksanov.api.project.util.converters.ProjectTypeConverter;
+import com.aiksanov.api.project.util.enums.ProjectTypes;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -20,7 +22,8 @@ public class Project {
     private String name;
 
     @Column(name = "project_type")
-    private String type;
+    @Convert(converter = ProjectTypeConverter.class)
+    private ProjectTypes type;
 
     @Column(name = "project_rigor")
     private String rigor;
@@ -60,7 +63,7 @@ public class Project {
         this.projectID = projectID;
     }
 
-    public Project(String name, String type, String rigor, String state, String manager,
+    public Project(String name, ProjectTypes type, String rigor, String state, String manager,
                    boolean epm, String template, Product product, WorkspaceInfo workspaceInfo,
                    ProjectAdditionalInfo additionalInfo)
     {
@@ -100,11 +103,11 @@ public class Project {
         this.name = name;
     }
 
-    public String getType() {
+    public ProjectTypes getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ProjectTypes type) {
         this.type = type;
     }
 

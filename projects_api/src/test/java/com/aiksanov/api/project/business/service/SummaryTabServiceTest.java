@@ -4,6 +4,7 @@ import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.ProjectURLsRepository;
 import com.aiksanov.api.project.data.repository.StatusReportRepository;
+import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.summary.SummaryDTO;
 import org.junit.Test;
@@ -97,7 +98,7 @@ public class SummaryTabServiceTest {
         Project project = new Project();
         project.setUid("Dummy UID");
         project.setName("Name");
-        project.setType("Program");
+        project.setType(ProjectTypes.PRODUCT);
         project.setRigor("Rigor");
         project.setState("State");
         project.setManager("Manager");

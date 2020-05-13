@@ -1,5 +1,6 @@
 package com.aiksanov.api.project.web.DTO.contrib;
 
+import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 
 import java.util.List;
@@ -8,14 +9,14 @@ public class ContributingProjectDTO {
     private int projectId;
     private String projectName;
     private String projectState;
-    private String projectType;
+    private ProjectTypes projectType;
     private MilestoneDTO lastApproved;
     private List<MilestoneDTO> milestones;
 
     public ContributingProjectDTO() {
     }
 
-    public ContributingProjectDTO(int projectId, String projectName, String projectState, String projectType, MilestoneDTO lastApproved, List<MilestoneDTO> milestones) {
+    public ContributingProjectDTO(int projectId, String projectName, String projectState, ProjectTypes projectType, MilestoneDTO lastApproved, List<MilestoneDTO> milestones) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectState = projectState;
@@ -32,11 +33,11 @@ public class ContributingProjectDTO {
         this.projectId = projectId;
     }
 
-    public String getProjectType() {
+    public ProjectTypes getProjectType() {
         return projectType;
     }
 
-    public void setProjectType(String projectType) {
+    public void setProjectType(ProjectTypes projectType) {
         this.projectType = projectType;
     }
 

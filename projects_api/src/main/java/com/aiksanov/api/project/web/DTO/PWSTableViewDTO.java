@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.web.DTO;
 
 import com.aiksanov.api.project.data.entity.*;
+import com.aiksanov.api.project.util.enums.ProjectTypes;
 
 import java.sql.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ public class PWSTableViewDTO{
     private String productLine;
     private String projectState;
     private String projectRigor;
-    private String projectType;
+    private ProjectTypes projectType;
     private Date orDate;
     private Date dr0date;
     private Date dr1date;
@@ -135,7 +136,7 @@ public class PWSTableViewDTO{
         return projectRigor;
     }
 
-    public String getProjectType() {
+    public ProjectTypes getProjectType() {
         return projectType;
     }
 

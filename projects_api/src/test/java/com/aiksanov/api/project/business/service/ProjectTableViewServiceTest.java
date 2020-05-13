@@ -3,6 +3,7 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
+import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.PWSTableViewDTO;
 import org.junit.Before;
 import org.junit.Test;
@@ -93,7 +94,7 @@ public class ProjectTableViewServiceTest {
         Project project = new Project();
         project.setUid("Dummy UID");
         project.setName("Name");
-        project.setType("Program");
+        project.setType(ProjectTypes.PRODUCT);
         project.setRigor("Rigor");
         project.setState("State");
         project.setManager("Manager");
