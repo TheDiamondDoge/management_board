@@ -7,6 +7,7 @@ import com.aiksanov.api.project.data.entity.WorkspaceInfo;
 import com.aiksanov.api.project.data.repository.ContributingProjectsRepository;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
+import com.aiksanov.api.project.util.enums.MilestoneLabels;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
@@ -154,10 +155,7 @@ public class ProjectGeneralService {
 
     public ProjectDefaultDataDTO getProjectDefaults(int projectId) {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
-        ProjectDefaultDataDTO dto = new ProjectDefaultDataDTO();
-        dto.setProjectId(project.getProjectID());
-        dto.setProjectName(project.getName());
-        dto.setProjectType(project.getType());
-        return dto;
+        Milestone dr1 = this.milestoneService.getProjectMilestoneById(projectId, MilestoneLabels.DR1.getLabel());
+        return new ProjectDefaultDataDTO(project, dr1);
     }
 }

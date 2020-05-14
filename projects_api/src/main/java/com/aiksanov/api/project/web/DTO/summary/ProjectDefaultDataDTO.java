@@ -1,8 +1,11 @@
 package com.aiksanov.api.project.web.DTO.summary;
 
+import com.aiksanov.api.project.data.entity.Milestone;
+import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class ProjectDefaultDataDTO {
@@ -10,20 +13,30 @@ public class ProjectDefaultDataDTO {
     private String projectName;
     private String projectType;
     private String workspaceStatus;
+    private Date dr1Actual;
     private boolean epm;
-    private boolean composite;
+    private boolean maintenance;
 
     public ProjectDefaultDataDTO() {
     }
 
-    public ProjectDefaultDataDTO(int projectId, String projectName, ProjectTypes projectType,
-                                 WorkspaceStatus workspaceStatus, boolean epm, boolean composite) {
-        this.projectId = projectId;
-        this.projectName = projectName;
-        this.setProjectType(projectType);
-        this.setWorkspaceStatus(workspaceStatus);
-        this.epm = epm;
-        this.composite = composite;
+    public ProjectDefaultDataDTO(Project project, Milestone dr1) {
+        this.projectId = project.getProjectID();
+        this.projectName = project.getName();
+        this.epm = project.isEpm();
+        this.setProjectType(project.getType());
+
+        if (Objects.nonNull(project.getWorkspaceInfo())) {
+            this.setWorkspaceStatus(project.getWorkspaceInfo().getStatus());
+        }
+
+        if (Objects.nonNull(dr1)) {
+            this.dr1Actual = dr1.getActualDate();
+        }
+
+        if (Objects.nonNull(project.getAdditionalInfo())) {
+            this.maintenance = project.getAdditionalInfo().isMaintenance();
+        }
     }
 
     public int getProjectId() {
@@ -42,8 +55,8 @@ public class ProjectDefaultDataDTO {
         this.projectName = projectName;
     }
 
-    public ProjectTypes getProjectType() {
-        return ProjectTypes.getTypeIgnoreCase(projectType);
+    public String getProjectType() {
+        return this.projectType;
     }
 
     public void setProjectType(ProjectTypes projectType) {
@@ -63,6 +76,14 @@ public class ProjectDefaultDataDTO {
         }
     }
 
+    public Date getDr1Actual() {
+        return dr1Actual;
+    }
+
+    public void setDr1Actual(Date dr1Actual) {
+        this.dr1Actual = dr1Actual;
+    }
+
     public boolean isEpm() {
         return epm;
     }
@@ -71,11 +92,11 @@ public class ProjectDefaultDataDTO {
         this.epm = epm;
     }
 
-    public boolean isComposite() {
-        return composite;
+    public boolean isMaintenance() {
+        return maintenance;
     }
 
-    public void setComposite(boolean composite) {
-        this.composite = composite;
+    public void setMaintenance(boolean maintenance) {
+        this.maintenance = maintenance;
     }
 }
