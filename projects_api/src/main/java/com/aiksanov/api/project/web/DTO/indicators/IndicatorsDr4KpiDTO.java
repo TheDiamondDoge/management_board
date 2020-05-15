@@ -26,7 +26,7 @@ public class IndicatorsDr4KpiDTO {
     }
 
     public void setScheduleAdherence(Float scheduleAdherence) {
-        this.scheduleAdherence = nanToNull(scheduleAdherence);
+        this.scheduleAdherence = handleFloats(scheduleAdherence);
     }
 
     public Float getContentAdherence() {
@@ -34,7 +34,7 @@ public class IndicatorsDr4KpiDTO {
     }
 
     public void setContentAdherence(Float contentAdherence) {
-        this.contentAdherence = nanToNull(contentAdherence);
+        this.contentAdherence = handleFloats(contentAdherence);
     }
 
     public Float getRqsChange() {
@@ -42,7 +42,7 @@ public class IndicatorsDr4KpiDTO {
     }
 
     public void setRqsChange(Float rqsChange) {
-        this.rqsChange = nanToNull(rqsChange);
+        this.rqsChange = handleFloats(rqsChange);
     }
 
     public Float getCostAdherence() {
@@ -50,7 +50,15 @@ public class IndicatorsDr4KpiDTO {
     }
 
     public void setCostAdherence(Float costAdherence) {
-        this.costAdherence = nanToNull(costAdherence);
+        this.costAdherence = handleFloats(costAdherence);
+    }
+
+    private Float handleFloats(Float value) {
+        if (value.isInfinite() || value == 0) {
+            return null;
+        }
+
+        return nanToNull(value);
     }
 
     private Float nanToNull(Float f) {

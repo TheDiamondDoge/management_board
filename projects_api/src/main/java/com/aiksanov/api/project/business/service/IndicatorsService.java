@@ -111,9 +111,9 @@ public class IndicatorsService {
     }
 
     public IndicatorsDr4KpiDTO getDr4Kpi(int projectID) {
-        Milestone dr1 = this.milestoneRepository.findById(new MilestonePK(1, MilestoneLabels.DR1.getLabel()))
+        Milestone dr1 = this.milestoneRepository.findById(new MilestonePK(projectID, MilestoneLabels.DR1.getLabel()))
                 .orElse(new Milestone());
-        Milestone dr4 = this.milestoneRepository.findById(new MilestonePK(1, MilestoneLabels.DR4.getLabel()))
+        Milestone dr4 = this.milestoneRepository.findById(new MilestonePK(projectID, MilestoneLabels.DR4.getLabel()))
                 .orElse(new Milestone());
 
         IndicatorsDr4KpiDTO dto = new IndicatorsDr4KpiDTO();
@@ -126,7 +126,7 @@ public class IndicatorsService {
 
             dto.setScheduleAdherence(getScheduleAdherence(dr4ActualDate, dr1ActualDate, dr4BaselineDate));
         } catch (NullPointerException e) {
-            dto.setScheduleAdherence(null);
+            dto.setScheduleAdherence(Float.NaN);
         }
         dto.setContentAdherence(getContentAdherence(projectID));
         dto.setRqsChange(getRqsChange(projectID));
