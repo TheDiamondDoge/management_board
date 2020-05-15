@@ -6,7 +6,18 @@ public enum ProjectTypes {
     OFFER("Offer"),
     PRODUCT("Product"),
     OEM_PRODUCT("OEM Product"),
-    RD_PRODUCT("R&D Product");
+    OFFER_PRODUCT("Offer & Product"),
+
+    //Deprecated, just to keep app work with old projects
+    OLD_SUPPORT("Support Program"),
+    OLD_RD_PRODUCT("R&D Product"),
+    OLD_RD_COMPOSITE("R&D Composite"),
+    OLD_RD("R&D"),
+    OLD_MINOR_PROGRAM("Minor Program"),
+    OLD_MAJOR_PROGRAM("Major Program"),
+    OLD_MINOR("Minor"),
+    OLD_MAINTENANCE("Maintenance"),
+    OLD_COMPOSITE("Composite");
     private final String value;
 
     ProjectTypes(String value) {

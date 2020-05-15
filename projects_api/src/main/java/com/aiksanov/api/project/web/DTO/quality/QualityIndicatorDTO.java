@@ -41,4 +41,8 @@ public class QualityIndicatorDTO {
     public String getComment() {
         return comment;
     }
+
+    public void setActual(String actual) {
+        this.actual = actual;
+    }
 }

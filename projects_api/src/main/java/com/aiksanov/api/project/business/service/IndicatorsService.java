@@ -11,6 +11,7 @@ import com.aiksanov.api.project.util.enums.cost.CostStates;
 import com.aiksanov.api.project.web.DTO.indicators.IndicatorsDr4KpiDTO;
 import com.aiksanov.api.project.web.DTO.indicators.IndicatorsReqDTO;
 import com.aiksanov.api.project.web.DTO.indicators.MilestoneIndKpiDTO;
+import com.aiksanov.api.project.web.DTO.kpi.QualityIndicatorsAmountDTO;
 import com.aiksanov.api.project.web.DTO.quality.QualityIndicatorDTO;
 import com.aiksanov.api.project.web.DTO.quality.QualityIndicatorsTableDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class IndicatorsService {
     private MilestoneService milestoneService;
     private CostService costService;
+    private KpiService kpiService;
     private IndicatorsReqsRepository indicatorsReqsRepository;
     private QualityIndicatorsRepository qualityRepository;
     private QualityIndicatorsCommentsRepository commentsRepository;
@@ -37,16 +39,14 @@ public class IndicatorsService {
     }
 
     @Autowired
-    public IndicatorsService(MilestoneService milestoneService,
-                             CostService costService,
-                             IndicatorsReqsRepository indicatorsReqsRepository,
-                             QualityIndicatorsRepository qualityRepository,
-                             QualityIndicatorsCommentsRepository commentsRepository,
-                             MilestoneRepository milestoneRepository,
-                             ServiceUtils utils
-    ) {
+    public IndicatorsService(MilestoneService milestoneService, CostService costService, KpiService kpiService,
+                             IndicatorsReqsRepository indicatorsReqsRepository, QualityIndicatorsRepository qualityRepository,
+                             QualityIndicatorsCommentsRepository commentsRepository, MilestoneRepository milestoneRepository,
+                             ServiceUtils utils)
+    {
         this.milestoneService = milestoneService;
         this.costService = costService;
+        this.kpiService = kpiService;
         this.indicatorsReqsRepository = indicatorsReqsRepository;
         this.qualityRepository = qualityRepository;
         this.commentsRepository = commentsRepository;
@@ -167,14 +167,25 @@ public class IndicatorsService {
     }
 
     public QualityIndicatorsTableDTO getQuality(int projectID) {
+        QualityIndicatorsAmountDTO qualityIndicatorsAmountDTO = this.kpiService.getQualityIndicatorsValues(projectID);
         return new QualityIndicatorsTableDTO(
-                getQualityRow(projectID, QualityRowNames.QUALITY),
-                getQualityRow(projectID, QualityRowNames.DEFECTS),
-                getQualityRow(projectID, QualityRowNames.BACKLOG),
+                getIndicatorWithKpi(projectID, QualityRowNames.QUALITY, qualityIndicatorsAmountDTO.getQuality()),
+                getIndicatorWithKpi(projectID, QualityRowNames.DEFECTS, qualityIndicatorsAmountDTO.getDefects()),
+                getIndicatorWithKpi(projectID, QualityRowNames.BACKLOG, qualityIndicatorsAmountDTO.getBacklog()),
                 getQualityRow(projectID, QualityRowNames.EXECUTION),
                 getQualityRow(projectID, QualityRowNames.RATE),
                 "2000-12-12"
         );
+    }
+
+    private List<QualityIndicatorDTO> getIndicatorWithKpi(int projectID, QualityRowNames name, int value) {
+        List<QualityIndicatorDTO> list = getQualityRow(projectID, name);
+        if (Objects.nonNull(list) && list.size() > 0) {
+            QualityIndicatorDTO indicator = list.get(0);
+            indicator.setActual(String.valueOf(value));
+        }
+
+        return list;
     }
 
     public Iterable<QualityIndicatorsComments> getAll() {
