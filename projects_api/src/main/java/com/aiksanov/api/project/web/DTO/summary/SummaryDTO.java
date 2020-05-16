@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class SummaryDTO {
-    private String projectName;
+    private String productName;
     private String projectDescription;
     private String projectManager;
     private String businessLineManager;
@@ -62,7 +62,6 @@ public class SummaryDTO {
     }
 
     private void projectInfoMapping(Project projectInfo) {
-        this.projectName = projectInfo.getName();
         this.projectManager = projectInfo.getManager();
         this.projectState = projectInfo.getState();
         this.projectRigor = projectInfo.getRigor();
@@ -88,6 +87,7 @@ public class SummaryDTO {
     }
 
     private void productMapping(Product product) {
+        this.productName = product.getName();
         this.productLineManager = product.getManager();
         this.businessDivision = product.getDivision();
         this.businessUnit = product.getBusinessUnit();
@@ -127,8 +127,8 @@ public class SummaryDTO {
         this.details = report.getDetails();
     }
 
-    public String getProjectName() {
-        return projectName;
+    public String getProductName() {
+        return productName;
     }
 
     public String getProjectDescription() {

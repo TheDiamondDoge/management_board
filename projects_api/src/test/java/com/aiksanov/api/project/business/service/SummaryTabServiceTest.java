@@ -48,7 +48,7 @@ public class SummaryTabServiceTest {
 
         SummaryDTO summaryDTO = this.summaryTabService.getSummaryDTO(0);
 
-        assertEquals(summaryDTO.getProjectName(), dummyProject.getName());
+        assertEquals(summaryDTO.getProductName(), dummyProject.getName());
         assertEquals(summaryDTO.getProjectDescription(), dummyProject.getAdditionalInfo().getDescription());
         assertEquals(summaryDTO.getProjectManager(), dummyProject.getManager());
         assertEquals(summaryDTO.getBusinessLineManager(), dummyProject.getAdditionalInfo().getBusinessLineManager());
