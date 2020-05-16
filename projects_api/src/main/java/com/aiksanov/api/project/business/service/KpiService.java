@@ -12,7 +12,13 @@ public class KpiService {
 
     public QualityIndicatorsAmountDTO getQualityIndicatorsValues(int projectId) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(VALUES_URL + "/" + projectId, QualityIndicatorsAmountDTO.class);
+        QualityIndicatorsAmountDTO dto;
+        try {
+            dto = restTemplate.getForObject(VALUES_URL + "/" + projectId, QualityIndicatorsAmountDTO.class);
+        } catch (Exception e) {
+            dto = new QualityIndicatorsAmountDTO();
+        }
+        return dto;
     }
 
     public QualityIndicatorsDTO getQualityIndicatorsIssues(int projectId) {

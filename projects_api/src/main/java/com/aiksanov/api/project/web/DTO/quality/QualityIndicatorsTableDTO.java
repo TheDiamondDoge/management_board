@@ -1,5 +1,6 @@
 package com.aiksanov.api.project.web.DTO.quality;
 
+import java.util.Date;
 import java.util.List;
 
 public class QualityIndicatorsTableDTO {
@@ -8,24 +9,27 @@ public class QualityIndicatorsTableDTO {
     private List<QualityIndicatorDTO> backlog;
     private List<QualityIndicatorDTO> testExecution;
     private List<QualityIndicatorDTO> testRate;
-    private String syncDate;
+    private Date syncDate;
+    private boolean updateInProcess;
 
     public QualityIndicatorsTableDTO() {
     }
-
 
     public QualityIndicatorsTableDTO(List<QualityIndicatorDTO> quality,
                                      List<QualityIndicatorDTO> defects,
                                      List<QualityIndicatorDTO> backlog,
                                      List<QualityIndicatorDTO> testExecution,
                                      List<QualityIndicatorDTO> testRate,
-                                     String syncDate) {
+                                     Date syncDate,
+                                     boolean updateInProcess
+    ) {
         this.quality = quality;
         this.defects = defects;
         this.backlog = backlog;
         this.testExecution = testExecution;
         this.testRate = testRate;
         this.syncDate = syncDate;
+        this.updateInProcess = updateInProcess;
     }
 
     public List<QualityIndicatorDTO> getQuality() {
@@ -68,11 +72,19 @@ public class QualityIndicatorsTableDTO {
         this.testRate = testRate;
     }
 
-    public String getSyncDate() {
+    public Date getSyncDate() {
         return syncDate;
     }
 
-    public void setSyncDate(String syncDate) {
+    public void setSyncDate(Date syncDate) {
         this.syncDate = syncDate;
+    }
+
+    public boolean isUpdateInProcess() {
+        return updateInProcess;
+    }
+
+    public void setUpdateInProcess(boolean updateInProcess) {
+        this.updateInProcess = updateInProcess;
     }
 }

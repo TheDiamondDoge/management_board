@@ -174,7 +174,8 @@ public class IndicatorsService {
                 getIndicatorWithKpi(projectID, QualityRowNames.BACKLOG, qualityIndicatorsAmountDTO.getBacklog()),
                 getQualityRow(projectID, QualityRowNames.EXECUTION),
                 getQualityRow(projectID, QualityRowNames.RATE),
-                "2000-12-12"
+                qualityIndicatorsAmountDTO.getUpdatedOn(),
+                qualityIndicatorsAmountDTO.isUpdateInProcess()
         );
     }
 
