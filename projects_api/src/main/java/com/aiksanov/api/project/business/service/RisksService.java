@@ -1,12 +1,15 @@
 package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.Risk;
+import com.aiksanov.api.project.data.entity.RisksTableInfo;
 import com.aiksanov.api.project.data.repository.RisksRepository;
+import com.aiksanov.api.project.data.repository.RisksTableInfoRepo;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
 import com.aiksanov.api.project.web.DTO.risks.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -20,7 +23,6 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -38,15 +40,18 @@ public class RisksService {
     private String RISKS_SUFFIX = "_risks.xlsx";
 
     private RisksRepository risksRepository;
+    private RisksTableInfoRepo risksTableInfoRepo;
     private ServiceUtils serviceUtils;
 
-    public RisksService(RisksRepository risksRepository, ServiceUtils serviceUtils) {
+    @Autowired
+    public RisksService(RisksRepository risksRepository, RisksTableInfoRepo risksTableInfoRepo, ServiceUtils serviceUtils) {
         this.risksRepository = risksRepository;
+        this.risksTableInfoRepo = risksTableInfoRepo;
         this.serviceUtils = serviceUtils;
     }
 
-    public Set<Risk> getRisksByIds(List<String> risksIds) {
-        return this.risksRepository.findByRiskDisplayIdIn(risksIds);
+    public Set<Risk> getRisksByIds(List<String> risksIds, int projectId) {
+        return this.risksRepository.findByRiskDisplayIdInAndProjectId(risksIds, projectId);
     }
 
     public List<RisksDTO> getProjectRisks(int projectId) {
@@ -59,7 +64,8 @@ public class RisksService {
     public RisksTabDTO getRisksTab(int projectId) {
         List<RisksDTO> risks = this.getProjectRisks(projectId);
         boolean isRisksFileExists = this.isRisksFileExists(projectId);
-        return new RisksTabDTO(risks, isRisksFileExists);
+        RisksTableInfo risksTableInfo = this.risksTableInfoRepo.findById(projectId).orElseGet(RisksTableInfo::new);
+        return new RisksTabDTO(risks, isRisksFileExists, risksTableInfo.getUploadedOn());
     }
 
     public List<String> getListOfProjectsRisks(int projectId) {

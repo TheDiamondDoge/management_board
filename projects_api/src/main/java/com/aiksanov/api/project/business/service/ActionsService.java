@@ -99,7 +99,8 @@ public class ActionsService {
     }
 
     private void saveRelatedRisks(List<String> riskIds, Actions action) {
-        Set<Risk> risks = this.risksService.getRisksByIds(riskIds);
+        int projectId = action.getProjectId();
+        Set<Risk> risks = this.risksService.getRisksByIds(riskIds, projectId);
         action.setRelatedRisks(risks);
         this.actionsRepository.save(action);
     }

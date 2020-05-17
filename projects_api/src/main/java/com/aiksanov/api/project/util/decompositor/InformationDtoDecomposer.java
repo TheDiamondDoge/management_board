@@ -4,6 +4,7 @@ import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.entity.pk.ContributingProjectsPK;
 import com.aiksanov.api.project.data.entity.pk.FieldCommentsPK;
 import com.aiksanov.api.project.util.enums.CommentsFieldNames;
+import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.information.EcmaBacklogTargetDTO;
 import com.aiksanov.api.project.web.DTO.information.InformationDTO;
@@ -28,7 +29,7 @@ public class InformationDtoDecomposer {
     public Project getProject() {
         Project prj = new Project();
         prj.setProjectID(this.projectId);
-        prj.setType(this.dto.getProjectType());
+        prj.setType(ProjectTypes.getTypeIgnoreCase(this.dto.getProjectType()));
         prj.setRigor(this.dto.getProjectRigor());
         prj.setState(this.dto.getProjectState());
         prj.setManager(this.dto.getProjectManager());

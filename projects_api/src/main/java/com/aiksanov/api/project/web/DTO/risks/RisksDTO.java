@@ -26,6 +26,8 @@ public class RisksDTO {
     private Date target;
     private Date done;
     private Date result;
+    private java.util.Date updatedOn;
+    private String updatedBy;
     private boolean report;
 
     public RisksDTO() {
@@ -57,6 +59,8 @@ public class RisksDTO {
         this.target = risk.getTarget();
         this.done = risk.getDone();
         this.result = risk.getResult();
+        this.updatedOn = risk.getUpdatedOn();
+        this.updatedBy = risk.getUpdatedBy();
         this.report = risk.isReport();
     }
 
@@ -65,7 +69,6 @@ public class RisksDTO {
         risk.setRiskDisplayId(this.riskDisplayId);
         risk.setRiskId(this.riskId);
         risk.setImpact(this.impact);
-//        risk.setProbability(this.getNullIfZero(this.probability));
         risk.setProbability(this.probability);
         risk.setRating(this.getNullIfZero(this.rating));
         risk.setPrevious(this.previous);
@@ -82,6 +85,9 @@ public class RisksDTO {
         risk.setTarget(this.target);
         risk.setDone(this.done);
         risk.setResult(this.result);
+        risk.setUpdatedOn(new java.util.Date());
+        //TODO Add csl from session or whatever
+        risk.setUpdatedBy("aiksanov");
         risk.setReport(this.report);
 
         return risk;
@@ -249,6 +255,22 @@ public class RisksDTO {
 
     public void setResult(Date result) {
         this.result = result;
+    }
+
+    public java.util.Date getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(java.util.Date updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public boolean isReport() {

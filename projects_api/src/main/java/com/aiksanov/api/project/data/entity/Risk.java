@@ -71,6 +71,12 @@ public class Risk {
     @Column(name = "result")
     private Date result;
 
+    @Column
+    private java.util.Date updatedOn;
+
+    @Column
+    private String updatedBy;
+
     @Column(name = "report")
     private boolean report;
 
@@ -235,6 +241,22 @@ public class Risk {
 
     public void setResult(Date result) {
         this.result = result;
+    }
+
+    public java.util.Date getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(java.util.Date updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public boolean isReport() {

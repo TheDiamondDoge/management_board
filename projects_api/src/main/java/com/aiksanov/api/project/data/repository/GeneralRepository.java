@@ -11,7 +11,8 @@ import java.util.List;
 @Repository
 public interface GeneralRepository extends JpaRepository<Project, Integer> {
     String findByEpmAndStatusQuery = "SELECT * FROM PRJ_WORKSPACE_GENERAL a, prj_workspace_info b " +
-            "WHERE a.project_id = b.project_id AND UPPER(b.workspace_status) = ?2 AND a.EPM_project = ?1";
+            "WHERE a.project_id = b.project_id AND UPPER(b.workspace_status) = ?2 AND a.EPM_project = ?1 " +
+            "ORDER BY a.project_name ASC";
 
     String findByStatusQuery = "SELECT * FROM PRJ_WORKSPACE_GENERAL a, prj_workspace_info b " +
                         "WHERE a.project_id = b.project_id AND UPPER(b.workspace_status) = ?1";

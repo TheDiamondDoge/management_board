@@ -183,8 +183,8 @@ public class InformationDTO {
         return productRelease;
     }
 
-    public ProjectTypes getProjectType() {
-        return projectType;
+    public String getProjectType() {
+        return this.projectType.getValue();
     }
 
     public String getProjectRigor() {
