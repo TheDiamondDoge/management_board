@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class MilestoneService {
     private final MilestoneRepository milestoneRepo;
     private final String[] mandatoryMilestones = {"OR", "DR0", "DR1", "DR2", "DR3", "TR", "DR4", "DR5", "OBR", "CI"};
+    private final List<String> alwaysShown = Arrays.asList("DR1", "DR4");
 
     @Autowired
     public MilestoneService(MilestoneRepository milestoneRepo) {
@@ -24,6 +25,12 @@ public class MilestoneService {
     public List<MilestoneDTO> getMilestoneDTOsForInfoTab(Integer projectID) {
         List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDOrderByActualDateAsc(projectID);
         List<Milestone> orderedMilestones = this.getOrderedByMandatory(milestones);
+        orderedMilestones.forEach(milestone -> {
+            String label = milestone.getMilestonePK().getLabel();
+            if (alwaysShown.contains(label)) {
+                milestone.setShown(true);
+            }
+        });
         return mapMilestonesToDTO(orderedMilestones);
     }
 
