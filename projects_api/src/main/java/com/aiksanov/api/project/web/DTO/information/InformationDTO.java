@@ -2,6 +2,8 @@ package com.aiksanov.api.project.web.DTO.information;
 
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.util.enums.CommentsFieldNames;
+import com.aiksanov.api.project.util.enums.ProjectRigors;
+import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 
@@ -13,9 +15,9 @@ public class InformationDTO {
     private String oemPartner;
     private String keyCustomers;
     private String productRelease;
-    private ProjectTypes projectType;
+    private String projectType;
     private String projectRigor;
-    private String projectState;
+    private ProjectStates projectState;
     private String businessDivision;
     private String businessUnit;
     private String productLine;
@@ -36,7 +38,7 @@ public class InformationDTO {
     private List<EcmaBacklogTargetDTO> ecmaBacklogTarget;
     private boolean composite;
     private boolean maintenance;
-    private List<ContributingDTO> contributingProjects;
+    private final List<ContributingDTO> contributingProjects;
     private String projectCollabUrl;
     private String salesForce;
     private String projectPWASiteUrl;
@@ -73,9 +75,9 @@ public class InformationDTO {
 
     private void projectInfoMapping(Project projectInfo) {
         this.projectManager = projectInfo.getManager();
-        this.projectRigor = projectInfo.getRigor();
+        this.projectRigor = projectInfo.getRigor().getLabel();
         this.projectState = projectInfo.getState();
-        this.projectType = projectInfo.getType();
+        this.projectType = projectInfo.getType().getValue();
         this.epm = projectInfo.isEpm();
 
         Product product = projectInfo.getProduct();
@@ -184,14 +186,14 @@ public class InformationDTO {
     }
 
     public String getProjectType() {
-        return this.projectType.getValue();
+        return this.projectType;
     }
 
     public String getProjectRigor() {
         return projectRigor;
     }
 
-    public String getProjectState() {
+    public ProjectStates getProjectState() {
         return projectState;
     }
 

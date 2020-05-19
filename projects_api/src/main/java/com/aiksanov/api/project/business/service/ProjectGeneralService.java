@@ -8,6 +8,7 @@ import com.aiksanov.api.project.data.repository.ContributingProjectsRepository;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.util.enums.MilestoneLabels;
+import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
@@ -45,7 +46,7 @@ public class ProjectGeneralService {
     }
 
     public List<ContributingDTO> getContributableProjects(int projectId) {
-        List<Project> projects = this.generalRepository.findAllByEpmAndStatus(false, WorkspaceStatus.ENABLED.getValue());
+        List<Project> projects = this.generalRepository.findAllByEpmAndStatus(false, WorkspaceStatus.ENABLED);
         return projects.stream()
                 .filter((prj) -> (prj.getProjectID() != projectId && prj.getType() == ProjectTypes.PRODUCT))
                 .map((prj) -> (new ContributingDTO(prj.getProjectID(), prj.getName())))
@@ -130,7 +131,7 @@ public class ProjectGeneralService {
     private ContributingProjectDTO getContribProjectDto(int projectId) {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         String projectName = project.getName();
-        String projectState = project.getState();
+        ProjectStates projectState = project.getState();
         ProjectTypes projectType = project.getType();
         List<Milestone> milestones = this.milestoneService.getMilestonesByProjectID(projectId);
         List<Milestone> onlyWithActualDate = milestones.stream()

@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.web.DTO.summary;
 
 import com.aiksanov.api.project.data.entity.*;
+import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 
 import java.util.Date;
@@ -12,7 +13,7 @@ public class SummaryDTO {
     private String projectManager;
     private String businessLineManager;
     private String productLineManager;
-    private String projectState;
+    private ProjectStates projectState;
     private String projectRigor;
     private String charter;
     private String orBusinessPlan;
@@ -64,7 +65,7 @@ public class SummaryDTO {
     private void projectInfoMapping(Project projectInfo) {
         this.projectManager = projectInfo.getManager();
         this.projectState = projectInfo.getState();
-        this.projectRigor = projectInfo.getRigor();
+        this.projectRigor = projectInfo.getRigor().getLabel();
         if (Objects.nonNull(projectInfo.getType())) {
             this.projectType = projectInfo.getType().getValue();
         }
@@ -147,7 +148,7 @@ public class SummaryDTO {
         return productLineManager;
     }
 
-    public String getProjectState() {
+    public ProjectStates getProjectState() {
         return projectState;
     }
 
@@ -191,7 +192,7 @@ public class SummaryDTO {
         return productLine;
     }
 
-    public WorkspaceStatus getWorkspaceState() {
+    public WorkspaceStatus  getWorkspaceState() {
         return workspaceState;
     }
 

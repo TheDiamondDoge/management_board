@@ -1,5 +1,6 @@
 package com.aiksanov.api.project.web.DTO.contrib;
 
+import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 
@@ -8,19 +9,19 @@ import java.util.List;
 public class ContributingProjectDTO {
     private int projectId;
     private String projectName;
-    private String projectState;
-    private ProjectTypes projectType;
+    private ProjectStates projectState;
+    private String projectType;
     private MilestoneDTO lastApproved;
     private List<MilestoneDTO> milestones;
 
     public ContributingProjectDTO() {
     }
 
-    public ContributingProjectDTO(int projectId, String projectName, String projectState, ProjectTypes projectType, MilestoneDTO lastApproved, List<MilestoneDTO> milestones) {
+    public ContributingProjectDTO(int projectId, String projectName, ProjectStates projectState, ProjectTypes projectType, MilestoneDTO lastApproved, List<MilestoneDTO> milestones) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectState = projectState;
-        this.projectType = projectType;
+        this.projectType = projectType.getValue();
         this.lastApproved = lastApproved;
         this.milestones = milestones;
     }
@@ -33,11 +34,11 @@ public class ContributingProjectDTO {
         this.projectId = projectId;
     }
 
-    public ProjectTypes getProjectType() {
+    public String getProjectType() {
         return projectType;
     }
 
-    public void setProjectType(ProjectTypes projectType) {
+    public void setProjectType(String projectType) {
         this.projectType = projectType;
     }
 
@@ -49,11 +50,11 @@ public class ContributingProjectDTO {
         this.projectName = projectName;
     }
 
-    public String getProjectState() {
+    public ProjectStates getProjectState() {
         return projectState;
     }
 
-    public void setProjectState(String projectState) {
+    public void setProjectState(ProjectStates projectState) {
         this.projectState = projectState;
     }
 

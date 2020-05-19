@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.data.repository;
 
 import com.aiksanov.api.project.data.entity.Project;
+import com.aiksanov.api.project.util.enums.ProjectStatus;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,10 +22,10 @@ public interface GeneralRepository extends JpaRepository<Project, Integer> {
                         "WHERE b.project_id = ?1 AND a.project_id = b.contrib_id";
 
     @Query(value = findByEpmAndStatusQuery, nativeQuery = true)
-    List<Project> findAllByEpmAndStatus(Boolean isEpm, String status);
+    List<Project> findAllByEpmAndStatus(Boolean isEpm, WorkspaceStatus status);
 
     @Query(value = findByStatusQuery, nativeQuery = true)
-    List<Project> findAllByStatus(String status);
+    List<Project> findAllByStatus(WorkspaceStatus status);
 
     @Query(value = findContribProjectsQuery, nativeQuery = true)
     List<Project> findAllContribProjectsByProjectID(int projectID);

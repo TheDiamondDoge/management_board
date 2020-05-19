@@ -5,7 +5,6 @@ import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import javax.persistence.*;
 import java.util.Date;
 
-//TODO: Workspace template??
 @Entity
 @Table(name = "prj_workspace_info")
 public class WorkspaceInfo {

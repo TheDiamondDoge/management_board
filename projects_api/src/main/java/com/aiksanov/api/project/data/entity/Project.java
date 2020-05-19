@@ -1,6 +1,8 @@
 package com.aiksanov.api.project.data.entity;
 
-import com.aiksanov.api.project.util.converters.ProjectTypeConverter;
+import com.aiksanov.api.project.util.enums.ProjectRigors;
+import com.aiksanov.api.project.util.enums.ProjectStates;
+import com.aiksanov.api.project.util.enums.ProjectTemplates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 import org.hibernate.annotations.Cascade;
 
@@ -22,14 +24,15 @@ public class Project {
     private String name;
 
     @Column(name = "project_type")
-    @Convert(converter = ProjectTypeConverter.class)
+//    @Convert(converter = ProjectTypeConverter.class)
     private ProjectTypes type;
 
     @Column(name = "project_rigor")
-    private String rigor;
+    private ProjectRigors rigor;
 
     @Column(name = "project_state")
-    private String state;
+    @Enumerated(EnumType.STRING)
+    private ProjectStates state;
 
     @Column(name = "project_manager")
     private String manager;
@@ -38,7 +41,7 @@ public class Project {
     private boolean epm;
 
     @Column(name = "project_template")
-    private String template;
+    private ProjectTemplates template;
 
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @OneToOne
@@ -61,22 +64,6 @@ public class Project {
 
     public Project(int projectID) {
         this.projectID = projectID;
-    }
-
-    public Project(String name, ProjectTypes type, String rigor, String state, String manager,
-                   boolean epm, String template, Product product, WorkspaceInfo workspaceInfo,
-                   ProjectAdditionalInfo additionalInfo)
-    {
-        this.name = name;
-        this.type = type;
-        this.rigor = rigor;
-        this.state = state;
-        this.manager = manager;
-        this.epm = epm;
-        this.template = template;
-        this.product = product;
-        this.workspaceInfo = workspaceInfo;
-        this.additionalInfo = additionalInfo;
     }
 
     public int getProjectID() {
@@ -111,19 +98,19 @@ public class Project {
         this.type = type;
     }
 
-    public String getRigor() {
+    public ProjectRigors getRigor() {
         return rigor;
     }
 
-    public void setRigor(String rigor) {
+    public void setRigor(ProjectRigors rigor) {
         this.rigor = rigor;
     }
 
-    public String getState() {
+    public ProjectStates getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(ProjectStates state) {
         this.state = state;
     }
 
@@ -143,11 +130,11 @@ public class Project {
         this.epm = epm;
     }
 
-    public String getTemplate() {
+    public ProjectTemplates getTemplate() {
         return template;
     }
 
-    public void setTemplate(String template) {
+    public void setTemplate(ProjectTemplates template) {
         this.template = template;
     }
 

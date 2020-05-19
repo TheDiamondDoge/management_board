@@ -12,7 +12,7 @@ public class ProjectDefaultDataDTO {
     private int projectId;
     private String projectName;
     private String projectType;
-    private String workspaceStatus;
+    private WorkspaceStatus workspaceStatus;
     private Date dr1Actual;
     private boolean epm;
     private boolean maintenance;
@@ -66,13 +66,13 @@ public class ProjectDefaultDataDTO {
         this.projectType = projectType.getValue();
     }
 
-    public String getWorkspaceStatus() {
+    public WorkspaceStatus getWorkspaceStatus() {
         return workspaceStatus;
     }
 
     public void setWorkspaceStatus(WorkspaceStatus workspaceStatus) {
         if (Objects.nonNull(workspaceStatus)) {
-            this.workspaceStatus = workspaceStatus.getValue();
+            this.workspaceStatus = workspaceStatus;
         }
     }
 

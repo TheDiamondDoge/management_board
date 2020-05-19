@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.web.DTO;
 
 import com.aiksanov.api.project.data.entity.*;
+import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 
 import java.sql.Date;
@@ -18,7 +19,7 @@ public class PWSTableViewDTO{
     private String businessDivision;
     private String businessUnit;
     private String productLine;
-    private String projectState;
+    private ProjectStates projectState;
     private String projectRigor;
     private ProjectTypes projectType;
     private Date orDate;
@@ -46,7 +47,7 @@ public class PWSTableViewDTO{
         this.projectName = projectInfo.getName();
         this.projectManager = projectInfo.getManager();
         this.projectState = projectInfo.getState();
-        this.projectRigor = projectInfo.getRigor();
+        this.projectRigor = projectInfo.getRigor().getLabel();
         this.projectType = projectInfo.getType();
 
         Product product = projectInfo.getProduct();
@@ -128,7 +129,7 @@ public class PWSTableViewDTO{
         return productLine;
     }
 
-    public String getProjectState() {
+    public ProjectStates getProjectState() {
         return projectState;
     }
 

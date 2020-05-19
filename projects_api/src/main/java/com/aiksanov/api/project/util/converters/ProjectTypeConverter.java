@@ -20,7 +20,7 @@ public class ProjectTypeConverter implements AttributeConverter<ProjectTypes, St
         if (Objects.isNull(s)) return null;
 
         return Stream.of(ProjectTypes.values())
-                .filter(type -> type.getValue().equals(s))
+                .filter(type -> type.getValue().equalsIgnoreCase(s))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(s));
     }

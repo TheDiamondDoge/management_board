@@ -3,6 +3,7 @@ package com.aiksanov.api.project.web.controller;
 import com.aiksanov.api.project.business.service.ProjectGeneralService;
 import com.aiksanov.api.project.business.service.ProjectTableViewService;
 import com.aiksanov.api.project.data.entity.Project;
+import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.PWSTableViewDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,7 +55,7 @@ public class ProjectsControllerTest {
     public void getAllProjectsInfo() throws Exception {
         List<Project> dummyProjectsWithoutEPM = generateProjectsWithEpm(false);
 
-        when(this.projectTableViewService.getProjectsData(false, "enabled")).thenReturn(dummyProjectsWithoutEPM);
+        when(this.projectTableViewService.getProjectsData(false, WorkspaceStatus.ENABLED)).thenReturn(dummyProjectsWithoutEPM);
         this.mockMvc.perform(get("/api/projects")
                 .param("isEPM", "0")
                 .param("status", "enabled")
@@ -65,7 +66,7 @@ public class ProjectsControllerTest {
                 .andExpect(content().string(containsString("\"epm\":false")));
 
         List<Project> dummyProjectsWithEPM = generateProjectsWithEpm(true);
-        when(this.projectTableViewService.getProjectsData(true, "enabled")).thenReturn(dummyProjectsWithEPM);
+        when(this.projectTableViewService.getProjectsData(true, WorkspaceStatus.ENABLED)).thenReturn(dummyProjectsWithEPM);
 
         this.mockMvc.perform(get("/api/projects")
                 .param("isEPM", "1")
@@ -102,7 +103,7 @@ public class ProjectsControllerTest {
         List<PWSTableViewDTO> dtoList = new ArrayList<>();
         dtoList.add(dummyDto);
 
-        when(this.projectTableViewService.getProjectsListView(true, "enabled")).thenReturn(dtoList);
+        when(this.projectTableViewService.getProjectsListView(true, WorkspaceStatus.ENABLED)).thenReturn(dtoList);
 
         this.mockMvc.perform(get("/api/projects/tableview")
                 .param("isEPM", "1")

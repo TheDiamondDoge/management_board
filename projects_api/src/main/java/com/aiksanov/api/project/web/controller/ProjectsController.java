@@ -35,14 +35,14 @@ public class ProjectsController {
 
     @GetMapping()
     public Iterable<Project> getAllProjectsInfo(@RequestParam(required = false) Boolean isEPM,
-                                                @RequestParam(required = false) String status) {
+                                                @RequestParam(required = false) WorkspaceStatus status) {
         LOGGER.info("GET /api/projects?isEPM={}&status={}", isEPM, status);
         return this.service.getProjectsData(isEPM, status);
     }
 
     @GetMapping("/tableview")
     public List<PWSTableViewDTO> getProjectsTableView(@RequestParam(required = false) Boolean isEPM,
-                                                      @RequestParam(required = false) String status) {
+                                                      @RequestParam(required = false) WorkspaceStatus status) {
         LOGGER.info("GET /api/projects/tableview?isEPM={}&status={}", isEPM, status);
         return this.service.getProjectsListView(isEPM, status);
     }
