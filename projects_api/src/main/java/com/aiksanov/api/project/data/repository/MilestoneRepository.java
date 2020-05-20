@@ -19,11 +19,17 @@ public interface MilestoneRepository extends CrudRepository<Milestone, Milestone
             "SELECT * FROM prj_milestones " +
                     "WHERE project_id IN (?1) AND actual_date IS NOT NULL ORDER BY actual_date ASC LIMIT 1";
 
+    String keyDrQuery = "SELECT * FROM prj_milestones " +
+            "WHERE project_id = ?1 AND label IN ('DR0', 'DR1', 'DR4', 'DR5') ORDER BY label DESC";
+
     @Query(value = maxMilestoneActualDate, nativeQuery = true)
     Optional<Milestone> highestActualDate(List<Integer> ids);
 
     @Query(value = minMilestoneActualDate, nativeQuery = true)
     Optional<Milestone> lowestActualDate(List<Integer> ids);
+
+    @Query(value = keyDrQuery, nativeQuery = true)
+    List<Milestone> findSortedKeyDrMilestonesByProjectId(int projectId);
 
     List<Milestone> findAllByMilestonePK_ProjectIDOrderByActualDateAsc(Integer projectId);
     List<Milestone> findAllByMilestonePK_ProjectIDAndShown(Integer projectId, boolean shown);

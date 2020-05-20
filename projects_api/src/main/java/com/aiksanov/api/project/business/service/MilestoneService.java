@@ -1,8 +1,12 @@
 package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.Milestone;
+import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
+import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.MilestoneRepository;
+import com.aiksanov.api.project.util.enums.ProjectStates;
+import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +18,14 @@ import java.util.stream.Collectors;
 @Service
 public class MilestoneService {
     private final MilestoneRepository milestoneRepo;
+    private final GeneralRepository projectRepo;
     private final String[] mandatoryMilestones = {"OR", "DR0", "DR1", "DR2", "DR3", "TR", "DR4", "DR5", "OBR", "CI"};
     private final List<String> alwaysShown = Arrays.asList("DR1", "DR4");
 
     @Autowired
-    public MilestoneService(MilestoneRepository milestoneRepo) {
+    public MilestoneService(MilestoneRepository milestoneRepo, GeneralRepository projectRepo) {
         this.milestoneRepo = milestoneRepo;
+        this.projectRepo = projectRepo;
     }
 
     public List<MilestoneDTO> getMilestoneDTOsForInfoTab(Integer projectID) {
@@ -38,18 +44,18 @@ public class MilestoneService {
         List<Milestone> orderedMilestones = new ArrayList<>();
         List<Integer> pickedMilestonesPositions = new ArrayList<>();
         nextLabel:
-        for(String label: mandatoryMilestones) {
-           for(Milestone current: milestones) {
-               if (current.getMilestonePK().getLabel().toUpperCase().equals(label)) {
-                   orderedMilestones.add(current);
-                   pickedMilestonesPositions.add(milestones.indexOf(current));
-                   continue nextLabel;
-               }
-           }
+        for (String label : mandatoryMilestones) {
+            for (Milestone current : milestones) {
+                if (current.getMilestonePK().getLabel().toUpperCase().equals(label)) {
+                    orderedMilestones.add(current);
+                    pickedMilestonesPositions.add(milestones.indexOf(current));
+                    continue nextLabel;
+                }
+            }
 
-           Milestone empty = new Milestone();
-           empty.setMilestonePK(new MilestonePK(-1, label));
-           orderedMilestones.add(empty);
+            Milestone empty = new Milestone();
+            empty.setMilestonePK(new MilestonePK(-1, label));
+            orderedMilestones.add(empty);
         }
 
         if (pickedMilestonesPositions.size() != 0) {
@@ -92,13 +98,16 @@ public class MilestoneService {
     @Transactional
     public void saveMilestones(Integer projectID, List<MilestoneDTO> dtos) {
         this.milestoneRepo.deleteAllByMilestonePK_ProjectID(projectID);
-        addMilestonesData(projectID, dtos);
+        List<Milestone> milestonesToSave = addMilestonesData(projectID, dtos);
+        if (Objects.nonNull(milestonesToSave)) {
+            this.milestoneRepo.saveAll(milestonesToSave);
+        }
     }
 
     @Transactional
-    public void addMilestonesData(Integer projectID, List<MilestoneDTO> milestoneDTOs) {
+    public List<Milestone> addMilestonesData(Integer projectID, List<MilestoneDTO> milestoneDTOs) {
         if (Objects.nonNull(projectID)) {
-            List<Milestone> milestones = milestoneDTOs.stream()
+            return milestoneDTOs.stream()
                     .map(dto ->
                             new Milestone(
                                     new MilestonePK(projectID, dto.getLabel()),
@@ -109,9 +118,29 @@ public class MilestoneService {
                                     dto.isShown()
                             )
                     ).collect(Collectors.toList());
-
-            this.milestoneRepo.saveAll(milestones);
         }
+
+        return null;
+    }
+
+    public ProjectStates getCurrentProjectState(int projectId) {
+        Project project = this.projectRepo.getOne(projectId);
+        ProjectTypes projectType = project.getType();
+        Milestone dr0 = this.milestoneRepo.findById(new MilestonePK(projectId, "DR0")).orElseGet(Milestone::new);
+        Milestone dr1 = this.milestoneRepo.findById(new MilestonePK(projectId, "DR1")).orElseGet(Milestone::new);
+        Milestone dr4 = this.milestoneRepo.findById(new MilestonePK(projectId, "DR4")).orElseGet(Milestone::new);
+        Milestone dr5 = this.milestoneRepo.findById(new MilestonePK(projectId, "DR5")).orElseGet(Milestone::new);
+
+        if (dr5.getCompletion() == 100 && (projectType != ProjectTypes.OFFER && projectType != ProjectTypes.OFFER_PRODUCT)) {
+            return ProjectStates.CLOSED;
+        }
+        if (dr4.getCompletion() == 100 && (projectType == ProjectTypes.OFFER || projectType == ProjectTypes.OFFER_PRODUCT)) {
+            return ProjectStates.CLOSED;
+        }
+        if (dr1.getCompletion() == 100) return ProjectStates.COMMITTED;
+        if (dr0.getCompletion() == 100) return ProjectStates.PLANNING;
+
+        return ProjectStates.FORECAST;
     }
 
     @Transactional

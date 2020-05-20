@@ -5,6 +5,7 @@ import com.aiksanov.api.project.util.enums.CommentsFieldNames;
 import com.aiksanov.api.project.util.enums.ProjectRigors;
 import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
+import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 
 import java.util.*;
@@ -47,6 +48,7 @@ public class InformationDTO {
     private String requirementsUrl;
     private String cisUrl;
     private boolean epm;
+    private List<MilestoneDTO> milestones;
 
     public InformationDTO(Project projectInfo, ProjectURLs urls, JiraParams jiraParams, List<EcmaBacklogTarget> target,
                           List<ContributingDTO> contributingProjects, List<FieldComments> comments) {
@@ -311,5 +313,9 @@ public class InformationDTO {
 
     public boolean isEpm() {
         return epm;
+    }
+
+    public List<MilestoneDTO> getMilestones() {
+        return milestones;
     }
 }

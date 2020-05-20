@@ -4,6 +4,7 @@ import com.aiksanov.api.project.data.entity.ContributingProjects;
 import com.aiksanov.api.project.data.entity.Milestone;
 import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.data.entity.WorkspaceInfo;
+import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.repository.ContributingProjectsRepository;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
@@ -158,5 +159,13 @@ public class ProjectGeneralService {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         Milestone dr1 = this.milestoneService.getProjectMilestoneById(projectId, MilestoneLabels.DR1.getLabel());
         return new ProjectDefaultDataDTO(project, dr1);
+    }
+
+    public void setProjectStateByMilestones(int projectId) {
+        ProjectStates state = this.milestoneService.getCurrentProjectState(projectId);
+        Project project = this.generalRepository.getOne(projectId);
+        project.setState(state);
+
+        this.generalRepository.save(project);
     }
 }
