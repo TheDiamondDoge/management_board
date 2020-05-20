@@ -25,7 +25,7 @@ public interface GeneralRepository extends JpaRepository<Project, Integer> {
     List<Project> findAllByEpmAndStatus(Boolean isEpm, String workspaceStatus);
 
     @Query(value = findByStatusQuery, nativeQuery = true)
-    List<Project> findAllByStatus(WorkspaceStatus status);
+    List<Project> findAllByStatus(String status);
 
     @Query(value = findContribProjectsQuery, nativeQuery = true)
     List<Project> findAllContribProjectsByProjectID(int projectID);
