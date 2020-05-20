@@ -5,7 +5,6 @@ import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksMinimalDTO;
-import com.aiksanov.api.project.web.DTO.risks.RisksReportDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksTabDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +37,7 @@ public class RisksController {
     }
 
     @GetMapping("/risks/mini")
-    public RisksReportDTO getRisksMinimal(@PathVariable int projectId) {
+    public List<RisksMinimalDTO> getRisksMinimal(@PathVariable int projectId) {
         LOGGER.info("GET /api/projects/{}/tabs/risks/mini", projectId);
         return this.risksService.getMinimalRisks(projectId);
     }

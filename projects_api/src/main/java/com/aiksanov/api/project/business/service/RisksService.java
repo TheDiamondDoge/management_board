@@ -153,10 +153,10 @@ public class RisksService {
         return file.exists() && file.isFile();
     }
 
-    public RisksReportDTO getMinimalRisks(int projectId) {
+    public List<RisksMinimalDTO> getMinimalRisks(int projectId) {
         List<Risk> risks = this.risksRepository.findAllByProjectId(projectId);
         risks = risks.stream().filter(Risk::isReport).collect(Collectors.toList());
         List<RisksMinimalDTO> minimalRisks = risks.stream().map(RisksMinimalDTO::new).collect(Collectors.toList());
-        return new RisksReportDTO(minimalRisks);
+        return minimalRisks;
     }
 }
