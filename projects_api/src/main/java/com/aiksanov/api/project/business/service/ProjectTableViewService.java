@@ -43,7 +43,7 @@ public class ProjectTableViewService {
         } else if (isEPM == null){
             return this.generalRepository.findAllByStatus(status);
         } else {
-            return this.generalRepository.findAllByEpmAndStatus(isEPM, status);
+            return this.generalRepository.findAllByEpmAndStatus(isEPM, status.name());
         }
     }
 }

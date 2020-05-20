@@ -46,7 +46,7 @@ public class ProjectGeneralService {
     }
 
     public List<ContributingDTO> getContributableProjects(int projectId) {
-        List<Project> projects = this.generalRepository.findAllByEpmAndStatus(false, WorkspaceStatus.ENABLED);
+        List<Project> projects = this.generalRepository.findAllByEpmAndStatus(false, WorkspaceStatus.ENABLED.name());
         return projects.stream()
                 .filter((prj) -> (prj.getProjectID() != projectId && prj.getType() == ProjectTypes.PRODUCT))
                 .map((prj) -> (new ContributingDTO(prj.getProjectID(), prj.getName())))
