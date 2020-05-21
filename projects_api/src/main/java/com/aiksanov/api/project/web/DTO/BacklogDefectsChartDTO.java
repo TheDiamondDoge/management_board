@@ -1,17 +1,21 @@
 package com.aiksanov.api.project.web.DTO;
 
+import com.aiksanov.api.project.data.entity.EcmaBacklogTarget;
+import com.aiksanov.api.project.web.DTO.information.EcmaBacklogTargetDTO;
+
 import java.util.Date;
 import java.util.List;
 
 public class BacklogDefectsChartDTO {
-    List<Integer> dev;
-    List<Integer> in;
-    List<String> labels;
-    List<Integer> newIssues;
-    List<Integer> out;
-    List<Integer> qa;
-    List<Integer> qaDone;
-    Date updatedOn;
+    private List<Integer> dev;
+    private List<Integer> in;
+    private List<String> labels;
+    private List<Integer> newIssues;
+    private List<Integer> out;
+    private List<Integer> qa;
+    private List<Integer> qaDone;
+    private EcmaBacklogTargetDTO target;
+    private Date updatedOn;
 
     public BacklogDefectsChartDTO() {
     }
@@ -70,6 +74,14 @@ public class BacklogDefectsChartDTO {
 
     public void setQaDone(List<Integer> qaDone) {
         this.qaDone = qaDone;
+    }
+
+    public EcmaBacklogTargetDTO getTarget() {
+        return target;
+    }
+
+    public void setTarget(EcmaBacklogTargetDTO target) {
+        this.target = target;
     }
 
     public Date getUpdatedOn() {
