@@ -24,17 +24,19 @@ public class ActionsService {
     private ActionsPriorityRepo actionsPriorityRepo;
     private RisksService risksService;
     private ServiceUtils serviceUtils;
+    private ProjectGeneralService generalService;
 
     @Autowired
     public ActionsService(ActionsRepository actionsRepository, ActionsRegistryRepo actionsRegistryRepo,
                           ActionsStateRepo actionsStateRepo, ActionsPriorityRepo actionsPriorityRepo, ServiceUtils serviceUtils,
-                          RisksService riskService) {
+                          RisksService riskService, ProjectGeneralService generalService) {
         this.actionsRepository = actionsRepository;
         this.actionsRegistryRepo = actionsRegistryRepo;
         this.actionsStateRepo = actionsStateRepo;
         this.actionsPriorityRepo = actionsPriorityRepo;
         this.risksService = riskService;
         this.serviceUtils = serviceUtils;
+        this.generalService = generalService;
     }
 
     public List<ActionDTO> getAllActionsByProjectId(int projectId) {
@@ -44,7 +46,11 @@ public class ActionsService {
 
     @Transactional
     public void deleteAction(int uid) {
-        this.actionsRepository.deleteById(uid);
+        Actions actions = this.actionsRepository.findById(uid).orElseThrow(RuntimeException::new);
+        int projectId = actions.getProjectId();
+
+        this.actionsRepository.delete(actions);
+        this.generalService.modifyWorkspaceUpdatedBy(projectId, "TestActDel");
     }
 
     @Transactional
@@ -56,6 +62,8 @@ public class ActionsService {
             if (Objects.nonNull(riskIds)) {
                 this.saveRelatedRisks(actionDTO.getRelatedRisks(), savedAction);
             }
+
+            this.generalService.modifyWorkspaceUpdatedBy(projectId, "TestActSav");
         }
     }
 

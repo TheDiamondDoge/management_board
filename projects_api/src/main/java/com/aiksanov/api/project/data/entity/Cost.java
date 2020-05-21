@@ -29,10 +29,6 @@ public class Cost {
     @Column(name = "comment")
     private String comment;
 
-    @OneToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "project_id", insertable = false, updatable = false)
-    private CostDetails updated;
-
     public Cost() {
     }
 
@@ -84,11 +80,4 @@ public class Cost {
         this.comment = comment;
     }
 
-    public CostDetails getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(CostDetails updated) {
-        this.updated = updated;
-    }
 }

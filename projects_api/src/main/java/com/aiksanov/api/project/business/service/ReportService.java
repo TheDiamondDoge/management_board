@@ -83,6 +83,8 @@ public class ReportService {
 
         StatusReportSnapshot snapshot = createPptReportSnapshot(projectId);
         this.snapshotRepository.save(snapshot);
+
+        this.generalService.modifyWorkspaceUpdatedBy(projectId, "TestRepSaver");
     }
 
     private StatusReportSnapshot createPptReportSnapshot(int projectId) throws Exception {

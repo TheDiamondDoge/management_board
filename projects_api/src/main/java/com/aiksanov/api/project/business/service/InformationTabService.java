@@ -92,6 +92,8 @@ public class InformationTabService {
 
         this.commentsRepository.deleteAllByPk_ProjectID(id);
         this.commentsRepository.saveAll(comments);
+
+        this.generalService.modifyWorkspaceUpdatedBy(id, "TestInfoUpd");
     }
 
     private Project buildProjectToSave(int projectID, Project fromInfoDTO) {

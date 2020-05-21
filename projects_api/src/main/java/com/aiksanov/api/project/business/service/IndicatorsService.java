@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 //TODO: projectID exists??? check!
 @Service
 public class IndicatorsService {
+    private ProjectGeneralService generalService;
     private MilestoneService milestoneService;
     private CostService costService;
     private KpiService kpiService;
@@ -42,7 +43,7 @@ public class IndicatorsService {
     public IndicatorsService(MilestoneService milestoneService, CostService costService, KpiService kpiService,
                              IndicatorsReqsRepository indicatorsReqsRepository, QualityIndicatorsRepository qualityRepository,
                              QualityIndicatorsCommentsRepository commentsRepository, MilestoneRepository milestoneRepository,
-                             ServiceUtils utils)
+                             ServiceUtils utils, ProjectGeneralService generalService)
     {
         this.milestoneService = milestoneService;
         this.costService = costService;
@@ -52,6 +53,7 @@ public class IndicatorsService {
         this.commentsRepository = commentsRepository;
         this.milestoneRepository = milestoneRepository;
         this.utils = utils;
+        this.generalService = generalService;
     }
 
     public IndicatorsReqDTO getRqDTO(int projectID) {
@@ -212,6 +214,7 @@ public class IndicatorsService {
         rqs.setModifiedAfterDr1(dto.getModifiedAfterDr1());
 
         this.indicatorsReqsRepository.save(rqs);
+        this.generalService.modifyWorkspaceUpdatedBy(projectID, "TestRQsUpd");
     }
 
     @Transactional
@@ -252,6 +255,8 @@ public class IndicatorsService {
 
         this.qualityRepository.saveAll(indicatorsToSave);
         this.commentsRepository.saveAll(commentsToSave);
+
+        this.generalService.modifyWorkspaceUpdatedBy(projectID, "TestUpdQual");
     }
 
     private List<QualityIndicators> buildQualityIndicators(List<QualityIndicatorDTO> dtos, int projectID, QualityRowNames rowName) {

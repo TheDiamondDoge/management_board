@@ -32,20 +32,25 @@ public class BlcDashboardService {
 
     public BlcDashboardDTO getBlcDTO(int projectID) {
         BlcDashboardDTO blcDTO = new BlcDashboardDTO();
-        blcDTO.setPm(getRowDTO(getBlcRow(projectID, BlcRoles.PM)));
-        blcDTO.setPmo(getRowDTO(getBlcRow(projectID, BlcRoles.PMO)));
-        blcDTO.setSales(getRowDTO(getBlcRow(projectID, BlcRoles.SALES)));
+        blcDTO.setPm(getRow(projectID, BlcRoles.PM));
+        blcDTO.setPmo(getRow(projectID, BlcRoles.PMO));
+        blcDTO.setSales(getRow(projectID, BlcRoles.SALES));
         return blcDTO;
     }
 
-    private BlcDashboard getBlcRow(int projectID, BlcRoles role) {
+    private BlcRowDTO getRow(int projectID, BlcRoles role) {
+        BlcDashboard dashboard = getBlcDashboard(projectID, role);
+        return getRowDTO(projectID, role, dashboard);
+    }
+
+    private BlcDashboard getBlcDashboard(int projectID, BlcRoles role) {
         return this.dashboardRepository
                 .findById(new BlcDashboardPK(projectID, role))
                 .orElse(new BlcDashboard());
     }
 
-    private BlcRowDTO getRowDTO(BlcDashboard blcRow) {
-        String comment = getBlcComment(blcRow.getProjectID(), blcRow.getRole());
+    private BlcRowDTO getRowDTO(int projectID, BlcRoles role, BlcDashboard blcRow) {
+        String comment = getBlcComment(projectID, role);
         return new BlcRowDTO(blcRow, comment);
     }
 

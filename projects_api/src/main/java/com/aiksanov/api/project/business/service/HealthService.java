@@ -22,11 +22,13 @@ import static com.aiksanov.api.project.util.enums.HealthStatus.*;
 public class HealthService {
     private HealthRepository healthRepository;
     private HealthCommentsRepository commentsRepository;
+    private ProjectGeneralService generalService;
 
     @Autowired
-    public HealthService(HealthRepository healthRepository, HealthCommentsRepository commentsRepository) {
+    public HealthService(HealthRepository healthRepository, HealthCommentsRepository commentsRepository, ProjectGeneralService generalService) {
         this.healthRepository = healthRepository;
         this.commentsRepository = commentsRepository;
+        this.generalService = generalService;
     }
 
     public HealthIndicatorsDTO getHealthIndicators(Integer projectID) {
@@ -62,6 +64,7 @@ public class HealthService {
             HealthIndicators current = indicators.get(CURRENT.getLabel());
             current.setHealthIndicatorsPK(new HealthIndicatorsPK(projectID, getSqlDateNow()));
             this.healthRepository.save(current);
+            this.generalService.modifyWorkspaceUpdatedBy(projectID, "TestUpdHealth");
         }
     }
 

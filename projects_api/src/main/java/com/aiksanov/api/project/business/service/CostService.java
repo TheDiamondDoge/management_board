@@ -38,12 +38,15 @@ public class CostService {
     private CostRepository costRepository;
     private CostDetailsRepository costDetailsRepository;
     private ServiceUtils serviceUtils;
+    private ProjectGeneralService generalService;
 
     @Autowired
-    public CostService(CostRepository costRepository, CostDetailsRepository costDetailsRepository, ServiceUtils serviceUtils) {
+    public CostService(CostRepository costRepository, CostDetailsRepository costDetailsRepository, ServiceUtils serviceUtils,
+                       ProjectGeneralService generalService) {
         this.costRepository = costRepository;
         this.costDetailsRepository = costDetailsRepository;
         this.serviceUtils = serviceUtils;
+        this.generalService = generalService;
     }
 
     public List<Cost> getAllCostObjectsByPrjId(int projectId) {
@@ -66,7 +69,8 @@ public class CostService {
 
         Date updated = null;
         if (costList.size() > 0) {
-            updated = costList.get(0).getUpdated().getUpdated();
+            CostDetails costDetails = this.costDetailsRepository.findById(projectId).orElseGet(CostDetails::new);
+            updated = costDetails.getUpdated();
         }
         CostTableDTO charged = buildCostTable(chargeRows);
         CostTableDTO capex = buildCostTable(capexRows);
@@ -138,6 +142,7 @@ public class CostService {
 
         this.costRepository.saveAll(costsToSave);
         this.costDetailsRepository.save(new CostDetails(projectId, new Date()));
+        this.generalService.modifyWorkspaceUpdatedBy(projectId, "TestCostUpl");
     }
 
     public ResponseEntity<Resource> getLastUpdatedFile(int projectId) throws IOException {

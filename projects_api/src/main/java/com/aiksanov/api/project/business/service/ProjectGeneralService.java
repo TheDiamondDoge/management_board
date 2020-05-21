@@ -4,9 +4,9 @@ import com.aiksanov.api.project.data.entity.ContributingProjects;
 import com.aiksanov.api.project.data.entity.Milestone;
 import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.data.entity.WorkspaceInfo;
-import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.repository.ContributingProjectsRepository;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
+import com.aiksanov.api.project.data.repository.WorkspaceInfoRepo;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.util.enums.MilestoneLabels;
 import com.aiksanov.api.project.util.enums.ProjectStates;
@@ -29,13 +29,15 @@ public class ProjectGeneralService {
     private GeneralRepository generalRepository;
     private MilestoneService milestoneService;
     private ContributingProjectsRepository contribRepository;
+    private WorkspaceInfoRepo workspaceInfoRepo;
 
     @Autowired
     public ProjectGeneralService(GeneralRepository generalRepository, MilestoneService milestoneService,
-                                 ContributingProjectsRepository contribRepository) {
+                                 ContributingProjectsRepository contribRepository, WorkspaceInfoRepo workspaceInfoRepo) {
         this.generalRepository = generalRepository;
         this.milestoneService = milestoneService;
         this.contribRepository = contribRepository;
+        this.workspaceInfoRepo = workspaceInfoRepo;
     }
 
     public Project getProjectGeneralInfo(Integer projectID) {
@@ -167,5 +169,12 @@ public class ProjectGeneralService {
         project.setState(state);
 
         this.generalRepository.save(project);
+    }
+
+    public void modifyWorkspaceUpdatedBy(int projectId, String updatedBy) {
+        WorkspaceInfo status = this.workspaceInfoRepo.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
+        status.setModifiedBy(updatedBy);
+        status.setModified(new Date());
+        this.workspaceInfoRepo.save(status);
     }
 }

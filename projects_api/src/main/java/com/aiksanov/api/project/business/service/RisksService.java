@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -42,12 +43,15 @@ public class RisksService {
     private RisksRepository risksRepository;
     private RisksTableInfoRepo risksTableInfoRepo;
     private ServiceUtils serviceUtils;
+    private ProjectGeneralService generalService;
 
     @Autowired
-    public RisksService(RisksRepository risksRepository, RisksTableInfoRepo risksTableInfoRepo, ServiceUtils serviceUtils) {
+    public RisksService(RisksRepository risksRepository, RisksTableInfoRepo risksTableInfoRepo, ServiceUtils serviceUtils,
+                        ProjectGeneralService generalService) {
         this.risksRepository = risksRepository;
         this.risksTableInfoRepo = risksTableInfoRepo;
         this.serviceUtils = serviceUtils;
+        this.generalService = generalService;
     }
 
     public Set<Risk> getRisksByIds(List<String> risksIds, int projectId) {
@@ -80,6 +84,7 @@ public class RisksService {
         Risk risk = dto.createRiskObjWOProjectId();
         risk.setProjectId(projectId);
         this.risksRepository.save(risk);
+        this.generalService.modifyWorkspaceUpdatedBy(projectId, "TestRiskEd");
     }
 
     public int getActiveRisks(int projectId) {
@@ -110,6 +115,9 @@ public class RisksService {
             //Log e
         }
 
+        RisksTableInfo risksTableInfo = new RisksTableInfo(projectId, new Date(), "TestRisksUpl");
+        this.risksTableInfoRepo.save(risksTableInfo);
+        this.generalService.modifyWorkspaceUpdatedBy(projectId, "TestRisksUpl");
         return risksFromFile.getErrors();
     }
 
