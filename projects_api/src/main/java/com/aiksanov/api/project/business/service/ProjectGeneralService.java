@@ -1,12 +1,7 @@
 package com.aiksanov.api.project.business.service;
 
-import com.aiksanov.api.project.data.entity.ContributingProjects;
-import com.aiksanov.api.project.data.entity.Milestone;
-import com.aiksanov.api.project.data.entity.Project;
-import com.aiksanov.api.project.data.entity.WorkspaceInfo;
-import com.aiksanov.api.project.data.repository.ContributingProjectsRepository;
-import com.aiksanov.api.project.data.repository.GeneralRepository;
-import com.aiksanov.api.project.data.repository.WorkspaceInfoRepo;
+import com.aiksanov.api.project.data.entity.*;
+import com.aiksanov.api.project.data.repository.*;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.util.enums.MilestoneLabels;
 import com.aiksanov.api.project.util.enums.ProjectStates;
@@ -29,15 +24,20 @@ public class ProjectGeneralService {
     private GeneralRepository generalRepository;
     private MilestoneService milestoneService;
     private ContributingProjectsRepository contribRepository;
+    private ProjectURLsRepository projectURLsRepository;
+    private JiraParamsRepository jiraParamsRepository;
     private WorkspaceInfoRepo workspaceInfoRepo;
 
     @Autowired
     public ProjectGeneralService(GeneralRepository generalRepository, MilestoneService milestoneService,
-                                 ContributingProjectsRepository contribRepository, WorkspaceInfoRepo workspaceInfoRepo) {
+                                 ContributingProjectsRepository contribRepository, WorkspaceInfoRepo workspaceInfoRepo,
+                                 ProjectURLsRepository projectURLsRepository, JiraParamsRepository jiraParamsRepository) {
         this.generalRepository = generalRepository;
         this.milestoneService = milestoneService;
         this.contribRepository = contribRepository;
         this.workspaceInfoRepo = workspaceInfoRepo;
+        this.projectURLsRepository = projectURLsRepository;
+        this.jiraParamsRepository = jiraParamsRepository;
     }
 
     public Project getProjectGeneralInfo(Integer projectID) {
@@ -160,7 +160,9 @@ public class ProjectGeneralService {
     public ProjectDefaultDataDTO getProjectDefaults(int projectId) {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         Milestone dr1 = this.milestoneService.getProjectMilestoneById(projectId, MilestoneLabels.DR1.getLabel());
-        return new ProjectDefaultDataDTO(project, dr1);
+        JiraParams jira = this.jiraParamsRepository.findById(projectId).orElseGet(JiraParams::new);
+        ProjectURLs urLs = this.projectURLsRepository.findById(projectId).orElseGet(ProjectURLs::new);
+        return new ProjectDefaultDataDTO(project, dr1, jira.getMetricsScope(), urLs.getRequirementsUrl());
     }
 
     public void setProjectStateByMilestones(int projectId) {

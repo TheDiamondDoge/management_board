@@ -12,6 +12,9 @@ public class ProjectDefaultDataDTO {
     private int projectId;
     private String projectName;
     private String projectType;
+    private String projectDivision;
+    private String metricsScope;
+    private String requirementsUrl;
     private WorkspaceStatus workspaceStatus;
     private Date dr1Actual;
     private boolean epm;
@@ -20,11 +23,17 @@ public class ProjectDefaultDataDTO {
     public ProjectDefaultDataDTO() {
     }
 
-    public ProjectDefaultDataDTO(Project project, Milestone dr1) {
+    public ProjectDefaultDataDTO(Project project, Milestone dr1, String metricsScope, String requirementsUrl) {
         this.projectId = project.getProjectID();
         this.projectName = project.getName();
+        this.metricsScope = metricsScope;
+        this.requirementsUrl = requirementsUrl;
         this.epm = project.isEpm();
         this.setProjectType(project.getType());
+
+        if (Objects.nonNull(project.getProduct())) {
+            this.projectDivision = project.getProduct().getDivision();
+        }
 
         if (Objects.nonNull(project.getWorkspaceInfo())) {
             this.setWorkspaceStatus(project.getWorkspaceInfo().getStatus());
@@ -64,6 +73,34 @@ public class ProjectDefaultDataDTO {
             this.projectType = null;
         }
         this.projectType = projectType.getValue();
+    }
+
+    public void setProjectType(String projectType) {
+        this.projectType = projectType;
+    }
+
+    public String getProjectDivision() {
+        return projectDivision;
+    }
+
+    public void setProjectDivision(String projectDivision) {
+        this.projectDivision = projectDivision;
+    }
+
+    public String getMetricsScope() {
+        return metricsScope;
+    }
+
+    public void setMetricsScope(String metricsScope) {
+        this.metricsScope = metricsScope;
+    }
+
+    public String getRequirementsUrl() {
+        return requirementsUrl;
+    }
+
+    public void setRequirementsUrl(String requirementsUrl) {
+        this.requirementsUrl = requirementsUrl;
     }
 
     public WorkspaceStatus getWorkspaceStatus() {
