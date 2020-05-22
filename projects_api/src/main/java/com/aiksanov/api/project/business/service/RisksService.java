@@ -131,18 +131,9 @@ public class RisksService {
     private ByteArrayResource getRisksFileAsByteArrResource(int projectId) throws IOException, RestTemplateException {
         String projectName = serviceUtils.getProjectName(projectId);
         List<RisksDTO> risks = getProjectRisks(projectId);
+        String url = GET_RISKS_URL + projectName;
 
-        RestTemplate template = new RestTemplate();
-        ResponseEntity<ByteArrayResource> response;
-        try {
-            response = template.postForEntity(GET_RISKS_URL + projectName, risks, ByteArrayResource.class);
-        } catch (HttpStatusCodeException e) {
-            String responseString = e.getResponseBodyAsString();
-            ObjectMapper mapper = new ObjectMapper();
-            throw mapper.readValue(responseString, RestTemplateException.class);
-        }
-
-        return response.getBody();
+        return this.serviceUtils.getDataFile(url, risks);
     }
 
     public ResponseEntity<Resource> getLastUpdatedFile(int projectId) throws IOException {

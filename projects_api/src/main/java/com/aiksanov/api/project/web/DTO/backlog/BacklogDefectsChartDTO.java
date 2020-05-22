@@ -1,4 +1,4 @@
-package com.aiksanov.api.project.web.DTO;
+package com.aiksanov.api.project.web.DTO.backlog;
 
 import com.aiksanov.api.project.data.entity.EcmaBacklogTarget;
 import com.aiksanov.api.project.web.DTO.information.EcmaBacklogTargetDTO;

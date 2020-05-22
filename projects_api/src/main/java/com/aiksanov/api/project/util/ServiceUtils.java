@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Component
@@ -56,20 +57,6 @@ public class ServiceUtils {
         return new Date();
     }
 
-    public List<Integer> generateRandomDataset() {
-        List<Integer> numbers = new ArrayList<>();
-        for (int j = 0; j < 15; j++) {
-            numbers.add(getRandomInt() / 10000000);
-        }
-
-        return numbers;
-    }
-
-    private int getRandomInt() {
-        Random rand = new Random();
-        return Math.abs(rand.nextInt());
-    }
-
     public HttpHeaders getFileDownloadHeaders(String filename) {
         HttpHeaders header = new HttpHeaders();
         header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
@@ -94,6 +81,20 @@ public class ServiceUtils {
         }
 
         return bd;
+    }
+
+    public ByteArrayResource getDataFile(String url, Object object) throws IOException, RestTemplateException {
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<ByteArrayResource> response;
+        try {
+            response = template.postForEntity(url, object, ByteArrayResource.class);
+        } catch (HttpStatusCodeException e) {
+            String responseString = e.getResponseBodyAsString();
+            ObjectMapper mapper = new ObjectMapper();
+            throw mapper.readValue(responseString, RestTemplateException.class);
+        }
+
+        return response.getBody();
     }
 
     public ResponseEntity sendFileToService(MultipartFile file, String url, Class<?> expectedClass) throws IOException, RestTemplateException {
@@ -140,5 +141,10 @@ public class ServiceUtils {
                 .headers(header)
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(arrayResource);
+    }
+
+    public String dateToDateTimeString(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return sdf.format(date);
     }
 }
