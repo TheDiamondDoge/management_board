@@ -20,12 +20,10 @@ import java.io.IOException;
 public class KpiController {
     private static final Logger LOGGER = LoggerFactory.getLogger(KpiController.class);
     private final KpiService kpiService;
-    private final ServiceUtils serviceUtils;
 
     @Autowired
-    public KpiController(KpiService kpiService, ServiceUtils serviceUtils) {
+    public KpiController(KpiService kpiService) {
         this.kpiService = kpiService;
-        this.serviceUtils = serviceUtils;
     }
 
     @GetMapping("/qualityIndicators/{projectId}")
@@ -37,7 +35,6 @@ public class KpiController {
     @GetMapping(value = "/{type}/issuesList/{projectId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public @ResponseBody
     ResponseEntity<Resource> getQualityIssuesFile(@PathVariable int projectId, @PathVariable String type) throws IOException, RestTemplateException {
-        KpiTypes kpiType = KpiTypes.getTypeIgnoreCase(type);
-        return this.serviceUtils.giveFileToUser("quality.xlsx", this.kpiService.getKpiFile(projectId, kpiType));
+        return this.kpiService.getIssuesListFile(projectId, type);
     }
 }

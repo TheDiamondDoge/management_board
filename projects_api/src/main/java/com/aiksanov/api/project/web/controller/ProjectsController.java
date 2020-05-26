@@ -3,6 +3,7 @@ package com.aiksanov.api.project.web.controller;
 import com.aiksanov.api.project.business.service.ProjectGeneralService;
 import com.aiksanov.api.project.business.service.ProjectTableViewService;
 import com.aiksanov.api.project.data.entity.Project;
+import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.PWSTableViewDTO;
@@ -10,8 +11,11 @@ import com.aiksanov.api.project.web.DTO.summary.ProjectDefaultDataDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -57,6 +61,13 @@ public class ProjectsController {
     public ProjectDefaultDataDTO getProjectDefaults(@PathVariable int id) {
         LOGGER.info("GET /api/projects/{}/defaults", id);
         return this.projectGeneralService.getProjectDefaults(id);
+    }
+
+    @GetMapping("/{id}/getContribFile")
+    public @ResponseBody
+    ResponseEntity<Resource> getContribExcelFile(@PathVariable int id) throws IOException, RestTemplateException {
+        LOGGER.info("GET /api/projects/{}/getContribFile", id);
+        return this.projectGeneralService.getContribExcelFile(id);
     }
 
     @GetMapping("/test")

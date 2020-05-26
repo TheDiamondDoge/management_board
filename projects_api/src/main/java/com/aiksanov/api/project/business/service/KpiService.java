@@ -7,6 +7,8 @@ import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
 import com.aiksanov.api.project.web.DTO.kpi.QualityIndicatorsAmountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -62,5 +64,12 @@ public class KpiService {
         }
 
         return this.serviceUtils.getDataFile(PLAIN_XLSX_CREATOR, dto);
+    }
+
+    public ResponseEntity<Resource> getIssuesListFile(int projectId, String type) throws IOException, RestTemplateException {
+        KpiTypes kpiType = KpiTypes.getTypeIgnoreCase(type);
+        ByteArrayResource kpiFile = getKpiFile(projectId, kpiType);
+        String name = projectId + "_" + type + ".xlsx";
+        return this.serviceUtils.giveFileToUser(name, kpiFile);
     }
 }

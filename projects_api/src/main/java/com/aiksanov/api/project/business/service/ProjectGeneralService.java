@@ -3,10 +3,9 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.*;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
-import com.aiksanov.api.project.util.enums.MilestoneLabels;
-import com.aiksanov.api.project.util.enums.ProjectStates;
-import com.aiksanov.api.project.util.enums.ProjectTypes;
-import com.aiksanov.api.project.util.enums.WorkspaceStatus;
+import com.aiksanov.api.project.exceptions.RestTemplateException;
+import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.enums.*;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingProjectDTO;
 import com.aiksanov.api.project.web.DTO.MilestoneDTO;
@@ -14,30 +13,38 @@ import com.aiksanov.api.project.web.DTO.contrib.ContribProjectsDataDTO;
 import com.aiksanov.api.project.web.DTO.summary.ProjectDefaultDataDTO;
 import com.aiksanov.api.project.web.DTO.summary.ProjectGeneral;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ProjectGeneralService {
+    private String CONTRIB_XLSX_URL = "http://localhost:8081/processors/contribProjects";
     private GeneralRepository generalRepository;
     private MilestoneService milestoneService;
     private ContributingProjectsRepository contribRepository;
     private ProjectURLsRepository projectURLsRepository;
     private JiraParamsRepository jiraParamsRepository;
     private WorkspaceInfoRepo workspaceInfoRepo;
+    private ServiceUtils serviceUtils;
 
     @Autowired
     public ProjectGeneralService(GeneralRepository generalRepository, MilestoneService milestoneService,
                                  ContributingProjectsRepository contribRepository, WorkspaceInfoRepo workspaceInfoRepo,
-                                 ProjectURLsRepository projectURLsRepository, JiraParamsRepository jiraParamsRepository) {
+                                 ProjectURLsRepository projectURLsRepository, JiraParamsRepository jiraParamsRepository,
+                                 ServiceUtils serviceUtils) {
         this.generalRepository = generalRepository;
         this.milestoneService = milestoneService;
         this.contribRepository = contribRepository;
         this.workspaceInfoRepo = workspaceInfoRepo;
         this.projectURLsRepository = projectURLsRepository;
         this.jiraParamsRepository = jiraParamsRepository;
+        this.serviceUtils = serviceUtils;
     }
 
     public Project getProjectGeneralInfo(Integer projectID) {
@@ -61,6 +68,15 @@ public class ProjectGeneralService {
         return contribProjects.stream()
                 .map((prj) -> (new ContributingDTO(prj.getProjectID(), prj.getName())))
                 .collect(Collectors.toList());
+    }
+
+    public ResponseEntity<Resource> getContribExcelFile(int projectId) throws IOException, RestTemplateException {
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
+        ContribProjectsDataDTO dto = getContibData(projectId);
+        String projectNameWoWhiteSpace = this.serviceUtils.whitespaceToUnderscore(project.getName());
+        String name = projectNameWoWhiteSpace + "_contrib.xlsx";
+        ByteArrayResource file = this.serviceUtils.getDataFile(CONTRIB_XLSX_URL, dto);
+        return this.serviceUtils.giveFileToUser(name, file);
     }
 
     //TODO: refactor
