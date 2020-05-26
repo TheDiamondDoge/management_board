@@ -162,7 +162,7 @@ public class ActionsService {
             List<String> riskIds = action.getRelatedRisks().stream()
                     .map(Risk::getRiskDisplayId)
                     .collect(Collectors.toList());
-            row.add(String.join(",", riskIds));
+            row.add(String.join(", ", riskIds));
             rowSize = row.size();
 
             data.add(row);
