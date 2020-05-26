@@ -148,6 +148,12 @@ public class ServiceUtils {
         return sdf.format(date);
     }
 
+    public String dateToString(Date date) {
+        if (Objects.isNull(date)) return "";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        return sdf.format(date);
+    }
+
     public String whitespaceToUnderscore(String str) {
         return str.replaceAll("\\s+", "_");
     }

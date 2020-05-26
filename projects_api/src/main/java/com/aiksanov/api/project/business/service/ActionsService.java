@@ -2,22 +2,27 @@ package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.*;
+import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.util.enums.actions.ActionsStateVals;
 import com.aiksanov.api.project.web.DTO.actions.ActionDTO;
+import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.sql.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ActionsService {
+    private final String PLAIN_XLSX_CREATOR = "http://localhost:8081/processors/plainXlsx";
+
     private ActionsRepository actionsRepository;
     private ActionsRegistryRepo actionsRegistryRepo;
     private ActionsStateRepo actionsStateRepo;
@@ -111,5 +116,66 @@ public class ActionsService {
         Set<Risk> risks = this.risksService.getRisksByIds(riskIds, projectId);
         action.setRelatedRisks(risks);
         this.actionsRepository.save(action);
+    }
+
+    public ResponseEntity<Resource> getActionsFile(int projectId) throws IOException, RestTemplateException {
+        Project project = this.generalService.getProjectGeneralInfo(projectId);
+        List<Actions> actions = this.actionsRepository.findActionsByProjectId(projectId);
+        PlainXlsxDataDTO dto = getDataForActionsXlsx(actions);
+        ByteArrayResource actionsFile = this.serviceUtils.getDataFile(PLAIN_XLSX_CREATOR, dto);
+        String filename = this.serviceUtils.whitespaceToUnderscore(project.getName() + ".xlsx");
+        return this.serviceUtils.giveFileToUser(filename, actionsFile);
+    }
+
+    private PlainXlsxDataDTO getDataForActionsXlsx(List<Actions> actions) {
+        String[] headers = getActionExcelHeaders();
+        String[][] data = getActionsDataForExcel(actions);
+        return new PlainXlsxDataDTO(headers, data);
+    }
+
+    private String[] getActionExcelHeaders() {
+        return new String[] {
+                "Registry Type", "Unique ID", "Title", "State", "Priority", "Owner", "Optional Information", "Due Date",
+                "Detailed Description", "Status Updates and Resolution Description", "Created Date", "Closed Date",
+                "Related Risks"
+        };
+    }
+
+    private String[][] getActionsDataForExcel(List<Actions> actions) {
+        List<List<String>> data = new ArrayList<>();
+        int rowSize = 0;
+        int rowsAmount = actions.size();
+        for (Actions action: actions) {
+            List<String> row = new ArrayList<>();
+            row.add(action.getRegistry().getRegistryLabel());
+            row.add(action.getUid().toString());
+            row.add(action.getTitle());
+            row.add(action.getState().getStateLabel());
+            row.add(action.getPriority().getPriorityLabel());
+            row.add(action.getOwner());
+            row.add(action.getOptionalInfo());
+            row.add(this.serviceUtils.dateToString(action.getDueDate()));
+            row.add(action.getDescription());
+            row.add(action.getStatus());
+            row.add(this.serviceUtils.dateToString(action.getCreatedDate()));
+            row.add(this.serviceUtils.dateToString(action.getClosedDate()));
+            List<String> riskIds = action.getRelatedRisks().stream()
+                    .map(Risk::getRiskDisplayId)
+                    .collect(Collectors.toList());
+            row.add(String.join(",", riskIds));
+            rowSize = row.size();
+
+            data.add(row);
+        }
+
+        String[][] result = new String[rowsAmount][rowSize];
+        for (int i = 0; i < rowsAmount; i++) {
+            List<String> row = data.get(i);
+            for (int j = 0; j < rowSize; j++) {
+                result[i][j] = row.get(j);
+            }
+        }
+
+        return result;
     }
 }

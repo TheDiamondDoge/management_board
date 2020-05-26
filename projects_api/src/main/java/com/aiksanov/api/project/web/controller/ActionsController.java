@@ -1,12 +1,17 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.ActionsService;
+import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.web.DTO.actions.ActionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -39,5 +44,12 @@ public class ActionsController {
         LOGGER.info("POST /api/projects/{}/tabs", projectId);
         LOGGER.info(actionDTO.toString());
         this.actionsService.saveAction(projectId, actionDTO);
+    }
+
+    @GetMapping(value = "/actions/{projectId}/getFile", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public @ResponseBody
+    ResponseEntity<Resource> getActionsFile(@PathVariable int projectId) throws IOException, RestTemplateException {
+        LOGGER.info("GET /api/actions/{}/getFile", projectId);
+        return this.actionsService.getActionsFile(projectId);
     }
 }
