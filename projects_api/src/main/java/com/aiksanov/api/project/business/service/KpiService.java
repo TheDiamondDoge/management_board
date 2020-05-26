@@ -1,5 +1,8 @@
 package com.aiksanov.api.project.business.service;
 
+import com.aiksanov.api.project.data.entity.Project;
+import com.aiksanov.api.project.data.repository.GeneralRepository;
+import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.util.enums.KpiTypes;
@@ -20,6 +23,7 @@ public class KpiService {
     private final String VALUES_URL = "http://localhost:8100/general/qualityIndicators/amount";
     private final String KPI_URL_BASE = "http://localhost:8100";
     private final String PLAIN_XLSX_CREATOR = "http://localhost:8081/processors/plainXlsx";
+    private final GeneralRepository generalRepository;
     private final ServiceUtils serviceUtils;
     private final QualityService qualityService;
     private final BacklogService backlogService;
@@ -27,12 +31,13 @@ public class KpiService {
 
     @Autowired
     public KpiService(ServiceUtils serviceUtils, QualityService qualityService, BacklogService backlogService,
-                      DefectsService defectsService
+                      DefectsService defectsService, GeneralRepository generalRepository
     ) {
         this.serviceUtils = serviceUtils;
         this.qualityService = qualityService;
         this.backlogService = backlogService;
         this.defectsService = defectsService;
+        this.generalRepository = generalRepository;
     }
 
     public QualityIndicatorsAmountDTO getQualityIndicatorsValues(int projectId) {
@@ -67,9 +72,10 @@ public class KpiService {
     }
 
     public ResponseEntity<Resource> getIssuesListFile(int projectId, String type) throws IOException, RestTemplateException {
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         KpiTypes kpiType = KpiTypes.getTypeIgnoreCase(type);
         ByteArrayResource kpiFile = getKpiFile(projectId, kpiType);
-        String name = projectId + "_" + type + ".xlsx";
+        String name = this.serviceUtils.projectNameDecorator(project.getName()) + "_" + type + ".xlsx";
         return this.serviceUtils.giveFileToUser(name, kpiFile);
     }
 }

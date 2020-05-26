@@ -150,11 +150,11 @@ public class ServiceUtils {
 
     public String dateToString(Date date) {
         if (Objects.isNull(date)) return "";
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date);
     }
 
-    public String whitespaceToUnderscore(String str) {
-        return str.replaceAll("\\s+", "_");
+    public String projectNameDecorator(String str) {
+        return str.replaceAll("\\s+|\\.", "_");
     }
 }

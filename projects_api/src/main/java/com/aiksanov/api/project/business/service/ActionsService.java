@@ -123,7 +123,7 @@ public class ActionsService {
         List<Actions> actions = this.actionsRepository.findActionsByProjectId(projectId);
         PlainXlsxDataDTO dto = getDataForActionsXlsx(actions);
         ByteArrayResource actionsFile = this.serviceUtils.getDataFile(PLAIN_XLSX_CREATOR, dto);
-        String filename = this.serviceUtils.whitespaceToUnderscore(project.getName() + ".xlsx");
+        String filename = this.serviceUtils.projectNameDecorator(project.getName() + ".xlsx");
         return this.serviceUtils.giveFileToUser(filename, actionsFile);
     }
 

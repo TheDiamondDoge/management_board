@@ -73,7 +73,7 @@ public class ProjectGeneralService {
     public ResponseEntity<Resource> getContribExcelFile(int projectId) throws IOException, RestTemplateException {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         ContribProjectsDataDTO dto = getContibData(projectId);
-        String projectNameWoWhiteSpace = this.serviceUtils.whitespaceToUnderscore(project.getName());
+        String projectNameWoWhiteSpace = this.serviceUtils.projectNameDecorator(project.getName());
         String name = projectNameWoWhiteSpace + "_contrib.xlsx";
         ByteArrayResource file = this.serviceUtils.getDataFile(CONTRIB_XLSX_URL, dto);
         return this.serviceUtils.giveFileToUser(name, file);
