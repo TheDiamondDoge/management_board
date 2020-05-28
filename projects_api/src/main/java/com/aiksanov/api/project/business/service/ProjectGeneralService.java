@@ -11,7 +11,6 @@ import com.aiksanov.api.project.web.DTO.contrib.ContributingProjectDTO;
 import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContribProjectsDataDTO;
 import com.aiksanov.api.project.web.DTO.summary.ProjectDefaultDataDTO;
-import com.aiksanov.api.project.web.DTO.summary.ProjectGeneral;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -32,6 +31,9 @@ public class ProjectGeneralService {
     private JiraParamsRepository jiraParamsRepository;
     private WorkspaceInfoRepo workspaceInfoRepo;
     private ServiceUtils serviceUtils;
+
+    public ProjectGeneralService() {
+    }
 
     @Autowired
     public ProjectGeneralService(GeneralRepository generalRepository, MilestoneService milestoneService,
@@ -120,16 +122,6 @@ public class ProjectGeneralService {
         Milestone min = this.milestoneService.getMilestoneWithLowestActDate(projectIds);
 
         return new ContribProjectsDataDTO(offer, products, max.getActualDate(), min.getActualDate());
-    }
-
-    public ProjectGeneral getProjectGeneralObj(int projectId) {
-        Project project = this.getProjectGeneralInfo(projectId);
-        WorkspaceInfo workspaceInfo = project.getWorkspaceInfo();
-        Date updated = null;
-        if (Objects.nonNull(workspaceInfo)) {
-            updated = workspaceInfo.getModified();
-        }
-        return new ProjectGeneral(project.getName(), project.getManager(), "http://www.google.com", updated);
     }
 
     private List<ContributingProjects> getOfferByContribId(int projectId) {

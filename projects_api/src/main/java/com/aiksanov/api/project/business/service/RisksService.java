@@ -8,15 +8,12 @@ import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
 import com.aiksanov.api.project.web.DTO.risks.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
@@ -154,8 +151,6 @@ public class RisksService {
 
     public List<RisksMinimalDTO> getMinimalRisks(int projectId) {
         List<Risk> risks = this.risksRepository.findAllByProjectId(projectId);
-        risks = risks.stream().filter(Risk::isReport).collect(Collectors.toList());
-        List<RisksMinimalDTO> minimalRisks = risks.stream().map(RisksMinimalDTO::new).collect(Collectors.toList());
-        return minimalRisks;
+        return risks.stream().filter(Risk::isReport).map(RisksMinimalDTO::new).collect(Collectors.toList());
     }
 }

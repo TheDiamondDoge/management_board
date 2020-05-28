@@ -143,6 +143,14 @@ public class ServiceUtils {
                 .body(arrayResource);
     }
 
+    public ResponseEntity<byte[]> giveFileToUser(String desiredFilename, byte[] arrayResource) {
+        HttpHeaders header = this.getFileDownloadHeaders(desiredFilename);
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(arrayResource);
+    }
+
     public String dateToDateTimeString(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return sdf.format(date);

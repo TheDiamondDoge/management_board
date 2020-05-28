@@ -1,55 +1,41 @@
 package com.aiksanov.api.project.data.entity;
 
-import com.aiksanov.api.project.data.entity.pk.StatusReportPK;
-
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.Date;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "prj_status_report_snapshots")
 public class StatusReportSnapshot {
-    @EmbeddedId
-    private StatusReportPK pk;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "timestamp")
-    private Date timestamp;
-
-    @Column(name = "snapshot_json")
-    private String shapshotJson;
-
-    public StatusReportSnapshot(StatusReportPK pk, Date timestamp, String shapshotJson) {
-        this.pk = pk;
-        this.timestamp = timestamp;
-        this.shapshotJson = shapshotJson;
-    }
+    private byte[] pptSnapshot;
 
     public StatusReportSnapshot() {
     }
 
-    public StatusReportPK getPk() {
-        return pk;
+    public StatusReportSnapshot(Integer id, byte[] pptSnapshot) {
+        this.id = id;
+        this.pptSnapshot = pptSnapshot;
     }
 
-    public void setPk(StatusReportPK pk) {
-        this.pk = pk;
+    public int getId() {
+        return id;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getShapshotJson() {
-        return shapshotJson;
+    public byte[] getPptSnapshot() {
+        return pptSnapshot;
     }
 
-    public void setShapshotJson(String shapshotJson) {
-        this.shapshotJson = shapshotJson;
+    public void setPptSnapshot(byte[] pptSnapshot) {
+        this.pptSnapshot = pptSnapshot;
     }
 }
