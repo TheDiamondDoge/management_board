@@ -34,11 +34,11 @@ public class CostController {
     }
 
     @PostMapping("/cost")
-    public void uploadCost(@PathVariable int projectId, @RequestParam("file") MultipartFile file)
+    public void uploadCost(@PathVariable int projectId, @RequestParam("files") MultipartFile[] file)
             throws IOException, RestTemplateException
     {
-        LOGGER.info("POST /api/projects/{}/tabs/cost Filename: {}", projectId, file.getOriginalFilename());
-        this.costService.processCostFile(file, projectId);
+        LOGGER.info("POST /api/projects/{}/tabs/cost Filename: {}", projectId, file[0].getOriginalFilename());
+        this.costService.processCostFile(file[0], projectId);
     }
 
     @GetMapping(value = "/cost/lastUploaded", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)

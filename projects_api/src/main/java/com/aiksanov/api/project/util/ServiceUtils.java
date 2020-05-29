@@ -30,6 +30,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+//TODO remove @Component, repos and make it static
 @Component
 public class ServiceUtils {
     private MilestoneRepository milestoneRepository;

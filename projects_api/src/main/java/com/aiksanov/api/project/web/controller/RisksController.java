@@ -57,9 +57,9 @@ public class RisksController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/risks")
-    public List<ErrorExportDTO> uploadExcelFile(@PathVariable int projectId, @RequestParam("file") MultipartFile file) throws IOException, RestTemplateException {
-        LOGGER.info("POST /api/projects/{}/tabs/risks Filename: {}", projectId, file.getOriginalFilename());
-        return this.risksService.processRiskFile(file, projectId);
+    public List<ErrorExportDTO> uploadExcelFile(@PathVariable int projectId, @RequestParam("files") MultipartFile[] file) throws IOException, RestTemplateException {
+        LOGGER.info("POST /api/projects/{}/tabs/risks Filename: {}", projectId, file[0].getOriginalFilename());
+        return this.risksService.processRiskFile(file[0], projectId);
     }
 
     @GetMapping(value = "/risksFile", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
