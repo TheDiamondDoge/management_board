@@ -1,6 +1,8 @@
 package com.aiksanov.api.project.web.DTO;
 
-public class Base64ImageDTO {
+import java.util.Objects;
+
+public class Base64ImageDTO implements Comparable<Base64ImageDTO> {
     private String filename;
     private String base64Image;
 
@@ -26,5 +28,12 @@ public class Base64ImageDTO {
 
     public void setBase64Image(String base64Image) {
         this.base64Image = base64Image;
+    }
+
+    @Override
+    public int compareTo(Base64ImageDTO o) {
+        if (Objects.isNull(this.filename)) return -1;
+        if (Objects.isNull(o.getFilename())) return 1;
+        return o.getFilename().compareTo(this.filename);
     }
 }

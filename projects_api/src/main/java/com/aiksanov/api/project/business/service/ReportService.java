@@ -116,6 +116,7 @@ public class ReportService {
                                     }
                                 }
                         ).filter(Objects::nonNull)
+                        .sorted()
                         .collect(Collectors.toList());
             } catch (IOException e) {
                 e.printStackTrace();
