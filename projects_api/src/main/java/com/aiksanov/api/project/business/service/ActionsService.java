@@ -24,6 +24,7 @@ public class ActionsService {
     private final String PLAIN_XLSX_CREATOR = "http://localhost:8081/processors/plainXlsx";
 
     private ActionsRepository actionsRepository;
+    private ActionRelatedRisksRepo actionRelatedRisksRepo;
     private ActionsRegistryRepo actionsRegistryRepo;
     private ActionsStateRepo actionsStateRepo;
     private ActionsPriorityRepo actionsPriorityRepo;
@@ -34,7 +35,7 @@ public class ActionsService {
     @Autowired
     public ActionsService(ActionsRepository actionsRepository, ActionsRegistryRepo actionsRegistryRepo,
                           ActionsStateRepo actionsStateRepo, ActionsPriorityRepo actionsPriorityRepo, ServiceUtils serviceUtils,
-                          RisksService riskService, ProjectGeneralService generalService) {
+                          RisksService riskService, ProjectGeneralService generalService, ActionRelatedRisksRepo actionRelatedRisksRepo) {
         this.actionsRepository = actionsRepository;
         this.actionsRegistryRepo = actionsRegistryRepo;
         this.actionsStateRepo = actionsStateRepo;
@@ -42,11 +43,16 @@ public class ActionsService {
         this.risksService = riskService;
         this.serviceUtils = serviceUtils;
         this.generalService = generalService;
+        this.actionRelatedRisksRepo = actionRelatedRisksRepo;
     }
 
     public List<ActionDTO> getAllActionsByProjectId(int projectId) {
         List<Actions> actions = this.actionsRepository.findActionsByProjectId(projectId);
-        return actions.stream().map(ActionDTO::new).collect(Collectors.toList());
+        return actions.stream().map(action -> {
+            int actionId = action.getUid();
+            List<ActionRelatedRisks> relatedRisks = this.actionRelatedRisksRepo.findByActionId(actionId);
+            return new ActionDTO(action, relatedRisks);
+        }).collect(Collectors.toList());
     }
 
     @Transactional
@@ -113,9 +119,12 @@ public class ActionsService {
 
     private void saveRelatedRisks(List<String> riskIds, Actions action) {
         int projectId = action.getProjectId();
-        Set<Risk> risks = this.risksService.getRisksByIds(riskIds, projectId);
-        action.setRelatedRisks(risks);
-        this.actionsRepository.save(action);
+        int actionId = action.getUid();
+        List<ActionRelatedRisks> relatedRisks = riskIds.stream()
+                .map(id -> new ActionRelatedRisks(actionId, id, projectId))
+                .collect(Collectors.toList());
+        this.actionRelatedRisksRepo.deleteAllByActionId(actionId);
+        this.actionRelatedRisksRepo.saveAll(relatedRisks);
     }
 
     public ResponseEntity<Resource> getActionsFile(int projectId) throws IOException, RestTemplateException {
@@ -159,8 +168,9 @@ public class ActionsService {
             row.add(action.getStatus());
             row.add(this.serviceUtils.dateToString(action.getCreatedDate()));
             row.add(this.serviceUtils.dateToString(action.getClosedDate()));
-            List<String> riskIds = action.getRelatedRisks().stream()
-                    .map(Risk::getRiskDisplayId)
+            List<ActionRelatedRisks> relatedRisks = this.actionRelatedRisksRepo.findByActionId(action.getUid());
+            List<String> riskIds = relatedRisks.stream()
+                    .map(ActionRelatedRisks::getRisksId)
                     .collect(Collectors.toList());
             row.add(String.join(", ", riskIds));
             rowSize = row.size();

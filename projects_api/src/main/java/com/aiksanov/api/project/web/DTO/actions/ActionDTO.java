@@ -26,16 +26,16 @@ public class ActionDTO {
     private Date closedDate;
     private List<String> relatedRisks;
 
-    public ActionDTO(Actions actions) {
+    public ActionDTO(Actions actions, List<ActionRelatedRisks> relatedRisks) {
         if (Objects.nonNull(actions)) {
-            this.setValues(actions);
+            this.setValues(actions, relatedRisks);
         }
     }
 
     public ActionDTO() {
     }
 
-    private void setValues(Actions actions) {
+    private void setValues(Actions actions, List<ActionRelatedRisks> relatedRisks) {
         this.title = actions.getTitle();
         this.owner = actions.getOwner();
         this.optionalInfo = actions.getOptionalInfo();
@@ -44,7 +44,7 @@ public class ActionDTO {
         this.status = actions.getStatus();
         this.createdDate = actions.getCreatedDate();
         this.closedDate = actions.getClosedDate();
-        this.relatedRisks = this.getRisksIds(actions.getRelatedRisks());
+        this.relatedRisks = this.getRisksIds(relatedRisks);
         this.uid = actions.getUid();
 
         if (Objects.nonNull(actions.getRegistry())) {
@@ -60,9 +60,9 @@ public class ActionDTO {
         }
     }
 
-    private List<String> getRisksIds(Set<Risk> riskSet) {
-        if (Objects.nonNull(riskSet)) {
-            return riskSet.stream().map(Risk::getRiskDisplayId).collect(Collectors.toList());
+    private List<String> getRisksIds(List<ActionRelatedRisks> riskList) {
+        if (Objects.nonNull(riskList)) {
+            return riskList.stream().map(ActionRelatedRisks::getRisksId).collect(Collectors.toList());
         } else {
             return new ArrayList<>();
         }

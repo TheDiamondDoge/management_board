@@ -5,13 +5,13 @@ import java.util.Objects;
 
 public class ActionRelatedRisksPK implements Serializable {
     private int actionId;
-    private int risksId;
+    private String risksId;
     private int projectId;
 
     public ActionRelatedRisksPK() {
     }
 
-    public ActionRelatedRisksPK(int actionId, int risksId, int projectId) {
+    public ActionRelatedRisksPK(int actionId, String risksId, int projectId) {
         this.actionId = actionId;
         this.risksId = risksId;
         this.projectId = projectId;
@@ -25,11 +25,11 @@ public class ActionRelatedRisksPK implements Serializable {
         this.actionId = actionId;
     }
 
-    public int getRisksId() {
+    public String getRisksId() {
         return risksId;
     }
 
-    public void setRisksId(int risksId) {
+    public void setRisksId(String risksId) {
         this.risksId = risksId;
     }
 
@@ -47,8 +47,8 @@ public class ActionRelatedRisksPK implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         ActionRelatedRisksPK that = (ActionRelatedRisksPK) o;
         return actionId == that.actionId &&
-                risksId == that.risksId &&
-                projectId == that.projectId;
+                projectId == that.projectId &&
+                Objects.equals(risksId, that.risksId);
     }
 
     @Override

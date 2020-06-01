@@ -2,7 +2,7 @@ package com.aiksanov.api.project.data.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "prj_actions")
@@ -51,14 +51,6 @@ public class Actions {
     @Column(name = "closed_date")
     private Date closedDate;
 
-    @OneToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "prj_actions_related_risks",
-            joinColumns = @JoinColumn(name = "action_id"),
-            inverseJoinColumns = { @JoinColumn(name = "project_id"), @JoinColumn(name = "risk_id") }
-    )
-    private Set<Risk> relatedRisks;
-
     public Actions() {
     }
 
@@ -76,14 +68,6 @@ public class Actions {
 
     public void setProjectId(int projectId) {
         this.projectId = projectId;
-    }
-
-    public Set<Risk> getRelatedRisks() {
-        return relatedRisks;
-    }
-
-    public void setRelatedRisks(Set<Risk> relatedRisks) {
-        this.relatedRisks = relatedRisks;
     }
 
     public ActionsRegistry getRegistry() {

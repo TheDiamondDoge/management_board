@@ -3,9 +3,6 @@ package com.aiksanov.api.project.data.entity;
 import com.aiksanov.api.project.data.entity.pk.ActionRelatedRisksPK;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 @Entity
 @Table(name = "prj_actions_related_risks")
@@ -17,7 +14,7 @@ public class ActionRelatedRisks {
 
     @Id
     @Column(name = "risk_id")
-    private int risksId;
+    private String risksId;
 
     @Id
     @Column(name = "project_id")
@@ -26,7 +23,7 @@ public class ActionRelatedRisks {
     public ActionRelatedRisks() {
     }
 
-    public ActionRelatedRisks(int actionId, int risksId, int projectId) {
+    public ActionRelatedRisks(int actionId, String risksId, int projectId) {
         this.actionId = actionId;
         this.risksId = risksId;
         this.projectId = projectId;
@@ -48,11 +45,11 @@ public class ActionRelatedRisks {
         this.actionId = actionId;
     }
 
-    public int getRisksId() {
+    public String getRisksId() {
         return risksId;
     }
 
-    public void setRisksId(int risksId) {
+    public void setRisksId(String risksId) {
         this.risksId = risksId;
     }
 }
