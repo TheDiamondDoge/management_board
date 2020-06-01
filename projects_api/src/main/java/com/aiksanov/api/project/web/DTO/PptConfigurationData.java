@@ -1,6 +1,7 @@
 package com.aiksanov.api.project.web.DTO;
 
 import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsDTO;
+import com.aiksanov.api.project.web.DTO.reports.PptImageFile;
 import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
 import com.aiksanov.api.project.web.DTO.summary.ProjectGeneral;
 
@@ -15,6 +16,7 @@ public class PptConfigurationData {
     private String executionSummary;
     private String projectDetails;
     private List<String> flags;
+    private List<PptImageFile> images;
 
     public PptConfigurationData() {
     }
@@ -88,6 +90,15 @@ public class PptConfigurationData {
 
     public PptConfigurationData setIndicators(HealthIndicatorsDTO indicators) {
         this.indicators = indicators;
+        return this;
+    }
+
+    public List<PptImageFile> getImages() {
+        return images;
+    }
+
+    public PptConfigurationData setImages(List<PptImageFile> images) {
+        this.images = images;
         return this;
     }
 }

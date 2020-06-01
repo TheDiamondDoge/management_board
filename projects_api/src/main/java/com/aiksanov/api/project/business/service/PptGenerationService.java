@@ -11,6 +11,7 @@ import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.PptConfigurationData;
 import com.aiksanov.api.project.web.DTO.RequirementsDTO;
 import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsDTO;
+import com.aiksanov.api.project.web.DTO.reports.PptImageFile;
 import com.aiksanov.api.project.web.DTO.reports.ReportSnapshot;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
@@ -25,6 +26,9 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +45,9 @@ public class PptGenerationService {
 
     @Value("${ppt.generator.review}")
     private String REVIEW_URL;
+
+    @Value("${reportImages.file.storage}")
+    private String REPORT_IMGS_PATH;
 
     private final String POSTFIX = ".pptx";
     private final ProjectGeneralService projectGeneralService;
@@ -91,13 +98,14 @@ public class PptGenerationService {
         return serviceUtils.giveFileToUser(filename, resource);
     }
 
-    public PptConfigurationData getDataForPptCreation(int projectId) {
+    public PptConfigurationData getDataForPptCreation(int projectId) throws IOException {
         ProjectGeneral projectGeneral = getProjectGeneralObj(projectId);
         List<MilestoneDTO> milestones = milestoneService.getTimelineMilestones(projectId);
         List<RisksDTO> risks = risksService.getProjectRisks(projectId);
         List<RequirementsDTO> requirements = requirementsService.getJiraRequirements();
         HealthIndicatorsDTO indicators = indicatorsService.getHealthIndicators(projectId);
         UserReportsDTO reports = getUserReports(projectId);
+        List<PptImageFile> imageFiles = getImages(projectId);
 
         String executionSummary = reports.getSummary();
         String projectDetails = reports.getDetails();
@@ -114,7 +122,28 @@ public class PptGenerationService {
                 .setIndicators(indicators)
                 .setExecutionSummary(executionSummary)
                 .setProjectDetails(projectDetails)
-                .setFlags(flags);
+                .setFlags(flags)
+                .setImages(imageFiles);
+    }
+
+    private List<PptImageFile> getImages(int projectId) throws IOException {
+        String imageFolderPath = REPORT_IMGS_PATH + "/" + projectId;
+        List<Path> filePaths = Files.walk(Paths.get(imageFolderPath))
+                .filter(Files::isRegularFile)
+                .map(Path::toAbsolutePath)
+                .collect(Collectors.toList());
+
+        List<PptImageFile> imageFiles = filePaths.stream().map(path -> {
+            try {
+                byte[] bytes = Files.readAllBytes(path);
+                String filename = path.getName(path.getNameCount() - 1).toString();
+                return new PptImageFile(filename, bytes);
+            } catch (IOException e) {
+                return null;
+            }
+        }).filter(Objects::nonNull).collect(Collectors.toList());
+
+        return imageFiles;
     }
 
     private UserReportsDTO getUserReports(int projectId) {
