@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class PWSTableViewDTO{
+public class PWSTableViewDTO {
+    private int projectId;
     private int overallProjectHealth;
     private String projectName;
     private String projectRelease;
@@ -37,13 +38,22 @@ public class PWSTableViewDTO{
     private int qualityStatus;
     private int costStatus;
 
-    public PWSTableViewDTO(Project projectInfo) {
-        if (Objects.nonNull(projectInfo)){
+    public PWSTableViewDTO(Project projectInfo, HealthIndicators indicators, List<Milestone> milestones) {
+        if (Objects.nonNull(projectInfo)) {
             projectInfoMapping(projectInfo);
+        }
+
+        if (Objects.nonNull(milestones)) {
+            milestonesMapping(milestones);
+        }
+
+        if (Objects.nonNull(indicators)) {
+            indicatorsMapping(indicators);
         }
     }
 
-    private void projectInfoMapping(Project projectInfo){
+    private void projectInfoMapping(Project projectInfo) {
+        this.projectId = projectInfo.getProjectID();
         this.projectName = projectInfo.getName();
         this.projectManager = projectInfo.getManager();
         this.projectState = projectInfo.getState();
@@ -56,12 +66,12 @@ public class PWSTableViewDTO{
         }
 
         ProjectAdditionalInfo additionalInfo = projectInfo.getAdditionalInfo();
-        if (Objects.nonNull(additionalInfo)){
+        if (Objects.nonNull(additionalInfo)) {
             projectAdditionalInfoMapping(additionalInfo);
         }
     }
 
-    private void productMapping(Product product){
+    private void productMapping(Product product) {
         this.productLineManager = product.getManager();
         this.projectRelease = product.getRelease();
         this.businessDivision = product.getDivision();
@@ -69,15 +79,16 @@ public class PWSTableViewDTO{
         this.productLine = product.getProductLine();
     }
 
-    private void projectAdditionalInfoMapping(ProjectAdditionalInfo additionalInfo){
+    private void projectAdditionalInfoMapping(ProjectAdditionalInfo additionalInfo) {
         this.businessLineManager = additionalInfo.getBusinessLineManager();
     }
 
-    private void milestonesMapping(List<Milestone> milestones){
+    private void milestonesMapping(List<Milestone> milestones) {
         this.orDate = getMilestoneBaselineDate(milestones, "OR");
         this.dr0date = getMilestoneBaselineDate(milestones, "DR0");
         this.dr1date = getMilestoneBaselineDate(milestones, "DR1");
         this.dr2date = getMilestoneBaselineDate(milestones, "DR2");
+        this.obrDate = getMilestoneBaselineDate(milestones, "OBR");
         this.ciDate = getMilestoneBaselineDate(milestones, "CI");
         this.dr3date = getMilestoneBaselineDate(milestones, "DR3");
         this.trDate = getMilestoneBaselineDate(milestones, "TR");
@@ -85,12 +96,24 @@ public class PWSTableViewDTO{
         this.dr5date = getMilestoneBaselineDate(milestones, "DR5");
     }
 
-    private Date getMilestoneBaselineDate(List<Milestone> milestoneList, String milestoneLabel){
+    private void indicatorsMapping(HealthIndicators indicators) {
+        this.overallProjectHealth = indicators.getOverall();
+        this.scheduleStatus = indicators.getSchedule();
+        this.contentStatus = indicators.getScope();
+        this.qualityStatus = indicators.getQuality();
+        this.costStatus = indicators.getCost();
+    }
+
+    private Date getMilestoneBaselineDate(List<Milestone> milestoneList, String milestoneLabel) {
         Optional<Milestone> milestone = milestoneList.stream()
                 .filter(m -> m.getMilestonePK().getLabel().toUpperCase().equals(milestoneLabel.toUpperCase()))
                 .findAny();
 
-        return milestone.map(Milestone::getBaselineDate).orElse(null);
+        return milestone.map(Milestone::getActualDate).orElse(null);
+    }
+
+    public int getProjectId() {
+        return projectId;
     }
 
     public int getOverallProjectHealth() {
@@ -137,8 +160,8 @@ public class PWSTableViewDTO{
         return projectRigor;
     }
 
-    public ProjectTypes getProjectType() {
-        return projectType;
+    public String getProjectType() {
+        return projectType.getValue();
     }
 
     public Date getOrDate() {

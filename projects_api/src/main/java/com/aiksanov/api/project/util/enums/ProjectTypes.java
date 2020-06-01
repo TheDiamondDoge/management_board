@@ -17,7 +17,8 @@ public enum ProjectTypes {
     OLD_MAJOR_PROGRAM("Major Program"),
     OLD_MINOR("Minor"),
     OLD_MAINTENANCE("Maintenance"),
-    OLD_COMPOSITE("Composite");
+    OLD_COMPOSITE("Composite"),
+    NONE("");
     private final String value;
 
     ProjectTypes(String value) {

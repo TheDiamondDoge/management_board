@@ -98,7 +98,7 @@ public class ProjectsControllerTest {
     public void getProjectsTableView() throws Exception {
         Project project = new Project();
         project.setName("Dummy project");
-        PWSTableViewDTO dummyDto = new PWSTableViewDTO(project);
+        PWSTableViewDTO dummyDto = new PWSTableViewDTO(project, null, null);
 
         List<PWSTableViewDTO> dtoList = new ArrayList<>();
         dtoList.add(dummyDto);
