@@ -20,9 +20,9 @@ import static com.aiksanov.api.project.util.enums.HealthStatus.*;
 
 @Service
 public class HealthService {
-    private HealthRepository healthRepository;
-    private HealthCommentsRepository commentsRepository;
-    private ProjectGeneralService generalService;
+    private final HealthRepository healthRepository;
+    private final HealthCommentsRepository commentsRepository;
+    private final ProjectGeneralService generalService;
 
     @Autowired
     public HealthService(HealthRepository healthRepository, HealthCommentsRepository commentsRepository, ProjectGeneralService generalService) {

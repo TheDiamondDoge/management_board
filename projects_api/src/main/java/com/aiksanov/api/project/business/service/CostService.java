@@ -5,7 +5,7 @@ import com.aiksanov.api.project.data.entity.CostDetails;
 import com.aiksanov.api.project.data.repository.CostDetailsRepository;
 import com.aiksanov.api.project.data.repository.CostRepository;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
-import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.util.enums.cost.CostRowTypes;
 import com.aiksanov.api.project.util.enums.cost.CostStates;
 import com.aiksanov.api.project.web.DTO.cost.CostDTO;
@@ -33,17 +33,15 @@ public class CostService {
 
     @Value("${cost.file.storage}")
     private String COST_STORAGE;
-    private CostRepository costRepository;
-    private CostDetailsRepository costDetailsRepository;
-    private ServiceUtils serviceUtils;
-    private ProjectGeneralService generalService;
+    private final CostRepository costRepository;
+    private final CostDetailsRepository costDetailsRepository;
+    private final ProjectGeneralService generalService;
 
     @Autowired
-    public CostService(CostRepository costRepository, CostDetailsRepository costDetailsRepository, ServiceUtils serviceUtils,
+    public CostService(CostRepository costRepository, CostDetailsRepository costDetailsRepository,
                        ProjectGeneralService generalService) {
         this.costRepository = costRepository;
         this.costDetailsRepository = costDetailsRepository;
-        this.serviceUtils = serviceUtils;
         this.generalService = generalService;
     }
 
@@ -92,16 +90,16 @@ public class CostService {
 
     //TODO: Can produce null - fix (or should throw smthng)
     public void processCostFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
-        String bd = serviceUtils.getProjectsBD(projectId);
+        String bd = generalService.getProjectsBD(projectId);
         CostDTO costFromFile =
-                (CostDTO) serviceUtils.sendFileToService(file, UPLOAD_URL + bd, CostDTO.class).getBody();
+                (CostDTO) Utils.sendFileToService(file, UPLOAD_URL + bd, CostDTO.class).getBody();
         if (Objects.nonNull(costFromFile)) {
             saveCostData(costFromFile, projectId);
         }
 
         String filename = projectId + COST_SUFFIX;
         try {
-            this.serviceUtils.saveFile(file, filename, COST_STORAGE);
+            Utils.saveFile(file, filename, COST_STORAGE);
         } catch (Exception e) {
             //Log this
         }
@@ -144,10 +142,10 @@ public class CostService {
     }
 
     public ResponseEntity<Resource> getLastUpdatedFile(int projectId) throws IOException {
-        String projectName = serviceUtils.getProjectName(projectId);
+        String projectName = generalService.getProjectName(projectId);
         String filepath = COST_STORAGE + File.separator + projectId + COST_SUFFIX;
         String filename = projectName + COST_SUFFIX;
-        return serviceUtils.giveFileToUser(filename, filepath);
+        return Utils.giveFileToUser(filename, filepath);
     }
 
     private boolean isCostFileExists(int projectId) {

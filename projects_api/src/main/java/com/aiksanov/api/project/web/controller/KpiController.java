@@ -2,8 +2,6 @@ package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.KpiService;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
-import com.aiksanov.api.project.util.ServiceUtils;
-import com.aiksanov.api.project.util.enums.KpiTypes;
 import com.aiksanov.api.project.web.DTO.kpi.QualityIndicatorsAmountDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

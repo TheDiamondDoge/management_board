@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProjectTableViewService {
-    private GeneralRepository generalRepository;
-    private MilestoneRepository milestoneRepository;
-    private HealthRepository healthRepository;
+    private final GeneralRepository generalRepository;
+    private final MilestoneRepository milestoneRepository;
+    private final HealthRepository healthRepository;
 
     @Autowired
     public ProjectTableViewService(GeneralRepository generalRepository, MilestoneRepository milestoneRepository, HealthRepository healthRepository) {

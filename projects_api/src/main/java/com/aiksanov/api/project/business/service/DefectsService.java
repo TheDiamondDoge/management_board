@@ -1,11 +1,10 @@
 package com.aiksanov.api.project.business.service;
 
-import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.web.DTO.DefectsIssue;
 import com.aiksanov.api.project.web.DTO.backlog.BacklogDefectsChartDTO;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,12 +15,6 @@ import java.util.List;
 @Service
 public class DefectsService {
     private String CHART_URL = "http://localhost:8100/general/chart";
-    private final ServiceUtils serviceUtils;
-
-    @Autowired
-    public DefectsService(ServiceUtils serviceUtils) {
-        this.serviceUtils = serviceUtils;
-    }
 
     public BacklogDefectsChartDTO getChartData(int projectId) {
         String finalUrl = CHART_URL + "/" + "defects/" + projectId;
@@ -69,7 +62,7 @@ public class DefectsService {
             row.add(defectsIssue.getQuestStatus());
             row.add(defectsIssue.getState());
             row.add(defectsIssue.getProposedAction());
-            row.add(serviceUtils.dateToDateTimeString(defectsIssue.getRecomputedOn()));
+            row.add(Utils.dateToDateTimeString(defectsIssue.getRecomputedOn()));
             data.add(row);
             rowSize = row.size();
         }

@@ -3,7 +3,7 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.*;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
-import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.util.enums.actions.ActionsStateVals;
 import com.aiksanov.api.project.web.DTO.actions.ActionDTO;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
@@ -23,25 +23,21 @@ import java.util.stream.Collectors;
 public class ActionsService {
     private final String PLAIN_XLSX_CREATOR = "http://localhost:8081/processors/plainXlsx";
 
-    private ActionsRepository actionsRepository;
-    private ActionRelatedRisksRepo actionRelatedRisksRepo;
-    private ActionsRegistryRepo actionsRegistryRepo;
-    private ActionsStateRepo actionsStateRepo;
-    private ActionsPriorityRepo actionsPriorityRepo;
-    private RisksService risksService;
-    private ServiceUtils serviceUtils;
-    private ProjectGeneralService generalService;
+    private final ActionsRepository actionsRepository;
+    private final ActionRelatedRisksRepo actionRelatedRisksRepo;
+    private final ActionsRegistryRepo actionsRegistryRepo;
+    private final ActionsStateRepo actionsStateRepo;
+    private final ActionsPriorityRepo actionsPriorityRepo;
+    private final ProjectGeneralService generalService;
 
     @Autowired
     public ActionsService(ActionsRepository actionsRepository, ActionsRegistryRepo actionsRegistryRepo,
-                          ActionsStateRepo actionsStateRepo, ActionsPriorityRepo actionsPriorityRepo, ServiceUtils serviceUtils,
-                          RisksService riskService, ProjectGeneralService generalService, ActionRelatedRisksRepo actionRelatedRisksRepo) {
+                          ActionsStateRepo actionsStateRepo, ActionsPriorityRepo actionsPriorityRepo,
+                          ProjectGeneralService generalService, ActionRelatedRisksRepo actionRelatedRisksRepo) {
         this.actionsRepository = actionsRepository;
         this.actionsRegistryRepo = actionsRegistryRepo;
         this.actionsStateRepo = actionsStateRepo;
         this.actionsPriorityRepo = actionsPriorityRepo;
-        this.risksService = riskService;
-        this.serviceUtils = serviceUtils;
         this.generalService = generalService;
         this.actionRelatedRisksRepo = actionRelatedRisksRepo;
     }
@@ -108,7 +104,7 @@ public class ActionsService {
 
         Date createdDate = dto.getCreatedDate();
         if (Objects.isNull(createdDate)) {
-            createdDate = new Date(serviceUtils.getCurrentDate().getTime());
+            createdDate = new Date(new java.util.Date().getTime());
         }
 
         action.setCreatedDate(createdDate);
@@ -131,9 +127,9 @@ public class ActionsService {
         Project project = this.generalService.getProjectGeneralInfo(projectId);
         List<Actions> actions = this.actionsRepository.findActionsByProjectId(projectId);
         PlainXlsxDataDTO dto = getDataForActionsXlsx(actions);
-        ByteArrayResource actionsFile = this.serviceUtils.getDataFile(PLAIN_XLSX_CREATOR, dto);
-        String filename = this.serviceUtils.projectNameDecorator(project.getName() + ".xlsx");
-        return this.serviceUtils.giveFileToUser(filename, actionsFile);
+        ByteArrayResource actionsFile = Utils.getDataFile(PLAIN_XLSX_CREATOR, dto);
+        String filename = Utils.projectNameDecorator(project.getName() + ".xlsx");
+        return Utils.giveFileToUser(filename, actionsFile);
     }
 
     private PlainXlsxDataDTO getDataForActionsXlsx(List<Actions> actions) {
@@ -163,11 +159,11 @@ public class ActionsService {
             row.add(action.getPriority().getPriorityLabel());
             row.add(action.getOwner());
             row.add(action.getOptionalInfo());
-            row.add(this.serviceUtils.dateToString(action.getDueDate()));
+            row.add(Utils.dateToString(action.getDueDate()));
             row.add(action.getDescription());
             row.add(action.getStatus());
-            row.add(this.serviceUtils.dateToString(action.getCreatedDate()));
-            row.add(this.serviceUtils.dateToString(action.getClosedDate()));
+            row.add(Utils.dateToString(action.getCreatedDate()));
+            row.add(Utils.dateToString(action.getClosedDate()));
             List<ActionRelatedRisks> relatedRisks = this.actionRelatedRisksRepo.findByActionId(action.getUid());
             List<String> riskIds = relatedRisks.stream()
                     .map(ActionRelatedRisks::getRisksId)

@@ -4,7 +4,7 @@ import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
-import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.util.enums.KpiTypes;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
 import com.aiksanov.api.project.web.DTO.kpi.QualityIndicatorsAmountDTO;
@@ -24,16 +24,13 @@ public class KpiService {
     private final String KPI_URL_BASE = "http://localhost:8100";
     private final String PLAIN_XLSX_CREATOR = "http://localhost:8081/processors/plainXlsx";
     private final GeneralRepository generalRepository;
-    private final ServiceUtils serviceUtils;
     private final QualityService qualityService;
     private final BacklogService backlogService;
     private final DefectsService defectsService;
 
     @Autowired
-    public KpiService(ServiceUtils serviceUtils, QualityService qualityService, BacklogService backlogService,
-                      DefectsService defectsService, GeneralRepository generalRepository
-    ) {
-        this.serviceUtils = serviceUtils;
+    public KpiService(QualityService qualityService, BacklogService backlogService,
+                      DefectsService defectsService, GeneralRepository generalRepository) {
         this.qualityService = qualityService;
         this.backlogService = backlogService;
         this.defectsService = defectsService;
@@ -68,14 +65,14 @@ public class KpiService {
                 break;
         }
 
-        return this.serviceUtils.getDataFile(PLAIN_XLSX_CREATOR, dto);
+        return Utils.getDataFile(PLAIN_XLSX_CREATOR, dto);
     }
 
     public ResponseEntity<Resource> getIssuesListFile(int projectId, String type) throws IOException, RestTemplateException {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         KpiTypes kpiType = KpiTypes.getTypeIgnoreCase(type);
         ByteArrayResource kpiFile = getKpiFile(projectId, kpiType);
-        String name = this.serviceUtils.projectNameDecorator(project.getName()) + "_" + type + ".xlsx";
-        return this.serviceUtils.giveFileToUser(name, kpiFile);
+        String name = Utils.projectNameDecorator(project.getName()) + "_" + type + ".xlsx";
+        return Utils.giveFileToUser(name, kpiFile);
     }
 }

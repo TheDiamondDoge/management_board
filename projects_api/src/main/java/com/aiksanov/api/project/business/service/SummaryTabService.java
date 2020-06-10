@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SummaryTabService {
-    private GeneralRepository generalRepo;
-    private ProjectURLsRepository urlsRepo;
-    private StatusReportRepository reportRepo;
-    private ActionsService actionsService;
-    private RisksService risksService;
+    private final GeneralRepository generalRepo;
+    private final ProjectURLsRepository urlsRepo;
+    private final StatusReportRepository reportRepo;
+    private final ActionsService actionsService;
+    private final RisksService risksService;
 
     @Autowired
     public SummaryTabService(GeneralRepository generalRepo, ProjectURLsRepository urlsRepo, StatusReportRepository reportRepo,

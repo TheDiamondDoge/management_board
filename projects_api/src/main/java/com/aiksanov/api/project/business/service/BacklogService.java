@@ -2,7 +2,7 @@ package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.EcmaBacklogTarget;
 import com.aiksanov.api.project.data.repository.EcmaBacklogTargetRepo;
-import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.web.DTO.backlog.BacklogDefectsChartDTO;
 import com.aiksanov.api.project.web.DTO.backlog.BacklogIssue;
 import com.aiksanov.api.project.web.DTO.information.EcmaBacklogTargetDTO;
@@ -20,14 +20,12 @@ import java.util.Objects;
 @Service
 public class BacklogService {
     private final EcmaBacklogTargetRepo ecmaBacklogTargetRepo;
-    private final ServiceUtils serviceUtils;
 
     private String CHART_URL = "http://localhost:8100/general/chart";
 
     @Autowired
-    public BacklogService(EcmaBacklogTargetRepo ecmaBacklogTargetRepo, ServiceUtils serviceUtils) {
+    public BacklogService(EcmaBacklogTargetRepo ecmaBacklogTargetRepo) {
         this.ecmaBacklogTargetRepo = ecmaBacklogTargetRepo;
-        this.serviceUtils = serviceUtils;
     }
 
     public BacklogDefectsChartDTO getChartData(int projectId) {
@@ -91,7 +89,7 @@ public class BacklogService {
             row.add(backlogIssue.getPriority());
             row.add(backlogIssue.getState());
             row.add(backlogIssue.getProposedAction());
-            row.add(serviceUtils.dateToDateTimeString(backlogIssue.getRecomputedOn()));
+            row.add(Utils.dateToDateTimeString(backlogIssue.getRecomputedOn()));
             row.add(backlogIssue.getInBacklogAtDR4());
             row.add(backlogIssue.getBacklogReduction());
             data.add(row);

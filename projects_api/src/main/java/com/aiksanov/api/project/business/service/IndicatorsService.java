@@ -4,7 +4,7 @@ import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.entity.pk.QualityIndicatorsCommentsPK;
 import com.aiksanov.api.project.data.repository.*;
-import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.util.enums.MilestoneLabels;
 import com.aiksanov.api.project.util.enums.QualityRowNames;
 import com.aiksanov.api.project.util.enums.cost.CostStates;
@@ -26,24 +26,20 @@ import java.util.stream.Collectors;
 //TODO: projectID exists??? check!
 @Service
 public class IndicatorsService {
-    private ProjectGeneralService generalService;
-    private MilestoneService milestoneService;
-    private CostService costService;
-    private KpiService kpiService;
-    private IndicatorsReqsRepository indicatorsReqsRepository;
-    private QualityIndicatorsRepository qualityRepository;
-    private QualityIndicatorsCommentsRepository commentsRepository;
-    private MilestoneRepository milestoneRepository;
-    private ServiceUtils utils;
-
-    public IndicatorsService() {
-    }
+    private final ProjectGeneralService generalService;
+    private final MilestoneService milestoneService;
+    private final CostService costService;
+    private final KpiService kpiService;
+    private final IndicatorsReqsRepository indicatorsReqsRepository;
+    private final QualityIndicatorsRepository qualityRepository;
+    private final QualityIndicatorsCommentsRepository commentsRepository;
+    private final MilestoneRepository milestoneRepository;
 
     @Autowired
     public IndicatorsService(MilestoneService milestoneService, CostService costService, KpiService kpiService,
                              IndicatorsReqsRepository indicatorsReqsRepository, QualityIndicatorsRepository qualityRepository,
                              QualityIndicatorsCommentsRepository commentsRepository, MilestoneRepository milestoneRepository,
-                             ServiceUtils utils, ProjectGeneralService generalService)
+                             ProjectGeneralService generalService)
     {
         this.milestoneService = milestoneService;
         this.costService = costService;
@@ -52,7 +48,6 @@ public class IndicatorsService {
         this.qualityRepository = qualityRepository;
         this.commentsRepository = commentsRepository;
         this.milestoneRepository = milestoneRepository;
-        this.utils = utils;
         this.generalService = generalService;
     }
 
@@ -66,7 +61,7 @@ public class IndicatorsService {
     }
 
     public List<MilestoneIndKpiDTO> getKpiMilestones(int projectID) {
-        if (!utils.isDr1Exists(projectID)) {
+        if (!milestoneService.isDr1Exists(projectID)) {
             return new ArrayList<>();
         }
 
@@ -119,7 +114,7 @@ public class IndicatorsService {
                 .orElse(new Milestone());
 
         IndicatorsDr4KpiDTO dto = new IndicatorsDr4KpiDTO();
-        dto.setYear(utils.getCurrentYear());
+        dto.setYear(Utils.getCurrentYear());
 
         try {
             LocalDateTime dr1ActualDate = dr1.getActualDate().toLocalDate().atStartOfDay();

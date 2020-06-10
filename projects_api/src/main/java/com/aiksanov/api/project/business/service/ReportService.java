@@ -34,11 +34,11 @@ public class ReportService {
 
     @Value("${reportImages.max.amount}")
     private int maxAmount;
-    private PptGenerationService pptGenerationService;
-    private StatusReportRepository reportRepository;
-    private ReportSnapshotInfoRepository reportSnapshotInfoRepository;
-    private GeneralRepository generalRepository;
-    private ReportSnapshotRepository snapshotRepository;
+    private final PptGenerationService pptGenerationService;
+    private final StatusReportRepository reportRepository;
+    private final ReportSnapshotInfoRepository reportSnapshotInfoRepository;
+    private final GeneralRepository generalRepository;
+    private final ReportSnapshotRepository snapshotRepository;
 
     @Autowired
     public ReportService(PptGenerationService pptGenerationService, StatusReportRepository reportRepository,

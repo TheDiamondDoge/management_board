@@ -4,7 +4,6 @@ import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.*;
 import com.aiksanov.api.project.exceptions.NoDataFoundException;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
-import com.aiksanov.api.project.util.ServiceUtils;
 import com.aiksanov.api.project.util.decompositor.InformationDtoDecomposer;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.information.InformationDTO;
@@ -19,21 +18,19 @@ import java.util.Objects;
 @Service
 @Transactional
 public class InformationTabService {
-    private ProjectGeneralService generalService;
-    private GeneralRepository generalRepository;
-    private ProjectURLsRepository urlsRepository;
-    private JiraParamsRepository jiraParamsRepository;
-    private EcmaBacklogTargetRepo backlogTargetRepo;
-    private ContributingProjectsRepository contribProjectsRepo;
-    private FieldCommentsRepository commentsRepository;
-    private ServiceUtils utils;
+    private final ProjectGeneralService generalService;
+    private final GeneralRepository generalRepository;
+    private final ProjectURLsRepository urlsRepository;
+    private final JiraParamsRepository jiraParamsRepository;
+    private final EcmaBacklogTargetRepo backlogTargetRepo;
+    private final ContributingProjectsRepository contribProjectsRepo;
+    private final FieldCommentsRepository commentsRepository;
 
 
     @Autowired
     public InformationTabService(ProjectGeneralService generalService, GeneralRepository generalRepository, ProjectURLsRepository urlsRepository,
                                  JiraParamsRepository jiraParamsRepository, EcmaBacklogTargetRepo backlogTargetRepo,
-                                 ContributingProjectsRepository contribProjectsRepo, FieldCommentsRepository comments,
-                                 ServiceUtils utils) {
+                                 ContributingProjectsRepository contribProjectsRepo, FieldCommentsRepository comments) {
         this.generalService = generalService;
         this.generalRepository = generalRepository;
         this.urlsRepository = urlsRepository;
@@ -41,7 +38,6 @@ public class InformationTabService {
         this.backlogTargetRepo = backlogTargetRepo;
         this.contribProjectsRepo = contribProjectsRepo;
         this.commentsRepository = comments;
-        this.utils = utils;
     }
 
     @Transactional
@@ -60,7 +56,7 @@ public class InformationTabService {
 
     @Transactional
     public void saveInformationData(Integer id, InformationDTO dto) {
-        if (Objects.isNull(id) || !utils.isProjectExist(id)) {
+        if (Objects.isNull(id) || !generalService.isProjectExist(id)) {
             throw new ProjectDoesNotExistException();
         }
 

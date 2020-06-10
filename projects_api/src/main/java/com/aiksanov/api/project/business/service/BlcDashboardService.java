@@ -21,8 +21,8 @@ import java.util.Objects;
 
 @Service
 public class BlcDashboardService {
-    private BlcDashboardRepository dashboardRepository;
-    private BlcDashboardCommentsRepo commentsRepo;
+    private final BlcDashboardRepository dashboardRepository;
+    private final BlcDashboardCommentsRepo commentsRepo;
 
     @Autowired
     public BlcDashboardService(BlcDashboardRepository dashboardRepository, BlcDashboardCommentsRepo commentsRepo) {

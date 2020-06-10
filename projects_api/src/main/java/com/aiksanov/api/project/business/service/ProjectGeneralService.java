@@ -4,7 +4,7 @@ import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.*;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
-import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.util.enums.*;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingProjectDTO;
@@ -24,29 +24,23 @@ import java.util.stream.Collectors;
 @Service
 public class ProjectGeneralService {
     private String CONTRIB_XLSX_URL = "http://localhost:8081/processors/contribProjects";
-    private GeneralRepository generalRepository;
-    private MilestoneService milestoneService;
-    private ContributingProjectsRepository contribRepository;
-    private ProjectURLsRepository projectURLsRepository;
-    private JiraParamsRepository jiraParamsRepository;
-    private WorkspaceInfoRepo workspaceInfoRepo;
-    private ServiceUtils serviceUtils;
-
-    public ProjectGeneralService() {
-    }
+    private final GeneralRepository generalRepository;
+    private final MilestoneService milestoneService;
+    private final ContributingProjectsRepository contribRepository;
+    private final ProjectURLsRepository projectURLsRepository;
+    private final JiraParamsRepository jiraParamsRepository;
+    private final WorkspaceInfoRepo workspaceInfoRepo;
 
     @Autowired
     public ProjectGeneralService(GeneralRepository generalRepository, MilestoneService milestoneService,
                                  ContributingProjectsRepository contribRepository, WorkspaceInfoRepo workspaceInfoRepo,
-                                 ProjectURLsRepository projectURLsRepository, JiraParamsRepository jiraParamsRepository,
-                                 ServiceUtils serviceUtils) {
+                                 ProjectURLsRepository projectURLsRepository, JiraParamsRepository jiraParamsRepository) {
         this.generalRepository = generalRepository;
         this.milestoneService = milestoneService;
         this.contribRepository = contribRepository;
         this.workspaceInfoRepo = workspaceInfoRepo;
         this.projectURLsRepository = projectURLsRepository;
         this.jiraParamsRepository = jiraParamsRepository;
-        this.serviceUtils = serviceUtils;
     }
 
     public Project getProjectGeneralInfo(Integer projectID) {
@@ -75,10 +69,10 @@ public class ProjectGeneralService {
     public ResponseEntity<Resource> getContribExcelFile(int projectId) throws IOException, RestTemplateException {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
         ContribProjectsDataDTO dto = getContibData(projectId);
-        String projectNameWoWhiteSpace = this.serviceUtils.projectNameDecorator(project.getName());
+        String projectNameWoWhiteSpace = Utils.projectNameDecorator(project.getName());
         String name = projectNameWoWhiteSpace + "_contrib.xlsx";
-        ByteArrayResource file = this.serviceUtils.getDataFile(CONTRIB_XLSX_URL, dto);
-        return this.serviceUtils.giveFileToUser(name, file);
+        ByteArrayResource file = Utils.getDataFile(CONTRIB_XLSX_URL, dto);
+        return Utils.giveFileToUser(name, file);
     }
 
     //TODO: refactor
@@ -186,5 +180,26 @@ public class ProjectGeneralService {
         status.setModifiedBy(updatedBy);
         status.setModified(new Date());
         this.workspaceInfoRepo.save(status);
+    }
+
+    public boolean isProjectExist(int projectID) {
+        return this.generalRepository.existsById(projectID);
+    }
+
+    public String getProjectName(int projectId) {
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
+        return project.getName();
+    }
+
+    public String getProjectsBD(int projectId) {
+        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
+        String bd = "";
+        try {
+            bd = project.getProduct().getDivision();
+        } catch (Exception e) {
+            return bd;
+        }
+
+        return bd;
     }
 }

@@ -5,7 +5,7 @@ import com.aiksanov.api.project.data.entity.RisksTableInfo;
 import com.aiksanov.api.project.data.repository.RisksRepository;
 import com.aiksanov.api.project.data.repository.RisksTableInfoRepo;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
-import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
 import com.aiksanov.api.project.web.DTO.risks.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,19 +35,17 @@ public class RisksService {
 
     @Value("${risks.file.storage}")
     private String RISKS_STORAGE;
-    private String RISKS_SUFFIX = "_risks.xlsx";
+    private final String RISKS_SUFFIX = "_risks.xlsx";
 
-    private RisksRepository risksRepository;
-    private RisksTableInfoRepo risksTableInfoRepo;
-    private ServiceUtils serviceUtils;
-    private ProjectGeneralService generalService;
+    private final RisksRepository risksRepository;
+    private final RisksTableInfoRepo risksTableInfoRepo;
+    private final ProjectGeneralService generalService;
 
     @Autowired
-    public RisksService(RisksRepository risksRepository, RisksTableInfoRepo risksTableInfoRepo, ServiceUtils serviceUtils,
+    public RisksService(RisksRepository risksRepository, RisksTableInfoRepo risksTableInfoRepo,
                         ProjectGeneralService generalService) {
         this.risksRepository = risksRepository;
         this.risksTableInfoRepo = risksTableInfoRepo;
-        this.serviceUtils = serviceUtils;
         this.generalService = generalService;
     }
 
@@ -92,7 +90,7 @@ public class RisksService {
     @Transactional
     public List<ErrorExportDTO> processRiskFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
         RisksFromFileDTO risksFromFile =
-                (RisksFromFileDTO) serviceUtils.sendFileToService(file, PROCESSOR_URL, RisksFromFileDTO.class).getBody();
+                (RisksFromFileDTO) Utils.sendFileToService(file, PROCESSOR_URL, RisksFromFileDTO.class).getBody();
 
         AtomicInteger i = new AtomicInteger(0);
         List<Risk> risksToSave = risksFromFile.getRisks().stream().map((riskDto) -> {
@@ -107,7 +105,7 @@ public class RisksService {
 
         String filename = projectId + RISKS_SUFFIX;
         try {
-            serviceUtils.saveFile(file, filename, RISKS_STORAGE);
+            Utils.saveFile(file, filename, RISKS_STORAGE);
         } catch (Exception e) {
             //Log e
         }
@@ -119,26 +117,26 @@ public class RisksService {
     }
 
     public ResponseEntity<Resource> getRisksAsFileToUser(int projectId) throws IOException, RestTemplateException {
-        String projectName = serviceUtils.getProjectName(projectId);
+        String projectName = generalService.getProjectName(projectId);
         String filename = projectName + RISKS_SUFFIX;
         ByteArrayResource reader = getRisksFileAsByteArrResource(projectId);
-        return serviceUtils.giveFileToUser(filename, reader);
+        return Utils.giveFileToUser(filename, reader);
     }
 
     private ByteArrayResource getRisksFileAsByteArrResource(int projectId) throws IOException, RestTemplateException {
-        String projectName = serviceUtils.getProjectName(projectId);
+        String projectName = generalService.getProjectName(projectId);
         List<RisksDTO> risks = getProjectRisks(projectId);
         String url = GET_RISKS_URL + projectName;
 
-        return this.serviceUtils.getDataFile(url, risks);
+        return Utils.getDataFile(url, risks);
     }
 
     public ResponseEntity<Resource> getLastUpdatedFile(int projectId) throws IOException {
-        String projectName = serviceUtils.getProjectName(projectId);
+        String projectName = generalService.getProjectName(projectId);
         String filepath = RISKS_STORAGE + File.separator + projectId + RISKS_SUFFIX;
         String filename = projectName + RISKS_SUFFIX;
 
-        return serviceUtils.giveFileToUser(filename, filepath);
+        return Utils.giveFileToUser(filename, filepath);
     }
 
     private boolean isRisksFileExists(int projectId) {

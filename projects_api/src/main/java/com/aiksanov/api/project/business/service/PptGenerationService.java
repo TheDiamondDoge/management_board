@@ -5,7 +5,7 @@ import com.aiksanov.api.project.data.repository.ReportSnapshotInfoRepository;
 import com.aiksanov.api.project.data.repository.ReportSnapshotRepository;
 import com.aiksanov.api.project.data.repository.StatusReportRepository;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
-import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.util.enums.PptExportTypes;
 import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.PptConfigurationData;
@@ -58,13 +58,12 @@ public class PptGenerationService {
     private final StatusReportRepository reportRepository;
     private final ReportSnapshotRepository snapshotRepository;
     private final ReportSnapshotInfoRepository snapshotInfoRepository;
-    private final ServiceUtils serviceUtils;
 
     public PptGenerationService(ProjectGeneralService projectGeneralService, MilestoneService milestoneService,
                                 RisksService risksService, RequirementsService requirementsService,
                                 HealthService indicatorsService, StatusReportRepository reportRepository,
                                 ReportSnapshotRepository snapshotRepository,
-                                ReportSnapshotInfoRepository snapshotInfoRepository, ServiceUtils serviceUtils) {
+                                ReportSnapshotInfoRepository snapshotInfoRepository) {
         this.projectGeneralService = projectGeneralService;
         this.milestoneService = milestoneService;
         this.risksService = risksService;
@@ -73,7 +72,6 @@ public class PptGenerationService {
         this.reportRepository = reportRepository;
         this.snapshotRepository = snapshotRepository;
         this.snapshotInfoRepository = snapshotInfoRepository;
-        this.serviceUtils = serviceUtils;
     }
 
     public ResponseEntity<Resource> getPptFile(int projectId, PptExportTypes type) throws Exception {
@@ -88,14 +86,14 @@ public class PptGenerationService {
         if (Objects.isNull(reportId)) {
             dataToSend = getDataForPptCreation(projectId);
             resource = getPptFromService(dataToSend, type);
-            filename = this.serviceUtils.projectNameDecorator(project.getName()) + "_" + type.name().toLowerCase() +"_report" + POSTFIX;
+            filename = Utils.projectNameDecorator(project.getName()) + "_" + type.name().toLowerCase() +"_report" + POSTFIX;
         } else {
             StatusReportSnapshotInfo info = this.snapshotInfoRepository.findById(reportId).orElseGet(StatusReportSnapshotInfo::new);
             resource = getUserSnapshot(reportId);
-            filename = this.serviceUtils.projectNameDecorator(project.getName()) + "_" + this.serviceUtils.dateToString(info.getCreatedOn()) + POSTFIX;
+            filename = Utils.projectNameDecorator(project.getName()) + "_" + Utils.dateToString(info.getCreatedOn()) + POSTFIX;
         }
 
-        return serviceUtils.giveFileToUser(filename, resource);
+        return Utils.giveFileToUser(filename, resource);
     }
 
     public PptConfigurationData getDataForPptCreation(int projectId) throws IOException {

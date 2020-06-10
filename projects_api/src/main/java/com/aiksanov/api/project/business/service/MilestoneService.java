@@ -5,6 +5,7 @@ import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
 import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.MilestoneRepository;
+import com.aiksanov.api.project.util.enums.MilestoneLabels;
 import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.MilestoneDTO;
@@ -168,5 +169,9 @@ public class MilestoneService {
         }
 
         return lastApproved;
+    }
+
+    public boolean isDr1Exists(int projectID) {
+        return milestoneRepo.existsById(new MilestonePK(projectID, MilestoneLabels.DR1.getLabel()));
     }
 }

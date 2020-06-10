@@ -1,6 +1,6 @@
 package com.aiksanov.api.project.business.service;
 
-import com.aiksanov.api.project.util.ServiceUtils;
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
 import com.aiksanov.api.project.web.DTO.quality.QualityIssue;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,13 +12,6 @@ import java.util.List;
 
 @Service
 public class QualityService {
-    private final ServiceUtils serviceUtils;
-
-    @Autowired
-    public QualityService(ServiceUtils serviceUtils) {
-        this.serviceUtils = serviceUtils;
-    }
-
     public PlainXlsxDataDTO getQualityIssuesDataForXlsx(List issues) {
         String[] headers = getListOfQualityIssuesExcelHeader();
         String[][] data = getDataAsStrings(issues);
@@ -59,7 +52,7 @@ public class QualityService {
             row.add(qualityIssue.getQuestStatus());
             row.add(qualityIssue.getState());
             row.add(qualityIssue.getProposedAction());
-            row.add(serviceUtils.dateToDateTimeString(qualityIssue.getRecomputedOn()));
+            row.add(Utils.dateToDateTimeString(qualityIssue.getRecomputedOn()));
             row.add(qualityIssue.getType());
             data.add(row);
             rowSize = row.size();
