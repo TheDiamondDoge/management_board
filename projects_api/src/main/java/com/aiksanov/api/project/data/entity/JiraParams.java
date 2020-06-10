@@ -1,10 +1,15 @@
 package com.aiksanov.api.project.data.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "prj_jira_params")
 public class JiraParams {
@@ -17,37 +22,4 @@ public class JiraParams {
 
     @Column(name ="rq_release")
     private String rqRelease;
-
-    public JiraParams() {
-    }
-
-    public JiraParams(int projectID, String metricsScope, String rqRelease) {
-        this.projectID = projectID;
-        this.metricsScope = metricsScope;
-        this.rqRelease = rqRelease;
-    }
-
-    public int getProjectID() {
-        return projectID;
-    }
-
-    public void setProjectID(int projectID) {
-        this.projectID = projectID;
-    }
-
-    public String getMetricsScope() {
-        return metricsScope;
-    }
-
-    public void setMetricsScope(String metricsScope) {
-        this.metricsScope = metricsScope;
-    }
-
-    public String getRqRelease() {
-        return rqRelease;
-    }
-
-    public void setRqRelease(String rqRelease) {
-        this.rqRelease = rqRelease;
-    }
 }

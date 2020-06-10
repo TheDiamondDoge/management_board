@@ -1,11 +1,17 @@
 package com.aiksanov.api.project.data.entity;
 
 import com.aiksanov.api.project.data.entity.pk.MilestonePK;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "prj_milestones")
 public class Milestone implements Comparable<Milestone> {
@@ -26,66 +32,6 @@ public class Milestone implements Comparable<Milestone> {
 
     @Column(name = "show_in_timeline")
     private boolean shown;
-
-    public Milestone() {
-    }
-
-    public Milestone(MilestonePK milestonePK, Date baselineDate, Date actualDate, int completion, String meetingMinutes, boolean shown) {
-        this.milestonePK = milestonePK;
-        this.baselineDate = baselineDate;
-        this.actualDate = actualDate;
-        this.completion = completion;
-        this.meetingMinutes = meetingMinutes;
-        this.shown = shown;
-    }
-
-    public MilestonePK getMilestonePK() {
-        return milestonePK;
-    }
-
-    public void setMilestonePK(MilestonePK milestonePK) {
-        this.milestonePK = milestonePK;
-    }
-
-    public Date getBaselineDate() {
-        return baselineDate;
-    }
-
-    public void setBaselineDate(Date baselineDate) {
-        this.baselineDate = baselineDate;
-    }
-
-    public Date getActualDate() {
-        return actualDate;
-    }
-
-    public void setActualDate(Date actualDate) {
-        this.actualDate = actualDate;
-    }
-
-    public int getCompletion() {
-        return completion;
-    }
-
-    public void setCompletion(int completion) {
-        this.completion = completion;
-    }
-
-    public String getMeetingMinutes() {
-        return meetingMinutes;
-    }
-
-    public void setMeetingMinutes(String meetingMinutes) {
-        this.meetingMinutes = meetingMinutes;
-    }
-
-    public boolean isShown() {
-        return shown;
-    }
-
-    public void setShown(boolean shown) {
-        this.shown = shown;
-    }
 
     @Override
     public int compareTo(Milestone o) {

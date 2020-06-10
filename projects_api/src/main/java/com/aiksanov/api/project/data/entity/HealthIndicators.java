@@ -3,10 +3,14 @@ package com.aiksanov.api.project.data.entity;
 import com.aiksanov.api.project.data.entity.pk.HealthIndicatorsPK;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import java.io.Serializable;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "prj_indicators_health")
 public class HealthIndicators implements Serializable {
@@ -29,71 +33,11 @@ public class HealthIndicators implements Serializable {
     @Column(name = "cost")
     private int cost;
 
-    public HealthIndicators() {
-    }
-
     public HealthIndicators(int overall, int schedule, int scope, int quality, int cost) {
         this.overall = overall;
         this.schedule = schedule;
         this.scope = scope;
         this.quality = quality;
-        this.cost = cost;
-    }
-
-    public HealthIndicators(HealthIndicatorsPK healthIndicatorsPK, int overall, int schedule, int scope, int quality, int cost) {
-        this.healthIndicatorsPK = healthIndicatorsPK;
-        this.overall = overall;
-        this.schedule = schedule;
-        this.scope = scope;
-        this.quality = quality;
-        this.cost = cost;
-    }
-
-    public HealthIndicatorsPK getHealthIndicatorsPK() {
-        return healthIndicatorsPK;
-    }
-
-    public void setHealthIndicatorsPK(HealthIndicatorsPK healthIndicatorsPK) {
-        this.healthIndicatorsPK = healthIndicatorsPK;
-    }
-
-    public int getOverall() {
-        return overall;
-    }
-
-    public void setOverall(int overall) {
-        this.overall = overall;
-    }
-
-    public int getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(int schedule) {
-        this.schedule = schedule;
-    }
-
-    public int getScope() {
-        return scope;
-    }
-
-    public void setScope(int scope) {
-        this.scope = scope;
-    }
-
-    public int getQuality() {
-        return quality;
-    }
-
-    public void setQuality(int quality) {
-        this.quality = quality;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
         this.cost = cost;
     }
 }

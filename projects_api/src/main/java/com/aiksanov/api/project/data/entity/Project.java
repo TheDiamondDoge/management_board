@@ -4,11 +4,14 @@ import com.aiksanov.api.project.util.enums.ProjectRigors;
 import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.ProjectTemplates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
 //TODO: PWS status - separate entity (???)
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "PRJ_WORKSPACE_GENERAL")
 public class Project {
@@ -57,108 +60,4 @@ public class Project {
     @OneToOne
     @JoinColumn(name = "project_id", referencedColumnName = "project_id")
     private ProjectAdditionalInfo additionalInfo;
-
-
-    public Project() {
-    }
-
-    public Project(int projectID) {
-        this.projectID = projectID;
-    }
-
-    public int getProjectID() {
-        return projectID;
-    }
-
-    public void setProjectID(int projectID) {
-        this.projectID = projectID;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ProjectTypes getType() {
-        return type;
-    }
-
-    public void setType(ProjectTypes type) {
-        this.type = type;
-    }
-
-    public ProjectRigors getRigor() {
-        return rigor;
-    }
-
-    public void setRigor(ProjectRigors rigor) {
-        this.rigor = rigor;
-    }
-
-    public ProjectStates getState() {
-        return state;
-    }
-
-    public void setState(ProjectStates state) {
-        this.state = state;
-    }
-
-    public String getManager() {
-        return manager;
-    }
-
-    public void setManager(String manager) {
-        this.manager = manager;
-    }
-
-    public boolean isEpm() {
-        return epm;
-    }
-
-    public void setEpm(boolean epm) {
-        this.epm = epm;
-    }
-
-    public ProjectTemplates getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(ProjectTemplates template) {
-        this.template = template;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public WorkspaceInfo getWorkspaceInfo() {
-        return workspaceInfo;
-    }
-
-    public void setWorkspaceInfo(WorkspaceInfo workspaceInfo) {
-        this.workspaceInfo = workspaceInfo;
-    }
-
-    public ProjectAdditionalInfo getAdditionalInfo() {
-        return additionalInfo;
-    }
-
-    public void setAdditionalInfo(ProjectAdditionalInfo additionalInfo) {
-        this.additionalInfo = additionalInfo;
-    }
 }

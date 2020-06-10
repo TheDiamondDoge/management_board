@@ -1,9 +1,13 @@
 package com.aiksanov.api.project.data.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.sql.Date;
 
-
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "prj_actions")
 public class Actions {
@@ -50,111 +54,4 @@ public class Actions {
 
     @Column(name = "closed_date")
     private Date closedDate;
-
-    public Actions() {
-    }
-
-    public Integer getUid() {
-        return uid;
-    }
-
-    public void setUid(Integer uid) {
-        this.uid = uid;
-    }
-
-    public int getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
-    }
-
-    public ActionsRegistry getRegistry() {
-        return registry;
-    }
-
-    public void setRegistry(ActionsRegistry registry) {
-        this.registry = registry;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public ActionsState getState() {
-        return state;
-    }
-
-    public void setState(ActionsState state) {
-        this.state = state;
-    }
-
-    public ActionsPriority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(ActionsPriority priority) {
-        this.priority = priority;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public String getOptionalInfo() {
-        return optionalInfo;
-    }
-
-    public void setOptionalInfo(String optionalInfo) {
-        this.optionalInfo = optionalInfo;
-    }
-
-    public Date getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getClosedDate() {
-        return closedDate;
-    }
-
-    public void setClosedDate(Date closedDate) {
-        this.closedDate = closedDate;
-    }
 }

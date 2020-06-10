@@ -1,10 +1,15 @@
 package com.aiksanov.api.project.data.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "prj_additional_info")
 public class ProjectAdditionalInfo {
@@ -33,13 +38,12 @@ public class ProjectAdditionalInfo {
     @Column(name = "maintenance")
     private boolean maintenance;
 
-    public ProjectAdditionalInfo() {
-    }
 
     public ProjectAdditionalInfo(int projectID) {
         this.projectID = projectID;
     }
 
+    //TODO it is no AllArgsConstr
     public ProjectAdditionalInfo(int projectID, String description, String businessLineManager, String sponsor,
                                  String oemPartner, boolean composite, boolean maintenance) {
         this.projectID = projectID;
@@ -48,70 +52,6 @@ public class ProjectAdditionalInfo {
         this.sponsor = sponsor;
         this.oemPartner = oemPartner;
         this.composite = composite;
-        this.maintenance = maintenance;
-    }
-
-    public int getProjectID() {
-        return projectID;
-    }
-
-    public void setProjectID(int projectID) {
-        this.projectID = projectID;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getBusinessLineManager() {
-        return businessLineManager;
-    }
-
-    public void setBusinessLineManager(String businessLineManager) {
-        this.businessLineManager = businessLineManager;
-    }
-
-    public String getSponsor() {
-        return sponsor;
-    }
-
-    public void setSponsor(String sponsor) {
-        this.sponsor = sponsor;
-    }
-
-    public String getOemPartner() {
-        return oemPartner;
-    }
-
-    public void setOemPartner(String oemPartner) {
-        this.oemPartner = oemPartner;
-    }
-
-    public String getKeyCustomers() {
-        return keyCustomers;
-    }
-
-    public void setKeyCustomers(String keyCustomers) {
-        this.keyCustomers = keyCustomers;
-    }
-
-    public boolean isComposite() {
-        return composite;
-    }
-
-    public void setComposite(boolean composite) {
-        this.composite = composite;
-    }
-
-    public boolean isMaintenance() {
-        return maintenance;
-    }
-
-    public void setMaintenance(boolean maintenance) {
         this.maintenance = maintenance;
     }
 }
