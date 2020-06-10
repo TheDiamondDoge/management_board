@@ -8,7 +8,7 @@ import com.aiksanov.api.project.data.entity.pk.HealthIndicatorsPK;
 import com.aiksanov.api.project.data.repository.HealthCommentsRepository;
 import com.aiksanov.api.project.data.repository.HealthRepository;
 import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -18,18 +18,12 @@ import java.util.stream.Collectors;
 
 import static com.aiksanov.api.project.util.enums.HealthStatus.*;
 
+@RequiredArgsConstructor
 @Service
 public class HealthService {
     private final HealthRepository healthRepository;
     private final HealthCommentsRepository commentsRepository;
     private final ProjectGeneralService generalService;
-
-    @Autowired
-    public HealthService(HealthRepository healthRepository, HealthCommentsRepository commentsRepository, ProjectGeneralService generalService) {
-        this.healthRepository = healthRepository;
-        this.commentsRepository = commentsRepository;
-        this.generalService = generalService;
-    }
 
     public HealthIndicatorsDTO getHealthIndicators(Integer projectID) {
         List<HealthIndicators> lastTwoHealthStates = this.healthRepository.lastTwoHealthStates(projectID);

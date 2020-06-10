@@ -7,6 +7,7 @@ import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.util.enums.actions.ActionsStateVals;
 import com.aiksanov.api.project.web.DTO.actions.ActionDTO;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -19,9 +20,10 @@ import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class ActionsService {
-    private final String PLAIN_XLSX_CREATOR = "http://localhost:8081/processors/plainXlsx";
+    private String PLAIN_XLSX_CREATOR = "http://localhost:8081/processors/plainXlsx";
 
     private final ActionsRepository actionsRepository;
     private final ActionRelatedRisksRepo actionRelatedRisksRepo;
@@ -30,17 +32,6 @@ public class ActionsService {
     private final ActionsPriorityRepo actionsPriorityRepo;
     private final ProjectGeneralService generalService;
 
-    @Autowired
-    public ActionsService(ActionsRepository actionsRepository, ActionsRegistryRepo actionsRegistryRepo,
-                          ActionsStateRepo actionsStateRepo, ActionsPriorityRepo actionsPriorityRepo,
-                          ProjectGeneralService generalService, ActionRelatedRisksRepo actionRelatedRisksRepo) {
-        this.actionsRepository = actionsRepository;
-        this.actionsRegistryRepo = actionsRegistryRepo;
-        this.actionsStateRepo = actionsStateRepo;
-        this.actionsPriorityRepo = actionsPriorityRepo;
-        this.generalService = generalService;
-        this.actionRelatedRisksRepo = actionRelatedRisksRepo;
-    }
 
     public List<ActionDTO> getAllActionsByProjectId(int projectId) {
         List<Actions> actions = this.actionsRepository.findActionsByProjectId(projectId);

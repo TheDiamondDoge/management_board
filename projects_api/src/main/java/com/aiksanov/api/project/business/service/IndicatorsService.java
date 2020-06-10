@@ -14,7 +14,7 @@ import com.aiksanov.api.project.web.DTO.indicators.MilestoneIndKpiDTO;
 import com.aiksanov.api.project.web.DTO.kpi.QualityIndicatorsAmountDTO;
 import com.aiksanov.api.project.web.DTO.quality.QualityIndicatorDTO;
 import com.aiksanov.api.project.web.DTO.quality.QualityIndicatorsTableDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 //TODO: projectID exists??? check!
+@RequiredArgsConstructor
 @Service
 public class IndicatorsService {
     private final ProjectGeneralService generalService;
@@ -35,21 +36,6 @@ public class IndicatorsService {
     private final QualityIndicatorsCommentsRepository commentsRepository;
     private final MilestoneRepository milestoneRepository;
 
-    @Autowired
-    public IndicatorsService(MilestoneService milestoneService, CostService costService, KpiService kpiService,
-                             IndicatorsReqsRepository indicatorsReqsRepository, QualityIndicatorsRepository qualityRepository,
-                             QualityIndicatorsCommentsRepository commentsRepository, MilestoneRepository milestoneRepository,
-                             ProjectGeneralService generalService)
-    {
-        this.milestoneService = milestoneService;
-        this.costService = costService;
-        this.kpiService = kpiService;
-        this.indicatorsReqsRepository = indicatorsReqsRepository;
-        this.qualityRepository = qualityRepository;
-        this.commentsRepository = commentsRepository;
-        this.milestoneRepository = milestoneRepository;
-        this.generalService = generalService;
-    }
 
     public IndicatorsReqDTO getRqDTO(int projectID) {
         IndicatorsReqs rqs = this.indicatorsReqsRepository.findById(projectID).orElseGet(IndicatorsReqs::new);
@@ -275,4 +261,3 @@ public class IndicatorsService {
         return new QualityIndicatorsComments(projectID, kpiID, comment);
     }
 }
-

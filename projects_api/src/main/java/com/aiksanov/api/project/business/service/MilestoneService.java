@@ -9,25 +9,21 @@ import com.aiksanov.api.project.util.enums.MilestoneLabels;
 import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.MilestoneDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class MilestoneService {
+    private static final String[] mandatoryMilestones = {"OR", "DR0", "DR1", "DR2", "DR3", "TR", "DR4", "DR5", "OBR", "CI"};
+    private static final List<String> alwaysShown = Arrays.asList("DR1", "DR4");
     private final MilestoneRepository milestoneRepo;
     private final GeneralRepository projectRepo;
-    private final String[] mandatoryMilestones = {"OR", "DR0", "DR1", "DR2", "DR3", "TR", "DR4", "DR5", "OBR", "CI"};
-    private final List<String> alwaysShown = Arrays.asList("DR1", "DR4");
 
-    @Autowired
-    public MilestoneService(MilestoneRepository milestoneRepo, GeneralRepository projectRepo) {
-        this.milestoneRepo = milestoneRepo;
-        this.projectRepo = projectRepo;
-    }
 
     public List<MilestoneDTO> getMilestoneDTOsForInfoTab(Integer projectID) {
         List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDOrderByActualDateAsc(projectID);

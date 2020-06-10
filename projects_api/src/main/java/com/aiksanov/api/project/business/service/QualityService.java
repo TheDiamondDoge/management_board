@@ -4,7 +4,6 @@ import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
 import com.aiksanov.api.project.web.DTO.quality.QualityIssue;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

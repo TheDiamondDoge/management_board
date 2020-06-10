@@ -8,24 +8,19 @@ import com.aiksanov.api.project.data.repository.HealthRepository;
 import com.aiksanov.api.project.data.repository.MilestoneRepository;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.PWSTableViewDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class ProjectTableViewService {
     private final GeneralRepository generalRepository;
     private final MilestoneRepository milestoneRepository;
     private final HealthRepository healthRepository;
 
-    @Autowired
-    public ProjectTableViewService(GeneralRepository generalRepository, MilestoneRepository milestoneRepository, HealthRepository healthRepository) {
-        this.generalRepository = generalRepository;
-        this.milestoneRepository = milestoneRepository;
-        this.healthRepository = healthRepository;
-    }
 
     public List<Project> getProjectsData(Boolean isEpm, WorkspaceStatus status){
         return getProjectsByParams(isEpm, status);

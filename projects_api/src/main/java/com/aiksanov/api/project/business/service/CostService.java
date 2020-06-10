@@ -11,6 +11,7 @@ import com.aiksanov.api.project.util.enums.cost.CostStates;
 import com.aiksanov.api.project.web.DTO.cost.CostDTO;
 import com.aiksanov.api.project.web.DTO.cost.CostRowDTO;
 import com.aiksanov.api.project.web.DTO.cost.CostTableDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -26,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+@RequiredArgsConstructor
 @Service
 public class CostService {
     private static final String UPLOAD_URL = "http://localhost:8081/processors/cost/";
@@ -37,13 +39,6 @@ public class CostService {
     private final CostDetailsRepository costDetailsRepository;
     private final ProjectGeneralService generalService;
 
-    @Autowired
-    public CostService(CostRepository costRepository, CostDetailsRepository costDetailsRepository,
-                       ProjectGeneralService generalService) {
-        this.costRepository = costRepository;
-        this.costDetailsRepository = costDetailsRepository;
-        this.generalService = generalService;
-    }
 
     public List<Cost> getAllCostObjectsByPrjId(int projectId) {
         return this.costRepository.findAllByProjectId(projectId);

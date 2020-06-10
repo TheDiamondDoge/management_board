@@ -8,6 +8,7 @@ import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
 import com.aiksanov.api.project.web.DTO.risks.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -25,6 +26,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class RisksService {
     @Value("${risks.processor.url}")
@@ -35,19 +37,12 @@ public class RisksService {
 
     @Value("${risks.file.storage}")
     private String RISKS_STORAGE;
-    private final String RISKS_SUFFIX = "_risks.xlsx";
+    private String RISKS_SUFFIX = "_risks.xlsx";
 
     private final RisksRepository risksRepository;
     private final RisksTableInfoRepo risksTableInfoRepo;
     private final ProjectGeneralService generalService;
 
-    @Autowired
-    public RisksService(RisksRepository risksRepository, RisksTableInfoRepo risksTableInfoRepo,
-                        ProjectGeneralService generalService) {
-        this.risksRepository = risksRepository;
-        this.risksTableInfoRepo = risksTableInfoRepo;
-        this.generalService = generalService;
-    }
 
     public Set<Risk> getRisksByIds(List<String> risksIds, int projectId) {
         return this.risksRepository.findByRiskDisplayIdInAndProjectId(risksIds, projectId);

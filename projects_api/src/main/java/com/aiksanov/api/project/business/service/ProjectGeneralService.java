@@ -11,7 +11,7 @@ import com.aiksanov.api.project.web.DTO.contrib.ContributingProjectDTO;
 import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContribProjectsDataDTO;
 import com.aiksanov.api.project.web.DTO.summary.ProjectDefaultDataDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class ProjectGeneralService {
     private String CONTRIB_XLSX_URL = "http://localhost:8081/processors/contribProjects";
@@ -31,17 +32,6 @@ public class ProjectGeneralService {
     private final JiraParamsRepository jiraParamsRepository;
     private final WorkspaceInfoRepo workspaceInfoRepo;
 
-    @Autowired
-    public ProjectGeneralService(GeneralRepository generalRepository, MilestoneService milestoneService,
-                                 ContributingProjectsRepository contribRepository, WorkspaceInfoRepo workspaceInfoRepo,
-                                 ProjectURLsRepository projectURLsRepository, JiraParamsRepository jiraParamsRepository) {
-        this.generalRepository = generalRepository;
-        this.milestoneService = milestoneService;
-        this.contribRepository = contribRepository;
-        this.workspaceInfoRepo = workspaceInfoRepo;
-        this.projectURLsRepository = projectURLsRepository;
-        this.jiraParamsRepository = jiraParamsRepository;
-    }
 
     public Project getProjectGeneralInfo(Integer projectID) {
         return this.generalRepository.findById(projectID).orElseThrow(ProjectDoesNotExistException::new);

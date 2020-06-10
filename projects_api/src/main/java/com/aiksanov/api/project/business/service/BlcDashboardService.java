@@ -10,7 +10,7 @@ import com.aiksanov.api.project.util.enums.BlcRoles;
 import com.aiksanov.api.project.web.DTO.blc.BlcDashboardDTO;
 import com.aiksanov.api.project.web.DTO.blc.BlcIndicators;
 import com.aiksanov.api.project.web.DTO.blc.BlcRowDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,16 +19,11 @@ import java.util.Date;
 import java.util.Objects;
 
 
+@RequiredArgsConstructor
 @Service
 public class BlcDashboardService {
     private final BlcDashboardRepository dashboardRepository;
     private final BlcDashboardCommentsRepo commentsRepo;
-
-    @Autowired
-    public BlcDashboardService(BlcDashboardRepository dashboardRepository, BlcDashboardCommentsRepo commentsRepo) {
-        this.dashboardRepository = dashboardRepository;
-        this.commentsRepo = commentsRepo;
-    }
 
     public BlcDashboardDTO getBlcDTO(int projectID) {
         BlcDashboardDTO blcDTO = new BlcDashboardDTO();

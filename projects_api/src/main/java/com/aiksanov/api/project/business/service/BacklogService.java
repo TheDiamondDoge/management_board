@@ -8,6 +8,7 @@ import com.aiksanov.api.project.web.DTO.backlog.BacklogIssue;
 import com.aiksanov.api.project.web.DTO.information.EcmaBacklogTargetDTO;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,17 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
+@RequiredArgsConstructor
 @Service
 public class BacklogService {
     private final EcmaBacklogTargetRepo ecmaBacklogTargetRepo;
 
     private String CHART_URL = "http://localhost:8100/general/chart";
-
-    @Autowired
-    public BacklogService(EcmaBacklogTargetRepo ecmaBacklogTargetRepo) {
-        this.ecmaBacklogTargetRepo = ecmaBacklogTargetRepo;
-    }
 
     public BacklogDefectsChartDTO getChartData(int projectId) {
         String finalUrl = CHART_URL + "/" + "backlog/" + projectId;

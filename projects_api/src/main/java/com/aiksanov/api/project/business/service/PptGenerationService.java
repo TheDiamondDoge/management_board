@@ -17,6 +17,7 @@ import com.aiksanov.api.project.web.DTO.reports.UserReportsDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
 import com.aiksanov.api.project.web.DTO.summary.ProjectGeneral;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -35,6 +36,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class PptGenerationService {
     @Value("${ppt.generator.custom}")
@@ -48,8 +50,8 @@ public class PptGenerationService {
 
     @Value("${reportImages.file.storage}")
     private String REPORT_IMGS_PATH;
+    private String POSTFIX = ".pptx";
 
-    private final String POSTFIX = ".pptx";
     private final ProjectGeneralService projectGeneralService;
     private final MilestoneService milestoneService;
     private final RisksService risksService;
@@ -59,20 +61,6 @@ public class PptGenerationService {
     private final ReportSnapshotRepository snapshotRepository;
     private final ReportSnapshotInfoRepository snapshotInfoRepository;
 
-    public PptGenerationService(ProjectGeneralService projectGeneralService, MilestoneService milestoneService,
-                                RisksService risksService, RequirementsService requirementsService,
-                                HealthService indicatorsService, StatusReportRepository reportRepository,
-                                ReportSnapshotRepository snapshotRepository,
-                                ReportSnapshotInfoRepository snapshotInfoRepository) {
-        this.projectGeneralService = projectGeneralService;
-        this.milestoneService = milestoneService;
-        this.risksService = risksService;
-        this.requirementsService = requirementsService;
-        this.indicatorsService = indicatorsService;
-        this.reportRepository = reportRepository;
-        this.snapshotRepository = snapshotRepository;
-        this.snapshotInfoRepository = snapshotInfoRepository;
-    }
 
     public ResponseEntity<Resource> getPptFile(int projectId, PptExportTypes type) throws Exception {
         return getPptFile(projectId, type, null);

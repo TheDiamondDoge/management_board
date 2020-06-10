@@ -7,7 +7,7 @@ import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.util.decompositor.InformationDtoDecomposer;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.information.InformationDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@RequiredArgsConstructor
 @Service
 @Transactional
 public class InformationTabService {
@@ -26,19 +27,6 @@ public class InformationTabService {
     private final ContributingProjectsRepository contribProjectsRepo;
     private final FieldCommentsRepository commentsRepository;
 
-
-    @Autowired
-    public InformationTabService(ProjectGeneralService generalService, GeneralRepository generalRepository, ProjectURLsRepository urlsRepository,
-                                 JiraParamsRepository jiraParamsRepository, EcmaBacklogTargetRepo backlogTargetRepo,
-                                 ContributingProjectsRepository contribProjectsRepo, FieldCommentsRepository comments) {
-        this.generalService = generalService;
-        this.generalRepository = generalRepository;
-        this.urlsRepository = urlsRepository;
-        this.jiraParamsRepository = jiraParamsRepository;
-        this.backlogTargetRepo = backlogTargetRepo;
-        this.contribProjectsRepo = contribProjectsRepo;
-        this.commentsRepository = comments;
-    }
 
     @Transactional
     public InformationDTO getInfoTabData(Integer id) {

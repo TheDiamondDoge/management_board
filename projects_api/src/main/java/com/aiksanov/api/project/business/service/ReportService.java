@@ -11,6 +11,7 @@ import com.aiksanov.api.project.web.DTO.Base64ImageDTO;
 import com.aiksanov.api.project.web.DTO.reports.ReportTabDTO;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsDTO;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsSaveDTO;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@RequiredArgsConstructor
 @Service
 public class ReportService {
     @Value("${reportImages.file.storage}")
@@ -40,16 +42,6 @@ public class ReportService {
     private final GeneralRepository generalRepository;
     private final ReportSnapshotRepository snapshotRepository;
 
-    @Autowired
-    public ReportService(PptGenerationService pptGenerationService, StatusReportRepository reportRepository,
-                         ReportSnapshotRepository snapshotRepository, GeneralRepository generalRepository,
-                         ReportSnapshotInfoRepository reportSnapshotInfoRepository) {
-        this.reportSnapshotInfoRepository = reportSnapshotInfoRepository;
-        this.pptGenerationService = pptGenerationService;
-        this.reportRepository = reportRepository;
-        this.snapshotRepository = snapshotRepository;
-        this.generalRepository = generalRepository;
-    }
 
     public ReportTabDTO getReportTab(int projectId) {
         Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);

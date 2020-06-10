@@ -8,10 +8,12 @@ import com.aiksanov.api.project.data.repository.ProjectURLsRepository;
 import com.aiksanov.api.project.data.repository.StatusReportRepository;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.web.DTO.summary.SummaryDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+@RequiredArgsConstructor
 @Service
 public class SummaryTabService {
     private final GeneralRepository generalRepo;
@@ -20,15 +22,6 @@ public class SummaryTabService {
     private final ActionsService actionsService;
     private final RisksService risksService;
 
-    @Autowired
-    public SummaryTabService(GeneralRepository generalRepo, ProjectURLsRepository urlsRepo, StatusReportRepository reportRepo,
-                             ActionsService actionsService, RisksService risksService) {
-        this.generalRepo = generalRepo;
-        this.urlsRepo = urlsRepo;
-        this.reportRepo = reportRepo;
-        this.actionsService = actionsService;
-        this.risksService = risksService;
-    }
 
     public SummaryDTO getSummaryDTO(Integer projectID){
         Project projectInfo = this.generalRepo.findById(projectID).orElseThrow(ProjectDoesNotExistException::new);
