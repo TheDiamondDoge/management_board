@@ -1,8 +1,7 @@
 package com.aiksanov.api.project.data.repository;
 
 import com.aiksanov.api.project.data.entity.Actions;
-import com.aiksanov.api.project.data.entity.ActionsState;
-import com.aiksanov.api.project.data.entity.pk.ActionsPK;
+import com.aiksanov.api.project.util.enums.actions.ActionsStateVals;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +11,5 @@ import java.util.List;
 public interface ActionsRepository extends CrudRepository<Actions, Integer> {
     List<Actions> findActionsByProjectId(int projectId);
     void deleteAllByProjectId(int projectId);
-    int countActionsByProjectIdAndState(int projectId, ActionsState state);
+    int countActionsByProjectIdAndState(int projectId, ActionsStateVals state);
 }

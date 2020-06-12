@@ -2,21 +2,22 @@ package com.aiksanov.api.project.web.DTO.actions;
 
 import com.aiksanov.api.project.data.entity.ActionRelatedRisks;
 import com.aiksanov.api.project.data.entity.Actions;
-import com.aiksanov.api.project.data.entity.Risk;
+import com.aiksanov.api.project.util.enums.actions.ActionPriorityVals;
+import com.aiksanov.api.project.util.enums.actions.ActionsRegistryVals;
+import com.aiksanov.api.project.util.enums.actions.ActionsStateVals;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ActionDTO {
-    private String registry;
+    private ActionsRegistryVals registry;
     private Integer uid;
     private String title;
-    private String state;
-    private String priority;
+    private ActionsStateVals state;
+    private ActionPriorityVals priority;
     private String owner;
     private String optionalInfo;
     private Date dueDate;
@@ -48,15 +49,15 @@ public class ActionDTO {
         this.uid = actions.getUid();
 
         if (Objects.nonNull(actions.getRegistry())) {
-            this.registry = actions.getRegistry().getRegistryLabel();
+            this.registry = actions.getRegistry();
         }
 
         if (Objects.nonNull(actions.getState())) {
-            this.state = actions.getState().getStateLabel();
+            this.state = actions.getState();
         }
 
         if (Objects.nonNull(actions.getPriority())) {
-            this.priority = actions.getPriority().getPriorityLabel();
+            this.priority = actions.getPriority();
         }
     }
 
@@ -66,14 +67,6 @@ public class ActionDTO {
         } else {
             return new ArrayList<>();
         }
-    }
-
-    public String getRegistry() {
-        return registry;
-    }
-
-    public void setRegistry(String registry) {
-        this.registry = registry;
     }
 
     public Integer getUid() {
@@ -92,19 +85,27 @@ public class ActionDTO {
         this.title = title;
     }
 
-    public String getState() {
+    public ActionsRegistryVals getRegistry() {
+        return registry;
+    }
+
+    public void setRegistry(ActionsRegistryVals registry) {
+        this.registry = registry;
+    }
+
+    public ActionsStateVals getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(ActionsStateVals state) {
         this.state = state;
     }
 
-    public String getPriority() {
+    public ActionPriorityVals getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(ActionPriorityVals priority) {
         this.priority = priority;
     }
 

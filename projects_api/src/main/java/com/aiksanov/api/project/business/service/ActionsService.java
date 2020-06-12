@@ -7,8 +7,9 @@ import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.util.enums.actions.ActionsStateVals;
 import com.aiksanov.api.project.web.DTO.actions.ActionDTO;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +21,16 @@ import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Service
 public class ActionsService {
-    private String PLAIN_XLSX_CREATOR = "http://localhost:8081/processors/plainXlsx";
+    private ActionsRepository actionsRepository;
+    private ActionRelatedRisksRepo actionRelatedRisksRepo;
+    private ProjectGeneralService generalService;
 
-    private final ActionsRepository actionsRepository;
-    private final ActionRelatedRisksRepo actionRelatedRisksRepo;
-    private final ActionsRegistryRepo actionsRegistryRepo;
-    private final ActionsStateRepo actionsStateRepo;
-    private final ActionsPriorityRepo actionsPriorityRepo;
-    private final ProjectGeneralService generalService;
+    @Value("${xlsx.plain.creator}")
+    private String PLAIN_XLSX_CREATOR;
 
 
     public List<ActionDTO> getAllActionsByProjectId(int projectId) {
@@ -66,27 +66,19 @@ public class ActionsService {
     }
 
     public int getActiveActions(int projectId) {
-        Optional<ActionsState> state = this.actionsStateRepo.findById(ActionsStateVals.ACTIVE);
-        return state.map(actionsState -> this.actionsRepository.countActionsByProjectIdAndState(projectId, actionsState))
-                .orElse(0);
+        return this.actionsRepository.countActionsByProjectIdAndState(projectId, ActionsStateVals.ACTIVE);
     }
 
     private Actions createActionsEntry(ActionDTO dto, int projectId) {
         Actions action = new Actions();
-
-        String registryLabel = dto.getRegistry();
-        ActionsRegistry registry = this.actionsRegistryRepo.findByRegistryLabel(registryLabel);
-        ActionsState state = this.actionsStateRepo.findByStateLabel(dto.getState());
-        ActionsPriority priority = this.actionsPriorityRepo.findByPriorityLabel(dto.getPriority());
-
         Integer uid = dto.getUid();
 
         action.setUid(uid);
         action.setProjectId(projectId);
-        action.setRegistry(registry);
+        action.setRegistry(dto.getRegistry());
         action.setTitle(dto.getTitle());
-        action.setState(state);
-        action.setPriority(priority);
+        action.setState(dto.getState());
+        action.setPriority(dto.getPriority());
         action.setOwner(dto.getOwner());
         action.setOptionalInfo(dto.getOptionalInfo());
         action.setDueDate(dto.getDueDate());
@@ -143,11 +135,11 @@ public class ActionsService {
         int rowsAmount = actions.size();
         for (Actions action: actions) {
             List<String> row = new ArrayList<>();
-            row.add(action.getRegistry().getRegistryLabel());
+            row.add(action.getRegistry().toString());
             row.add(action.getUid().toString());
             row.add(action.getTitle());
-            row.add(action.getState().getStateLabel());
-            row.add(action.getPriority().getPriorityLabel());
+            row.add(action.getState().toString());
+            row.add(action.getPriority().toString());
             row.add(action.getOwner());
             row.add(action.getOptionalInfo());
             row.add(Utils.dateToString(action.getDueDate()));

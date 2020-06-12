@@ -1,5 +1,8 @@
 package com.aiksanov.api.project.data.entity;
 
+import com.aiksanov.api.project.util.enums.actions.ActionPriorityVals;
+import com.aiksanov.api.project.util.enums.actions.ActionsRegistryVals;
+import com.aiksanov.api.project.util.enums.actions.ActionsStateVals;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,20 +22,17 @@ public class Actions {
     @Column(name = "project_id")
     private int projectId;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "registry", referencedColumnName = "registry_id")
-    private ActionsRegistry registry;
+    @Enumerated(EnumType.STRING)
+    private ActionsRegistryVals registry;
 
     @Column(name = "title")
     private String title;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "state", referencedColumnName = "state_id")
-    private ActionsState state;
+    @Enumerated(EnumType.STRING)
+    private ActionsStateVals state;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "priority", referencedColumnName = "priority_id")
-    private ActionsPriority priority;
+    @Enumerated(EnumType.STRING)
+    private ActionPriorityVals priority;
 
     @Column(name = "owner")
     private String owner;
