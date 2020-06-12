@@ -6,6 +6,7 @@ import com.aiksanov.api.project.web.DTO.indicators.IndicatorsDr4KpiDTO;
 import com.aiksanov.api.project.web.DTO.indicators.IndicatorsReqDTO;
 import com.aiksanov.api.project.web.DTO.indicators.MilestoneIndKpiDTO;
 import com.aiksanov.api.project.web.DTO.quality.QualityIndicatorsTableDTO;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/indicators")
 public class IndicatorsRequirementsController {
     private static final Logger LOGGER = LoggerFactory.getLogger(IndicatorsRequirementsController.class);
-    private IndicatorsService indicatorsService;
-
-    @Autowired
-    public IndicatorsRequirementsController(IndicatorsService indicatorsService) {
-        this.indicatorsService = indicatorsService;
-    }
+    private final IndicatorsService indicatorsService;
 
     @GetMapping("/requirements/{id}")
     public IndicatorsReqDTO getRequirements(@PathVariable int id) {

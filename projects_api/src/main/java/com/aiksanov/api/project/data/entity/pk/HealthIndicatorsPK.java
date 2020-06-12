@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class HealthIndicatorsPK implements Serializable{
+public class HealthIndicatorsPK implements Serializable {
     @Column(name = "project_id", insertable = false, updatable = false)
     private int projectID;
 

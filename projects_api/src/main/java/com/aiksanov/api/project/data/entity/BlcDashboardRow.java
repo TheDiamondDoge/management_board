@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 @Table(name = "prj_blc_dashboard")
 @IdClass(BlcDashboardPK.class)
-public class BlcDashboard {
+public class BlcDashboardRow {
     @Id
     @Column(name = "project_id")
     private int projectID;

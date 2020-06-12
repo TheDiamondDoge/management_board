@@ -1,16 +1,20 @@
 package com.aiksanov.api.project.web.DTO.information;
 
 import com.aiksanov.api.project.data.entity.*;
+import com.aiksanov.api.project.data.entity.pk.ContributingProjectsPK;
+import com.aiksanov.api.project.data.entity.pk.FieldCommentsPK;
 import com.aiksanov.api.project.util.enums.CommentsFieldNames;
 import com.aiksanov.api.project.util.enums.ProjectRigors;
 import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
+import lombok.Getter;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Getter
 public class InformationDTO {
     private String projectDescription;
     private String oemPartner;
@@ -171,151 +175,139 @@ public class InformationDTO {
                 .getComment();
     }
 
-    public String getProjectDescription() {
-        return projectDescription;
+    public Project getProject(int projectId) {
+        Project prj = new Project();
+        prj.setProjectID(projectId);
+        prj.setType(ProjectTypes.getTypeIgnoreCase(projectType));
+
+        ProjectRigors rigor = ProjectRigors.getTypeIgnoreCase(projectRigor);
+        prj.setRigor(rigor);
+
+        prj.setState(projectState);
+        prj.setManager(projectManager);
+
+        Product product = buildProduct(projectId);
+        ProjectAdditionalInfo info = buildProjectAdditionalInfo(projectId);
+
+        prj.setProduct(product);
+        prj.setAdditionalInfo(info);
+        return prj;
     }
 
-    public String getOemPartner() {
-        return oemPartner;
+    private Product buildProduct(int projectId) {
+        Product product = new Product();
+        product.setProjectID(projectId);
+        product.setName(productName);
+        product.setRelease(productRelease);
+        product.setManager(productLineManager);
+        product.setDivision(businessDivision);
+        product.setBusinessUnit(businessUnit);
+        product.setProductLine(productLine);
+        return product;
     }
 
-    public String getKeyCustomers() {
-        return keyCustomers;
+    private ProjectAdditionalInfo buildProjectAdditionalInfo(int projectId) {
+        ProjectAdditionalInfo info = new ProjectAdditionalInfo();
+        info.setProjectID(projectId);
+        info.setDescription(projectDescription);
+        info.setBusinessLineManager(businessLineManager);
+        info.setSponsor(sponsor);
+        info.setOemPartner(oemPartner);
+        info.setKeyCustomers(keyCustomers);
+        info.setComposite(composite);
+        info.setMaintenance(maintenance);
+        return info;
     }
 
-    public String getProductRelease() {
-        return productRelease;
+    public ProjectURLs getProjectUrlsObj(int projectId) {
+        ProjectURLs urls = new ProjectURLs();
+        urls.setProjectID(projectId);
+        urls.setCharter(charter);
+        urls.setOrBusinessPlan(orBusinessPlan);
+
+        if (Objects.nonNull(updatedBusinessPlan)) {
+            urls.setUpdatedBusinessPlan(updatedBusinessPlan.getValue());
+        }
+
+        if (Objects.nonNull(drChecklist)) {
+            urls.setTailoredChecklist(drChecklist.getValue());
+        }
+
+        if (Objects.nonNull(lessonsLearned)) {
+            urls.setLessonsLearned(lessonsLearned.getValue());
+        }
+
+        if (Objects.nonNull(projectPlan)) {
+            urls.setProjectPlan(projectPlan.getValue());
+        }
+
+        if (Objects.nonNull(launchingPlan)) {
+            urls.setLaunchingPlan(launchingPlan.getValue());
+        }
+
+        urls.setCollabUrl(projectCollabUrl);
+        urls.setSalesForce(salesForce);
+        urls.setPwaUrl(projectPWASiteUrl);
+        urls.setDocumentsRepoUrl(docRepositoryUrl);
+        urls.setDefectsUrl(defectsUrl);
+        urls.setRequirementsUrl(requirementsUrl);
+        urls.setCisUrl(cisUrl);
+        return urls;
     }
 
-    public String getProjectType() {
-        return this.projectType;
+    public JiraParams getJiraParams(int projectId) {
+        JiraParams params = new JiraParams();
+        params.setProjectID(projectId);
+        params.setMetricsScope(metricsScope);
+        params.setRqRelease(rqRelease);
+        return params;
     }
 
-    public String getProjectRigor() {
-        return projectRigor;
+    public List<EcmaBacklogTarget> getEcmaBacklogTargetList(int projectId) {
+        List<EcmaBacklogTarget> list = new ArrayList<>();
+        List<EcmaBacklogTargetDTO> ecmaBacklogTarget = getEcmaBacklogTarget();
+
+        if (Objects.isNull(ecmaBacklogTarget)) {
+            return list;
+        }
+
+        list = ecmaBacklogTarget.stream()
+                .filter(dto -> Objects.nonNull(dto.getMilestone()))
+                .map(dto -> dto.getEcmaBacklogTargetObj(projectId))
+                .collect(Collectors.toList());
+
+        return list;
     }
 
-    public ProjectStates getProjectState() {
-        return projectState;
-    }
+    public List<ContributingProjects> getListOfContribProjects(int projectId) {
+        List<ContributingProjects> contributingProjects = new ArrayList<>();
+        List<ContributingDTO> contribDto = getContributingProjects();
 
-    public String getBusinessDivision() {
-        return businessDivision;
-    }
+        if (Objects.isNull(contribDto)) {
+            return contributingProjects;
+        }
 
-    public String getBusinessUnit() {
-        return businessUnit;
-    }
+        contributingProjects = contribDto.stream()
+                .map(project -> new ContributingProjects(new ContributingProjectsPK(projectId, project.getProjectID())))
+                .collect(Collectors.toList());
 
-    public String getProductLine() {
-        return productLine;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public String getSponsor() {
-        return sponsor;
-    }
-
-    public String getBusinessLineManager() {
-        return businessLineManager;
-    }
-
-    public String getProductLineManager() {
-        return productLineManager;
-    }
-
-    public String getProjectManager() {
-        return projectManager;
-    }
-
-    public String getCharter() {
-        return charter;
-    }
-
-    public String getOrBusinessPlan() {
-        return orBusinessPlan;
-    }
-
-    public FieldWithCommentDTO getUpdatedBusinessPlan() {
-        return updatedBusinessPlan;
-    }
-
-    public FieldWithCommentDTO getDrChecklist() {
-        return drChecklist;
-    }
-
-    public FieldWithCommentDTO getLessonsLearned() {
-        return lessonsLearned;
-    }
-
-    public FieldWithCommentDTO getProjectPlan() {
-        return projectPlan;
-    }
-
-    public FieldWithCommentDTO getLaunchingPlan() {
-        return launchingPlan;
-    }
-
-    public String getMetricsScope() {
-        return metricsScope;
-    }
-
-    public String getRqRelease() {
-        return rqRelease;
-    }
-
-    public List<EcmaBacklogTargetDTO> getEcmaBacklogTarget() {
-        return ecmaBacklogTarget;
-    }
-
-    public boolean isMaintenance() {
-        return maintenance;
-    }
-
-    public boolean isComposite() {
-        return composite;
-    }
-
-    public List<ContributingDTO> getContributingProjects() {
         return contributingProjects;
     }
 
-    public String getProjectCollabUrl() {
-        return projectCollabUrl;
+    public List<FieldComments> getListOfFieldComments(int projectId) {
+        List<FieldComments> result = new ArrayList<>();
+        result.add(buildFieldComment(CommentsFieldNames.UPDATED_BP, updatedBusinessPlan.getComment(), projectId));
+        result.add(buildFieldComment(CommentsFieldNames.DR_CHECKLIST, drChecklist.getComment(), projectId));
+        result.add(buildFieldComment(CommentsFieldNames.LESSONS_LEARNED, lessonsLearned.getComment(), projectId));
+        result.add(buildFieldComment(CommentsFieldNames.PROJECT_PLAN, projectPlan.getComment(), projectId));
+        result.add(buildFieldComment(CommentsFieldNames.LAUNCHING_PLAN, launchingPlan.getComment(), projectId));
+
+        return result;
     }
 
-    public String getSalesForce() {
-        return salesForce;
-    }
-
-    public String getProjectPWASiteUrl() {
-        return projectPWASiteUrl;
-    }
-
-    public String getDocRepositoryUrl() {
-        return docRepositoryUrl;
-    }
-
-    public String getDefectsUrl() {
-        return defectsUrl;
-    }
-
-    public String getRequirementsUrl() {
-        return requirementsUrl;
-    }
-
-    public String getCisUrl() {
-        return cisUrl;
-    }
-
-    public boolean isEpm() {
-        return epm;
-    }
-
-    public List<MilestoneDTO> getMilestones() {
-        return milestones;
+    private FieldComments buildFieldComment(CommentsFieldNames field, String comment, int projectId) {
+        return new FieldComments(
+                new FieldCommentsPK(projectId, field.getTitle()), comment
+        );
     }
 }

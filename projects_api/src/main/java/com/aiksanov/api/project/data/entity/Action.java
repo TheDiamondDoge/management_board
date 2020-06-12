@@ -13,7 +13,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "prj_actions")
-public class Actions {
+public class Action {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid")

@@ -1,10 +1,16 @@
 package com.aiksanov.api.project.web.DTO.risks;
 
 import com.aiksanov.api.project.data.entity.Risk;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Date;
 import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class RisksDTO {
     private int riskId;
     private String riskDisplayId;
@@ -29,9 +35,6 @@ public class RisksDTO {
     private java.util.Date updatedOn;
     private String updatedBy;
     private boolean report;
-
-    public RisksDTO() {
-    }
 
     public RisksDTO(Risk risk) {
         if (Objects.nonNull(risk)) {
@@ -95,189 +98,5 @@ public class RisksDTO {
 
     private Float getNullIfZero(Float value) {
         return Math.signum(value) == 0 ? null : value;
-    }
-
-    public int getRiskId() {
-        return riskId;
-    }
-
-    public void setRiskId(int riskId) {
-        this.riskId = riskId;
-    }
-
-    public String getRiskDisplayId() {
-        return riskDisplayId;
-    }
-
-    public void setRiskDisplayId(String riskDisplayId) {
-        this.riskDisplayId = riskDisplayId;
-    }
-
-    public String getImpact() {
-        return impact;
-    }
-
-    public void setImpact(String impact) {
-        this.impact = impact;
-    }
-
-    public String getProbability() {
-        return probability;
-    }
-
-    public void setProbability(String probability) {
-        this.probability = probability;
-    }
-
-    public Float getRating() {
-        return rating;
-    }
-
-    public void setRating(Float rating) {
-        this.rating = rating;
-    }
-
-    public String getPrevious() {
-        return previous;
-    }
-
-    public void setPrevious(String previous) {
-        this.previous = previous;
-    }
-
-    public String getInitial() {
-        return initial;
-    }
-
-    public void setInitial(String initial) {
-        this.initial = initial;
-    }
-
-    public String getRiskDescription() {
-        return riskDescription;
-    }
-
-    public void setRiskDescription(String riskDescription) {
-        this.riskDescription = riskDescription;
-    }
-
-    public String getImpactDescription() {
-        return impactDescription;
-    }
-
-    public void setImpactDescription(String impactDescription) {
-        this.impactDescription = impactDescription;
-    }
-
-    public String getBusinessImpact() {
-        return businessImpact;
-    }
-
-    public void setBusinessImpact(String businessImpact) {
-        this.businessImpact = businessImpact;
-    }
-
-    public String getRiskResponse() {
-        return riskResponse;
-    }
-
-    public void setRiskResponse(String riskResponse) {
-        this.riskResponse = riskResponse;
-    }
-
-    public String getMitigation() {
-        return mitigation;
-    }
-
-    public void setMitigation(String mitigation) {
-        this.mitigation = mitigation;
-    }
-
-    public Date getDecisionDate() {
-        return decisionDate;
-    }
-
-    public void setDecisionDate(Date decisionDate) {
-        this.decisionDate = decisionDate;
-    }
-
-    public String getEstimatedCost() {
-        return estimatedCost;
-    }
-
-    public void setEstimatedCost(String estimatedCost) {
-        this.estimatedCost = estimatedCost;
-    }
-
-    public String getProvisionBudget() {
-        return provisionBudget;
-    }
-
-    public void setProvisionBudget(String provisionBudget) {
-        this.provisionBudget = provisionBudget;
-    }
-
-    public String getResponsible() {
-        return responsible;
-    }
-
-    public void setResponsible(String responsible) {
-        this.responsible = responsible;
-    }
-
-    public String getRelatedAction() {
-        return relatedAction;
-    }
-
-    public void setRelatedAction(String relatedAction) {
-        this.relatedAction = relatedAction;
-    }
-
-    public Date getTarget() {
-        return target;
-    }
-
-    public void setTarget(Date target) {
-        this.target = target;
-    }
-
-    public Date getDone() {
-        return done;
-    }
-
-    public void setDone(Date done) {
-        this.done = done;
-    }
-
-    public Date getResult() {
-        return result;
-    }
-
-    public void setResult(Date result) {
-        this.result = result;
-    }
-
-    public java.util.Date getUpdatedOn() {
-        return updatedOn;
-    }
-
-    public void setUpdatedOn(java.util.Date updatedOn) {
-        this.updatedOn = updatedOn;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public boolean isReport() {
-        return report;
-    }
-
-    public void setReport(boolean report) {
-        this.report = report;
     }
 }

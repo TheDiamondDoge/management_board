@@ -1,14 +1,15 @@
 package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.RisksService;
+import com.aiksanov.api.project.exceptions.FileNotSavedException;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksMinimalDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksTabDTO;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/projects/{projectId}/tabs")
 public class RisksController {
     private static final Logger LOGGER = LoggerFactory.getLogger(RisksController.class);
-
-    private RisksService risksService;
-
-    @Autowired
-    public RisksController(RisksService risksService) {
-        this.risksService = risksService;
-    }
+    private final RisksService risksService;
 
     @GetMapping("/risks")
     public RisksTabDTO getRisks(@PathVariable int projectId) {
@@ -57,7 +53,7 @@ public class RisksController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/risks")
-    public List<ErrorExportDTO> uploadExcelFile(@PathVariable int projectId, @RequestParam("files") MultipartFile[] file) throws IOException, RestTemplateException {
+    public List<ErrorExportDTO> uploadExcelFile(@PathVariable int projectId, @RequestParam("files") MultipartFile[] file) throws IOException, RestTemplateException, FileNotSavedException {
         LOGGER.info("POST /api/projects/{}/tabs/risks Filename: {}", projectId, file[0].getOriginalFilename());
         return this.risksService.processRiskFile(file[0], projectId);
     }

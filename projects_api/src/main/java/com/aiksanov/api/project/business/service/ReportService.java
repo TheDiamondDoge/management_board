@@ -1,24 +1,23 @@
 package com.aiksanov.api.project.business.service;
 
 import com.aiksanov.api.project.data.entity.*;
-import com.aiksanov.api.project.data.repository.GeneralRepository;
 import com.aiksanov.api.project.data.repository.ReportSnapshotInfoRepository;
 import com.aiksanov.api.project.data.repository.ReportSnapshotRepository;
 import com.aiksanov.api.project.data.repository.StatusReportRepository;
-import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.exceptions.TooMuchFilesException;
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.web.DTO.Base64ImageDTO;
 import com.aiksanov.api.project.web.DTO.reports.ReportTabDTO;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsDTO;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsSaveDTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Files;
@@ -31,20 +30,22 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 @Service
 public class ReportService {
+    private final PptGenerationService pptGenerationService;
+    private final StatusReportRepository reportRepository;
+    private final ReportSnapshotInfoRepository reportSnapshotInfoRepository;
+    private final ReportSnapshotRepository snapshotRepository;
+
+    @Resource
+    private ProjectGeneralService projectGeneralService;
+
     @Value("${reportImages.file.storage}")
     private String IMG_SAVE_PATH;
 
     @Value("${reportImages.max.amount}")
     private int maxAmount;
-    private final PptGenerationService pptGenerationService;
-    private final StatusReportRepository reportRepository;
-    private final ReportSnapshotInfoRepository reportSnapshotInfoRepository;
-    private final GeneralRepository generalRepository;
-    private final ReportSnapshotRepository snapshotRepository;
-
 
     public ReportTabDTO getReportTab(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
+        Project project = this.projectGeneralService.getProjectGeneralInfo(projectId);
         ReportTabDTO dto = new ReportTabDTO();
         if (Objects.nonNull(project)) {
             dto.setProjectName(project.getName());
@@ -75,7 +76,7 @@ public class ReportService {
 
         StatusReport report = getStatusReportObj(projectId, dto);
         this.reportRepository.save(report);
-//        this.generalService.modifyWorkspaceUpdatedBy(projectId, "TestRepSaver");
+        this.projectGeneralService.modifyWorkspaceUpdatedBy(projectId, "TestRepSaver");
     }
 
     private StatusReport getStatusReportObj(int projectId, UserReportsSaveDTO dto) {
@@ -90,7 +91,7 @@ public class ReportService {
     }
 
     public List<Base64ImageDTO> getReportImages(int projectId) {
-        String folderPath = IMG_SAVE_PATH + "/" + projectId;
+        String folderPath = IMG_SAVE_PATH + File.separator + projectId;
         List<Base64ImageDTO> images = new ArrayList<>();
         final File folder = new File(folderPath);
         if (folder.exists()) {
@@ -101,7 +102,7 @@ public class ReportService {
                                 {
                                     try {
                                         String filename = file.getName(file.getNameCount() - 1).toString();
-                                        String base64ImgString = fileToHtmlBase64Img(file);
+                                        String base64ImgString = Utils.fileToHtmlBase64Img(file);
                                         return new Base64ImageDTO(filename, base64ImgString);
                                     } catch (IOException e) {
                                         return null;
@@ -119,13 +120,15 @@ public class ReportService {
     }
 
     public void saveImages(int projectId, MultipartFile[] files) throws IOException, TooMuchFilesException {
-        String folderPath = IMG_SAVE_PATH + "/" + projectId;
+        String folderPath = IMG_SAVE_PATH + File.separator + projectId;
         File dir = new File(folderPath);
-        if (!dir.exists()) {
+        if (!dir.exists() || !dir.isDirectory()) {
             dir.mkdir();
         }
 
-        int filesAmount = Objects.nonNull(dir.listFiles()) ? dir.listFiles().length : 0;
+        int filesAmount = Objects.nonNull(dir.listFiles())
+                ? dir.listFiles().length
+                : 0;
 
         if (filesAmount + files.length > maxAmount) throw new TooMuchFilesException();
 
@@ -135,29 +138,20 @@ public class ReportService {
 
             file.getContentType();
             byte[] fileBytes = file.getBytes();
-            String filePath = folderPath + "/" + new Date().getTime() + i + "." + getFileFormat(file.getOriginalFilename());
+            String filePath = folderPath + File.separator + new Date().getTime() + i + "." + Utils.getFileFormat(file.getOriginalFilename());
 
-            File localFile = new File(filePath);
             Files.write(Paths.get(filePath), fileBytes);
         }
     }
 
     public void deleteImage(int projectId, String filename) {
-        String folderPath = IMG_SAVE_PATH + "/" + projectId;
-        String filePath = folderPath + "/" + filename;
+        String folderPath = IMG_SAVE_PATH + File.separator + projectId;
+        String filePath = folderPath + File.separator + filename;
         File file = new File(filePath);
         file.delete();
     }
 
-    private String getFileFormat(String filename) {
-        String[] split = filename.split("\\.");
-        return split[split.length - 1];
-    }
-
-    private String fileToHtmlBase64Img(Path file) throws IOException {
-        String filename = file.getName(file.getNameCount() - 1).toString();
-        byte[] encodedBytes = FileUtils.readFileToByteArray(new File(String.valueOf(file)));
-        String encodedString = Base64.getEncoder().encodeToString(encodedBytes);
-        return "data:image/" + getFileFormat(filename) + ";base64, " + encodedString;
+    public void setProjectGeneralService(ProjectGeneralService projectGeneralService) {
+        this.projectGeneralService = projectGeneralService;
     }
 }

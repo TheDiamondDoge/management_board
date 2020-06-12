@@ -22,6 +22,6 @@ public class ProjectTemplatesConverter implements AttributeConverter<ProjectTemp
         return Stream.of(ProjectTemplates.values())
                 .filter(type -> type.getLabel().equalsIgnoreCase(s))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(s));
+                .orElse(ProjectTemplates.NA);
     }
 }

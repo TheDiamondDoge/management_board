@@ -12,6 +12,7 @@ import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.contrib.ContribProjectsDataDTO;
 import com.aiksanov.api.project.web.DTO.summary.ProjectDefaultDataDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ProjectGeneralService {
-    private String CONTRIB_XLSX_URL = "http://localhost:8081/processors/contribProjects";
     private final GeneralRepository generalRepository;
     private final MilestoneService milestoneService;
     private final ContributingProjectsRepository contribRepository;
@@ -32,13 +32,11 @@ public class ProjectGeneralService {
     private final JiraParamsRepository jiraParamsRepository;
     private final WorkspaceInfoRepo workspaceInfoRepo;
 
+    @Value("${contrib.processor.url}")
+    private String CONTRIB_XLSX_URL;
 
     public Project getProjectGeneralInfo(Integer projectID) {
         return this.generalRepository.findById(projectID).orElseThrow(ProjectDoesNotExistException::new);
-    }
-
-    public Iterable<Project> getAll() {
-        return this.generalRepository.findAll();
     }
 
     public List<ContributingDTO> getContributableProjects(int projectId) {
@@ -65,9 +63,8 @@ public class ProjectGeneralService {
         return Utils.giveFileToUser(name, file);
     }
 
-    //TODO: refactor
     public ContribProjectsDataDTO getContibData(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
+        Project project = getProjectGeneralInfo(projectId);
         ProjectTypes projectType = project.getType();
 
         List<ContributingProjectDTO> offer = new ArrayList<>();
@@ -124,7 +121,7 @@ public class ProjectGeneralService {
     }
 
     private ContributingProjectDTO getContribProjectDto(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
+        Project project = getProjectGeneralInfo(projectId);
         String projectName = project.getName();
         ProjectStates projectState = project.getState();
         ProjectTypes projectType = project.getType();
@@ -157,7 +154,7 @@ public class ProjectGeneralService {
         return new ProjectDefaultDataDTO(project, dr1, jira.getMetricsScope(), urLs.getRequirementsUrl());
     }
 
-    public void setProjectStateByMilestones(int projectId) {
+    public void updateProjectStateByMilestones(int projectId) {
         ProjectStates state = this.milestoneService.getCurrentProjectState(projectId);
         Project project = this.generalRepository.getOne(projectId);
         project.setState(state);
@@ -177,19 +174,18 @@ public class ProjectGeneralService {
     }
 
     public String getProjectName(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
+        Project project = getProjectGeneralInfo(projectId);
         return project.getName();
     }
 
     public String getProjectsBD(int projectId) {
-        Project project = this.generalRepository.findById(projectId).orElseThrow(ProjectDoesNotExistException::new);
+        Project project = getProjectGeneralInfo(projectId);
         String bd = "";
         try {
             bd = project.getProduct().getDivision();
+            return bd;
         } catch (Exception e) {
             return bd;
         }
-
-        return bd;
     }
 }

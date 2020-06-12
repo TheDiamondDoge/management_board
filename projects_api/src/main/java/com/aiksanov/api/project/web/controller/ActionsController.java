@@ -3,6 +3,7 @@ package com.aiksanov.api.project.web.controller;
 import com.aiksanov.api.project.business.service.ActionsService;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.web.DTO.actions.ActionDTO;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +16,11 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class ActionsController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ActionsController.class);
-    private ActionsService actionsService;
-
-    @Autowired
-    public ActionsController(ActionsService actionsService) {
-        this.actionsService = actionsService;
-    }
+    private final ActionsService actionsService;
 
     @GetMapping("/projects/{projectId}/tabs/actions")
     public List<ActionDTO> getActionsByProjectId(@PathVariable int projectId) {
@@ -42,7 +39,6 @@ public class ActionsController {
     @PostMapping("/projects/{projectId}/tabs/actions")
     public void saveAction(@PathVariable int projectId, @RequestBody ActionDTO actionDTO) {
         LOGGER.info("POST /api/projects/{}/tabs", projectId);
-        LOGGER.info(actionDTO.toString());
         this.actionsService.saveAction(projectId, actionDTO);
     }
 

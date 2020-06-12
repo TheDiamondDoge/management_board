@@ -22,6 +22,6 @@ public class ProjectTypeConverter implements AttributeConverter<ProjectTypes, St
         return Stream.of(ProjectTypes.values())
                 .filter(type -> type.getValue().equalsIgnoreCase(s))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(s));
+                .orElse(ProjectTypes.NONE);
     }
 }

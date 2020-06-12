@@ -7,15 +7,6 @@ public class QualityIndicatorsDTO {
     private List<QualityDTO> qualities;
     private List<BacklogDTO> backlogs;
 
-    public QualityIndicatorsDTO() {
-    }
-
-    public QualityIndicatorsDTO(List<DefectsDTO> defects, List<QualityDTO> qualities, List<BacklogDTO> backlogs) {
-        this.defects = defects;
-        this.qualities = qualities;
-        this.backlogs = backlogs;
-    }
-
     public List<DefectsDTO> getDefects() {
         return defects;
     }

@@ -1,15 +1,14 @@
 package com.aiksanov.api.project.data.entity;
 
 import com.aiksanov.api.project.data.entity.pk.QualityIndicatorsCommentsPK;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "prj_indicators_quality_comments")
 @IdClass(QualityIndicatorsCommentsPK.class)

@@ -6,8 +6,7 @@ public enum CommentsFieldNames {
     LESSONS_LEARNED ("lessonsLearned"),
     PROJECT_PLAN ("projectPlan"),
     LAUNCHING_PLAN ("launchingPlan");
-
-    private String title;
+    private final String title;
 
     CommentsFieldNames(String title) {
         this.title = title;

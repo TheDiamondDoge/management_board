@@ -5,7 +5,7 @@ public enum MilestoneLabels {
     DR1 ("DR1"),
     DR4 ("DR4");
 
-    private String label;
+    private final String label;
 
     MilestoneLabels(String label) {
         this.label = label;

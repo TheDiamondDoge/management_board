@@ -1,6 +1,6 @@
 package com.aiksanov.api.project.business.service;
 
-import com.aiksanov.api.project.data.entity.BlcDashboard;
+import com.aiksanov.api.project.data.entity.BlcDashboardRow;
 import com.aiksanov.api.project.data.entity.BlcDashboardComments;
 import com.aiksanov.api.project.data.entity.pk.BlcDashboardPK;
 import com.aiksanov.api.project.data.repository.BlcDashboardCommentsRepo;
@@ -25,7 +25,7 @@ public class BlcDashboardService {
     private final BlcDashboardRepository dashboardRepository;
     private final BlcDashboardCommentsRepo commentsRepo;
 
-    public BlcDashboardDTO getBlcDTO(int projectID) {
+    public BlcDashboardDTO getBlcDashboardDTO(int projectID) {
         BlcDashboardDTO blcDTO = new BlcDashboardDTO();
         blcDTO.setPm(getRow(projectID, BlcRoles.PM));
         blcDTO.setPmo(getRow(projectID, BlcRoles.PMO));
@@ -34,17 +34,17 @@ public class BlcDashboardService {
     }
 
     private BlcRowDTO getRow(int projectID, BlcRoles role) {
-        BlcDashboard dashboard = getBlcDashboard(projectID, role);
+        BlcDashboardRow dashboard = getBlcDashboardRow(projectID, role);
         return getRowDTO(projectID, role, dashboard);
     }
 
-    private BlcDashboard getBlcDashboard(int projectID, BlcRoles role) {
+    private BlcDashboardRow getBlcDashboardRow(int projectID, BlcRoles role) {
         return this.dashboardRepository
                 .findById(new BlcDashboardPK(projectID, role))
-                .orElse(new BlcDashboard());
+                .orElse(new BlcDashboardRow());
     }
 
-    private BlcRowDTO getRowDTO(int projectID, BlcRoles role, BlcDashboard blcRow) {
+    private BlcRowDTO getRowDTO(int projectID, BlcRoles role, BlcDashboardRow blcRow) {
         String comment = getBlcComment(projectID, role);
         return new BlcRowDTO(blcRow, comment);
     }
@@ -65,21 +65,21 @@ public class BlcDashboardService {
             throw new NoRowToSaveException();
         }
 
-        BlcDashboard indicators = getBlcDashboardFromDto(dto, rowName, projectID);
+        BlcDashboardRow indicators = createBlcDashboardRowFromDto(dto, rowName, projectID);
         if (Objects.nonNull(indicators)) {
             this.dashboardRepository.save(indicators);
         }
     }
 
-    private BlcDashboard getBlcDashboardFromDto(BlcDashboardDTO dto, BlcRoles role, int projectID) {
+    private BlcDashboardRow createBlcDashboardRowFromDto(BlcDashboardDTO dto, BlcRoles role, int projectID) {
         if (Objects.isNull(dto)) {
             return null;
         }
 
-        BlcRowDTO row = getRow(dto, role);
+        BlcRowDTO row = dto.getRowDto(role);
 
         if (Objects.nonNull(row)) {
-            BlcDashboard blcObj = new BlcDashboard();
+            BlcDashboardRow blcObj = new BlcDashboardRow();
             blcObj.setProjectID(projectID);
             blcObj.setRole(role);
             //TODO: when session will be done - get csl form it
@@ -121,33 +121,11 @@ public class BlcDashboardService {
     }
 
     private String getCommentFromBlcDashDto(BlcDashboardDTO dto, BlcRoles rowName) {
-        BlcRowDTO row = getRow(dto, rowName);
+        BlcRowDTO row = dto.getRowDto(rowName);
         if (Objects.nonNull(row)) {
             return row.getComment();
         } else {
             return null;
         }
-    }
-
-    private BlcRowDTO getRow(BlcDashboardDTO dto, BlcRoles rowName) {
-        if (Objects.isNull(dto)) {
-            return null;
-        }
-
-        BlcRowDTO row = null;
-
-        switch (rowName) {
-            case PM:
-                row = dto.getPm();
-                break;
-            case PMO:
-                row = dto.getPmo();
-                break;
-            case SALES:
-                row = dto.getSales();
-                break;
-        }
-
-        return row;
     }
 }

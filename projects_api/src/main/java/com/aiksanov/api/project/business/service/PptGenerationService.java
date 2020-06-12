@@ -16,16 +16,14 @@ import com.aiksanov.api.project.web.DTO.reports.ReportSnapshot;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsDTO;
 import com.aiksanov.api.project.web.DTO.risks.RisksDTO;
 import com.aiksanov.api.project.web.DTO.summary.ProjectGeneral;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,6 +37,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class PptGenerationService {
+    private final ProjectGeneralService projectGeneralService;
+    private final MilestoneService milestoneService;
+    private final RisksService risksService;
+    private final RequirementsService requirementsService;
+    private final HealthService indicatorsService;
+    private final StatusReportRepository reportRepository;
+    private final ReportSnapshotRepository snapshotRepository;
+    private final ReportSnapshotInfoRepository snapshotInfoRepository;
+    private final String POSTFIX = ".pptx";
+
     @Value("${ppt.generator.custom}")
     private String CUSTOM_URL;
 
@@ -50,17 +58,6 @@ public class PptGenerationService {
 
     @Value("${reportImages.file.storage}")
     private String REPORT_IMGS_PATH;
-    private String POSTFIX = ".pptx";
-
-    private final ProjectGeneralService projectGeneralService;
-    private final MilestoneService milestoneService;
-    private final RisksService risksService;
-    private final RequirementsService requirementsService;
-    private final HealthService indicatorsService;
-    private final StatusReportRepository reportRepository;
-    private final ReportSnapshotRepository snapshotRepository;
-    private final ReportSnapshotInfoRepository snapshotInfoRepository;
-
 
     public ResponseEntity<Resource> getPptFile(int projectId, PptExportTypes type) throws Exception {
         return getPptFile(projectId, type, null);
@@ -74,7 +71,7 @@ public class PptGenerationService {
         if (Objects.isNull(reportId)) {
             dataToSend = getDataForPptCreation(projectId);
             resource = getPptFromService(dataToSend, type);
-            filename = Utils.projectNameDecorator(project.getName()) + "_" + type.name().toLowerCase() +"_report" + POSTFIX;
+            filename = Utils.projectNameDecorator(project.getName()) + "_" + type.name().toLowerCase() + "_report" + POSTFIX;
         } else {
             StatusReportSnapshotInfo info = this.snapshotInfoRepository.findById(reportId).orElseGet(StatusReportSnapshotInfo::new);
             resource = getUserSnapshot(reportId);
@@ -113,23 +110,26 @@ public class PptGenerationService {
     }
 
     private List<PptImageFile> getImages(int projectId) throws IOException {
-        String imageFolderPath = REPORT_IMGS_PATH + "/" + projectId;
-        List<Path> filePaths = Files.walk(Paths.get(imageFolderPath))
-                .filter(Files::isRegularFile)
-                .map(Path::toAbsolutePath)
-                .collect(Collectors.toList());
+        String imageFolderPath = REPORT_IMGS_PATH + File.separator + projectId;
+        List<PptImageFile> images = new ArrayList<>();
+        if (Files.exists(Paths.get(imageFolderPath))) {
+            List<Path> filePaths = Files.walk(Paths.get(imageFolderPath))
+                    .filter(Files::isRegularFile)
+                    .map(Path::toAbsolutePath)
+                    .collect(Collectors.toList());
 
-        List<PptImageFile> imageFiles = filePaths.stream().map(path -> {
-            try {
-                byte[] bytes = Files.readAllBytes(path);
-                String filename = path.getName(path.getNameCount() - 1).toString();
-                return new PptImageFile(filename, bytes);
-            } catch (IOException e) {
-                return null;
-            }
-        }).filter(Objects::nonNull).collect(Collectors.toList());
+            images = filePaths.stream().map(path -> {
+                try {
+                    byte[] bytes = Files.readAllBytes(path);
+                    String filename = path.getName(path.getNameCount() - 1).toString();
+                    return new PptImageFile(filename, bytes);
+                } catch (IOException e) {
+                    return null;
+                }
+            }).filter(Objects::nonNull).collect(Collectors.toList());
+        }
 
-        return imageFiles;
+        return images;
     }
 
     private UserReportsDTO getUserReports(int projectId) {
@@ -144,18 +144,8 @@ public class PptGenerationService {
     }
 
     private ByteArrayResource getPptFromService(PptConfigurationData data, PptExportTypes type) throws IOException, RestTemplateException {
-        RestTemplate restTemplate = new RestTemplate();
         String url = getUrlForPpt(type);
-        ResponseEntity<ByteArrayResource> response;
-        try {
-            response = restTemplate.postForEntity(url, data, ByteArrayResource.class);
-        } catch (HttpStatusCodeException e) {
-            String responseString = e.getResponseBodyAsString();
-            ObjectMapper mapper = new ObjectMapper();
-            throw mapper.readValue(responseString, RestTemplateException.class);
-        }
-
-        return response.getBody();
+        return (ByteArrayResource) Utils.sendToServise(url, data, ByteArrayResource.class).getBody();
     }
 
     private String getUrlForPpt(PptExportTypes type) {

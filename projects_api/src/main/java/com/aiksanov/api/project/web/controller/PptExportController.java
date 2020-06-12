@@ -2,6 +2,7 @@ package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.PptGenerationService;
 import com.aiksanov.api.project.util.enums.PptExportTypes;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/export/ppt")
 public class PptExportController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PptExportController.class);
     private final PptGenerationService service;
-
-    @Autowired
-    public PptExportController(PptGenerationService service) {
-        this.service = service;
-    }
 
     @GetMapping(value = "/custom/{projectId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public @ResponseBody

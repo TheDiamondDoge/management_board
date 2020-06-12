@@ -1,35 +1,18 @@
 package com.aiksanov.api.project.web.DTO.reports;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 import java.util.Objects;
 
+@AllArgsConstructor
+@Getter
+@Setter
 public class ReportSnapshot implements Comparable<ReportSnapshot> {
     private int reportId;
     private Date timestamp;
-
-    public ReportSnapshot(int reportId, Date timestamp) {
-        this.reportId = reportId;
-        this.timestamp = timestamp;
-    }
-
-    public ReportSnapshot() {
-    }
-
-    public int getReportId() {
-        return reportId;
-    }
-
-    public void setReportId(int reportId) {
-        this.reportId = reportId;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
 
     @Override
     public int compareTo(ReportSnapshot o) {

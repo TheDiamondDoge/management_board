@@ -3,12 +3,14 @@ package com.aiksanov.api.project.web.DTO;
 import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
+import lombok.Getter;
 
 import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Getter
 public class PWSTableViewDTO {
     private int projectId;
     private int overallProjectHealth;
@@ -110,113 +112,5 @@ public class PWSTableViewDTO {
                 .findAny();
 
         return milestone.map(Milestone::getActualDate).orElse(null);
-    }
-
-    public int getProjectId() {
-        return projectId;
-    }
-
-    public int getOverallProjectHealth() {
-        return overallProjectHealth;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public String getProjectRelease() {
-        return projectRelease;
-    }
-
-    public String getProjectManager() {
-        return projectManager;
-    }
-
-    public String getBusinessLineManager() {
-        return businessLineManager;
-    }
-
-    public String getProductLineManager() {
-        return productLineManager;
-    }
-
-    public String getBusinessDivision() {
-        return businessDivision;
-    }
-
-    public String getBusinessUnit() {
-        return businessUnit;
-    }
-
-    public String getProductLine() {
-        return productLine;
-    }
-
-    public ProjectStates getProjectState() {
-        return projectState;
-    }
-
-    public String getProjectRigor() {
-        return projectRigor;
-    }
-
-    public String getProjectType() {
-        return projectType.getValue();
-    }
-
-    public Date getOrDate() {
-        return orDate;
-    }
-
-    public Date getDr0date() {
-        return dr0date;
-    }
-
-    public Date getDr1date() {
-        return dr1date;
-    }
-
-    public Date getObrDate() {
-        return obrDate;
-    }
-
-    public Date getDr2date() {
-        return dr2date;
-    }
-
-    public Date getCiDate() {
-        return ciDate;
-    }
-
-    public Date getDr3date() {
-        return dr3date;
-    }
-
-    public Date getTrDate() {
-        return trDate;
-    }
-
-    public Date getDr4date() {
-        return dr4date;
-    }
-
-    public Date getDr5date() {
-        return dr5date;
-    }
-
-    public int getScheduleStatus() {
-        return scheduleStatus;
-    }
-
-    public int getContentStatus() {
-        return contentStatus;
-    }
-
-    public int getQualityStatus() {
-        return qualityStatus;
-    }
-
-    public int getCostStatus() {
-        return costStatus;
     }
 }

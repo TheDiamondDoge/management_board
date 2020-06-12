@@ -72,8 +72,8 @@ public class MilestoneService {
 
     public List<MilestoneDTO> getTimelineMilestones(int projectID) {
         List<Milestone> milestones = this.milestoneRepo.findAllByMilestonePK_ProjectIDAndShown(projectID, true);
-        milestones = milestones.stream().filter(milestone -> Objects.nonNull(milestone.getActualDate())).collect(Collectors.toList());
-        Collections.sort(milestones);
+        milestones = milestones.stream().filter(milestone -> Objects.nonNull(milestone.getActualDate())).sorted()
+                .collect(Collectors.toList());
         return mapMilestonesToDTO(milestones);
     }
 
@@ -91,7 +91,6 @@ public class MilestoneService {
         return this.milestoneRepo.findById(new MilestonePK(projectID, label)).orElseGet(Milestone::new);
     }
 
-
     @Transactional
     public void saveMilestones(Integer projectID, List<MilestoneDTO> dtos) {
         this.milestoneRepo.deleteAllByMilestonePK_ProjectID(projectID);
@@ -101,7 +100,6 @@ public class MilestoneService {
         }
     }
 
-    @Transactional
     public List<Milestone> addMilestonesData(Integer projectID, List<MilestoneDTO> milestoneDTOs) {
         if (Objects.nonNull(projectID)) {
             return milestoneDTOs.stream()

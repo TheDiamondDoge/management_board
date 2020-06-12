@@ -4,10 +4,12 @@ import com.aiksanov.api.project.data.entity.Milestone;
 import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.Objects;
 
+@NoArgsConstructor
 public class ProjectDefaultDataDTO {
     private int projectId;
     private String projectName;
@@ -19,9 +21,6 @@ public class ProjectDefaultDataDTO {
     private Date dr1Actual;
     private boolean epm;
     private boolean maintenance;
-
-    public ProjectDefaultDataDTO() {
-    }
 
     public ProjectDefaultDataDTO(Project project, Milestone dr1, String metricsScope, String requirementsUrl) {
         this.projectId = project.getProjectID();

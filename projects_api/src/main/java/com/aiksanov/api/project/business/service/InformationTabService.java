@@ -4,7 +4,6 @@ import com.aiksanov.api.project.data.entity.*;
 import com.aiksanov.api.project.data.repository.*;
 import com.aiksanov.api.project.exceptions.NoDataFoundException;
 import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
-import com.aiksanov.api.project.util.decompositor.InformationDtoDecomposer;
 import com.aiksanov.api.project.web.DTO.contrib.ContributingDTO;
 import com.aiksanov.api.project.web.DTO.information.InformationDTO;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class InformationTabService {
     private final ProjectGeneralService generalService;
     private final GeneralRepository generalRepository;
@@ -30,7 +28,7 @@ public class InformationTabService {
 
     @Transactional
     public InformationDTO getInfoTabData(Integer id) {
-        Project project = this.generalRepository.findById(id).orElseThrow(ProjectDoesNotExistException::new);
+        Project project = this.generalService.getProjectGeneralInfo(id);
         ProjectURLs urls = this.urlsRepository.findById(id).orElseGet(ProjectURLs::new);
         JiraParams jiraParams = this.jiraParamsRepository.findById(id).orElseGet(JiraParams::new);
         List<EcmaBacklogTarget> target = this.backlogTargetRepo.findAllByProjectId(id);
@@ -39,8 +37,6 @@ public class InformationTabService {
 
         return new InformationDTO(project, urls, jiraParams, target, contribProjects, comments);
     }
-
-
 
     @Transactional
     public void saveInformationData(Integer id, InformationDTO dto) {
@@ -52,17 +48,16 @@ public class InformationTabService {
             throw new NoDataFoundException();
         }
 
-        InformationDtoDecomposer decomposer = new InformationDtoDecomposer(dto, id);
-        Project project = decomposer.getProject();
-        ProjectURLs urLs = decomposer.getProjectUrlsObj();
-        JiraParams params = decomposer.getJiraParams();
-        List<EcmaBacklogTarget> target = decomposer.getEcmaBacklogTargetList();
+        Project project = dto.getProject(id);
+        ProjectURLs urLs = dto.getProjectUrlsObj(id);
+        JiraParams params = dto.getJiraParams(id);
+        List<EcmaBacklogTarget> target = dto.getEcmaBacklogTargetList(id);
         List<ContributingProjects> contributingProjects = new ArrayList<>();
         if (project.getAdditionalInfo().isComposite()) {
-            contributingProjects = decomposer.getListOfContribProjects();
+            contributingProjects = dto.getListOfContribProjects(id);
         }
 
-        List<FieldComments> comments = decomposer.getListOfFieldComments();
+        List<FieldComments> comments = dto.getListOfFieldComments(id);
 
         this.generalRepository.save(buildProjectToSave(id, project));
         this.urlsRepository.save(buildUrlsToSave(id, urLs));
@@ -81,7 +76,7 @@ public class InformationTabService {
     }
 
     private Project buildProjectToSave(int projectID, Project fromInfoDTO) {
-        Project existing = this.generalRepository.findById(projectID).orElseThrow(ProjectDoesNotExistException::new);
+        Project existing = this.generalService.getProjectGeneralInfo(projectID);
         existing.setProjectID(projectID);
         existing.setType(fromInfoDTO.getType());
         existing.setRigor(fromInfoDTO.getRigor());

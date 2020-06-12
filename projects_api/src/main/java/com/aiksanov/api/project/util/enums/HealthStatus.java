@@ -8,7 +8,7 @@ public enum HealthStatus {
     COST("cost"),
     CURRENT("current"),
     PREVIOUS("prev");
-    private String label;
+    private final String label;
 
     HealthStatus(String label){
         this.label = label;

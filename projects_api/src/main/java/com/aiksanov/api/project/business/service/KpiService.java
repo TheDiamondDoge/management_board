@@ -6,10 +6,13 @@ import com.aiksanov.api.project.exceptions.ProjectDoesNotExistException;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.util.enums.KpiTypes;
+import com.aiksanov.api.project.web.DTO.DefectsIssue;
+import com.aiksanov.api.project.web.DTO.backlog.BacklogIssue;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
 import com.aiksanov.api.project.web.DTO.kpi.QualityIndicatorsAmountDTO;
+import com.aiksanov.api.project.web.DTO.quality.QualityIssue;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +25,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class KpiService {
-    private String VALUES_URL = "http://localhost:8100/general/qualityIndicators/amount";
-    private String KPI_URL_BASE = "http://localhost:8100";
-    private String PLAIN_XLSX_CREATOR = "http://localhost:8081/processors/plainXlsx";
     private final GeneralRepository generalRepository;
     private final QualityService qualityService;
     private final BacklogService backlogService;
     private final DefectsService defectsService;
+
+    @Value("${qualityIndicators.amount.url}")
+    private String VALUES_URL;
+
+    @Value("${kpi.base.url}")
+    private String KPI_URL_BASE;
+
+    @Value("${xlsx.plain.creator}")
+    private String PLAIN_XLSX_CREATOR;
 
 
     public QualityIndicatorsAmountDTO getQualityIndicatorsValues(int projectId) {
@@ -45,17 +54,20 @@ public class KpiService {
     public ByteArrayResource getKpiFile(int projectId, KpiTypes type) throws IOException, RestTemplateException {
         RestTemplate restTemplate = new RestTemplate();
         String url = KPI_URL_BASE + "/" + type.getValue() + "/list/" + projectId;
-        List issues = restTemplate.getForObject(url, List.class);
+        List result = restTemplate.getForObject(url, List.class);
         PlainXlsxDataDTO dto = null;
         switch (type) {
             case QUALITY:
-                dto = this.qualityService.getQualityIssuesDataForXlsx(issues);
+                List<QualityIssue> qualityIssues = (List<QualityIssue>) result;
+                dto = this.qualityService.getQualityIssuesDataForXlsx(qualityIssues);
                 break;
             case BACKLOG:
-                dto = this.backlogService.getBacklogIssuesDataForXlsx(issues);
+                List<BacklogIssue> backlogIssues = (List<BacklogIssue>) result;
+                dto = this.backlogService.getBacklogIssuesDataForXlsx(backlogIssues);
                 break;
             case DEFECTS:
-                dto = this.defectsService.getDefectsIssuesDataForXlsx(issues);
+                List<DefectsIssue> defectsIssues = (List<DefectsIssue>) result;
+                dto = this.defectsService.getDefectsIssuesDataForXlsx(defectsIssues);
                 break;
         }
 

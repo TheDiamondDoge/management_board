@@ -2,6 +2,7 @@ package com.aiksanov.api.project.web.controller;
 
 import com.aiksanov.api.project.business.service.HealthService;
 import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsDTO;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/health")
 public class HealthIndicatorsController {
     private static final Logger LOGGER = LoggerFactory.getLogger(HealthIndicatorsController.class);
-    private HealthService healthService;
-
-    @Autowired
-    public HealthIndicatorsController(HealthService healthService) {
-        this.healthService = healthService;
-    }
+    private final HealthService healthService;
 
     @GetMapping("/{projectID}")
     public HealthIndicatorsDTO getHealthIndicators(@PathVariable Integer projectID) {

@@ -2,9 +2,11 @@ package com.aiksanov.api.project.web.DTO.healthIndicators;
 
 import com.aiksanov.api.project.data.entity.HealthIndicators;
 import com.aiksanov.api.project.util.enums.HealthStatus;
+import lombok.Getter;
 
 import java.util.*;
 
+@Getter
 public class HealthIndicatorsDTO {
     private Map<String, HealthIndicators> statuses;
     private Map<String, String> comments;
@@ -33,37 +35,11 @@ public class HealthIndicatorsDTO {
         }
     }
 
-    public Map<String, HealthIndicators> getStatuses() {
-        return statuses;
-    }
-
-    public Map<String, String> getComments() {
-        return comments;
-    }
-
-    public Date getCurrentStatusSet() {
-        return currentStatusSet;
-    }
-
-    public Date getPrevStatusSet() {
-        return prevStatusSet;
-    }
-
     private Map<String, HealthIndicators> getEmptyStatuses() {
         Map<String, HealthIndicators> result = new HashMap<>();
         HealthIndicators indicator = new HealthIndicators(0,0,0,0,0);
         result.put(HealthStatus.CURRENT.getLabel(), indicator);
 
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "HealthIndicatorsDTO{" +
-                "statuses=" + statuses +
-                ", comments=" + comments +
-                ", currentStatusSet=" + currentStatusSet +
-                ", prevStatusSet=" + prevStatusSet +
-                '}';
     }
 }

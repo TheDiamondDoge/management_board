@@ -5,6 +5,7 @@ import com.aiksanov.api.project.business.service.MilestoneService;
 import com.aiksanov.api.project.business.service.ProjectGeneralService;
 import com.aiksanov.api.project.web.DTO.MilestoneDTO;
 import com.aiksanov.api.project.web.DTO.information.InformationDTO;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,22 +13,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/projects/{id}/tabs")
 public class InformationTabController {
     private static final Logger LOGGER = LoggerFactory.getLogger(InformationTabController.class);
-    private InformationTabService informationService;
-    private MilestoneService milestoneService;
-    private ProjectGeneralService projectGeneralService;
-
-    @Autowired
-    public InformationTabController(InformationTabService informationService, MilestoneService milestoneService,
-                                    ProjectGeneralService projectGeneralService
-    ) {
-        this.informationService = informationService;
-        this.milestoneService = milestoneService;
-        this.projectGeneralService = projectGeneralService;
-    }
+    private final InformationTabService informationService;
+    private final MilestoneService milestoneService;
+    private final ProjectGeneralService projectGeneralService;
 
     @GetMapping("/information")
     public InformationDTO getData(@PathVariable Integer id){
@@ -42,6 +35,6 @@ public class InformationTabController {
         List<MilestoneDTO> milestones = dto.getMilestones();
         this.milestoneService.saveMilestones(id, milestones);
         this.informationService.saveInformationData(id, dto);
-        this.projectGeneralService.setProjectStateByMilestones(id);
+        this.projectGeneralService.updateProjectStateByMilestones(id);
     }
 }

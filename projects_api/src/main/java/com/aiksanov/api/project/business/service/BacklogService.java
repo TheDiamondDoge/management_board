@@ -7,9 +7,8 @@ import com.aiksanov.api.project.web.DTO.backlog.BacklogDefectsChartDTO;
 import com.aiksanov.api.project.web.DTO.backlog.BacklogIssue;
 import com.aiksanov.api.project.web.DTO.information.EcmaBacklogTargetDTO;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,10 +21,11 @@ import java.util.Objects;
 public class BacklogService {
     private final EcmaBacklogTargetRepo ecmaBacklogTargetRepo;
 
-    private String CHART_URL = "http://localhost:8100/general/chart";
+    @Value("${chart.base.url}")
+    private String CHART_URL;
 
     public BacklogDefectsChartDTO getChartData(int projectId) {
-        String finalUrl = CHART_URL + "/" + "backlog/" + projectId;
+        String finalUrl = CHART_URL + "/backlog/" + projectId;
         RestTemplate restTemplate = new RestTemplate();
         BacklogDefectsChartDTO dto = restTemplate.getForObject(finalUrl, BacklogDefectsChartDTO.class);
         if (Objects.nonNull(dto)) {
@@ -49,7 +49,7 @@ public class BacklogService {
         return null;
     }
 
-    public PlainXlsxDataDTO getBacklogIssuesDataForXlsx(List issues) {
+    public PlainXlsxDataDTO getBacklogIssuesDataForXlsx(List<BacklogIssue> issues) {
         String[] headers = getListOfBacklogIssuesExcelHeader();
         String[][] data = getDataAsStrings(issues);
         return new PlainXlsxDataDTO(headers, data);
@@ -63,14 +63,12 @@ public class BacklogService {
         };
     }
 
-    private String[][] getDataAsStrings(List issues) {
-        ObjectMapper mapper = new ObjectMapper();
+    private String[][] getDataAsStrings(List<BacklogIssue> issues) {
         int rowSize = 0;
         int rowsAmount = issues.size();
         List<List<String>> data = new ArrayList<>();
-        for (Object issue : issues) {
+        for (BacklogIssue backlogIssue : issues) {
             List<String> row = new ArrayList<>();
-            BacklogIssue backlogIssue = mapper.convertValue(issue, BacklogIssue.class);
             row.add(backlogIssue.getWeek());
             row.add(backlogIssue.getCrdbId());
             row.add(backlogIssue.getCrId());
@@ -92,14 +90,6 @@ public class BacklogService {
             rowSize = row.size();
         }
 
-        String[][] result = new String[rowsAmount][rowSize];
-        for (int i = 0; i < rowsAmount; i++) {
-            List<String> row = data.get(i);
-            for (int j = 0; j < rowSize; j++) {
-                result[i][j] = row.get(j);
-            }
-        }
-
-        return result;
+        return Utils.listOfListsToStringArr(data, rowsAmount, rowSize);
     }
 }

@@ -245,7 +245,8 @@ public class IndicatorsService {
         List<QualityIndicators> result = new ArrayList<>();
         for (int i = 0; i < dtos.size(); i++) {
             result.add(
-                    new QualityIndicators(projectID, kpiId, i, dtos.get(i).getObjective(), dtos.get(i).getActual()));
+                    new QualityIndicators(projectID, kpiId, i, dtos.get(i).getObjective(), dtos.get(i).getActual())
+            );
         }
 
         return result;

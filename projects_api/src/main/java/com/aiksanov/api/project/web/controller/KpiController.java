@@ -3,6 +3,7 @@ package com.aiksanov.api.project.web.controller;
 import com.aiksanov.api.project.business.service.KpiService;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.web.DTO.kpi.QualityIndicatorsAmountDTO;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/kpi")
 public class KpiController {
     private static final Logger LOGGER = LoggerFactory.getLogger(KpiController.class);
     private final KpiService kpiService;
-
-    @Autowired
-    public KpiController(KpiService kpiService) {
-        this.kpiService = kpiService;
-    }
 
     @GetMapping("/qualityIndicators/{projectId}")
     public QualityIndicatorsAmountDTO getQualityIndicatorsValues(@PathVariable int projectId) {

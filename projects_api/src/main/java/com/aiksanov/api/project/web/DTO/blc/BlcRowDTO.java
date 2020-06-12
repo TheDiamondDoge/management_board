@@ -1,11 +1,17 @@
 package com.aiksanov.api.project.web.DTO.blc;
 
-import com.aiksanov.api.project.data.entity.BlcDashboard;
+import com.aiksanov.api.project.data.entity.BlcDashboardRow;
 import com.aiksanov.api.project.util.enums.BlcRoles;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class BlcRowDTO {
     private BlcRoles role;
     private String csl;
@@ -13,10 +19,7 @@ public class BlcRowDTO {
     private BlcIndicators indicators;
     private String comment;
 
-    public BlcRowDTO() {
-    }
-
-    public BlcRowDTO(BlcDashboard row, String comment) {
+    public BlcRowDTO(BlcDashboardRow row, String comment) {
         if (Objects.nonNull(row)) {
             this.csl = row.getCsl();
             this.role = row.getRole();
@@ -26,7 +29,7 @@ public class BlcRowDTO {
         this.comment = comment;
     }
 
-    private BlcIndicators setBlcIndicators (BlcDashboard row) {
+    private BlcIndicators setBlcIndicators (BlcDashboardRow row) {
         return new BlcIndicators(
                 row.getOr(),
                 row.getCharter(),
@@ -41,29 +44,5 @@ public class BlcRowDTO {
                 row.getLessons(),
                 row.getRisks()
         );
-    }
-
-    public void setRole(BlcRoles role) {
-        this.role = role;
-    }
-
-    public BlcRoles getRole() {
-        return role;
-    }
-
-    public String getCsl() {
-        return csl;
-    }
-
-    public Date getUpdatedOn() {
-        return updatedOn;
-    }
-
-    public BlcIndicators getIndicators() {
-        return indicators;
-    }
-
-    public String getComment() {
-        return comment;
     }
 }

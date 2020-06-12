@@ -6,8 +6,7 @@ public enum QualityRowNames {
     BACKLOG ("backlog"),
     EXECUTION ("execution"),
     RATE ("rate");
-
-    private String title;
+    private final String title;
 
     QualityRowNames(String title) {
         this.title = title;

@@ -3,7 +3,6 @@ package com.aiksanov.api.project.business.service;
 import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
 import com.aiksanov.api.project.web.DTO.quality.QualityIssue;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @Service
 public class QualityService {
-    public PlainXlsxDataDTO getQualityIssuesDataForXlsx(List issues) {
+    public PlainXlsxDataDTO getQualityIssuesDataForXlsx(List<QualityIssue> issues) {
         String[] headers = getListOfQualityIssuesExcelHeader();
         String[][] data = getDataAsStrings(issues);
         return new PlainXlsxDataDTO(headers, data);
@@ -24,14 +23,12 @@ public class QualityService {
                 "type"};
     }
 
-    private String[][] getDataAsStrings(List issues) {
-        ObjectMapper mapper = new ObjectMapper();
+    private String[][] getDataAsStrings(List<QualityIssue> issues) {
         int rowSize = 0;
         int rowsAmount = issues.size();
         List<List<String>> data = new ArrayList<>();
-        for (Object issue : issues) {
+        for (QualityIssue qualityIssue : issues) {
             List<String> row = new ArrayList<>();
-            QualityIssue qualityIssue = mapper.convertValue(issue, QualityIssue.class);
             row.add(qualityIssue.getWeek());
             row.add(qualityIssue.getCrdbId());
             row.add(qualityIssue.getCrId());
@@ -57,14 +54,6 @@ public class QualityService {
             rowSize = row.size();
         }
 
-        String[][] result = new String[rowsAmount][rowSize];
-        for (int i = 0; i < rowsAmount; i++) {
-            List<String> row = data.get(i);
-            for (int j = 0; j < rowSize; j++) {
-                result[i][j] = row.get(j);
-            }
-        }
-
-        return result;
+        return Utils.listOfListsToStringArr(data, rowsAmount, rowSize);
     }
 }

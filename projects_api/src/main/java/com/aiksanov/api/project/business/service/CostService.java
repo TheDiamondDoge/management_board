@@ -4,6 +4,7 @@ import com.aiksanov.api.project.data.entity.Cost;
 import com.aiksanov.api.project.data.entity.CostDetails;
 import com.aiksanov.api.project.data.repository.CostDetailsRepository;
 import com.aiksanov.api.project.data.repository.CostRepository;
+import com.aiksanov.api.project.exceptions.FileNotSavedException;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.util.enums.cost.CostRowTypes;
@@ -12,7 +13,6 @@ import com.aiksanov.api.project.web.DTO.cost.CostDTO;
 import com.aiksanov.api.project.web.DTO.cost.CostRowDTO;
 import com.aiksanov.api.project.web.DTO.cost.CostTableDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +30,17 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Service
 public class CostService {
-    private static final String UPLOAD_URL = "http://localhost:8081/processors/cost/";
     private static final String COST_SUFFIX = "_cost.xlsx";
 
-    @Value("${cost.file.storage}")
-    private String COST_STORAGE;
     private final CostRepository costRepository;
     private final CostDetailsRepository costDetailsRepository;
     private final ProjectGeneralService generalService;
+
+    @Value("${cost.file.storage}")
+    private String COST_STORAGE;
+
+    @Value("${costs.processor.url}")
+    private String UPLOAD_URL;
 
 
     public List<Cost> getAllCostObjectsByPrjId(int projectId) {
@@ -83,8 +86,7 @@ public class CostService {
         return tableDto;
     }
 
-    //TODO: Can produce null - fix (or should throw smthng)
-    public void processCostFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
+    public void processCostFile(MultipartFile file, int projectId) throws IOException, RestTemplateException, FileNotSavedException {
         String bd = generalService.getProjectsBD(projectId);
         CostDTO costFromFile =
                 (CostDTO) Utils.sendFileToService(file, UPLOAD_URL + bd, CostDTO.class).getBody();
@@ -96,7 +98,7 @@ public class CostService {
         try {
             Utils.saveFile(file, filename, COST_STORAGE);
         } catch (Exception e) {
-            //Log this
+            throw new FileNotSavedException(filename);
         }
     }
 

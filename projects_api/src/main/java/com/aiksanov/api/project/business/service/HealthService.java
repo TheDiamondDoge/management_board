@@ -1,5 +1,6 @@
 package com.aiksanov.api.project.business.service;
 
+import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.util.enums.HealthStatus;
 import com.aiksanov.api.project.data.entity.HealthIndicators;
 import com.aiksanov.api.project.data.entity.HealthIndicatorsComments;
@@ -11,8 +12,9 @@ import com.aiksanov.api.project.web.DTO.healthIndicators.HealthIndicatorsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import javax.rmi.CORBA.Util;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,11 +43,6 @@ public class HealthService {
         return new HealthIndicatorsDTO(lastTwoHealthStates, comments);
     }
 
-    public HealthIndicators getLastHealthIndicators(int projectId) {
-        return this.healthRepository.lastHealthState(projectId);
-    }
-
-
     private String getCommentString(HealthStatus statusName, int projectID) {
         String comment = this.commentsRepository.findByPk(new HealthIndicatorsCommentsPK(projectID, statusName.getLabel()))
                 .orElseGet(HealthIndicatorsComments::new).getComment();
@@ -56,7 +53,7 @@ public class HealthService {
         Map<String, HealthIndicators> indicators = indicatorsDTOs.getStatuses();
         if (Objects.nonNull(indicators)) {
             HealthIndicators current = indicators.get(CURRENT.getLabel());
-            current.setHealthIndicatorsPK(new HealthIndicatorsPK(projectID, getSqlDateNow()));
+            current.setHealthIndicatorsPK(new HealthIndicatorsPK(projectID, Utils.getSqlDateNow()));
             this.healthRepository.save(current);
             this.generalService.modifyWorkspaceUpdatedBy(projectID, "TestUpdHealth");
         }
@@ -75,10 +72,5 @@ public class HealthService {
                     }).collect(Collectors.toList());
             this.commentsRepository.saveAll(comments);
         }
-    }
-
-    private Date getSqlDateNow() {
-        LocalDate localDate = LocalDate.now();
-        return Date.valueOf(localDate.toString());
     }
 }

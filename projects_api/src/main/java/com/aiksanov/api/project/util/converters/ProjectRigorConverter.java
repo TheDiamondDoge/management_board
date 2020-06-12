@@ -22,6 +22,6 @@ public class ProjectRigorConverter implements AttributeConverter<ProjectRigors, 
         return Stream.of(ProjectRigors.values())
                 .filter(type -> type.getLabel().equalsIgnoreCase(s))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(s));
+                .orElse(ProjectRigors.NONE);
     }
 }

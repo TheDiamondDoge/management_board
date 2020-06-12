@@ -4,7 +4,7 @@ import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.web.DTO.DefectsIssue;
 import com.aiksanov.api.project.web.DTO.backlog.BacklogDefectsChartDTO;
 import com.aiksanov.api.project.web.DTO.kpi.PlainXlsxDataDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,15 +14,16 @@ import java.util.List;
 
 @Service
 public class DefectsService {
-    private String CHART_URL = "http://localhost:8100/general/chart";
+    @Value("${chart.base.url}")
+    private String CHART_URL;
 
     public BacklogDefectsChartDTO getChartData(int projectId) {
-        String finalUrl = CHART_URL + "/" + "defects/" + projectId;
+        String finalUrl = CHART_URL + "/defects/" + projectId;
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(finalUrl, BacklogDefectsChartDTO.class);
     }
 
-    public PlainXlsxDataDTO getDefectsIssuesDataForXlsx(List issues) {
+    public PlainXlsxDataDTO getDefectsIssuesDataForXlsx(List<DefectsIssue> issues) {
         String[] headers = getListOfDefectsIssuesExcelHeader();
         String[][] data = getDataAsStrings(issues);
         return new PlainXlsxDataDTO(headers, data);
@@ -35,14 +36,12 @@ public class DefectsService {
                };
     }
 
-    private String[][] getDataAsStrings(List issues) {
-        ObjectMapper mapper = new ObjectMapper();
+    private String[][] getDataAsStrings(List<DefectsIssue> issues) {
         int rowSize = 0;
         int rowsAmount = issues.size();
         List<List<String>> data = new ArrayList<>();
-        for (Object issue : issues) {
+        for (DefectsIssue defectsIssue : issues) {
             List<String> row = new ArrayList<>();
-            DefectsIssue defectsIssue = mapper.convertValue(issue, DefectsIssue.class);
             row.add(defectsIssue.getWeek());
             row.add(defectsIssue.getCrdbId());
             row.add(defectsIssue.getCrId());
@@ -67,14 +66,6 @@ public class DefectsService {
             rowSize = row.size();
         }
 
-        String[][] result = new String[rowsAmount][rowSize];
-        for (int i = 0; i < rowsAmount; i++) {
-            List<String> row = data.get(i);
-            for (int j = 0; j < rowSize; j++) {
-                result[i][j] = row.get(j);
-            }
-        }
-
-        return result;
+        return Utils.listOfListsToStringArr(data, rowsAmount, rowSize);
     }
 }

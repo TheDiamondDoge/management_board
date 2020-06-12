@@ -8,28 +8,23 @@ import com.aiksanov.api.project.web.DTO.reports.ReportSnapshot;
 import com.aiksanov.api.project.web.DTO.reports.ReportTabDTO;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsDTO;
 import com.aiksanov.api.project.web.DTO.reports.UserReportsSaveDTO;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/projects")
 public class ReportController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReportController.class);
-    private ReportService reportService;
-    private PptGenerationService pptGenerationService;
-
-    @Autowired
-    public ReportController(ReportService reportService, PptGenerationService pptGenerationService) {
-        this.reportService = reportService;
-        this.pptGenerationService = pptGenerationService;
-    }
+    private final ReportService reportService;
+    private final PptGenerationService pptGenerationService;
 
     @GetMapping("/{projectId}/tabs/report")
     public ReportTabDTO getReportTabData(@PathVariable int projectId) {

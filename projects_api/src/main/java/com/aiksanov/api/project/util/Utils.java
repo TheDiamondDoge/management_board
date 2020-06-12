@@ -2,6 +2,7 @@ package com.aiksanov.api.project.util;
 
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -20,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Utils {
@@ -59,8 +61,12 @@ public class Utils {
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
+        return sendToServise(url, requestEntity, expectedClass);
+    }
+
+    public static ResponseEntity<?> sendToServise(String url, Object requestEntity, Class<?> expectedClass) throws IOException, RestTemplateException {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity response;
+        ResponseEntity<?> response;
         try {
             response = restTemplate.postForEntity(url, requestEntity, expectedClass);
         } catch (HttpStatusCodeException e) {
@@ -109,5 +115,34 @@ public class Utils {
 
     public static String projectNameDecorator(String str) {
         return str.replaceAll("\\s+|\\.", "_");
+    }
+
+    public static String[][] listOfListsToStringArr(List<List<String>> data, int rowsAmount, int rowSize) {
+        String[][] result = new String[rowsAmount][rowSize];
+        for (int i = 0; i < rowsAmount; i++) {
+            List<String> row = data.get(i);
+            for (int j = 0; j < rowSize; j++) {
+                result[i][j] = row.get(j);
+            }
+        }
+
+        return result;
+    }
+
+    public static String getFileFormat(String filename) {
+        String[] split = filename.split("\\.");
+        return split[split.length - 1];
+    }
+
+    public static String fileToHtmlBase64Img(Path file) throws IOException {
+        String filename = file.getName(file.getNameCount() - 1).toString();
+        byte[] encodedBytes = FileUtils.readFileToByteArray(new File(String.valueOf(file)));
+        String encodedString = Base64.getEncoder().encodeToString(encodedBytes);
+        return "data:image/" + Utils.getFileFormat(filename) + ";base64, " + encodedString;
+    }
+
+    public static Date getSqlDateNow() {
+        LocalDate localDate = LocalDate.now();
+        return java.sql.Date.valueOf(localDate.toString());
     }
 }

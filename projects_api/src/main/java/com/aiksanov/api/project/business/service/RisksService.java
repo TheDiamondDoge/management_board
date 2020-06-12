@@ -4,6 +4,7 @@ import com.aiksanov.api.project.data.entity.Risk;
 import com.aiksanov.api.project.data.entity.RisksTableInfo;
 import com.aiksanov.api.project.data.repository.RisksRepository;
 import com.aiksanov.api.project.data.repository.RisksTableInfoRepo;
+import com.aiksanov.api.project.exceptions.FileNotSavedException;
 import com.aiksanov.api.project.exceptions.RestTemplateException;
 import com.aiksanov.api.project.util.Utils;
 import com.aiksanov.api.project.web.DTO.ErrorExportDTO;
@@ -20,15 +21,18 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class RisksService {
+    private final RisksRepository risksRepository;
+    private final RisksTableInfoRepo risksTableInfoRepo;
+    private final ProjectGeneralService generalService;
+    private final String RISKS_SUFFIX = "_risks.xlsx";
+
     @Value("${risks.processor.url}")
     private String PROCESSOR_URL;
 
@@ -37,16 +41,7 @@ public class RisksService {
 
     @Value("${risks.file.storage}")
     private String RISKS_STORAGE;
-    private String RISKS_SUFFIX = "_risks.xlsx";
 
-    private final RisksRepository risksRepository;
-    private final RisksTableInfoRepo risksTableInfoRepo;
-    private final ProjectGeneralService generalService;
-
-
-    public Set<Risk> getRisksByIds(List<String> risksIds, int projectId) {
-        return this.risksRepository.findByRiskDisplayIdInAndProjectId(risksIds, projectId);
-    }
 
     public List<RisksDTO> getProjectRisks(int projectId) {
         return this.risksRepository.findAllByProjectId(projectId)
@@ -81,19 +76,23 @@ public class RisksService {
         return this.risksRepository.countAllByProjectId(projectId);
     }
 
-    //TODO: Can produce null - fix
     @Transactional
-    public List<ErrorExportDTO> processRiskFile(MultipartFile file, int projectId) throws IOException, RestTemplateException {
+    public List<ErrorExportDTO> processRiskFile(MultipartFile file, int projectId) throws IOException, RestTemplateException, FileNotSavedException {
         RisksFromFileDTO risksFromFile =
                 (RisksFromFileDTO) Utils.sendFileToService(file, PROCESSOR_URL, RisksFromFileDTO.class).getBody();
 
         AtomicInteger i = new AtomicInteger(0);
-        List<Risk> risksToSave = risksFromFile.getRisks().stream().map((riskDto) -> {
-            Risk risk = riskDto.createRiskObjWOProjectId();
-            risk.setProjectId(projectId);
-            risk.setRiskId(i.addAndGet(1));
-            return risk;
-        }).collect(Collectors.toList());
+        List<Risk> risksToSave = new ArrayList<>();
+        if (Objects.nonNull(risksFromFile)) {
+            risksToSave = risksFromFile.getRisks().stream().map((riskDto) -> {
+                Risk risk = riskDto.createRiskObjWOProjectId();
+                risk.setProjectId(projectId);
+                risk.setRiskId(i.addAndGet(1));
+                return risk;
+            }).collect(Collectors.toList());
+        } else {
+            risksFromFile = new RisksFromFileDTO();
+        }
 
         this.risksRepository.deleteAllByProjectId(projectId);
         this.risksRepository.saveAll(risksToSave);
@@ -102,7 +101,7 @@ public class RisksService {
         try {
             Utils.saveFile(file, filename, RISKS_STORAGE);
         } catch (Exception e) {
-            //Log e
+            throw new FileNotSavedException(filename);
         }
 
         RisksTableInfo risksTableInfo = new RisksTableInfo(projectId, new Date(), "TestRisksUpl");
