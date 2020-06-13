@@ -5,6 +5,7 @@ import com.aiksanov.api.project.business.service.ProjectTableViewService;
 import com.aiksanov.api.project.data.entity.Project;
 import com.aiksanov.api.project.util.enums.WorkspaceStatus;
 import com.aiksanov.api.project.web.DTO.PWSTableViewDTO;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@Ignore
 @RunWith(SpringRunner.class)
 @WebMvcTest(ProjectsController.class)
 public class ProjectsControllerTest {

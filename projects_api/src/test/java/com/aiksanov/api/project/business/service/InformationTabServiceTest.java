@@ -7,6 +7,7 @@ import com.aiksanov.api.project.util.enums.ProjectRigors;
 import com.aiksanov.api.project.util.enums.ProjectStates;
 import com.aiksanov.api.project.util.enums.ProjectTypes;
 import com.aiksanov.api.project.web.DTO.information.InformationDTO;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,6 +20,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class InformationTabServiceTest {

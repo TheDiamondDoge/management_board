@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("${api.project.tabs}")
+@RequestMapping("/api/projects/{id}/tabs")
 public class SummaryTabController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryTabController.class);
     private final SummaryTabService summaryTabService;

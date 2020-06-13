@@ -32,7 +32,7 @@ public class ProjectGeneralService {
     private final JiraParamsRepository jiraParamsRepository;
     private final WorkspaceInfoRepo workspaceInfoRepo;
 
-    @Value("${contrib.processor.url}")
+    @Value("${contrib.generator.url}")
     private String CONTRIB_XLSX_URL;
 
     public Project getProjectGeneralInfo(Integer projectID) {
