@@ -1,1 +1,2 @@
-# management_board
+# projects_api
+API for project information
