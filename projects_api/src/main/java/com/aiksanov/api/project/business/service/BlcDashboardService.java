@@ -83,7 +83,7 @@ public class BlcDashboardService {
             blcObj.setProjectID(projectID);
             blcObj.setRole(role);
             //TODO: when session will be done - get csl form it
-            blcObj.setCsl(row.getCsl());
+            blcObj.setCsl("admin_user");
             blcObj.setUpdatedOn(new Date());
 
             BlcIndicators indicators = row.getIndicators();
