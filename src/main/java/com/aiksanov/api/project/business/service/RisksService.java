@@ -99,6 +99,7 @@ public class RisksService {
 
         String filename = projectId + RISKS_SUFFIX;
         try {
+            Utils.createDirIfNotExist(RISKS_STORAGE);
             Utils.saveFile(file, filename, RISKS_STORAGE);
         } catch (Exception e) {
             throw new FileNotSavedException(filename);
@@ -126,6 +127,7 @@ public class RisksService {
     }
 
     public ResponseEntity<Resource> getLastUpdatedFile(int projectId) throws IOException {
+        Utils.createDirIfNotExist(RISKS_STORAGE);
         String projectName = generalService.getProjectName(projectId);
         String filepath = RISKS_STORAGE + File.separator + projectId + RISKS_SUFFIX;
         String filename = projectName + RISKS_SUFFIX;
@@ -134,6 +136,7 @@ public class RisksService {
     }
 
     private boolean isRisksFileExists(int projectId) {
+        Utils.createDirIfNotExist(RISKS_STORAGE);
         String filename = projectId + RISKS_SUFFIX;
         String filepath = RISKS_STORAGE + File.separator + filename;
         File file = new File(filepath);

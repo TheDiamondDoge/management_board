@@ -96,6 +96,7 @@ public class CostService {
 
         String filename = projectId + COST_SUFFIX;
         try {
+            Utils.createDirIfNotExist(COST_STORAGE);
             Utils.saveFile(file, filename, COST_STORAGE);
         } catch (Exception e) {
             throw new FileNotSavedException(filename);
@@ -139,6 +140,7 @@ public class CostService {
     }
 
     public ResponseEntity<Resource> getLastUpdatedFile(int projectId) throws IOException {
+        Utils.createDirIfNotExist(COST_STORAGE);
         String projectName = generalService.getProjectName(projectId);
         String filepath = COST_STORAGE + File.separator + projectId + COST_SUFFIX;
         String filename = projectName + COST_SUFFIX;
@@ -146,6 +148,7 @@ public class CostService {
     }
 
     private boolean isCostFileExists(int projectId) {
+        Utils.createDirIfNotExist(COST_STORAGE);
         String filename = projectId + COST_SUFFIX;
         String filepath = COST_STORAGE + File.separator + filename;
         File file = new File(filepath);

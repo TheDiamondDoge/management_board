@@ -121,10 +121,8 @@ public class ReportService {
 
     public void saveImages(int projectId, MultipartFile[] files) throws IOException, TooMuchFilesException {
         String folderPath = IMG_SAVE_PATH + File.separator + projectId;
+        Utils.createDirIfNotExist(folderPath);
         File dir = new File(folderPath);
-        if (!dir.exists() || !dir.isDirectory()) {
-            dir.mkdir();
-        }
 
         int filesAmount = Objects.nonNull(dir.listFiles())
                 ? dir.listFiles().length

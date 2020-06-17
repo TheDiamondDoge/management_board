@@ -145,4 +145,13 @@ public class Utils {
         LocalDate localDate = LocalDate.now();
         return java.sql.Date.valueOf(localDate.toString());
     }
+
+    public static boolean createDirIfNotExist(String path) {
+        File dir = new File(path);
+        if (!dir.exists() || !dir.isDirectory()) {
+            return dir.mkdirs();
+        }
+
+        return false;
+    }
 }
