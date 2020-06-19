@@ -28,6 +28,6 @@ public interface GeneralRepository extends JpaRepository<Project, Integer> {
     @Query(value = findContribProjectsQuery, nativeQuery = true)
     List<Project> findAllContribProjectsByProjectID(int projectID);
 
-    List<Project> findAllByEpm(Boolean epm);
+    List<Project> findAllByEpmOrderByName(Boolean epm);
     List<Project> findAll();
 }

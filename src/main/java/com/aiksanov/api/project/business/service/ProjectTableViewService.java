@@ -22,28 +22,28 @@ public class ProjectTableViewService {
     private final HealthRepository healthRepository;
 
 
-    public List<Project> getProjectsData(Boolean isEpm, WorkspaceStatus status){
+    public List<Project> getProjectsData(Boolean isEpm, WorkspaceStatus status) {
         return getProjectsByParams(isEpm, status);
     }
 
-    public List<PWSTableViewDTO> getProjectsListView(Boolean isEPM, WorkspaceStatus status) {
-        List<Project> projects = getProjectsByParams(isEPM, status);
+    public List<PWSTableViewDTO> getProjectsListView(Boolean isEPM, String status) {
+        WorkspaceStatus workspaceStatus = WorkspaceStatus.getWorkspaceStatusIgnoreCase(status);
+        List<Project> projects = getProjectsByParams(isEPM, workspaceStatus);
         List<PWSTableViewDTO> dtoList = projects.stream().map(p -> {
             int projectId = p.getProjectID();
             List<Milestone> milestones = this.milestoneRepository.findAllByMilestonePK_ProjectIDOrderByActualDateAsc(projectId);
             HealthIndicators healthIndicators = this.healthRepository.lastHealthState(projectId);
             return new PWSTableViewDTO(p, healthIndicators, milestones);
         }).collect(Collectors.toList());
-
         return dtoList;
     }
 
-    private List<Project> getProjectsByParams(Boolean isEPM, WorkspaceStatus status){
+    private List<Project> getProjectsByParams(Boolean isEPM, WorkspaceStatus status) {
         if (isEPM == null && status == null) {
             return this.generalRepository.findAll();
         } else if (isEPM != null && status == null) {
-            return this.generalRepository.findAllByEpm(isEPM);
-        } else if (isEPM == null){
+            return this.generalRepository.findAllByEpmOrderByName(isEPM);
+        } else if (isEPM == null) {
             return this.generalRepository.findAllByStatus(status.name());
         } else {
             return this.generalRepository.findAllByEpmAndStatus(isEPM, status.name());

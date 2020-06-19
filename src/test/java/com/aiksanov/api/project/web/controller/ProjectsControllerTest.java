@@ -104,7 +104,7 @@ public class ProjectsControllerTest {
         List<PWSTableViewDTO> dtoList = new ArrayList<>();
         dtoList.add(dummyDto);
 
-        when(this.projectTableViewService.getProjectsListView(true, WorkspaceStatus.ENABLED)).thenReturn(dtoList);
+        when(this.projectTableViewService.getProjectsListView(true, WorkspaceStatus.ENABLED.name())).thenReturn(dtoList);
 
         this.mockMvc.perform(get("/api/projects/tableview")
                 .param("isEPM", "1")

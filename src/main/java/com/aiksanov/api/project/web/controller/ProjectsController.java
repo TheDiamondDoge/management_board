@@ -41,7 +41,7 @@ public class ProjectsController {
 
     @GetMapping("/tableview")
     public List<PWSTableViewDTO> getProjectsTableView(@RequestParam(required = false) Boolean isEPM,
-                                                      @RequestParam(required = false) WorkspaceStatus status) {
+                                                      @RequestParam(required = false) String status) {
         LOGGER.info("GET /api/projects/tableview?isEPM={}&status={}", isEPM, status);
         return this.service.getProjectsListView(isEPM, status);
     }

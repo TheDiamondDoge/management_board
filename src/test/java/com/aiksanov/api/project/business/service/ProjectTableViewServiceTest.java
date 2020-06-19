@@ -47,7 +47,7 @@ public class ProjectTableViewServiceTest {
         List<Project> it = new ArrayList<>();
         it.add(dummyProject);
 
-        Mockito.when(this.generalRepository.findAllByEpm(false)).thenReturn(it);
+        Mockito.when(this.generalRepository.findAllByEpmOrderByName(false)).thenReturn(it);
 
         List<PWSTableViewDTO> listViewProject = this.projectTableViewService.getProjectsListView(false, null);
         PWSTableViewDTO tableView = listViewProject.get(0);
